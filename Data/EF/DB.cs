@@ -1,4 +1,5 @@
-﻿using Data.Entities;
+﻿using Data.Configurations;
+using Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -25,7 +26,7 @@ namespace Data.EF
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
             // Data seeding
-            modelBuilder.Seed();
+           // modelBuilder.Seed();
             //base.OnModelCreating(modelBuilder);
         }
 
