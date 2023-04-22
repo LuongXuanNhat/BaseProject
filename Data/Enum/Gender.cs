@@ -4,6 +4,6 @@
     {
         male,
         female,
-        orther
+        none
     }
 }

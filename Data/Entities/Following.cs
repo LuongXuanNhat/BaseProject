@@ -2,7 +2,6 @@
 {
     public class Following
     {
-        public string Id { get; set; }
         public string Follower_id { get; set; }
         public string Followee_id { get; set; }
         public DateTime Date { get; set; }
