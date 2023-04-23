@@ -2,10 +2,10 @@
 {
     public class Liking
     {
-        public string Id { get; set; }
-        public string Post_id { get; set; }
-        public string User_id { get; set; }
-        public string Comment_id { get; set; }
+        public int Id { get; set; }
+        public int Post_id { get; set; }
+        public Guid User_id { get; set; }
+        public int Comment_id { get; set; }
         public DateTime Date { get; set; }
 
 

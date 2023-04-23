@@ -13,7 +13,6 @@ namespace Data.Configurations
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(200);
             builder.Property(x => x.Description).IsRequired(false).HasMaxLength(500);
             builder.Property(x => x.PhoneNumber).IsRequired(false);
-            builder.Property(x => x.DateOfBir).IsRequired(false);
             builder.Property(x => x.Gender).HasDefaultValue(Gender.none);
             builder.Property(x => x.Address).IsRequired(false).HasMaxLength(500);
 

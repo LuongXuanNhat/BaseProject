@@ -1,8 +1,10 @@
-﻿namespace Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities
 {
     public class Post
     {
-        public string Post_id { get; set; }
+        public int Post_id { get; set; }
         public string Title { get; set; }
         public DateTime UploadDate { get; set; }
         public int View { get; set; }

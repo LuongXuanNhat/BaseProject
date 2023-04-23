@@ -1,11 +1,16 @@
-﻿namespace Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities
 {
     public class Rating
     {
-        public string Id { get; set; }
-        public string Post_id { get; set; }
-        public string User_id { get; set; }
+        public int Id { get; set; }
+        public int Post_id { get; set; }
+        public Guid User_id { get; set; }
         public int Stars { get; set; }
+
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
 
 

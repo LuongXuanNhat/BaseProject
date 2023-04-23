@@ -12,7 +12,7 @@ namespace Data.Configurations
 
             builder.HasKey(x => x.Post_id);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
-            builder.Property(x => x.View).IsRequired(false);
+            builder.Property(x => x.View).HasDefaultValue(0);
 
 
             // Relationship 1-n

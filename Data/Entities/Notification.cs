@@ -1,8 +1,10 @@
-﻿namespace Data.Entities
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace Data.Entities
 {
     public class Notification
     {
-        public string Notification_id { get; set; }
+        public int Notification_id { get; set; }
         public string Title { get; set; }
         public DateTime Date { get; set; }
 

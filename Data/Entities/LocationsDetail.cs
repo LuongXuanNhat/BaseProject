@@ -2,9 +2,9 @@
 {
     public class LocationsDetail
     {
-        public string Id { get; set; }
-        public string Location_id { get; set; }
-        public string Post_id { get; set; }
+        public int Id { get; set; }
+        public int Location_id { get; set; }
+        public int Post_id { get; set; }
         public string Title { get; set; }
         public string Content { get; set; }
 

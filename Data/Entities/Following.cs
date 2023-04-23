@@ -2,8 +2,8 @@
 {
     public class Following
     {
-        public string Follower_id { get; set; }
-        public string Followee_id { get; set; }
+        public Guid Follower_id { get; set; }
+        public Guid Followee_id { get; set; }
         public DateTime Date { get; set; }
 
 

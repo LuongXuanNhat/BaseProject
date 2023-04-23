@@ -2,10 +2,10 @@
 {
     public class Comment
     {
-        public string Id { get; set; }
-        public string Post_id { get; set; }
-        public string User_id { get; set; }
-        public string PreComment_id { get; set; }
+        public int Id { get; set; }
+        public int Post_id { get; set; }
+        public Guid User_id { get; set; }
+        public int PreComment_id { get; set; }
         public string Content { get; set; }
         public DateTime Date { get; set; }
 

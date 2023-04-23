@@ -2,9 +2,9 @@
 {
     public class CategoriesDetail
     {
-        public string Id { get; set; }
-        public string Post_id { get; set; }
-        public string Categories_id { get; set; }
+        public int Id { get; set; }
+        public int Post_id { get; set; }
+        public int Categories_id { get; set; }
         public string Description { get; set; }
 
 
