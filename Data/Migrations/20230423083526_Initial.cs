@@ -1,4 +1,5 @@
 ﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -128,7 +129,7 @@ namespace Data.Migrations
                     Location_id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                    ShortName = table.Column<string>(type: "nvarchar(max)", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -154,8 +155,8 @@ namespace Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Image = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Image = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Description = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: true),
                     Gender = table.Column<int>(type: "int", nullable: false, defaultValue: 2),
                     DateOfBir = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -195,14 +196,14 @@ namespace Data.Migrations
                         name: "FK_Followings_Users_Followee_id",
                         column: x => x.Followee_id,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id"
+                        );
                     table.ForeignKey(
                         name: "FK_Followings_Users_Follower_id",
                         column: x => x.Follower_id,
                         principalTable: "Users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id"
+                        );
                 });
 
             migrationBuilder.CreateTable(
@@ -241,14 +242,13 @@ namespace Data.Migrations
                     UploadDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     View = table.Column<int>(type: "int", nullable: false, defaultValue: 0),
                     User_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    UserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Posts", x => x.Post_id);
                     table.ForeignKey(
                         name: "FK_Posts_Users_UserId",
-                        column: x => x.UserId,
+                        column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -313,22 +313,22 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Post_id = table.Column<int>(type: "int", nullable: false),
-                    User_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    PreComment_id = table.Column<int>(type: "int", nullable: false),
+                    Post_id = table.Column<int>(type: "int", nullable: true),
+                    User_id = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
+                    PreComment_id = table.Column<int>(type: "int", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    PreCommentId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Comments", x => x.Id);
                     table.ForeignKey(
                         name: "FK_Comments_Comments_PreCommentId",
-                        column: x => x.PreCommentId,
+                        column: x => x.PreComment_id,
                         principalTable: "Comments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction
+                        );
                     table.ForeignKey(
                         name: "FK_Comments_Posts_Post_id",
                         column: x => x.Post_id,
@@ -340,7 +340,7 @@ namespace Data.Migrations
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -401,7 +401,7 @@ namespace Data.Migrations
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -428,7 +428,7 @@ namespace Data.Migrations
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -456,7 +456,7 @@ namespace Data.Migrations
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -465,9 +465,9 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Post_id = table.Column<int>(type: "int", nullable: false),
+                    Post_id = table.Column<int>(type: "int", nullable: true),
                     User_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Comment_id = table.Column<int>(type: "int", nullable: false),
+                    Comment_id = table.Column<int>(type: "int", nullable: true),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
@@ -478,19 +478,19 @@ namespace Data.Migrations
                         column: x => x.Comment_id,
                         principalTable: "Comments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Likings_Posts_Post_id",
                         column: x => x.Post_id,
                         principalTable: "Posts",
                         principalColumn: "Post_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Likings_Users_User_id",
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateTable(
@@ -499,10 +499,10 @@ namespace Data.Migrations
                 {
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Post_id = table.Column<int>(type: "int", nullable: false),
+                    Post_id = table.Column<int>(type: "int", nullable: true),
                     User_id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    AllegedUser_id = table.Column<int>(type: "int", nullable: false),
-                    Comment_id = table.Column<int>(type: "int", nullable: false),
+                    AllegedUser_id = table.Column<int>(type: "int", nullable: true),
+                    Comment_id = table.Column<int>(type: "int", nullable: true),
                     Content = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     AllegedUserId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
@@ -515,25 +515,25 @@ namespace Data.Migrations
                         column: x => x.Comment_id,
                         principalTable: "Comments",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reports_Posts_Post_id",
                         column: x => x.Post_id,
                         principalTable: "Posts",
                         principalColumn: "Post_id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reports_Users_AllegedUserId",
                         column: x => x.AllegedUserId,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                     table.ForeignKey(
                         name: "FK_Reports_Users_User_id",
                         column: x => x.User_id,
                         principalTable: "Users",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.NoAction);
                 });
 
             migrationBuilder.CreateIndex(
@@ -551,10 +551,10 @@ namespace Data.Migrations
                 table: "Comments",
                 column: "Post_id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Comments_PreCommentId",
-                table: "Comments",
-                column: "PreCommentId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Comments_PreCommentId",
+            //    table: "Comments",
+            //    column: "PreCommentId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Comments_User_id",
@@ -586,20 +586,20 @@ namespace Data.Migrations
                 table: "LocationsDetails",
                 column: "Post_id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_LocationsDetails_UserId",
-                table: "LocationsDetails",
-                column: "UserId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_LocationsDetails_UserId",
+            //    table: "LocationsDetails",
+            //    column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_NoticeDetails_User_id",
                 table: "NoticeDetails",
                 column: "User_id");
 
-            migrationBuilder.CreateIndex(
-                name: "IX_Posts_UserId",
-                table: "Posts",
-                column: "UserId");
+            //migrationBuilder.CreateIndex(
+            //    name: "IX_Posts_UserId",
+            //    table: "Posts",
+            //    column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Ratings_Post_id",
