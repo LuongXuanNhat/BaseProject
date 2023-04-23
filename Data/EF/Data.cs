@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Data.EF
 {
-    public class DBDbContext : IdentityDbContext<User, AppRole, Guid>
+    public class Data : IdentityDbContext<User, AppRole, Guid>
     {
-        public DBDbContext(DbContextOptions options) : base(options)
+        public Data(DbContextOptions options) : base(options)
         {
 
         }

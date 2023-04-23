@@ -6,5 +6,10 @@
         public string Post_id { get; set; }
         public string Categories_id { get; set; }
         public string Description { get; set; }
+
+
+        // RelationShip
+        public Post Post { get; set; }
+        public Category Category { get; set; }
     }
 }

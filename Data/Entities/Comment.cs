@@ -14,5 +14,7 @@
         public Post Post { get; set; }
         public User User { get; set; }
         public Comment PreComment { get; set; }
+        public List<Liking> Liking { get; set; }
+        public List<Report> Report { get; set; }
     }
 }

@@ -1,0 +1,22 @@
+﻿using Data.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
+namespace Data.Configurations
+{
+    public class ShareConfiguration : IEntityTypeConfiguration<Share>
+    {
+        public void Configure(EntityTypeBuilder<Share> builder)
+        {
+            builder.ToTable("Shares");
+
+            builder.HasKey(x => x.Id);
+
+
+
+            // Relationship
+            builder.HasOne(x => x.User).WithMany(x => x.Share).HasForeignKey(x => x.User_id);
+            builder.HasOne(x => x.Post).WithMany(x => x.Share).HasForeignKey(x => x.Post_id);
+        }
+    }
+}

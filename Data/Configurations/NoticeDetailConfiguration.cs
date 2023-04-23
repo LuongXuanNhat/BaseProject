@@ -12,6 +12,11 @@ namespace Data.Configurations
 
             builder.HasKey(x => new { x.Notification_id, x.User_id });
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(1000);
+
+
+            // Relationship
+            builder.HasOne(x => x.User).WithMany(x => x.NoticeDetail).HasForeignKey(x => x.User_id);
+            builder.HasOne(x => x.Notification).WithMany(x => x.NoticeDetail).HasForeignKey(x => x.Notification_id);
         }
     }
 }

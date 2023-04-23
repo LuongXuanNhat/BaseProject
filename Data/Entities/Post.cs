@@ -12,5 +12,15 @@
 
         // relationship
         public User User { get; set; }
+        public List<CategoriesDetail> CategoriesDetail { get; set; }
+        public List<LocationsDetail> LocationsDetail { get; set; }
+        public List<Rating> Rating { get; set; }
+        public List<Liking> Liking { get; set; }
+        public List<Comment> Comment { get; set; }
+        public List<Report> Report { get; set; }
+        public List<Share> Share { get; set; }
+        public List<Saved> Saved { get; set; }
+        
+
     }
 }

@@ -13,6 +13,7 @@ namespace Data.Configurations
             builder.HasKey(x => x.Notification_id);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
 
-        }
+
     }
+}
 }

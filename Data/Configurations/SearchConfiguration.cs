@@ -13,6 +13,10 @@ namespace Data.Configurations
             builder.HasKey(x => x.Search_id);
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(250);
 
+
+            // Relationship
+            builder.HasOne(x => x.User).WithMany(x => x.Search).HasForeignKey(x => x.User_id);
         }
+
     }
 }
