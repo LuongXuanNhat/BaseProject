@@ -22,7 +22,8 @@ namespace Data.Entities
         public List<Report> Report { get; set; }
         public List<Share> Share { get; set; }
         public List<Saved> Saved { get; set; }
-        
-
+        public List<Image> Image { get; set; }
+        public List<Video> Video { get; set; }
+       
     }
 }

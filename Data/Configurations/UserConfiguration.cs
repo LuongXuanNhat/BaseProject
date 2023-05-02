@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 using Data.Entities;
-using Data.Enum;
+using Data.Enums;
 
 namespace Data.Configurations
 {

@@ -47,6 +47,9 @@ namespace Data.EF
             modelBuilder.ApplyConfiguration(new FollowingConfiguration());
             modelBuilder.ApplyConfiguration(new SearchConfiguration());
 
+            modelBuilder.ApplyConfiguration(new ImageConfiguration());
+            modelBuilder.ApplyConfiguration(new VideoConfiguration());
+
             modelBuilder.Entity<IdentityUserClaim<Guid>>().ToTable("AppUserClaims");
             modelBuilder.Entity<IdentityUserRole<Guid>>().ToTable("AppUserRoles").HasKey(x => new { x.UserId, x.RoleId });
             modelBuilder.Entity<IdentityUserLogin<Guid>>().ToTable("AppUserLogins").HasKey(x => x.UserId);
@@ -55,7 +58,7 @@ namespace Data.EF
             modelBuilder.Entity<IdentityUserToken<Guid>>().ToTable("AppUserTokens").HasKey(x => x.UserId);
 
 
-            //base.OnModelCreating(modelBuilder);
+            base.OnModelCreating(modelBuilder);
         }
 
         public DbSet<Category> Categories { set; get; }
@@ -74,8 +77,8 @@ namespace Data.EF
         public DbSet<Following> Followings { set; get; }
         public DbSet<Notification> Notifications { set; get; }
         public DbSet<NoticeDetail> NoticeDetails { set; get; }
+        public DbSet<Image> Images { set; get; }
+        public DbSet<Video> Videos { set; get; }
 
-
-        
     }
 }
