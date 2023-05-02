@@ -1,4 +1,4 @@
-﻿using Data.Enum;
+﻿using Data.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 

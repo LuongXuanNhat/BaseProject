@@ -1,4 +1,4 @@
-﻿namespace Data.Enum
+﻿namespace Data.Enums
 {
     public enum Gender
     {
