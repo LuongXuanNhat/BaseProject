@@ -5,9 +5,9 @@ using BaseProject.Data.Enums;
 
 namespace BaseProject.Data.Configurations
 {
-    class UserConfiguration : IEntityTypeConfiguration<User>
+    class UserConfiguration : IEntityTypeConfiguration<AppUser>
     {
-        public void Configure(EntityTypeBuilder<User> builder)
+        public void Configure(EntityTypeBuilder<AppUser> builder)
         {
             builder.ToTable("Users");
             builder.Property(x => x.UserName).IsRequired().HasMaxLength(200);

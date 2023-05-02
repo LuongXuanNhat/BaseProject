@@ -4,7 +4,7 @@ using System.ComponentModel.DataAnnotations;
 
 namespace BaseProject.Data.Entities
 {
-    public class User : IdentityUser<Guid>
+    public class AppUser : IdentityUser<Guid>
     {
         public string Name { get; set; }
         public string Image { get; set; }

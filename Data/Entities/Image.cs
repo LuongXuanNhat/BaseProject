@@ -5,10 +5,10 @@ namespace BaseProject.Data.Entities
 {
     public class Image
     {
-        public int Image_id { get; set; }
-        public int Post_id { get; set; }
+        public int ImageId { get; set; }
+        public int PostId { get; set; }
         public string Name { get; set; }
-        public int Numerical_order { get; set; }
+        public int NumericalOrder { get; set; }
 
 
         // Relationship

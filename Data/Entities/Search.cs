@@ -4,8 +4,8 @@ namespace BaseProject.Data.Entities
 {
     public class Search
     {
-        public int Search_id { get; set; }
-        public Guid User_id { get; set; }
+        public int SearchId { get; set; }
+        public Guid UserId { get; set; }
         public string Content { get; set; }
 
         [DataType(DataType.Date)]
@@ -14,6 +14,6 @@ namespace BaseProject.Data.Entities
 
 
         // Relationship
-        public User User { get; set; }
+        public AppUser User { get; set; }
     }
 }

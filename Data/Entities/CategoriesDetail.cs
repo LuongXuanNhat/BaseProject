@@ -3,8 +3,8 @@
     public class CategoriesDetail
     {
         public int Id { get; set; }
-        public int Post_id { get; set; }
-        public int Categories_id { get; set; }
+        public int PostId { get; set; }
+        public int CategoriesId { get; set; }
         public string Description { get; set; }
 
 

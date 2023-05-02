@@ -7,7 +7,7 @@ using Microsoft.Extensions.Options;
 
 namespace BaseProject.Data.EF
 {
-    public class DataContext : IdentityDbContext<User, AppRole, Guid>
+    public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
         public DataContext(DbContextOptions options) : base(options)
         {
@@ -59,6 +59,7 @@ namespace BaseProject.Data.EF
 
 
             base.OnModelCreating(modelBuilder);
+            new SeedData(modelBuilder).Seed();
         }
 
         public DbSet<Category> Categories { set; get; }
@@ -72,7 +73,6 @@ namespace BaseProject.Data.EF
         public DbSet<Report> Reports { set; get; }
         public DbSet<Saved> Saveds { set; get; }
         public DbSet<Share> Shares { set; get; }
-        public DbSet<User> Users { set; get; }
         public DbSet<Search> Searches { set; get; }
         public DbSet<Following> Followings { set; get; }
         public DbSet<Notification> Notifications { set; get; }

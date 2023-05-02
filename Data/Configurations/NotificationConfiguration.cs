@@ -10,7 +10,7 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Notifications");
 
-            builder.HasKey(x => x.Notification_id);
+            builder.HasKey(x => x.NotificationId);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
 
 

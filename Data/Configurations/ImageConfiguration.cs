@@ -10,12 +10,12 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Images");
 
-            builder.HasKey(x => x.Image_id);
+            builder.HasKey(x => x.ImageId);
             builder.Property(x => x.Name).IsRequired(false).HasMaxLength(100);
 
 
             // Relationship
-            builder.HasOne(x => x.Post).WithMany(x => x.Image).HasForeignKey(x => x.Post_id);
+            builder.HasOne(x => x.Post).WithMany(x => x.Image).HasForeignKey(x => x.PostId);
         }
 
     }

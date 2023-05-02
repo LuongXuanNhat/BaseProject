@@ -16,9 +16,9 @@ namespace BaseProject.Data.Configurations
 
 
             // Relationship
-            builder.HasOne(x => x.User).WithMany(x => x.Comment).HasForeignKey(x => x.User_id);
-            builder.HasOne(x => x.Post).WithMany(x => x.Comment).HasForeignKey(x => x.Post_id);
-            builder.HasMany(x => x.Report).WithOne(x => x.Comment).HasForeignKey(x => x.Comment_id);
+            builder.HasOne(x => x.User).WithMany(x => x.Comment).HasForeignKey(x => x.UserId);
+            builder.HasOne(x => x.Post).WithMany(x => x.Comment).HasForeignKey(x => x.PostId);
+            builder.HasMany(x => x.Report).WithOne(x => x.Comment).HasForeignKey(x => x.CommentId);
         }
 
     }

@@ -5,8 +5,8 @@ namespace BaseProject.Data.Entities
     public class Rating
     {
         public int Id { get; set; }
-        public int Post_id { get; set; }
-        public Guid User_id { get; set; }
+        public int PostId { get; set; }
+        public Guid UserId { get; set; }
         public int Stars { get; set; }
 
         [DataType(DataType.Date)]
@@ -17,7 +17,7 @@ namespace BaseProject.Data.Entities
 
         // Relationship
         public Post Post { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
 
     }
 }

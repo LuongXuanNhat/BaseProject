@@ -10,11 +10,11 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Followings");
 
-            builder.HasKey(x => new { x.Follower_id, x.Followee_id });
+            builder.HasKey(x => new { x.FollowerId, x.FolloweeId });
 
 
             // RelationShip 1 -n
-            builder.HasOne(x => x.Follower).WithMany(x => x.Followee).HasForeignKey(x => x.Follower_id);
+            builder.HasOne(x => x.Follower).WithMany(x => x.Followee).HasForeignKey(x => x.FollowerId);
 
 
 

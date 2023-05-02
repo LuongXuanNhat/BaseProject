@@ -5,16 +5,16 @@ namespace BaseProject.Data.Entities
     public class Liking
     {
         public int Id { get; set; }
-        public int Post_id { get; set; }
-        public Guid User_id { get; set; }
-        public int Comment_id { get; set; }
+        public int PostId { get; set; }
+        public Guid UserId { get; set; }
+        public int CommentId { get; set; }
         public DateTime Date { get; set; }
 
 
 
         // Relationship
         public Post Post { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public Comment Comment { get; set; }
     }
 }

@@ -10,7 +10,7 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Locations");
 
-            builder.HasKey(x => x.Location_id);
+            builder.HasKey(x => x.LocationId);
             builder.Property(x => x.Name).IsRequired().HasMaxLength(150);
         }
     }

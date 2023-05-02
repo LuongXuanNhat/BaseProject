@@ -10,12 +10,12 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Videos");
 
-            builder.HasKey(x => x.Video_id);
+            builder.HasKey(x => x.VideoId);
             builder.Property(x => x.Name).IsRequired(false).HasMaxLength(100);
 
 
             // Relationship
-            builder.HasOne(x => x.Post).WithMany(x => x.Video).HasForeignKey(x => x.Post_id);
+            builder.HasOne(x => x.Post).WithMany(x => x.Video).HasForeignKey(x => x.PostId);
         }
 
     }

@@ -5,10 +5,10 @@ namespace BaseProject.Data.Entities
     public class Report
     {
         public int Id { get; set; }
-        public int Post_id { get; set; }
-        public Guid User_id { get; set; }
-        public int AllegedUser_id { get; set; }
-        public int Comment_id { get; set; }
+        public int PostId { get; set; }
+        public Guid UserId { get; set; }
+        public Guid AllegedUserId { get; set; }
+        public int CommentId { get; set; }
         public string Content { get; set; }
 
         [DataType(DataType.Date)]
@@ -18,8 +18,8 @@ namespace BaseProject.Data.Entities
 
         // Relationship
         public Post Post { get; set; }
-        public User User { get; set; }
-        public User AllegedUser { get; set; }
+        public AppUser User { get; set; }
+        public AppUser AllegedUser { get; set; }
         public Comment Comment { get; set; }
     }
 }

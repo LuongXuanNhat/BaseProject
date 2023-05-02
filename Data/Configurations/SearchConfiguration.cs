@@ -10,12 +10,12 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Searchs");
 
-            builder.HasKey(x => x.Search_id);
+            builder.HasKey(x => x.SearchId);
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(250);
 
 
             // Relationship
-            builder.HasOne(x => x.User).WithMany(x => x.Search).HasForeignKey(x => x.User_id);
+            builder.HasOne(x => x.User).WithMany(x => x.Search).HasForeignKey(x => x.UserId);
         }
 
     }

@@ -22,7 +22,7 @@ namespace BaseProject.Data.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("Data.Entities.AppConfig", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.AppConfig", b =>
                 {
                     b.Property<string>("Key")
                         .HasColumnType("nvarchar(450)");
@@ -34,9 +34,26 @@ namespace BaseProject.Data.Migrations
                     b.HasKey("Key");
 
                     b.ToTable("AppConfigs", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Key = "HomeTitle",
+                            Value = "Đây là trang chủ của Web_Review"
+                        },
+                        new
+                        {
+                            Key = "HomeKeyWord",
+                            Value = "Đây là từ khóa của Web_Review"
+                        },
+                        new
+                        {
+                            Key = "HomeDescription",
+                            Value = "Đây là mô tả của Web_Review"
+                        });
                 });
 
-            modelBuilder.Entity("Data.Entities.AppRole", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.AppRole", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -67,454 +84,19 @@ namespace BaseProject.Data.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
+                            ConcurrencyStamp = "4885844d-7ffa-4a68-ad29-eeb926552f6a",
+                            Description = "Administrator Role",
+                            Name = "admin",
+                            NormalizedName = "admin"
+                        });
                 });
 
-            modelBuilder.Entity("Data.Entities.CategoriesDetail", b =>
-                {
-                    b.Property<int>("Categories_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Description")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Categories_id", "Post_id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("CategoriesDetails", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Category", b =>
-                {
-                    b.Property<int>("Categories_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Categories_id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.HasKey("Categories_id");
-
-                    b.ToTable("Categorys", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Comment", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(500)
-                        .HasColumnType("nvarchar(500)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PreCommentId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("PreComment_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("PreCommentId");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Comments", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Following", b =>
-                {
-                    b.Property<Guid>("Follower_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("Followee_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("FolloweeId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Follower_id", "Followee_id");
-
-                    b.HasIndex("FolloweeId");
-
-                    b.ToTable("Followings", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Image", b =>
-                {
-                    b.Property<int>("Image_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Image_id"));
-
-                    b.Property<string>("Name")
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<int>("Numerical_order")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Image_id");
-
-                    b.HasIndex("Post_id");
-
-                    b.ToTable("Images", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Liking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("Comment_id")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Comment_id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Likings", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Location", b =>
-                {
-                    b.Property<int>("Location_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Location_id"));
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(150)
-                        .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Location_id");
-
-                    b.ToTable("Locations", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.LocationsDetail", b =>
-                {
-                    b.Property<int>("Location_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Title")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<Guid?>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Location_id", "Post_id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("LocationsDetails", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.NoticeDetail", b =>
-                {
-                    b.Property<int>("Notification_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("Notification_id", "User_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("NoticeDetails", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Notification", b =>
-                {
-                    b.Property<int>("Notification_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Notification_id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.HasKey("Notification_id");
-
-                    b.ToTable("Notifications", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Post", b =>
-                {
-                    b.Property<int>("Post_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Post_id"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("UploadDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("View")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
-                    b.HasKey("Post_id");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Posts", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stars")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Ratings", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Report", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<Guid>("AllegedUserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<int>("AllegedUser_id")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Comment_id")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Content")
-                        .IsRequired()
-                        .HasMaxLength(100)
-                        .HasColumnType("nvarchar(100)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("AllegedUserId");
-
-                    b.HasIndex("Comment_id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Reports", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Saved", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Saveds", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Search", b =>
-                {
-                    b.Property<int>("Search_id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Search_id"));
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(250)
-                        .HasColumnType("nvarchar(250)");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Search_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Searchs", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.Share", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Method")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Post_id")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("User_id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Post_id");
-
-                    b.HasIndex("User_id");
-
-                    b.ToTable("Shares", (string)null);
-                });
-
-            modelBuilder.Entity("Data.Entities.User", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.AppUser", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -603,29 +185,587 @@ namespace BaseProject.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
+                            AccessFailedCount = 0,
+                            Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
+                            ConcurrencyStamp = "981c4833-52a1-4131-ba64-56a5a51bd265",
+                            DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "onionwebdev@gmail.com",
+                            EmailConfirmed = true,
+                            Gender = 0,
+                            Image = "",
+                            LockoutEnabled = false,
+                            Name = "Lương Xuân Nhất",
+                            NormalizedEmail = "onionwebdev@gmail.com",
+                            NormalizedUserName = "admin",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHsqtKPu2DxwLWBdQWcC399Ztu80FY62RApuL1x1We4Gp1qn6C8vWDZJTJADvUspbA==",
+                            PhoneNumberConfirmed = false,
+                            SecurityStamp = "",
+                            TwoFactorEnabled = false,
+                            UserName = "admin"
+                        });
                 });
 
-            modelBuilder.Entity("Data.Entities.Video", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.CategoriesDetail", b =>
                 {
-                    b.Property<int>("Video_id")
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("CategoriesId", "PostId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("CategoriesDetails", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Category", b =>
+                {
+                    b.Property<int>("CategoriesId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Video_id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriesId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.HasKey("CategoriesId");
+
+                    b.ToTable("Categories", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoriesId = 1,
+                            Name = "Ẩm thực"
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            Name = "Khám phá"
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            Name = "Vui chơi-Giải trí"
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            Name = "Nghỉ dưỡng"
+                        },
+                        new
+                        {
+                            CategoriesId = 5,
+                            Name = "Bãi biển"
+                        },
+                        new
+                        {
+                            CategoriesId = 6,
+                            Name = "Cắm trại"
+                        },
+                        new
+                        {
+                            CategoriesId = 7,
+                            Name = "Khu di tích"
+                        },
+                        new
+                        {
+                            CategoriesId = 8,
+                            Name = "Bảo tàng"
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            Name = "Khu du lịch"
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            Name = "Công viên"
+                        },
+                        new
+                        {
+                            CategoriesId = 11,
+                            Name = "Nhà thờ"
+                        },
+                        new
+                        {
+                            CategoriesId = 12,
+                            Name = "Chợ"
+                        },
+                        new
+                        {
+                            CategoriesId = 13,
+                            Name = "Hòn-Đảo"
+                        },
+                        new
+                        {
+                            CategoriesId = 14,
+                            Name = "Hang động"
+                        },
+                        new
+                        {
+                            CategoriesId = 15,
+                            Name = "Làng quê"
+                        },
+                        new
+                        {
+                            CategoriesId = 16,
+                            Name = "Đền"
+                        },
+                        new
+                        {
+                            CategoriesId = 17,
+                            Name = "Chùa"
+                        },
+                        new
+                        {
+                            CategoriesId = 18,
+                            Name = "Núi"
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            Name = "Đặc sản"
+                        },
+                        new
+                        {
+                            CategoriesId = 20,
+                            Name = "Thác"
+                        });
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Comment", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PreCommentId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("PreCommentId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Comments", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Following", b =>
+                {
+                    b.Property<Guid>("FollowerId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid>("FolloweeId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("FollowerId", "FolloweeId");
+
+                    b.HasIndex("FolloweeId");
+
+                    b.ToTable("Followings", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Image", b =>
+                {
+                    b.Property<int>("ImageId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
 
-                    b.Property<int>("Numerical_order")
+                    b.Property<int>("NumericalOrder")
                         .HasColumnType("int");
 
-                    b.Property<int>("Post_id")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
-                    b.HasKey("Video_id");
+                    b.HasKey("ImageId");
 
-                    b.HasIndex("Post_id");
+                    b.HasIndex("PostId");
+
+                    b.ToTable("Images", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Liking", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Likings", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Location", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(150)
+                        .HasColumnType("nvarchar(150)");
+
+                    b.Property<string>("ShortName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("LocationId");
+
+                    b.ToTable("Locations", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
+                {
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid?>("AppUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Title")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("LocationId", "PostId");
+
+                    b.HasIndex("AppUserId");
+
+                    b.HasIndex("PostId");
+
+                    b.ToTable("LocationsDetails", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.NoticeDetail", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("NotificationId", "UserId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("NoticeDetails", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Notification", b =>
+                {
+                    b.Property<int>("NotificationId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationId"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.HasKey("NotificationId");
+
+                    b.ToTable("Notifications", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Post", b =>
+                {
+                    b.Property<int>("PostId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("UploadDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("View")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Posts", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Rating", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Stars")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Ratings", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Report", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<Guid>("AllegedUserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("CommentId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Content")
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AllegedUserId");
+
+                    b.HasIndex("CommentId");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Reports", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Saved", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Saveds", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Search", b =>
+                {
+                    b.Property<int>("SearchId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("SearchId"));
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("SearchId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Searchs", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Share", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Method")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PostId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Shares", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Video", b =>
+                {
+                    b.Property<int>("VideoId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("VideoId"));
+
+                    b.Property<string>("Name")
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
+
+                    b.Property<int>("NumericalOrder")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
+
+                    b.HasKey("VideoId");
+
+                    b.HasIndex("PostId");
 
                     b.ToTable("Videos", (string)null);
                 });
@@ -712,6 +852,13 @@ namespace BaseProject.Data.Migrations
                     b.HasIndex("RoleId");
 
                     b.ToTable("AspNetUserRoles", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            UserId = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
+                            RoleId = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575")
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
@@ -733,46 +880,46 @@ namespace BaseProject.Data.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Data.Entities.CategoriesDetail", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.CategoriesDetail", b =>
                 {
-                    b.HasOne("Data.Entities.Category", "Category")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany("CategoriesDetail")
-                        .HasForeignKey("Categories_id")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("BaseProject.Data.Entities.Category", "Category")
+                        .WithMany("CategoriesDetail")
+                        .HasForeignKey("CategoriesId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("CategoriesDetail")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Data.Entities.User", null)
-                        .WithMany("CategoriesDetail")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Category");
 
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Data.Entities.Comment", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Comment", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Comment")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Comment", "PreComment")
+                    b.HasOne("BaseProject.Data.Entities.Comment", "PreComment")
                         .WithMany()
                         .HasForeignKey("PreCommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Comment")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -783,17 +930,17 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Following", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Following", b =>
                 {
-                    b.HasOne("Data.Entities.User", "Followee")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "Followee")
                         .WithMany("Follower")
                         .HasForeignKey("FolloweeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "Follower")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "Follower")
                         .WithMany("Followee")
-                        .HasForeignKey("Follower_id")
+                        .HasForeignKey("FollowerId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -802,34 +949,34 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("Follower");
                 });
 
-            modelBuilder.Entity("Data.Entities.Image", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Image", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Image")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Data.Entities.Liking", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Liking", b =>
                 {
-                    b.HasOne("Data.Entities.Comment", "Comment")
+                    b.HasOne("BaseProject.Data.Entities.Comment", "Comment")
                         .WithMany("Liking")
-                        .HasForeignKey("Comment_id")
+                        .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Liking")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Liking")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -840,40 +987,40 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.LocationsDetail", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
                 {
-                    b.HasOne("Data.Entities.Location", "Location")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany("LocationsDetail")
-                        .HasForeignKey("Location_id")
+                        .HasForeignKey("AppUserId");
+
+                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
+                        .WithMany("LocationsDetail")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("LocationsDetail")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.HasOne("Data.Entities.User", null)
-                        .WithMany("LocationsDetail")
-                        .HasForeignKey("UserId");
 
                     b.Navigation("Location");
 
                     b.Navigation("Post");
                 });
 
-            modelBuilder.Entity("Data.Entities.NoticeDetail", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.NoticeDetail", b =>
                 {
-                    b.HasOne("Data.Entities.Notification", "Notification")
+                    b.HasOne("BaseProject.Data.Entities.Notification", "Notification")
                         .WithMany("NoticeDetail")
-                        .HasForeignKey("Notification_id")
+                        .HasForeignKey("NotificationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("NoticeDetail")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -882,9 +1029,9 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Post", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Post", b =>
                 {
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -893,17 +1040,17 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Rating", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Rating", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Rating")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Rating")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -912,29 +1059,29 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Report", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Report", b =>
                 {
-                    b.HasOne("Data.Entities.User", "AllegedUser")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "AllegedUser")
                         .WithMany()
                         .HasForeignKey("AllegedUserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Comment", "Comment")
+                    b.HasOne("BaseProject.Data.Entities.Comment", "Comment")
                         .WithMany("Report")
-                        .HasForeignKey("Comment_id")
+                        .HasForeignKey("CommentId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Report")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Report")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -947,17 +1094,17 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Saved", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Saved", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Saved")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Saved")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -966,28 +1113,28 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Search", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Search", b =>
                 {
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Search")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Share", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Share", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Share")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", "User")
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Share")
-                        .HasForeignKey("User_id")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -996,11 +1143,11 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("Data.Entities.Video", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.Video", b =>
                 {
-                    b.HasOne("Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
                         .WithMany("Video")
-                        .HasForeignKey("Post_id")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -1009,7 +1156,7 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Data.Entities.AppRole", null)
+                    b.HasOne("BaseProject.Data.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1018,7 +1165,7 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Data.Entities.User", null)
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1027,7 +1174,7 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Data.Entities.User", null)
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1036,13 +1183,13 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<System.Guid>", b =>
                 {
-                    b.HasOne("Data.Entities.AppRole", null)
+                    b.HasOne("BaseProject.Data.Entities.AppRole", null)
                         .WithMany()
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Data.Entities.User", null)
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1051,59 +1198,14 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Data.Entities.User", null)
+                    b.HasOne("BaseProject.Data.Entities.AppUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Data.Entities.Category", b =>
-                {
-                    b.Navigation("CategoriesDetail");
-                });
-
-            modelBuilder.Entity("Data.Entities.Comment", b =>
-                {
-                    b.Navigation("Liking");
-
-                    b.Navigation("Report");
-                });
-
-            modelBuilder.Entity("Data.Entities.Location", b =>
-                {
-                    b.Navigation("LocationsDetail");
-                });
-
-            modelBuilder.Entity("Data.Entities.Notification", b =>
-                {
-                    b.Navigation("NoticeDetail");
-                });
-
-            modelBuilder.Entity("Data.Entities.Post", b =>
-                {
-                    b.Navigation("CategoriesDetail");
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("Image");
-
-                    b.Navigation("Liking");
-
-                    b.Navigation("LocationsDetail");
-
-                    b.Navigation("Rating");
-
-                    b.Navigation("Report");
-
-                    b.Navigation("Saved");
-
-                    b.Navigation("Share");
-
-                    b.Navigation("Video");
-                });
-
-            modelBuilder.Entity("Data.Entities.User", b =>
+            modelBuilder.Entity("BaseProject.Data.Entities.AppUser", b =>
                 {
                     b.Navigation("CategoriesDetail");
 
@@ -1128,6 +1230,51 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("Search");
 
                     b.Navigation("Share");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Category", b =>
+                {
+                    b.Navigation("CategoriesDetail");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Comment", b =>
+                {
+                    b.Navigation("Liking");
+
+                    b.Navigation("Report");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Location", b =>
+                {
+                    b.Navigation("LocationsDetail");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Notification", b =>
+                {
+                    b.Navigation("NoticeDetail");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.Post", b =>
+                {
+                    b.Navigation("CategoriesDetail");
+
+                    b.Navigation("Comment");
+
+                    b.Navigation("Image");
+
+                    b.Navigation("Liking");
+
+                    b.Navigation("LocationsDetail");
+
+                    b.Navigation("Rating");
+
+                    b.Navigation("Report");
+
+                    b.Navigation("Saved");
+
+                    b.Navigation("Share");
+
+                    b.Navigation("Video");
                 });
 #pragma warning restore 612, 618
         }

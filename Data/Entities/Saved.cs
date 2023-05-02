@@ -5,8 +5,8 @@ namespace BaseProject.Data.Entities
     public class Saved
     {
         public int Id { get; set; }
-        public int Post_id { get; set; }
-        public Guid User_id { get; set; }
+        public int PostId { get; set; }
+        public Guid UserId { get; set; }
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
@@ -16,6 +16,6 @@ namespace BaseProject.Data.Entities
 
         // Relationship
         public Post Post { get; set; }
-        public User User { get; set; }
+        public AppUser User { get; set; }
     }
 }

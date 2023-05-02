@@ -5,16 +5,16 @@ namespace BaseProject.Data.Entities
 {
     public class Post
     {
-        public int Post_id { get; set; }
+        public int PostId { get; set; }
         public string Title { get; set; }
         public DateTime UploadDate { get; set; }
         public int View { get; set; }
-        public Guid User_id { get; set; }
+        public Guid UserId { get; set; }
 
 
 
         // relationship
-        public User User { get; set; }
+        public AppUser User { get; set; }
         public List<CategoriesDetail> CategoriesDetail { get; set; }
         public List<LocationsDetail> LocationsDetail { get; set; }
         public List<Rating> Rating { get; set; }

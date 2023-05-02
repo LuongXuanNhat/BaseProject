@@ -8,9 +8,9 @@ namespace BaseProject.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Category> builder)
         {
-            builder.ToTable("Categorys");
+            builder.ToTable("Categories");
 
-            builder.HasKey(x => x.Categories_id);
+            builder.HasKey(x => x.CategoriesId);
             builder.Property(x=> x.Name).IsRequired().HasMaxLength(150);
 
 

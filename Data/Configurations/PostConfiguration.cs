@@ -10,7 +10,7 @@ namespace BaseProject.Data.Configurations
         {
             builder.ToTable("Posts");
 
-            builder.HasKey(x => x.Post_id);
+            builder.HasKey(x => x.PostId);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
             builder.Property(x => x.View).HasDefaultValue(0);
 
