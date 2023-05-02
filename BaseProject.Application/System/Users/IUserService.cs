@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.System
+namespace BaseProject.Application.System.Users
 {
     public interface IUserService
     {

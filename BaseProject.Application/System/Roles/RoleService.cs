@@ -1,6 +1,4 @@
-﻿
-using BaseProject.Application.System;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +10,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace eShopSolution.Application.System.Users
+namespace BaseProject.Application.System.Roles
 {
     public class RoleService : IRoleService
     {
