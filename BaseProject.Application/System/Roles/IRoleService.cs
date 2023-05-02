@@ -5,9 +5,6 @@ namespace BaseProject.Application.System.Roles
 {
     public interface IRoleService
     {
-        public interface IUserService
-        {
-            Task<List<RoleVm>> GetAll();
-        }
+        Task<List<RoleVm>> GetAll();
     }
 }

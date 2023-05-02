@@ -1,4 +1,6 @@
-﻿using System;
+﻿using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,21 +10,18 @@ namespace BaseProject.Application.System.Users
 {
     public interface IUserService
     {
-        public interface IUserService
-        {
-            //Task<ApiResult<string>> Authencate(LoginRequest request);
+        Task<ApiResult<string>> Authencate(LoginRequest request);
 
-            //Task<ApiResult<bool>> Register(RegisterRequest request);
+        Task<ApiResult<bool>> Register(RegisterRequest request);
 
-            //Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
+        Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
 
-            //Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
 
-            //Task<ApiResult<UserVm>> GetById(Guid id);
+        Task<ApiResult<UserVm>> GetById(Guid id);
 
-            //Task<ApiResult<bool>> Delete(Guid id);
+        Task<ApiResult<bool>> Delete(Guid id);
 
-            //Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
-        }
+        Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
     }
 }
