@@ -1,8 +1,8 @@
-﻿using Data.Entities;
+﻿using BaseProject.Data.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace Data.Configurations
+namespace BaseProject.Data.Configurations
 {
     public class NotificationConfiguration : IEntityTypeConfiguration<Notification>
     {
@@ -14,6 +14,6 @@ namespace Data.Configurations
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
 
 
+        }
     }
-}
 }

@@ -1,7 +1,8 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using BaseProject.Data.Entities;
 
-namespace Data.Configurations
+namespace BaseProject.Data.Configurations
 {
     public class AppConfigConfiguration : IEntityTypeConfiguration<AppConfig>
     {

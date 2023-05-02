@@ -1,4 +1,6 @@
-﻿namespace Data.Entities
+﻿using BaseProject.Data.Entities;
+
+namespace BaseProject.Data.Entities
 {
     public class Comment
     {

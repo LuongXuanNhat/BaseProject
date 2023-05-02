@@ -1,8 +1,8 @@
-﻿using Data.Enums;
+﻿using BaseProject.Data.Enums;
 using Microsoft.AspNetCore.Identity;
 using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities
+namespace BaseProject.Data.Entities
 {
     public class User : IdentityUser<Guid>
     {

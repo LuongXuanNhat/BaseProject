@@ -1,11 +1,11 @@
-﻿using Data.Configurations;
-using Data.Entities;
+﻿using BaseProject.Data.Configurations;
+using BaseProject.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
 
-namespace Data.EF
+namespace BaseProject.Data.EF
 {
     public class DataContext : IdentityDbContext<User, AppRole, Guid>
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
-using Data.Entities;
-using Data.Enums;
+using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 
-namespace Data.Configurations
+namespace BaseProject.Data.Configurations
 {
     class UserConfiguration : IEntityTypeConfiguration<User>
     {

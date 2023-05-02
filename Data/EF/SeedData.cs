@@ -3,7 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Linq;
 
-namespace Data.EF
+namespace BaseProject.Data.EF
 {
     public static class SeedData
     {
@@ -13,8 +13,8 @@ namespace Data.EF
                 serviceProvider.GetRequiredService<
                     DbContextOptions<DataContext>>()))
             {
-               
-              //  context.SaveChanges();
+
+                //  context.SaveChanges();
             }
         }
     }

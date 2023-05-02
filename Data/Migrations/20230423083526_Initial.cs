@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace Data.Migrations
+namespace BaseProject.Data.Migrations
 {
     /// <inheritdoc />
     public partial class Initial : Migration

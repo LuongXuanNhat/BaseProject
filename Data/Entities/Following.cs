@@ -1,4 +1,4 @@
-﻿namespace Data.Entities
+﻿namespace BaseProject.Data.Entities
 {
     public class Following
     {

@@ -1,4 +1,4 @@
-﻿namespace Data.Enums
+﻿namespace BaseProject.Data.Enums
 {
     public enum Gender
     {

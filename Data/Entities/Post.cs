@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BaseProject.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities
+namespace BaseProject.Data.Entities
 {
     public class Post
     {
@@ -24,6 +25,6 @@ namespace Data.Entities
         public List<Saved> Saved { get; set; }
         public List<Image> Image { get; set; }
         public List<Video> Video { get; set; }
-       
+
     }
 }

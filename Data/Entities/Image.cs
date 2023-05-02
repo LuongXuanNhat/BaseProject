@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BaseProject.Data.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities
+namespace BaseProject.Data.Entities
 {
     public class Image
     {

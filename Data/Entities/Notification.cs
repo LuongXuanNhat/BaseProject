@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Data.Entities
+namespace BaseProject.Data.Entities
 {
     public class Notification
     {
