@@ -16,7 +16,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.Data", "BasePro
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.BackendApi", "BaseProject.BackendApi\BaseProject.BackendApi.csproj", "{B60385F8-D1C7-4FFB-80BD-FB398CED2E03}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseProject.ApiIntegration", "BaseProject.ApiIntegration\BaseProject.ApiIntegration.csproj", "{E336CA35-A75C-4BB2-BFCC-F1BA0BB9E748}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.ApiIntegration", "BaseProject.ApiIntegration\BaseProject.ApiIntegration.csproj", "{E336CA35-A75C-4BB2-BFCC-F1BA0BB9E748}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseProject.AdminUI", "BaseProject.AdminUI\BaseProject.AdminUI.csproj", "{D3EC1C00-FF82-4A47-9156-5B608642B7D6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -44,6 +46,10 @@ Global
 		{E336CA35-A75C-4BB2-BFCC-F1BA0BB9E748}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E336CA35-A75C-4BB2-BFCC-F1BA0BB9E748}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E336CA35-A75C-4BB2-BFCC-F1BA0BB9E748}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D3EC1C00-FF82-4A47-9156-5B608642B7D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D3EC1C00-FF82-4A47-9156-5B608642B7D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D3EC1C00-FF82-4A47-9156-5B608642B7D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D3EC1C00-FF82-4A47-9156-5B608642B7D6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
