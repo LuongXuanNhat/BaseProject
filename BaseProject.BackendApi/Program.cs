@@ -24,11 +24,11 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddHttpClient();
 
 // Connect database
-var connectionString = builder.Configuration.GetConnectionString("ConnectionString");
+var connectionString = builder.Configuration.GetConnectionString("ConnectionStrings");
 builder.Services.AddDbContext<DataContext>(options =>
 {
-    // Chuỗi ConStr: Là chuỗi trong file Json: appsettings.Development
-    options.UseSqlServer(builder.Configuration.GetConnectionString("ConStr"));
+    // Chuỗi DataContext: Là chuỗi trong file Json: appsettings.Development (
+    options.UseSqlServer(builder.Configuration.GetConnectionString("DataContext"));
 });
 builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<DataContext>()

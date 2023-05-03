@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using FluentValidation.Validators;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,8 @@ namespace BaseProject.ViewModels.System.Users
 
             RuleFor(x => x.Email).NotEmpty().WithMessage("Email không được để trống")
                 .Matches(@"^([\w\.\-]+)@([\w\-]+)((\.(\w){2,3})+)$")
+                .WithMessage("Định dạng email không đúng")
+                .EmailAddress(EmailValidationMode.Net4xRegex)
                 .WithMessage("Định dạng email không đúng");
 
             RuleFor(x => x.UserName).NotEmpty().WithMessage("Tên tài khoản không được để trống")

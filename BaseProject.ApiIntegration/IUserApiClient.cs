@@ -6,17 +6,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.System.Users
+namespace BaseProject.ApiIntegration
 {
-    public interface IUserService
+    public interface IUserApiClient
     {
         Task<ApiResult<string>> Authenticate(LoginRequest request);
 
-        Task<ApiResult<bool>> Register(RegisterRequest request);
+        Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request);
 
-        Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
+        Task<ApiResult<bool>> RegisterUser(RegisterRequest registerRequest);
 
-        Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
+        Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
 
