@@ -4,7 +4,7 @@ using System.Diagnostics;
 
 namespace BaseProject.AdminUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
 
@@ -15,6 +15,8 @@ namespace BaseProject.AdminUI.Controllers
 
         public IActionResult Index()
         {
+            var user = User.Identity.Name;
+            ViewBag.User = user;
             return View();
         }
 

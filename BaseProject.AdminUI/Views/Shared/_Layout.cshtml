@@ -27,7 +27,7 @@
             <i class="fas fa-times p-3 cursor-pointer text-secondary opacity-5 position-absolute end-0 top-0 d-none d-xl-none" aria-hidden="true" id="iconSidenav"></i>
             <a class="navbar-brand m-0" href=" https://demos.creative-tim.com/soft-ui-dashboard/pages/dashboard.html " target="_blank">
                 <img src="/assets/img/logo-ct-dark.png" class="navbar-brand-img h-100" alt="main_logo">
-                <span class="ms-1 font-weight-bold">Tên Admin</span>
+                <span class="ms-1 font-weight-bold">@ViewBag.User</span>
             </a>
         </div>
         <hr class="horizontal dark mt-0">
@@ -176,7 +176,7 @@
                                 </g>
                             </svg>
                         </div>
-                        <span class="nav-link-text ms-1">Sign In</span>
+                        <span class="nav-link-text ms-1 ">Đăng xuất</span>
                     </a>
                 </li>
                 <li class="nav-item">
@@ -245,7 +245,9 @@
                         <li class="nav-item d-flex align-items-center">
                             <a href="javascript:;" class="nav-link text-body font-weight-bold px-0">
                                 <i class="fa fa-user me-sm-1"></i>
-                                <span class="d-sm-inline d-none">Sign In</span>
+                                <form method="post" asp-controller="User" asp-action="Logout">
+                                    <button type="submit" class="dropdown-item">Đăng xuất</button>
+                                </form>
                             </a>
                         </li>
                         <li class="nav-item d-xl-none ps-3 d-flex align-items-center">

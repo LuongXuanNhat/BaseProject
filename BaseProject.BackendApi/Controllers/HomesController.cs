@@ -2,11 +2,11 @@
 
 namespace BaseProject.BackendApi.Controllers
 {
-    public class HomeController : Controller
+    public class HomesController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly ILogger<HomesController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomesController(ILogger<HomesController> logger)
         {
             _logger = logger;
         }
