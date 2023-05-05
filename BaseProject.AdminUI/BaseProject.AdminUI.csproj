@@ -8,11 +8,13 @@
 
   <ItemGroup>
     <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\BaseProject.ApiIntegration\BaseProject.ApiIntegration.csproj" />
+    <ProjectReference Include="..\BaseProject.Data\BaseProject.Data.csproj" />
   </ItemGroup>
 
 </Project>

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BaseProject.BackendApi.Controllers
 {
+    [Area("User")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
@@ -33,6 +34,7 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(result);
         }
 
+        //POST: http://localhost/api/users/create
         [HttpPost]
         [AllowAnonymous]
         public async Task<IActionResult> Register([FromBody] RegisterRequest request)

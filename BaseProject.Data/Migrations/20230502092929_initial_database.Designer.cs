@@ -199,7 +199,7 @@ namespace BaseProject.Data.Migrations
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
-                            Gender = Enums.Gender.male,
+                            Gender = Enums.Gender.Nam,
                             Image = "",
                             LockoutEnabled = false,
                             Name = "Lương Xuân Nhất",

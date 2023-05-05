@@ -1,9 +1,12 @@
-﻿namespace BaseProject.Data.Enums
+﻿using System.ComponentModel.DataAnnotations;
+
+namespace BaseProject.Data.Enums
 {
     public enum Gender
     {
-        male,
-        female,
-        none
+        [Display(Name = "Giới tính")]
+        Nam,
+        Nữ,
+        Không
     }
 }

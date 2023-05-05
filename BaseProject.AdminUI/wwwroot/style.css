@@ -1,0 +1,11 @@
+﻿.button {
+
+}
+
+.button:hover {
+    background-color: #628AF8;
+    color: white;
+}
+.button:hover > span{
+    color: white;
+}

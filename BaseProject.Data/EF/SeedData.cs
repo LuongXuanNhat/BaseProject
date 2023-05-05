@@ -147,7 +147,7 @@ namespace BaseProject.Data.EF
                 Id = adminId,
                 UserName = "admin",
                 Name = "Lương Xuân Nhất",
-                Gender = Enums.Gender.male,
+                Gender = Enums.Gender.Nam,
                 NormalizedUserName = "admin",
                 Email = "onionwebdev@gmail.com",
                 NormalizedEmail = "onionwebdev@gmail.com",
