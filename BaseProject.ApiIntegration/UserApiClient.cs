@@ -32,8 +32,11 @@ namespace BaseProject.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
+            // lấy được instance của HttpClient
             var client = _httpClientFactory.CreateClient();
+            // thiết lập thuộc tính BaseAddress để tạo ra base address của Web API.
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            // triệu gọi action Post() của Web API.
             var response = await client.PostAsync("/api/users/authenticate", httpContent);
             if (response.IsSuccessStatusCode)
             {
@@ -80,6 +83,7 @@ namespace BaseProject.ApiIntegration
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
             var response = await client.GetAsync($"/api/users/paging?pageIndex=" +
                 $"{request.PageIndex}&pageSize={request.PageSize}&keyword={request.Keyword}");
+
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<UserVm>>>(body);
             return users;

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Core;
+using BaseProject.Data.EF;
 
 namespace BaseProject.AdminUI.Controllers
 {
@@ -13,6 +14,7 @@ namespace BaseProject.AdminUI.Controllers
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
         private readonly IRoleApiClient _roleApiClient;
+      //  private readonly DataContext _dataContext;
 
         public UserController(IUserApiClient userApiClient,
                               IRoleApiClient roleApiClient,
@@ -26,7 +28,7 @@ namespace BaseProject.AdminUI.Controllers
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
             var request = new GetUserPagingRequest()
-            {
+            {  
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
