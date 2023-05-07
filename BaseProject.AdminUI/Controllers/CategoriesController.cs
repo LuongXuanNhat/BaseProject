@@ -25,29 +25,19 @@ namespace BaseProject.AdminUI.Controllers
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
 
-            //var request = new GetUserPagingRequest()
-            //{
-            //    Keyword = keyword,
-            //    PageIndex = pageIndex,
-            //    PageSize = pageSize
-            //};
-            //var data = await _categoryApiClient.GetPagings(request);
-            //ViewBag.Keyword = keyword;
-
-            //var categories = await _categoryApiClient.GetAll(languageId);
-            //ViewBag.Categories = categories.Select(x => new SelectListItem()
-            //{
-            //    Text = x.Name,
-            //    Value = x.Id.ToString(),
-            //    Selected = categoryId.HasValue && categoryId.Value == x.Id
-            //});
-
-            //if (TempData["result"] != null)
-            //{
-            //    ViewBag.SuccessMsg = TempData["result"];
-            //}
-            //return View(data);
-            return View();
+            var request = new GetUserPagingRequest()
+            {
+                Keyword = keyword,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var data = await _categoryApiClient.GetUsersPagings(request);
+            ViewBag.Keyword = keyword;
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return View(data.ResultObj);
         }
 
         [HttpGet]
@@ -66,121 +56,73 @@ namespace BaseProject.AdminUI.Controllers
             if (result.IsSuccessed != null)
             {
                 TempData["result"] = "Thêm mới sản phẩm thành công";
-                //return RedirectToAction("Index");
-                return View();
+                return RedirectToAction("Index");
+
             }
 
             ModelState.AddModelError("", "Thêm sản phẩm thất bại");
             return View(request);
         }
 
-        //[HttpGet]
-        //public async Task<IActionResult> CategoryAssign(int id)
-        //{
-        //    var roleAssignRequest = await GetCategoryAssignRequest(id);
-        //    return View(roleAssignRequest);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Edit(int id)
+        {
+            var result = await _categoryApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateRequest = new CategoryRequest()
+                {
+                    CategoriesId = id,
+                    Name = user.Name
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
+        }
 
-        //[HttpPost]
-        //public async Task<IActionResult> CategoryAssign(CategoryAssignRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View();
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id,CategoryRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
 
-        //    var result = await _productApiClient.CategoryAssign(request.Id, request);
+            var result = await _categoryApiClient.UpdateCategory(id,request);
+            if (result.IsSuccessed != null)
+            {
+                TempData["result"] = "Cập nhập danh mục thành công";
+                return RedirectToAction("Index");
+            }
 
-        //    if (result.IsSuccessed)
-        //    {
-        //        TempData["result"] = "Cập nhật danh mục thành công";
-        //        return RedirectToAction("Index");
-        //    }
+            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            return View();
+        }
 
-        //    ModelState.AddModelError("", result.Message);
-        //    var roleAssignRequest = await GetCategoryAssignRequest(request.Id);
 
-        //    return View(roleAssignRequest);
-        //}
+        [HttpGet]
+        public async Task<IActionResult> Delete(int idCategory)
+        {
+            return View(new CategoryRequest()
+            {
+                CategoriesId = idCategory
+            });
+        }
+        [HttpPost]
+        public async Task<IActionResult> Delete(CategoryRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
 
-        //[HttpGet]
-        //public async Task<IActionResult> Edit(int id)
-        //{
-        //    var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
+            var result = await _categoryApiClient.DeleteCategory(request.CategoriesId);
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Xóa danh mục thành công";
+                return RedirectToAction("Index");
+            }
 
-        //    var product = await _productApiClient.GetById(id, languageId);
-        //    var editVm = new ProductUpdateRequest()
-        //    {
-        //        Id = product.Id,
-        //        Description = product.Description,
-        //        Details = product.Details,
-        //        Name = product.Name,
-        //        SeoAlias = product.SeoAlias,
-        //        SeoDescription = product.SeoDescription,
-        //        SeoTitle = product.SeoTitle
-        //    };
-        //    return View(editVm);
-        //}
+            ModelState.AddModelError("", result.Message);
+            return View(request);
+        }
 
-        //[HttpPost]
-        //[Consumes("multipart/form-data")]
-        //public async Task<IActionResult> Edit([FromForm] ProductUpdateRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View(request);
-
-        //    var result = await _productApiClient.UpdateProduct(request);
-        //    if (result)
-        //    {
-        //        TempData["result"] = "Cập nhật sản phẩm thành công";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ModelState.AddModelError("", "Cập nhật sản phẩm thất bại");
-        //    return View(request);
-        //}
-
-        //private async Task<CategoryAssignRequest> GetCategoryAssignRequest(int id)
-        //{
-        //    var languageId = HttpContext.Session.GetString(SystemConstants.AppSettings.DefaultLanguageId);
-
-        //    var productObj = await _productApiClient.GetById(id, languageId);
-        //    var categories = await _categoryApiClient.GetAll(languageId);
-        //    var categoryAssignRequest = new CategoryAssignRequest();
-        //    foreach (var role in categories)
-        //    {
-        //        categoryAssignRequest.Categories.Add(new SelectItem()
-        //        {
-        //            Id = role.Id.ToString(),
-        //            Name = role.Name,
-        //            Selected = productObj.Categories.Contains(role.Name)
-        //        });
-        //    }
-        //    return categoryAssignRequest;
-        //}
-
-        //[HttpGet]
-        //public IActionResult Delete(int id)
-        //{
-        //    return View(new ProductDeleteRequest()
-        //    {
-        //        Id = id
-        //    });
-        //}
-
-        //[HttpPost]
-        //public async Task<IActionResult> Delete(ProductDeleteRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return View();
-
-        //    var result = await _productApiClient.DeleteProduct(request.Id);
-        //    if (result)
-        //    {
-        //        TempData["result"] = "Xóa sản phẩm thành công";
-        //        return RedirectToAction("Index");
-        //    }
-
-        //    ModelState.AddModelError("", "Xóa không thành công");
-        //    return View(request);
-        //}
     }
 }

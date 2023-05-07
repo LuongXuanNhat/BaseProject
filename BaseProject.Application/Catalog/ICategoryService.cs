@@ -1,5 +1,6 @@
 ﻿using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,28 +13,30 @@ namespace BaseProject.Application.Catalog
     {
         Task<ApiResult<bool>> Create(CategoryRequest request);
 
-        Task<ApiResult<bool>> Update(CategoryRequest request);
+        Task<ApiResult<bool>> Update(int id,CategoryRequest request);
 
         Task<ApiResult<bool>> Delete(int categoryId);
 
-            //Task<ProductVm> GetById(int productId, string languageId);
+        Task<ApiResult<PagedResult<CategoryRequest>>> GetCategoryPaging(GetUserPagingRequest request);
 
-            //Task<bool> UpdatePrice(int productId, decimal newPrice);
+        Task<ApiResult<CategoryRequest>> GetById(int categoryId);
 
-            //Task<bool> UpdateStock(int productId, int addedQuantity);
+        //Task<bool> UpdatePrice(int productId, decimal newPrice);
 
-            //Task AddViewcount(int productId);
+        //Task<bool> UpdateStock(int productId, int addedQuantity);
 
-            //Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
+        //Task AddViewcount(int productId);
 
-            //Task<int> AddImage(int productId, ProductImageCreateRequest request);
+        //Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
 
-            //Task<int> RemoveImage(int imageId);
+        //Task<int> AddImage(int productId, ProductImageCreateRequest request);
 
-            //Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
+        //Task<int> RemoveImage(int imageId);
 
-            //Task<ProductImageViewModel> GetImageById(int imageId);
+        //Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
 
-            //Task<List<ProductImageViewModel>> GetListImages(int productId);
+        //Task<ProductImageViewModel> GetImageById(int imageId);
+
+        //Task<List<ProductImageViewModel>> GetListImages(int productId);
     }
 }

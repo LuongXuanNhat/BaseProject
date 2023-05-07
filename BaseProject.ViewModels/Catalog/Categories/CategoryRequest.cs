@@ -9,6 +9,7 @@ namespace BaseProject.ViewModels.Catalog.Categories
 {
     public class CategoryRequest
     {
+        public int CategoriesId { get; set; }
         [Display(Name = "Tên danh mục")]
         public string? Name { get; set; }
     }

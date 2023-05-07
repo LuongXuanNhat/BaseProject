@@ -1,0 +1,74 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Categories.CategoryRequest>
+@{
+    ViewData["Title"] = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh mục</h1>
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a asp-action="Create" class="btn btn-success">Thêm danh mục</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div class="cold-md-3">
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/Categories/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Tên danh mục
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Edit", new { id=item.CategoriesId }) |
+                            @Html.ActionLink("Xóa", "Delete", new {  idCategory=item.CategoriesId })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+ </div>
+

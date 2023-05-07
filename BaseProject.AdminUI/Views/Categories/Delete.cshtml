@@ -1,0 +1,45 @@
+﻿@model BaseProject.ViewModels.Catalog.Categories.CategoryRequest
+
+@{
+    ViewData["Title"] = "Xóa danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+
+<div class="container-fluid">
+    <h1 class="mt-4">Xóa danh mục</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+        <li class="breadcrumb-item active">Xóa danh mục</li>
+    </ol>
+    <div class="card mb-4">
+        <div class="card-header">
+            <a class="btn btn-success" asp-action="Index" asp-controller="Categories">Về danh sách</a>
+        </div>
+
+        <div class="card-body">
+            <div class="col-md-12">
+                <dl class="row">
+                    <dt class="col-sm-2">
+                        @Html.DisplayNameFor(model => model.CategoriesId)
+                    </dt>
+                    <dd class="col-sm-10">
+                        @Html.DisplayFor(model => model.CategoriesId)
+                    </dd>
+                    <div class="col-sm-10 d-xxl-inline-flex">
+                        <form asp-action="Delete">
+                            <input asp-for="CategoriesId" type="hidden" />
+                            <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                        </form>
+                    </div>
+                    
+                </dl>
+
+               
+            </div>
+        </div>
+    </div>
+</div>
+

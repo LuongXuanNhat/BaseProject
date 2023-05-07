@@ -1,0 +1,38 @@
+﻿@model BaseProject.ViewModels.Catalog.Categories.CategoryRequest
+
+@{
+    ViewData["Title"] = "Chỉnh sửa danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa danh mục</h1>
+<h1 class="mt-4">Cập nhật người dùng</h1>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Cập nhật người dùng</li>
+</ol>
+<hr />
+<div class="row">
+    <div class="card-header">
+        <a class="btn btn-success" asp-action="Index" asp-controller="Categories">Về danh sách</a>
+    </div>
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+@*            <div class="form-group">
+                <label asp-for="CategoriesId" class="control-label"></label>
+                <input asp-for="CategoriesId" class="form-control" />
+                <span asp-validation-for="CategoriesId" class="text-danger"></span>
+            </div>*@
+            <div class="form-group">
+                <label asp-for="Name" class="control-label"></label>
+                <input asp-for="Name" class="form-control" />
+                <span asp-validation-for="Name" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Lưu" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
