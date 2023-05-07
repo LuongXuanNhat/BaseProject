@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Mvc.Filters;
 
 namespace BaseProject.AdminUI.Controllers
 {
-
-    // Yêu cầu xác thực danh tính
-    [Authorize]
+    // Permission-Based Authorization in ASP.NET Core
+    // Yêu cầu xác thực quyền hạn - Role-Based Authorization in ASP.NET Core
+    [Authorize(Roles = "admin")]
     public class BaseController : Controller
     {
         public override void OnActionExecuting(ActionExecutingContext context)

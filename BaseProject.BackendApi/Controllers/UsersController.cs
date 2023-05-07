@@ -5,7 +5,6 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BaseProject.BackendApi.Controllers
 {
-    [Area("User")]
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]

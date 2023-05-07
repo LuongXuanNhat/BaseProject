@@ -17,4 +17,8 @@
     <ProjectReference Include="..\BaseProject.Data\BaseProject.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

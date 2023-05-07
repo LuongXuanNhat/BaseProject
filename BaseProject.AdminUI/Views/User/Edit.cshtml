@@ -28,17 +28,20 @@
                         <span asp-validation-for="Name" class="text-danger"></span>
                     </div>
 
-                    <select class="form-select" aria-label="Default select example">
+                    @*<select class="form-select" aria-label="Default select example">
                         <option value="0">Nam</option>
                         <option value="1">Nữ</option>
-                        <option value="2">Không</option>
-                    </select>
+                        <option value="2">Không</option>*@
+                    @*</select>*@
 
-                    @*<select asp-for="Gender" asp-items="Html.GetEnumSelectList<Enums.Gender>()"></select>
-                    @Html.DropDownList("Gender",
-                    new List<SelectListItem>() {
-                    new SelectListItem(){ Text="Male",Value=Enum.GetValues(typeof(Enums)) },
-                    new SelectListItem(){ Text="Female",Value=Student.Classes.Enum.Enum.gender.female.ToString() }
+                    <div class="form-group">
+                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()"></select>
+                    </div>
+                    
+                    @*@Html.DropDownList("Gender",
+                    new List<Gender>() {
+                    new SelectListItem(){ Text="Nam",Value=2 },
+                    new SelectListItem(){ Text="Nữ",Value=0 }
                     }, new { @class = "input-medium", size="6", multiple="multiple" } )*@
 
                     <div class="form-group">

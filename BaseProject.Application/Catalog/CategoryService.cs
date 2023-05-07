@@ -1,4 +1,10 @@
-﻿using System;
+﻿using BaseProject.Application.Common;
+using BaseProject.Data.EF;
+using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Common;
+using Microsoft.AspNetCore.Identity;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -9,39 +15,39 @@ namespace BaseProject.Application.Catalog
     public class CategoryService : ICategoryService
     {
 
-        //private readonly EShopDbContext _context;
+        private readonly DataContext _context;
+        private readonly IStorageService _storageService;
+        private const string USER_CONTENT_FOLDER_NAME = "Images";
 
-        //public CategoryService(EShopDbContext context)
-        //{
-        //    _context = context;
-        //}
+        public CategoryService(DataContext context)
+        {
+            _context = context;
+        }
 
-        //public async Task<List<CategoryVm>> GetAll(string languageId)
-        //{
-        //    var query = from c in _context.Categories
-        //                join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
-        //                where ct.LanguageId == languageId
-        //                select new { c, ct };
-        //    return await query.Select(x => new CategoryVm()
-        //    {
-        //        Id = x.c.Id,
-        //        Name = x.ct.Name,
-        //        ParentId = x.c.ParentId
-        //    }).ToListAsync();
-        //}
+        public async Task<ApiResult<bool>> Create(CategoryRequest request)
+        {
+            var category = await _context.Categories.FindAsync(request.Name);
+            if (category != null)
+            {
+                return new ApiErrorResult<bool>("Danh mục đã tồn tại");
+            }
 
-        //public async Task<CategoryVm> GetById(string languageId, int id)
-        //{
-        //    var query = from c in _context.Categories
-        //                join ct in _context.CategoryTranslations on c.Id equals ct.CategoryId
-        //                where ct.LanguageId == languageId && c.Id == id
-        //                select new { c, ct };
-        //    return await query.Select(x => new CategoryVm()
-        //    {
-        //        Id = x.c.Id,
-        //        Name = x.ct.Name,
-        //        ParentId = x.c.ParentId
-        //    }).FirstOrDefaultAsync();
-        //}
+            category = new Category()
+            {
+                Name = request.Name
+            };
+            _context.Categories.Add(category);
+            return new ApiSuccessResult<bool>();
+        }
+
+        public async Task<ApiResult<bool>> Update(CategoryRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<ApiResult<bool>> Delete(int categoryId)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

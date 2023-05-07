@@ -1,4 +1,5 @@
 ﻿using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace BaseProject.Data.Entities
@@ -7,6 +8,8 @@ namespace BaseProject.Data.Entities
     {
         public int PostId { get; set; }
         public string Title { get; set; }
+
+        [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime UploadDate { get; set; }
         public int View { get; set; }
         public Guid UserId { get; set; }

@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "4885844d-7ffa-4a68-ad29-eeb926552f6a",
+                            ConcurrencyStamp = "063e74a2-b653-4f7d-ac86-72e9d7d13922",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -192,7 +192,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "981c4833-52a1-4131-ba64-56a5a51bd265",
+                            ConcurrencyStamp = "eb2d8ee9-94f5-45db-8d37-9597d02563e0",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -202,7 +202,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHsqtKPu2DxwLWBdQWcC399Ztu80FY62RApuL1x1We4Gp1qn6C8vWDZJTJADvUspbA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEObwAoUUqTZtfNF8J6tMvdYW9gT8sqwHt/YkYQzC1ifDNlgEk+cYCsQZRyeqrbaQJw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -504,12 +504,18 @@ namespace BaseProject.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
+                    b.Property<int>("GoWith")
+                        .HasColumnType("int");
+
                     b.Property<int>("Id")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
+
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("LocationId", "PostId");
 

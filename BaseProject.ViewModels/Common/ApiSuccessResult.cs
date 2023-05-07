@@ -13,7 +13,6 @@ namespace BaseProject.ViewModels.Common
             IsSuccessed = true;
             ResultObj = resultObj;
         }
-
         public ApiSuccessResult()
         {
             IsSuccessed = true;
