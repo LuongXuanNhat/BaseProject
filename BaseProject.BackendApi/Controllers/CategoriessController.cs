@@ -5,12 +5,14 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace BaseProject.BackendApi.Controllers
 {
+    // api/categoriess
     [Route("api/[controller]")]
     [ApiController]
-    public class CategoriessController : Controller
+    public class CategoriessController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
 
+        
         public CategoriessController(
             ICategoryService categoryService)
         {
@@ -18,22 +20,23 @@ namespace BaseProject.BackendApi.Controllers
         }
         public IActionResult Index()
         {
-            return View();
+            return Ok();
         }
 
+        // https://localhost:7203/categories/create
         [HttpPost]
-        [Authorize(Roles = "admin")]
-        public async Task<IActionResult> Create([FromForm] CategoryRequest request)
+        public async Task<IActionResult> Create( CategoryRequest request)
         {
+
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
             var categoryId = await _categoryService.Create(request);
             if (!categoryId.IsSuccessed)
-                return BadRequest();
+                return BadRequest(categoryId);
 
-            return View(categoryId.Message);
+            return Ok(categoryId);
         }
 
     }

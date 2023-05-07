@@ -4,6 +4,8 @@ using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,17 +28,24 @@ namespace BaseProject.Application.Catalog
 
         public async Task<ApiResult<bool>> Create(CategoryRequest request)
         {
-            var category = await _context.Categories.FindAsync(request.Name);
-            if (category != null)
+            if (request.Name == null)
             {
-                return new ApiErrorResult<bool>("Danh mục đã tồn tại");
+                return new ApiErrorResult<bool>("Tên danh mục trống");
             }
+            List<Category> category = await _context.Categories.Where(x => x.Name == request.Name).ToListAsync();
 
-            category = new Category()
+
+            if (category.Count != 0)
+            {
+                return new ApiErrorResult<bool>("danh mục đã tồn tại");
+            }
+            
+            var category1 = new Category()
             {
                 Name = request.Name
             };
-            _context.Categories.Add(category);
+            _context.Categories.Add(category1);
+            _context.SaveChanges();
             return new ApiSuccessResult<bool>();
         }
 

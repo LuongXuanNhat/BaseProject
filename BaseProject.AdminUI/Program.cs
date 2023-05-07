@@ -1,4 +1,5 @@
 using BaseProject.ApiIntegration;
+using BaseProject.Application.Catalog;
 using BaseProject.ViewModels.System.Users;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -7,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddHttpClient();
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>
@@ -25,6 +27,9 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
+builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
+
 builder.Services.AddRazorPages();
 
 builder.Services.AddRazorPages()

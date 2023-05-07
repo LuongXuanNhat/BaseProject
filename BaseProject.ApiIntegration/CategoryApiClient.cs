@@ -55,20 +55,21 @@ namespace BaseProject.ApiIntegration
             throw new NotImplementedException();
         }
 
+        
         public async Task<ApiResult<bool>> RegisterCategory(CategoryRequest request)
         {
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            //var response = await client.PostAsync($"/api/categoriess", );
-            //var body = await response.Content.ReadAsStringAsync();
-            //if (response.IsSuccessStatusCode)
-            //    return JsonConvert.DeserializeObject<ApiSuccessResult<CategoryRequest>>(body);
-            string a = "a";
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(a);
+            var response = await client.PostAsync($"/api/categoriess", httpContent);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
         public async Task<ApiResult<bool>> UpdateCategory(CategoryRequest request)

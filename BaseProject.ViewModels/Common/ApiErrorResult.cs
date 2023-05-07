@@ -14,7 +14,6 @@ namespace BaseProject.ViewModels.Common
         {
             // Trả về cái Null :)
         }
-
         public ApiErrorResult(string message)
         {
             IsSuccessed = false;

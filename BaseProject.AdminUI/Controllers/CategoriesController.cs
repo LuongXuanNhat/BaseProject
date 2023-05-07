@@ -4,6 +4,7 @@ using BaseProject.BackendApi.Utilities.Constants;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -11,16 +12,13 @@ namespace BaseProject.AdminUI.Controllers
 {
     public class CategoriesController : BaseController
     {
-        private readonly ICategoryService _productService;
-        private readonly IConfiguration _configuration;
+        //private readonly IConfiguration _configuration;
         private readonly ICategoryApiClient _categoryApiClient;
 
-        public CategoriesController(ICategoryService categoryService,
-            IConfiguration configuration,
+        public CategoriesController(
             ICategoryApiClient categoryApiClient)
         {
-            _configuration = configuration;
-            _productService = categoryService;
+            //_configuration = configuration;
             _categoryApiClient = categoryApiClient;
         }
 
@@ -59,14 +57,13 @@ namespace BaseProject.AdminUI.Controllers
         }
 
         [HttpPost]
-        //[Consumes("multipart/form-data")]
-        public async Task<IActionResult> Create([FromForm] CategoryRequest request)
+        public async Task<IActionResult> Create(CategoryRequest request)
         {
             if (!ModelState.IsValid)
                 return View(request);
 
             var result = await _categoryApiClient.RegisterCategory(request);
-            if (result != null)
+            if (result.IsSuccessed != null)
             {
                 TempData["result"] = "Thêm mới sản phẩm thành công";
                 //return RedirectToAction("Index");

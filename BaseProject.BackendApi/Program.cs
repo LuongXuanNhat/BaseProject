@@ -9,6 +9,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyModel;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 
@@ -20,7 +21,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddHttpClient();
 
 // Connect database
@@ -38,8 +39,6 @@ builder.Services.AddIdentity<AppUser, AppRole>()
 builder.Services.AddTransient<IStorageService, FileStorageService>();
 
 
-builder.Services.AddTransient<ICategoryService, CategoryService>();
-
 builder.Services.AddTransient<UserManager<AppUser>, UserManager<AppUser>>();
 builder.Services.AddTransient<SignInManager<AppUser>, SignInManager<AppUser>>();
 builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
@@ -47,6 +46,10 @@ builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<ICategoryService, CategoryService>();
+
+
+
 
 builder.Services.AddControllersWithViews()
         .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
