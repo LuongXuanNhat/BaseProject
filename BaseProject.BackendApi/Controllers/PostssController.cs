@@ -9,7 +9,6 @@ namespace BaseProject.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class PostssController : ControllerBase
     {
         private readonly IPostService _postService;
@@ -24,8 +23,10 @@ namespace BaseProject.BackendApi.Controllers
 
 
         // https://localhost:7202/posts/create
+
         [HttpPost]
-        public async Task<IActionResult> Create(PostCreateRequest request)
+        [AllowAnonymous]
+        public async Task<IActionResult> Create( PostCreateRequest request)
         {
 
             if (!ModelState.IsValid)

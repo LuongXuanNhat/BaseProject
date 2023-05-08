@@ -33,22 +33,6 @@ namespace BaseProject.ApiIntegration
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<bool>> CreatePost(CategoryRequest request)
-        {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync($"/api/posts/", httpContent);
-
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
-        }
-
         public async Task<ApiResult<bool>> CreatePost(PostCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
@@ -57,7 +41,7 @@ namespace BaseProject.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"/api/postss/", httpContent);
+            var response = await client.PostAsync($"/api/Postss", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

@@ -6,13 +6,12 @@ namespace BaseProject.Data.Entities
 {
     public class LocationsDetail
     {
-        public LocationsDetail(int locationId, int postId, string title, DateTime when, GoWith goWith, string content)
+        public LocationsDetail(int locationId, int postId, string title, DateTime when, string content)
         {
             LocationId = locationId;
             PostId = postId;
             Title = title;
             When = when;
-            GoWith = goWith;
             Content = content;
         }
 
@@ -23,7 +22,6 @@ namespace BaseProject.Data.Entities
 
         [DisplayFormat(DataFormatString = "{0:MMM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime When { get; set; }
-        public GoWith GoWith { get; set; }
         public string Content { get; set; }
 
 

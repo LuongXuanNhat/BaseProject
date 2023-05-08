@@ -39,13 +39,14 @@ namespace BaseProject.WebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Create(TakeNumberLocation numberLocation)
+        public async Task<IActionResult> Create()
         {
-            ViewBag.Num = numberLocation.numberOfPlaces;
+            int numberLocation = 1;
+            ViewBag.Num = numberLocation;
 
             PostDetailRequest detailRequest = new PostDetailRequest();
             List<PostDetailRequest> postDetailRequest = new List<PostDetailRequest>();
-            for (int i = 0; i < numberLocation.numberOfPlaces; i++)
+            for (int i = 0; i < numberLocation; i++)
             {
                 postDetailRequest.Add(detailRequest);
             }

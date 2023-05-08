@@ -38,7 +38,6 @@ namespace BaseProject.Application.Catalog.Posts
                     post.PostId,
                     request.PostDetail[i].Title,
                     request.PostDetail[i].When,
-                    request.PostDetail[i].GoWith,
                     request.PostDetail[i].Content
                 );
                 _context.LocationsDetails.AddAsync(locationsDetail);

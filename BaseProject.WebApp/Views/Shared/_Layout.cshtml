@@ -27,7 +27,11 @@
                         </li>
                     </ul>
                 </div>
-                <a class="navbar-brand navbar-brand btn btn-info text-white " asp-controller="Posts" asp-action="TakeNumberLocation">Tạo bài viết</a>
+                <form method="get" asp-controller="Posts" asp-action="Create">
+                    <button type="submit" class="navbar-brand btn btn-primary text-white">Tạo đánh giá</button>
+                </form>
+
+               
 
                 @if (User.Identity.Name != null )
                 {

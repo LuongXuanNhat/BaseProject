@@ -21,16 +21,13 @@ namespace BaseProject.ViewModels.Catalog.Post
         [StringLength(500) ]
         public string Content { get; set; }
 
-        [Display(Name = "Bạn đi với ai?")]
-        public GoWith GoWith { get; set; }
-
         [Display(Name = "Bạn đi vào thời gian nào?")]
         [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime When { get; set; }
 
 
         // Relationship
-        public PostCreateRequest Post { get; set; }
-        public Location Location { get; set; }
+        //public PostCreateRequest Post { get; set; }
+        //public Location Location { get; set; }
     }
 }
