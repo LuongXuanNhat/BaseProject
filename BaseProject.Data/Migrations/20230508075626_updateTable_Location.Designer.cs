@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230508075626_updateTable_Location")]
+    partial class updateTable_Location
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "2d109216-abcb-4b26-b4d3-925fe551dd16",
+                            ConcurrencyStamp = "46190570-5899-4c70-bc0d-e135344aa8a6",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -192,7 +195,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "6863e82d-3017-454e-8fd6-633ae1d46507",
+                            ConcurrencyStamp = "c588f02a-a445-4741-a428-12501294b50f",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -202,7 +205,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGPVAAPOG2Wd+LmbLsJzjhDoRGDQ6GPSOAzvbvTZrPjs/GCVQ1AUH34UAX9TvleQEA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEPrp+EGMMqE1lALLhN0AytTkxGQRkCau/xwq2kCcmxgWOEvXPaV9VHhB+bGaBK2fsQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -503,6 +506,9 @@ namespace BaseProject.Data.Migrations
                     b.Property<string>("Content")
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("GoWith")
+                        .HasColumnType("int");
 
                     b.Property<int>("Id")
                         .HasColumnType("int");

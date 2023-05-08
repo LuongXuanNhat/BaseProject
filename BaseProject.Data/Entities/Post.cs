@@ -1,11 +1,24 @@
-﻿using BaseProject.Data.Entities;
-using BaseProject.Data.Enums;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace BaseProject.Data.Entities
 {
     public class Post
     {
+        public Post(string title, Guid userId)
+        {
+            Title = title;
+            UploadDate = DateTime.Now;
+            View = 0;
+            UserId = userId;
+        }
+        public Post(Post obj)
+        {
+            this.PostId = obj.PostId;
+            this.View = 0;
+            this.UserId = obj.UserId;
+            this.Title = obj.Title;
+        }
+
         public int PostId { get; set; }
         public string Title { get; set; }
 

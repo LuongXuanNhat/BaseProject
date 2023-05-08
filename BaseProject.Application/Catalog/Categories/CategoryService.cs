@@ -14,7 +14,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.Catalog
+namespace BaseProject.Application.Catalog.Categories
 {
     public class CategoryService : ICategoryService
     {
@@ -41,7 +41,7 @@ namespace BaseProject.Application.Catalog
             {
                 return new ApiErrorResult<bool>("danh mục đã tồn tại");
             }
-            
+
             var category1 = new Category()
             {
                 Name = request.Name
@@ -51,7 +51,7 @@ namespace BaseProject.Application.Catalog
             return new ApiSuccessResult<bool>();
         }
 
-        public async Task<ApiResult<bool>> Update(int id,CategoryRequest request)
+        public async Task<ApiResult<bool>> Update(int id, CategoryRequest request)
         {
             if (id == null)
             {
@@ -60,7 +60,7 @@ namespace BaseProject.Application.Catalog
             var category = await _context.Categories.FirstOrDefaultAsync(x => x.CategoriesId == id);
 
             category.Name = request.Name;
-           
+
             _context.Categories.Update(category);
             _context.SaveChanges();
             return new ApiSuccessResult<bool>();
@@ -84,13 +84,13 @@ namespace BaseProject.Application.Catalog
             var query = await _context.Categories.ToListAsync();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query =  query.Where(x => x.Name.Contains(request.Keyword)).ToList();
+                query = query.Where(x => x.Name.Contains(request.Keyword)).ToList();
             }
 
             //3. Paging
-            int totalRow =  query.Count();
+            int totalRow = query.Count();
 
-            var data =  query.Skip((request.PageIndex - 1) * request.PageSize)
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .Select(x => new CategoryRequest()
                 {
@@ -111,7 +111,7 @@ namespace BaseProject.Application.Catalog
 
         public async Task<ApiResult<CategoryRequest>> GetById(int categoryId)
         {
-            var cate = await _context.Categories.Where(x=> x.CategoriesId == categoryId).FirstOrDefaultAsync();
+            var cate = await _context.Categories.Where(x => x.CategoriesId == categoryId).FirstOrDefaultAsync();
             if (cate == null)
             {
                 return new ApiErrorResult<CategoryRequest>("Danh mục không tồn tại");
@@ -120,7 +120,7 @@ namespace BaseProject.Application.Catalog
             var category = new CategoryRequest()
             {
                 CategoriesId = cate.CategoriesId,
-                Name = cate.Name                
+                Name = cate.Name
             };
             return new ApiSuccessResult<CategoryRequest>(category);
         }

@@ -1,0 +1,74 @@
+﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo bài đánh giá</h1>
+
+
+<hr />
+<div>
+    <form asp-action="TakeNumberLocation" method="post">
+        <div class="row">
+            <div class="col-md-4" style="text-align: end">
+                <label class="control-label">Số địa điểm đánh giá</label>
+            </div>
+            <div class="col-md-4">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <input asp-for="numberLocation" class="form-control" placeholder="@ViewBag.Num"/>
+                    <span asp-validation-for="numberLocation" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group fl">
+                    <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                </div>
+            </div>
+        </div>
+
+    </form>
+</div>
+
+
+<div class="row">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            @for (int i = 0; i < Model.PostDetail.Count; i++)
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Title " class="form-control" />
+                    <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="PostDetail[i].When" class="control-label"></label>
+                    <input asp-for="PostDetail[i].When" type="month" class="form-control" />
+                    <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Content " class="form-control" />
+                    <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                    </div>
+
+                </div>
+                
+            <hr />         
+            }
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+</div>
+
+
+

@@ -39,7 +39,7 @@ namespace BaseProject.WebApp.Controllers
             var result = await _userApiClient.Authenticate(request);
             if (result.ResultObj == null)
             {
-                ModelState.AddModelError("", "Login failure");
+                ModelState.AddModelError("", "Lỗi đăng nhập");
                 return View();
             }
             var userPrincipal = this.ValidateToken(result.ResultObj);
@@ -60,8 +60,8 @@ namespace BaseProject.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> Logout()
         {
-            await HttpContext.SignOutAsync(
-                        CookieAuthenticationDefaults.AuthenticationScheme);
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            HttpContext.Session.Remove("Token");
             return RedirectToAction("Index", "Home");
         }
 

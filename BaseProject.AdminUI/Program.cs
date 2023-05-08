@@ -30,8 +30,6 @@ builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
 
-builder.Services.AddRazorPages();
-
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 

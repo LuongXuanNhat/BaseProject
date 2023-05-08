@@ -1,4 +1,4 @@
-﻿using BaseProject.Application.Catalog;
+﻿using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
 using BaseProject.Application.System.Users;

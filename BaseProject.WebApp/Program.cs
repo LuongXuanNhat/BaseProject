@@ -7,7 +7,6 @@ using System.Globalization;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
 builder.Services.AddHttpClient();
 
 builder.Services.AddControllersWithViews()
@@ -23,10 +22,11 @@ builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.IdleTimeout = TimeSpan.FromMinutes(10);
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+builder.Services.AddTransient<IPostApiClient, PostApiClient>();
 
 
 
