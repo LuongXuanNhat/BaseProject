@@ -1,12 +1,21 @@
 ﻿@model BaseProject.ViewModels.System.Users.RegisterRequest
 
 @{
-    ViewData["Title"] = "Đăng ";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    ViewData["Title"] = "Đăng ký tài khoản";
+    Layout = null;
 }
 
-<div class="row">
-    <div class="col-md-4">
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/BaseProject.WebApp.styles.css" asp-append-version="true" />
+
+<div class="row p-5">
+    <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
+
+    <div class="col-md-4 ">
+
+    </div>
+    <div class="col-md-4 align-content-center">
         <form asp-action="Register">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
@@ -54,6 +63,7 @@
             </div>
         </form>
     </div>
-</div>
+    <div class="col-md-4 ">
+    </div>
 
 

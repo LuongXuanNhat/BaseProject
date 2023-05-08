@@ -27,6 +27,20 @@
                         </li>
                     </ul>
                 </div>
+                <a class="navbar-brand navbar-brand btn btn-info text-white " asp-controller="Posts" asp-action="TakeNumberLocation">Tạo bài viết</a>
+
+                @if (User.Identity.Name != null )
+                {
+                    <h5 style="padding: 0px 20px">Chào @User.Identity.Name </h5>
+                    <form method="post" asp-controller="Account" asp-action="Logout">
+                        <button type="submit" class="navbar-brand btn btn-danger text-white">Đăng xuất</button>
+                    </form>
+                    @*<a class="navbar-brand btn btn-danger text-white " method="post" asp-controller="Account" asp-action="Logout">Đăng xuất</a>*@
+
+                } else {
+                    <a class="navbar-brand navbar-brand btn btn-primary text-white " asp-controller="Account" asp-action="Login">Đăng nhập</a>
+                    <a class="navbar-brand navbar-brand btn btn-primary text-white " asp-controller="Account" asp-action="Register">Đăng ký</a>
+                }
             </div>
         </nav>
     </header>

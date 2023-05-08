@@ -2,10 +2,13 @@
 @model LoginRequest
 @{
     ViewData["Title"] = "Đăng nhập";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = null;
 }
-
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/BaseProject.WebApp.styles.css" asp-append-version="true" />
 <h1>Login</h1>
+<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
 
 <main class="main-content  mt-0">
     <section>
@@ -41,7 +44,7 @@
                                         <a class="small" href="/User/ForgotPassword">Bạn quên mật khẩu?</a>
                                     </div>
                                     <div class="text-center">
-                                        <button type="submit" class="btn bg-gradient-info w-100 mt-4 mb-0">Đăng nhập</button>
+                                        <button type="submit" class="btn btn-primary w-100 mt-4 mb-0">Đăng nhập</button>
                                     </div>
                                 </form>
                             </div>

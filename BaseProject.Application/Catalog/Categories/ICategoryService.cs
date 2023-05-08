@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.Catalog
+namespace BaseProject.Application.Catalog.Categories
 {
     public interface ICategoryService
     {

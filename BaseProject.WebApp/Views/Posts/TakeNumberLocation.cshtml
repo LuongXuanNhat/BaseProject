@@ -1,0 +1,38 @@
+﻿@model BaseProject.ViewModels.Catalog.Post.TakeNumberLocation
+
+@{
+    ViewData["Title"] = "Tạo bài đánh giá";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Tạo bài đánh giá</h1>
+
+
+<hr />
+
+<form asp-action="TakeNumberLocation" method="post">
+    <div class="row">
+        <div class="col-md-4" style="text-align: end">
+            <label asp-for="numberOfPlaces" class="control-label"></label>
+        </div>
+        <div class="col-md-4">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+               
+                <input asp-for="numberOfPlaces" class="form-control"  />
+                <span asp-validation-for="numberOfPlaces" class="text-danger"></span>
+            </div>          
+        </div>
+        <div class="col-md-4">
+            <div class="form-group fl">
+                <input type="submit" value="Cập nhập" class="btn btn-primary" />
+            </div>
+        </div>
+    </div>
+
+</form>   
+
+
+
+
+

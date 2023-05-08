@@ -19,6 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\BaseProject.Data\BaseProject.Data.csproj" />
     <ProjectReference Include="..\BaseProject.ViewModels\BaseProject.ViewModels.csproj" />
   </ItemGroup>
 

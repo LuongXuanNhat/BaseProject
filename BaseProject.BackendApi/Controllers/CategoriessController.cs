@@ -1,4 +1,4 @@
-﻿using BaseProject.Application.Catalog;
+﻿using BaseProject.Application.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;

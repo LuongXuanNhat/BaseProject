@@ -2,8 +2,8 @@
 {
     public class SystemConstants
     {
-        public const string MainConnectionString = "eShopSolutionDb";
-        public const string CartSession = "CartSession";
+        public const string MainConnectionString = "DataContext";
+        //public const string CartSession = "CartSession";
 
         public class AppSettings
         {
