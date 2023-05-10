@@ -11,8 +11,6 @@ namespace BaseProject.ViewModels.Catalog.Post
 {
     public class PostDetailRequest
     {
-        public Guid IdUser { get; set; }
-
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }
 

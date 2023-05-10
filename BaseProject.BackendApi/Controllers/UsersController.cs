@@ -36,7 +36,7 @@ namespace BaseProject.BackendApi.Controllers
         //POST: http://localhost/api/users/create
         [HttpPost]
         [AllowAnonymous]
-        public async Task<IActionResult> Register([FromBody] RegisterRequest request)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -51,7 +51,7 @@ namespace BaseProject.BackendApi.Controllers
 
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(Guid id, [FromBody] UserUpdateRequest request)
+        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

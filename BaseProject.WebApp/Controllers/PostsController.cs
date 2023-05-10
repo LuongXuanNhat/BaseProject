@@ -4,6 +4,9 @@ using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Identity;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -39,14 +42,18 @@ namespace BaseProject.WebApp.Controllers
 
         [Authorize]
         [HttpGet]
-        public async Task<IActionResult> Create()
+        public async Task<IActionResult> Create(TakeNumberLocation numberLocation)
         {
-            int numberLocation = 1;
-            ViewBag.Num = numberLocation;
+            //int numberLocation = 1;
+            if (numberLocation == null || numberLocation.numberOfPlaces < 1)
+            {
+                numberLocation = new TakeNumberLocation();
+            }
+            ViewBag.Num = numberLocation.numberOfPlaces;
 
             PostDetailRequest detailRequest = new PostDetailRequest();
             List<PostDetailRequest> postDetailRequest = new List<PostDetailRequest>();
-            for (int i = 0; i < numberLocation; i++)
+            for (int i = 0; i < numberLocation.numberOfPlaces; i++)
             {
                 postDetailRequest.Add(detailRequest);
             }
@@ -61,12 +68,24 @@ namespace BaseProject.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromForm] PostCreateRequest request)
+        public async Task<IActionResult> Create(PostCreateRequest request)
         {
-            if (!ModelState.IsValid)
-                return View(request);
+            request.numberLocation = new TakeNumberLocation();
+            request.UserId = "abcdefgh";
 
+            //if (!ModelState.IsValid) {
+            //    var modelErrors = new List<string>();
+            //    foreach (var modelState in ModelState.Values)
+            //    {
+            //        foreach (var modelError in modelState.Errors)
+            //        {
+            //            modelErrors.Add(modelError.ErrorMessage);
+            //        }
+            //    }
+            //    return View(request); 
+            //}
 
+            request.UserId = User.Identity.Name;
             var result = await _postApiClient.CreatePost(request);
             if (result.IsSuccessed)
             {
@@ -89,30 +108,13 @@ namespace BaseProject.WebApp.Controllers
         [HttpPost]
         public async Task<IActionResult> TakeNumberLocation(TakeNumberLocation numberLocation)
         {
-            if (numberLocation.numberOfPlaces < 0)
-            {
-                TempData["result"] = "Số địa điểm đánh giá phải lớn hơn 0";
-                return View();
-            }
-            if (numberLocation.numberOfPlaces == 0 || numberLocation == null  || numberLocation.numberOfPlaces == null)
+
+            if (numberLocation.numberOfPlaces < 1 || numberLocation == null || numberLocation.numberOfPlaces == null)
             {
                 numberLocation.numberOfPlaces = 1;
                 return RedirectToAction("Create", numberLocation);
             }
             return RedirectToAction("Create", numberLocation);
-
-
-
-
-            //var result = await _productApiClient.CreateProduct(request);
-            //if (result)
-            //{
-            //    TempData["result"] = "Thêm mới sản phẩm thành công";
-            //    return RedirectToAction("Index");
-            //}
-
-            //ModelState.AddModelError("", "Thêm sản phẩm thất bại");
-            //return View(request);
         }
     }
 }

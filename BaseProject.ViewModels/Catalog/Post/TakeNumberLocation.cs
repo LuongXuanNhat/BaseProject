@@ -12,5 +12,12 @@ namespace BaseProject.ViewModels.Catalog.Post
 
         [Display(Name = "Số địa điểm đánh giá")]
         public int? numberOfPlaces { get; set; }
+
+
+        public TakeNumberLocation() { 
+            numberOfPlaces = 1;
+        }
+
+
     }
 }

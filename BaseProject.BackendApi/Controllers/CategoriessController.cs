@@ -19,14 +19,11 @@ namespace BaseProject.BackendApi.Controllers
         {
             _categoryService = categoryService;
         }
-        public IActionResult Index()
-        {
-            return Ok();
-        }
+
 
         // https://localhost:7203/categories/create
         [HttpPost]
-        public async Task<IActionResult> Create( CategoryRequest request)
+        public async Task<IActionResult> CreateCategory( CategoryRequest request)
         {
 
             if (!ModelState.IsValid)
@@ -42,7 +39,7 @@ namespace BaseProject.BackendApi.Controllers
 
         //PUT: http://localhost/api/categoriess/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> Update(int id, [FromBody] CategoryRequest request)
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] CategoryRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -57,7 +54,7 @@ namespace BaseProject.BackendApi.Controllers
 
         //Delete: http://localhost/api/categoriess/id
         [HttpDelete("{idCategory}")]
-        public async Task<IActionResult> Delete(int idCategory)
+        public async Task<IActionResult> DeleteCategory(int idCategory)
         {
             var result = await _categoryService.Delete(idCategory);
             return Ok(result);
