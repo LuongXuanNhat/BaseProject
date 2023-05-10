@@ -11,10 +11,10 @@ namespace BaseProject.ViewModels.Catalog.Post
 {
     public class PostCreateRequest
     {
-        public Guid Id { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "Tiêu đề không được để trống")]
-        [StringLength(100)]
+        [MaxLength(100)]
         [Display(Name = "Tiêu đề bài đánh giá")]
         public string Title{ get; set; }
 

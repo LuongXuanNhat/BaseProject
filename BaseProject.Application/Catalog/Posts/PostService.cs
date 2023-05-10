@@ -4,6 +4,7 @@ using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Security.Policy;
 
@@ -13,10 +14,12 @@ namespace BaseProject.Application.Catalog.Posts
     {
         private readonly DataContext _context;
         private readonly IStorageService _storageService;
+        private readonly UserManager<AppUser> _userManager;
 
 
-        public PostService(DataContext context)
+        public PostService(DataContext context, UserManager<AppUser> userManager)
         {
+            _userManager = userManager;
             _context = context;
         }
         public async Task<ApiResult<bool>> Create(PostCreateRequest request)
@@ -26,10 +29,18 @@ namespace BaseProject.Application.Catalog.Posts
                 return new ApiErrorResult<bool>("Lỗi");
             }
 
-            Post post = new Post(request.Title, request.Id);
+            // Lưu Bài đánh giá 
+            var user =         from getId 
+                               in _context.Users 
+                               where getId.UserName == request.UserId
+                               select getId.Id;
+            Guid userId =      user.First();
+
+            Post post = new Post(request.Title, userId);
             _context.Posts.AddAsync(post);
             _context.SaveChangesAsync();
 
+            // Lưu chi tiết đánh giá
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
                 int location = _context.Locations.FirstOrDefaultAsync(x => x.Name == request.PostDetail[i].Title).Id;

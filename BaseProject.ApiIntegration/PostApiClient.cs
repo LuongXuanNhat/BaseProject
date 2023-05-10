@@ -41,7 +41,7 @@ namespace BaseProject.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"/api/Postss", httpContent);
+            var response = await client.PostAsync($"/api/post", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

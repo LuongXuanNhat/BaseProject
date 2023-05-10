@@ -10,16 +10,17 @@
 
 <hr />
 <div>
-    <form asp-action="TakeNumberLocation" method="post">
+    <form asp-action="Create" method="get" asp-controller="Posts">
         <div class="row">
             <div class="col-md-4" style="text-align: end">
-                <label class="control-label">Số địa điểm đánh giá</label>
+                <label asp-for="numberLocation.numberOfPlaces" class="control-label"></label>
             </div>
             <div class="col-md-4">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <div class="form-group">
-                    <input asp-for="numberLocation" class="form-control" placeholder="@ViewBag.Num"/>
-                    <span asp-validation-for="numberLocation" class="text-danger"></span>
+
+                    <input asp-for="numberLocation.numberOfPlaces" class="form-control" value="@ViewBag.Num" />
+                    <span asp-validation-for="numberLocation.numberOfPlaces" class="text-danger"></span>
                 </div>
             </div>
             <div class="col-md-4">
@@ -28,13 +29,12 @@
                 </div>
             </div>
         </div>
-
     </form>
 </div>
 
 
 <div class="row">
-        <form asp-action="Create">
+        <form asp-action="Create" method="post" asp-controller="Posts">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
@@ -64,6 +64,7 @@
                 
             <hr />         
             }
+
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
@@ -72,3 +73,4 @@
 
 
 
+<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d349800.8376953486!2d106.50861331127359!3d10.656438817654363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1683686477667!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

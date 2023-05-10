@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.Catalog.Categories;
+using BaseProject.Application.Catalog.Posts;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
 using BaseProject.Application.System.Users;
@@ -47,7 +48,7 @@ builder.Services.AddTransient<RoleManager<AppRole>, RoleManager<AppRole>>();
 builder.Services.AddTransient<IRoleService, RoleService>();
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
-
+builder.Services.AddTransient<IPostService, PostService>();
 
 
 
@@ -57,6 +58,7 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Swagger eShop Solution", Version = "v1" });
+    c.ResolveConflictingActions(apiDescriptions => apiDescriptions.First());
     c.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme
     {
         Description = @"JWT Authorization header using the Bearer scheme. \r\n\r\n
@@ -132,7 +134,7 @@ app.UseSwagger();
 
 app.UseSwaggerUI(c =>
 {
-    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger eShopSolution V1");
+    c.SwaggerEndpoint("/swagger/v1/swagger.json", "Swagger Base Project");
 });
 
 app.UseEndpoints(endpoints =>
