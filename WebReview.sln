@@ -20,7 +20,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.ApiIntegration"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.AdminUI", "BaseProject.AdminUI\BaseProject.AdminUI.csproj", "{D3EC1C00-FF82-4A47-9156-5B608642B7D6}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BaseProject.WebApp", "BaseProject.WebApp\BaseProject.WebApp.csproj", "{6078E01E-A337-4146-ADC3-F7A1F5882DAF}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BaseProject.WebApp", "BaseProject.WebApp\BaseProject.WebApp.csproj", "{6078E01E-A337-4146-ADC3-F7A1F5882DAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

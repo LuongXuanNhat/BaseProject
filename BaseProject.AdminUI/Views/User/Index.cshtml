@@ -1,4 +1,4 @@
-﻿@using BaseProject.ViewModels.Common;
+﻿@using BaseProject.ViewModels.Common
 @model PagedResult<BaseProject.ViewModels.System.Users.UserVm>
 
 @{
@@ -93,6 +93,7 @@
                                     @Html.DisplayFor(modelItem => item.Email)
                                 </td>
                                 <td>
+                                 
                                     @Html.ActionLink("Sửa", "Edit", new { id = item.Id }) |
                                     @Html.ActionLink("Xem", "Details", new { id = item.Id }) |
                                     @Html.ActionLink("Xóa", "Delete", new { id = item.Id }) |
