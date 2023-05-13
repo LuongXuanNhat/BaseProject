@@ -1,12 +1,16 @@
 ﻿using BaseProject.Application.Common;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Policy;
+using System.Security.Claims;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Authorization;
+using System.Security.Claims;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -43,11 +47,20 @@ namespace BaseProject.Application.Catalog.Posts
             // Lưu chi tiết đánh giá
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
-                int location = _context.Locations.FirstOrDefaultAsync(x => x.Name == request.PostDetail[i].Title).Id;
+                Location location = new Location();
+                location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
+                if ( location == null )
+                {
+
+                    Location createLocation = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
+                    _context.Locations.AddAsync(createLocation);
+                    _context.SaveChangesAsync();
+                    location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
+                }
                 LocationsDetail locationsDetail = new LocationsDetail(
-                    location,
+                    location.LocationId ,
                     post.PostId,
-                    request.PostDetail[i].Title,
+                    post.Title,
                     request.PostDetail[i].When,
                     request.PostDetail[i].Content
                 );
@@ -69,11 +82,75 @@ namespace BaseProject.Application.Catalog.Posts
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<PagedResult<PostCreateRequest>>> GetPostPaging(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
-            throw new NotImplementedException();
+            var query = await _context.Posts.ToListAsync();
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+            }
+
+            //3. Paging
+            int totalRow = query.Count();
+
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new PostVm()
+                {
+                   PostId = x.PostId,
+                   Title = x.Title,
+                   Date = x.UploadDate,
+                   UserId = x.UserId,
+                   View = x.View
+                }).ToList();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<PostVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<PostVm>>(pagedResult);
         }
 
+        // Lấy danh sách theo tên user
+        [Authorize]
+        public async Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request)
+        {
+            var User = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+
+            var query =  _context.Posts.Where(x=> x.UserId.ToString() == User.Id.ToString()).ToList();
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+            }
+
+            //3. Paging
+            int totalRow = query.Count();
+
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new PostVm()
+                {
+                    PostId = x.PostId,
+                    Title = x.Title,
+                    Date = x.UploadDate,
+                    UserId = x.UserId,
+                    View = x.View
+                }).ToList();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<PostVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<PostVm>>(pagedResult);
+        }
         public async Task<ApiResult<bool>> Update(int id, PostCreateRequest request)
         {
             throw new NotImplementedException();

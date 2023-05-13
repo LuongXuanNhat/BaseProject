@@ -18,7 +18,8 @@ namespace BaseProject.Application.Catalog.Posts
 
         Task<ApiResult<bool>> Delete(int categoryId);
 
-        Task<ApiResult<PagedResult<PostCreateRequest>>> GetPostPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
         Task<ApiResult<PostCreateRequest>> GetById(int categoryId);
     }

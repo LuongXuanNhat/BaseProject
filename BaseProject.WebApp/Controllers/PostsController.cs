@@ -7,14 +7,16 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
+using BaseProject.Data.Entities;
 
 namespace BaseProject.WebApp.Controllers
 {
-
+    [Authorize]
     public class PostsController : Controller
     {
         private readonly IConfiguration _configuration;
         private readonly IPostApiClient _postApiClient;
+        //private readonly UserManager<AppUser> _userManager;
 
         public PostsController(IConfiguration configuration, IPostApiClient postApiClient)
         {
@@ -22,14 +24,19 @@ namespace BaseProject.WebApp.Controllers
             _postApiClient = postApiClient;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
+            var user = User.Identity.Name;
+
+            //AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
+
             var request = new GetUserPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                UserName = user
             };
             var data = await _postApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
@@ -71,19 +78,7 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> Create(PostCreateRequest request)
         {
             request.numberLocation = new TakeNumberLocation();
-            request.UserId = "abcdefgh";
-
-            //if (!ModelState.IsValid) {
-            //    var modelErrors = new List<string>();
-            //    foreach (var modelState in ModelState.Values)
-            //    {
-            //        foreach (var modelError in modelState.Errors)
-            //        {
-            //            modelErrors.Add(modelError.ErrorMessage);
-            //        }
-            //    }
-            //    return View(request); 
-            //}
+            request.UserId = "UserFake";
 
             request.UserId = User.Identity.Name;
             var result = await _postApiClient.CreatePost(request);
@@ -91,11 +86,11 @@ namespace BaseProject.WebApp.Controllers
             {
                 TempData["result"] = "Thêm bài đánh giá thành công";
                 //return RedirectToAction("Index");
-                return View();
+                return RedirectToAction("Index");
             }
 
             ModelState.AddModelError("", "Thêm sản phẩm thất bại");
-            return View(Index);
+            return View(request);
         }
 
         [Authorize]

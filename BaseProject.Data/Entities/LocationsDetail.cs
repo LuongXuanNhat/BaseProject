@@ -10,9 +10,9 @@ namespace BaseProject.Data.Entities
         {
             LocationId = locationId;
             PostId = postId;
-            Title = title;
             When = when;
             Content = content;
+            Title = title;
         }
 
         public int Id { get; set; }

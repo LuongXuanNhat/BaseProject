@@ -12,7 +12,7 @@ namespace BaseProject.ApiIntegration
 {
     public interface IPostApiClient
     {
-        Task<ApiResult<PagedResult<CategoryRequest>>> GetUsersPagings(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request);
         Task<ApiResult<bool>> CreatePost(PostCreateRequest request);
 
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);

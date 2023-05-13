@@ -4,6 +4,7 @@ using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Security.Claims;
 
 namespace BaseProject.BackendApi.Controllers
 {
@@ -19,6 +20,15 @@ namespace BaseProject.BackendApi.Controllers
             _postService = postService;
         }
 
+        [AllowAnonymous]
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        {
+
+            var products = await _postService.GetPostPagingUser(request);
+            return Ok(products);
+        }
+
         // https://localhost:7202/posts/create
         [HttpPost]
         [AllowAnonymous]
@@ -27,6 +37,7 @@ namespace BaseProject.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
+            
             var result = await _postService.Create(request);
             if (!result.IsSuccessed)
             {

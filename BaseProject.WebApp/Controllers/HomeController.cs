@@ -17,6 +17,7 @@ namespace BaseProject.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
+            var user = User.Identity.Name;
             //var culture = CultureInfo.CurrentCulture.Name;
             //var viewModel = new HomeViewModel
             //{

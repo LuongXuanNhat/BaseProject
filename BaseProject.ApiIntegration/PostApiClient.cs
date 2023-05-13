@@ -41,6 +41,7 @@ namespace BaseProject.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
+            
             var response = await client.PostAsync($"/api/post", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
@@ -82,7 +83,7 @@ namespace BaseProject.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<CategoryRequest>>(body);
         }
 
-        public async Task<ApiResult<PagedResult<CategoryRequest>>> GetUsersPagings(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
@@ -90,11 +91,11 @@ namespace BaseProject.ApiIntegration
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var response = await client.GetAsync($"/api/categoriess/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}");
+            var response = await client.GetAsync($"/api/post/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&UserName={request.UserName}");
 
             var body = await response.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<CategoryRequest>>>(body);
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
             return users;
         }
 

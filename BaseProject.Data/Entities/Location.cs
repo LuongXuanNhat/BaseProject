@@ -6,6 +6,16 @@
         public string Name { get; set; }
         public string Address { get; set; }
 
+        public Location()
+        {
+        }
+
+        public Location(string name, string address)
+        {
+            Name = name;
+            Address = address;
+        }
+
 
         // relationship
         public List<LocationsDetail> LocationsDetail{ get; set; }

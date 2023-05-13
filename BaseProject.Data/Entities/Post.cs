@@ -14,7 +14,7 @@ namespace BaseProject.Data.Entities
         public Post(Post obj)
         {
             this.PostId = obj.PostId;
-            this.View = 0;
+            this.View = obj.View;
             this.UserId = obj.UserId;
             this.Title = obj.Title;
         }

@@ -1,0 +1,88 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
+@{
+    ViewData["Title"] = "Đánh giá của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1>Danh mục</h1>
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a asp-action="Create" class="btn btn-success">Thêm danh mục</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div class="cold-md-3">
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/Posts/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th >
+                        Tiêu đề
+                    </th>
+                    <th>
+                        Thời gian tạo
+                    </th>
+                    <th>
+                        Số lượt xem
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td style ="width:200px">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.View)
+                        </td>
+                        <td style="width:180px">
+                            @Html.ActionLink("Sửa", "Edit", new { id =item.PostId }) |
+                            @Html.ActionLink("Xem chi tiết", "Detail", new { id =item.PostId }) |
+                            @Html.ActionLink("Xóa", "Delete", new {  id =item.PostId })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+

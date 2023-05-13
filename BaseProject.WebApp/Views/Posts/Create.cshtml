@@ -45,9 +45,14 @@
             {
                 <div class="col-md-6">
                     <div class="form-group">
-                        <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                    <label asp-for="PostDetail[i].Title " class="control-label"></label>
                     <input asp-for="PostDetail[i].Title " class="form-control" />
                     <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                    <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Address " class="form-control" />
+                    <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                     <label asp-for="PostDetail[i].When" class="control-label"></label>
@@ -61,6 +66,67 @@
                     </div>
 
                 </div>
+                <div class="col-md-6">
+                    <div>
+                        Tìm địa điểm: <input type="text" id="txtplace" />
+                    </div>
+                @*&callback=initMap*@
+                <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
+
+                    <script>
+                        let map;
+                        let service;
+                        let infowindow;
+
+
+                        function initMap() {
+                            const sydney = new google.maps.LatLng(-33.867, 151.195);
+
+                            infowindow = new google.maps.InfoWindow();
+                            map = new google.maps.Map(document.getElementById("map"), {
+                                center: sydney,
+                                zoom: 15,
+                            });
+
+                            const request = {
+                                query: "Museum of Contemporary Art Australia",
+                                fields: ["name", "geometry"],
+                            };
+
+                            service = new google.maps.places.PlacesService(map);
+                            service.findPlaceFromQuery(request, (results, status) => {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                                    for (let i = 0; i < results.length; i++) {
+                                        createMarker(results[i]);
+                                    }
+
+                                    map.setCenter(results[0].geometry.location);
+                                }
+                            });
+                        }
+
+                        function createMarker(place) {
+                            if (!place.geometry || !place.geometry.location) return;
+
+                            const marker = new google.maps.Marker({
+                                map,
+                                position: place.geometry.location,
+                            });
+
+                            google.maps.event.addListener(marker, "click", () => {
+                                infowindow.setContent(place.name || "");
+                                infowindow.open(map);
+                            });
+                        }
+                    var places = new google.maps.places.Autocomplete(document.getElementById('txtplace'));
+
+                        window.initMap = initMap;
+                    </script>
+                    <div id="map" style="height:300px">
+
+                    </div>
+                   
+                </div>
                 
             <hr />         
             }
@@ -73,4 +139,3 @@
 
 
 
-<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d349800.8376953486!2d106.50861331127359!3d10.656438817654363!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x317529292e8d3dd1%3A0xf15f5aad773c112b!2zSOG7kyBDaMOtIE1pbmgsIFRow6BuaCBwaOG7kSBI4buTIENow60gTWluaCwgVmnhu4d0IE5hbQ!5e0!3m2!1svi!2s!4v1683686477667!5m2!1svi!2s" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>

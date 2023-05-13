@@ -14,6 +14,9 @@ namespace BaseProject.ViewModels.Catalog.Post
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }
 
+        [Display(Name = "Địa chỉ")]
+        public string Address { get; set; }
+
         [Display(Name = "Viết đánh giá")]
         [Required(ErrorMessage = "Nội dung không được để trống")]
         [StringLength(500) ]
