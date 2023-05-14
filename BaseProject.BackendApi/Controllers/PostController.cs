@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.Catalog.Posts;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -44,6 +45,27 @@ namespace BaseProject.BackendApi.Controllers
                 return BadRequest(result);
             }
             return Ok(result);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> UpdateCategory(int id, [FromBody] PostCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _postService.Update(id, request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetById(int id)
+        {
+            var user = await _postService.GetById(id);
+            return Ok(user);
         }
 
     }

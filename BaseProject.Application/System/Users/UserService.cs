@@ -1,4 +1,5 @@
-﻿using BaseProject.Data.Entities;
+﻿using BaseProject.Data.EF;
+using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
@@ -20,16 +21,19 @@ namespace BaseProject.Application.System.Users
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly DataContext _dataContext;
         private readonly IConfiguration _config;
 
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
+            DataContext dataContext,
             IConfiguration config)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
+            _dataContext = dataContext;
             _config = config;
         }
 
@@ -158,8 +162,15 @@ namespace BaseProject.Application.System.Users
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
+                // Auto RoleAssign
+                var role = await _dataContext.Roles.FirstOrDefaultAsync(x => x.Name == "User");
+                var getUser = await _dataContext.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+                await _userManager.AddToRoleAsync(getUser, role.Name);
                 return new ApiSuccessResult<bool>();
             }
+
+            
+
             return new ApiErrorResult<bool>("Đăng ký không thành công");
         }
 

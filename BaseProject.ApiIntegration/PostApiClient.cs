@@ -69,18 +69,18 @@ namespace BaseProject.ApiIntegration
             throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<CategoryRequest>> GetById(int id)
+        public async Task<ApiResult<PostCreateRequest>> GetById(int id)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/categoriess/{id}");
+            var response = await client.GetAsync($"/api/post/{id}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<CategoryRequest>>(body);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PostCreateRequest>>(body);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<CategoryRequest>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<PostCreateRequest>>(body);
         }
 
         public async Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request)
@@ -99,8 +99,7 @@ namespace BaseProject.ApiIntegration
             return users;
         }
 
-
-        public async Task<ApiResult<bool>> UpdateCategory(int idCategory,CategoryRequest request)
+        public async Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
@@ -108,22 +107,12 @@ namespace BaseProject.ApiIntegration
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/categoriess/{idCategory}", httpContent);
+            var response = await client.PutAsync($"/api/post/{idPost}", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
-        }
-
-        public Task<ApiResult<bool>> UpdatePost(int idCategory, CategoryRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request)
-        {
-            throw new NotImplementedException();
         }
     }
 }

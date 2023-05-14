@@ -21,6 +21,6 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
-        Task<ApiResult<PostCreateRequest>> GetById(int categoryId);
+        Task<ApiResult<PostCreateRequest>> GetById(int postId);
     }
 }

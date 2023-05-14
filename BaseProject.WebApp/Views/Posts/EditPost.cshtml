@@ -1,0 +1,119 @@
+﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
+
+@{
+    ViewData["Title"] = "EditPost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chỉnh sửa bài viết</h1>
+
+<div>
+    <a asp-action="Index" class="btn-lg btn">Trở về</a>
+</div>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="EditPost" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Title" class="control-label"></label>
+                <input asp-for="Title" class="form-control" />
+                <span asp-validation-for="Title" class="text-danger"></span>
+            </div>
+            @for (int i = 0; i < Model.PostDetail.Count; i++)
+            {
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Title " class="form-control" />
+                        <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Address " class="form-control" />
+                        <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].When" class="control-label"></label>
+                        <input asp-for="PostDetail[i].When" type="month" class="form-control" />
+                        <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Content " class="form-control" />
+                        <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                    </div>
+
+                </div>
+                <div class="col-md-6">
+                    <div>
+                        Tìm địa điểm: <input type="text" id="txtplace" />
+                    </div>
+                    @*&callback=initMap*@
+                    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
+
+                    <script>
+                        let map;
+                        let service;
+                        let infowindow;
+
+
+                        function initMap() {
+                            const sydney = new google.maps.LatLng(-33.867, 151.195);
+
+                            infowindow = new google.maps.InfoWindow();
+                            map = new google.maps.Map(document.getElementById("map"), {
+                                center: sydney,
+                                zoom: 15,
+                            });
+
+                            const request = {
+                                query: "Museum of Contemporary Art Australia",
+                                fields: ["name", "geometry"],
+                            };
+
+                            service = new google.maps.places.PlacesService(map);
+                            service.findPlaceFromQuery(request, (results, status) => {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
+                                    for (let i = 0; i < results.length; i++) {
+                                        createMarker(results[i]);
+                                    }
+
+                                    map.setCenter(results[0].geometry.location);
+                                }
+                            });
+                        }
+
+                        function createMarker(place) {
+                            if (!place.geometry || !place.geometry.location) return;
+
+                            const marker = new google.maps.Marker({
+                                map,
+                                position: place.geometry.location,
+                            });
+
+                            google.maps.event.addListener(marker, "click", () => {
+                                infowindow.setContent(place.name || "");
+                                infowindow.open(map);
+                            });
+                        }
+                        var places = new google.maps.places.Autocomplete(document.getElementById('txtplace'));
+
+                        window.initMap = initMap;
+                    </script>
+                    <div id="map" style="height:300px">
+                    </div>
+
+                </div>
+
+                <hr />
+            }
+            <div class="form-group">
+                <input type="submit" value="Cập nhập thay đổi" class="btn btn-success" />
+            </div>
+        </form>
+    </div>
+</div>
+
+
+

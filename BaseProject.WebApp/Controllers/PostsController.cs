@@ -78,7 +78,6 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> Create(PostCreateRequest request)
         {
             request.numberLocation = new TakeNumberLocation();
-            request.UserId = "UserFake";
 
             request.UserId = User.Identity.Name;
             var result = await _postApiClient.CreatePost(request);
@@ -89,7 +88,38 @@ namespace BaseProject.WebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            ModelState.AddModelError("", "Thêm đánh giá thất bại");
+            return View(request);
+        }
+
+        [Authorize]
+        [HttpGet]
+        public async Task<IActionResult> EditPost(int id)
+        {
+            var result = await _postApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var post = result.ResultObj;
+                var updateRequest = new PostCreateRequest(post);
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Index");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> EditPost(PostCreateRequest request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var result = await _postApiClient.UpdatePost(request.PostId, request);
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Cập nhật người dùng thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", result.Message);
             return View(request);
         }
 

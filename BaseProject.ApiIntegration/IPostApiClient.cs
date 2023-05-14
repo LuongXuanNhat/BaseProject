@@ -18,7 +18,7 @@ namespace BaseProject.ApiIntegration
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);
         Task<ApiResult<bool>> DeletePost(int idPost);
 
-        Task<ApiResult<CategoryRequest>> GetById(int id);
+        Task<ApiResult<PostCreateRequest>> GetById(int id);
 
         
 

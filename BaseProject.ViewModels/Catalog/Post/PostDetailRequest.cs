@@ -11,6 +11,8 @@ namespace BaseProject.ViewModels.Catalog.Post
 {
     public class PostDetailRequest
     {
+        public int? postDetailId { get; set; }
+
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }
 
@@ -30,5 +32,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         // Relationship
         //public PostCreateRequest Post { get; set; }
         //public Location Location { get; set; }
+
+        
     }
 }
