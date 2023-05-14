@@ -60,7 +60,7 @@ namespace BaseProject.Application.Catalog.Posts
                 LocationsDetail locationsDetail = new LocationsDetail(
                     location.LocationId ,
                     post.PostId,
-                    post.Title,
+                    request.PostDetail[i].Title,
                     request.PostDetail[i].When,
                     request.PostDetail[i].Content
                 );
@@ -74,19 +74,16 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<ApiResult<bool>> Update(int id, PostCreateRequest request)
         {
-            var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == request.PostId);
+          //  var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == request.PostId);
 
             if (request == null)
             {
                 return new ApiErrorResult<bool>("Lỗi");
             }
-
-            // Lưu Bài đánh giá 
-            //var user = from getId
-            //                   in _context.Users
-            //           where getId.UserName == request.UserId
-            //           select getId.Id;
-            //Guid userId = user.First();
+            Post post = new Post(){
+                PostId = id,
+                Title = request.Title
+            };
 
             _context.Posts.Update(post);
             _context.SaveChangesAsync();
@@ -95,19 +92,22 @@ namespace BaseProject.Application.Catalog.Posts
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
                 Location location = new Location();
-                location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
+                location = _context.Locations.FirstOrDefault(x => x.Name.Contains(request.PostDetail[i].Title));
                 if (location == null)
                 {
 
                     Location createLocation = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
-                    _context.Locations.AddAsync(createLocation);
-                    _context.SaveChangesAsync();
-                    location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
+                    await _context.Locations.AddAsync(createLocation);
+                    await _context.SaveChangesAsync();
+
+                    location = new Location();
+                    location.LocationId = createLocation.LocationId;
+                    location =  _context.Locations.FirstOrDefault(x => x.Name.Contains(request.PostDetail[i].Title));
                 }
                 LocationsDetail locationsDetail = new LocationsDetail(
                     location.LocationId,
                     post.PostId,
-                    post.Title,
+                    request.PostDetail[i].Title,
                     request.PostDetail[i].When,
                     request.PostDetail[i].Content
                 );
@@ -133,16 +133,19 @@ namespace BaseProject.Application.Catalog.Posts
             }
 
             var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
+            var location = await _context.Locations.ToListAsync();
+            
+            Location address = new Location();
             List<PostDetailRequest> list = new List<PostDetailRequest>();
                 for (int i = 0; i < postDetail.Count; i++)
                 {
-                    list[i].Title = postDetail[i].Title;
-
-                    var address = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == postDetail[i].LocationId);
-                    list[i].Address = address.Address;
-                    list[i].Content = postDetail[i].Content;
-                    list[i].When = postDetail[i].When;
-
+                    PostDetailRequest item = new PostDetailRequest();
+                    item.Title   =   postDetail[i].Title;
+                    address = location.FirstOrDefault(x => x.LocationId == postDetail[i].LocationId);
+                    item.Address = address.Address;
+                    item.Content = postDetail[i].Content;
+                    item.When = postDetail[i].When;
+                    list.Add(item);
                 }
 
             var newPost = new PostCreateRequest()

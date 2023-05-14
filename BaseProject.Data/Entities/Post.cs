@@ -4,21 +4,6 @@ namespace BaseProject.Data.Entities
 {
     public class Post
     {
-        public Post(string title, Guid userId)
-        {
-            Title = title;
-            UploadDate = DateTime.Now;
-            View = 0;
-            UserId = userId;
-        }
-        public Post(Post obj)
-        {
-            this.PostId = obj.PostId;
-            this.View = obj.View;
-            this.UserId = obj.UserId;
-            this.Title = obj.Title;
-        }
-
         public int PostId { get; set; }
         public string Title { get; set; }
 
@@ -42,5 +27,27 @@ namespace BaseProject.Data.Entities
         public List<Image> Image { get; set; }
         public List<Video> Video { get; set; }
 
+        // Constructor
+
+        public Post(string title, Guid userId)
+        {
+            Title = title;
+            UploadDate = DateTime.Now;
+            View = 0;
+            UserId = userId;
+        }
+        public Post(Post obj)
+        {
+            this.PostId = obj.PostId;
+            this.View = obj.View;
+            this.UploadDate = DateTime.Now;
+            this.UserId = obj.UserId;
+            this.Title = obj.Title;
+        }
+
+        public Post()
+        {
+
+        }
     }
 }

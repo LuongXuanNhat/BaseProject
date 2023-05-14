@@ -78,7 +78,7 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> Create(PostCreateRequest request)
         {
             request.numberLocation = new TakeNumberLocation();
-
+            request.PostId = 123456;
             request.UserId = User.Identity.Name;
             var result = await _postApiClient.CreatePost(request);
             if (result.IsSuccessed)
@@ -115,7 +115,7 @@ namespace BaseProject.WebApp.Controllers
             var result = await _postApiClient.UpdatePost(request.PostId, request);
             if (result.IsSuccessed)
             {
-                TempData["result"] = "Cập nhật người dùng thành công";
+                TempData["result"] = "Cập nhật bài viết thành công";
                 return RedirectToAction("Index");
             }
 

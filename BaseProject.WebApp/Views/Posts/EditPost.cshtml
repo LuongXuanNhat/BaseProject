@@ -8,13 +8,14 @@
 <h1>Chỉnh sửa bài viết</h1>
 
 <div>
-    <a asp-action="Index" class="btn-lg btn">Trở về</a>
+    <a asp-action="Index" class="btn btn-outline-info ">Trở về</a>
 </div>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="row">
         <form asp-action="EditPost" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input asp-for="PostId" class="form-control"  hidden readonly/>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />
@@ -50,14 +51,14 @@
                         Tìm địa điểm: <input type="text" id="txtplace" />
                     </div>
                     @*&callback=initMap*@
-                    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
+                    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places&callback=initMap"> </script>
 
                     <script>
                         let map;
                         let service;
                         let infowindow;
 
-
+                        initMap();
                         function initMap() {
                             const sydney = new google.maps.LatLng(-33.867, 151.195);
 
