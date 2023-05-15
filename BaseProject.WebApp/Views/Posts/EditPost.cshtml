@@ -16,6 +16,7 @@
         <form asp-action="EditPost" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="PostId" class="form-control"  hidden readonly/>
+            <input asp-for="UserId" class="form-control"  hidden readonly/>
             <div class="form-group">
                 <label asp-for="Title" class="control-label"></label>
                 <input asp-for="Title" class="form-control" />

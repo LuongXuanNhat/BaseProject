@@ -48,7 +48,7 @@ namespace BaseProject.BackendApi.Controllers
         }
 
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateCategory(int id, [FromBody] PostCreateRequest request)
+        public async Task<IActionResult> UpdatePost(int id, [FromBody] PostCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);

@@ -11,6 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
+using BaseProject.Data.Migrations;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -42,7 +43,7 @@ namespace BaseProject.Application.Catalog.Posts
 
             Post post = new Post(request.Title, userId);
             _context.Posts.AddAsync(post);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
             // Lưu chi tiết đánh giá
             for (int i = 0; i < request.PostDetail.Count; i++)
@@ -54,7 +55,7 @@ namespace BaseProject.Application.Catalog.Posts
 
                     Location createLocation = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
                     _context.Locations.AddAsync(createLocation);
-                    _context.SaveChangesAsync();
+                    await _context.SaveChangesAsync();
                     location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
                 }
                 LocationsDetail locationsDetail = new LocationsDetail(
@@ -65,7 +66,7 @@ namespace BaseProject.Application.Catalog.Posts
                     request.PostDetail[i].Content
                 );
                 _context.LocationsDetails.AddAsync(locationsDetail);
-                _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
             }
 
 
@@ -74,36 +75,53 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<ApiResult<bool>> Update(int id, PostCreateRequest request)
         {
-          //  var post = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == request.PostId);
+          //  Lưu bài viết
 
             if (request == null)
             {
                 return new ApiErrorResult<bool>("Lỗi");
             }
             Post post = new Post(){
+                UserId = Guid.Parse(request.UserId),
                 PostId = id,
                 Title = request.Title
             };
 
             _context.Posts.Update(post);
-            _context.SaveChangesAsync();
+            await _context.SaveChangesAsync();
 
-            // Lưu chi tiết đánh giá
+            var createLocations = new List<Location>();
+            // Lưu địa điểm mới
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
                 Location location = new Location();
-                location = _context.Locations.FirstOrDefault(x => x.Name.Contains(request.PostDetail[i].Title));
+                location =  _context.Locations.FirstOrDefault(x => x.Address.Contains(request.PostDetail[i].Address));
                 if (location == null)
                 {
-
-                    Location createLocation = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
-                    await _context.Locations.AddAsync(createLocation);
-                    await _context.SaveChangesAsync();
-
-                    location = new Location();
-                    location.LocationId = createLocation.LocationId;
-                    location =  _context.Locations.FirstOrDefault(x => x.Name.Contains(request.PostDetail[i].Title));
+                    var location1 = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
+                    createLocations.Add(location1);
                 }
+
+            }
+            if(createLocations.Count > 0) {
+                try
+                {
+                    _context.AddRange(createLocations);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi tại đây, ví dụ in ra thông báo lỗi:
+                    Console.WriteLine(ex.Message);
+                }
+            }
+            
+
+            // Lưu chi tiết địa điểm, bài viết
+            for (int i = 0; i < request.PostDetail.Count; i++)
+            {
+                var location =  _context.Locations.FirstOrDefault(x => x.Address.Contains(request.PostDetail[i].Address));
+
                 LocationsDetail locationsDetail = new LocationsDetail(
                     location.LocationId,
                     post.PostId,
@@ -111,10 +129,18 @@ namespace BaseProject.Application.Catalog.Posts
                     request.PostDetail[i].When,
                     request.PostDetail[i].Content
                 );
-                _context.LocationsDetails.Update(locationsDetail);
-                _context.SaveChangesAsync();
-            }
+                try
+                {
+                    _context.LocationsDetails.Update(locationsDetail);
+                    await _context.SaveChangesAsync();
+                }
+                catch (Exception ex)
+                {
+                    // Xử lý lỗi tại đây, ví dụ in ra thông báo lỗi:
+                    Console.WriteLine(ex.Message);
+                }
 
+            }
 
             return new ApiSuccessResult<bool>();
         }

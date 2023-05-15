@@ -9,7 +9,6 @@ namespace BaseProject.Data.Configurations
         public void Configure(EntityTypeBuilder<LocationsDetail> builder)
         {
             builder.ToTable("LocationsDetails");
-
             builder.HasKey(x => new { x.LocationId , x.PostId });
             builder.Property(x => x.Title).IsRequired(false).HasMaxLength(250);
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(1000);

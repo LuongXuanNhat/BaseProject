@@ -15,6 +15,7 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 
+
 builder.Services.AddControllersWithViews()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
@@ -25,12 +26,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
  {
      options.LoginPath = "/Account/Login";
      options.AccessDeniedPath = "/User/Forbidden/";
+   //  options.Cookie.Expiration = TimeSpan.FromDays(1);
  });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(60);
+
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
