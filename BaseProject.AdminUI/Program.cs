@@ -1,4 +1,4 @@
-using BaseProject.ApiIntegration;
+﻿using BaseProject.ApiIntegration;
 using BaseProject.Application.Catalog;
 using BaseProject.ViewModels.System.Users;
 using FluentValidation.AspNetCore;
@@ -15,6 +15,8 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
     {
         options.LoginPath = "/Login/Index";
         options.AccessDeniedPath = "/User/Forbidden/";
+        //options.ExpireTimeSpan = TimeSpan.FromDays(7); // Đặt thời gian sống của cookie là 7 ngày
+        //options.SlidingExpiration = true;   // Cho phép gia hạn tự động khi người dùng truy cập vào trang
     });
 builder.Services.AddControllersWithViews()
          .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
@@ -22,6 +24,8 @@ builder.Services.AddControllersWithViews()
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true; // Không chấp nhận mã js
+    options.Cookie.IsEssential = true; 
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 

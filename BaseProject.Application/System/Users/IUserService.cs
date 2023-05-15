@@ -10,6 +10,8 @@ namespace BaseProject.Application.System.Users
 {
     public interface IUserService
     {
+        Task<ApiResult<string>> GetToken(string request);
+
         Task<ApiResult<string>> Authenticate(LoginRequest request);
 
         Task<ApiResult<bool>> Register(RegisterRequest request);

@@ -1,30 +1,43 @@
-﻿using BaseProject.WebApp.Models;
+﻿using BaseProject.ApiIntegration;
+using BaseProject.WebApp.Models;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 using System.Globalization;
+using System.Reflection.Metadata;
 
 namespace BaseProject.WebApp.Controllers
 {
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        private readonly IUserApiClient _userApiClient;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger,
+                    IHttpContextAccessor httpContextAccessor,
+                    IUserApiClient userApiClient)
         {
+            _httpContextAccessor = httpContextAccessor;
             _logger = logger;
+            _userApiClient = userApiClient;
         }
 
         public async Task<IActionResult> Index()
         {
             var user = User.Identity.Name;
-            //var culture = CultureInfo.CurrentCulture.Name;
-            //var viewModel = new HomeViewModel
-            //{
-            //    Slides = await _slideApiClient.GetAll(),
-            //    FeaturedProducts = await _productApiClient.GetFeaturedProducts(culture, SystemConstants.ProductSettings.NumberOfFeaturedProducts),
-            //    LatestProducts = await _productApiClient.GetLatestProducts(culture, SystemConstants.ProductSettings.NumberOfLatestProducts),
-            //};
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            if (user != null && sessions == null )
+            {
+                await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+                HttpContext.Session.Remove("Token");
+                return RedirectToAction("Index", "Home");
+            }
+
+
+
 
             return View();
         }

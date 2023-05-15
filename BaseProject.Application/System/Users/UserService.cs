@@ -5,6 +5,7 @@ using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -23,18 +24,21 @@ namespace BaseProject.Application.System.Users
         private readonly RoleManager<AppRole> _roleManager;
         private readonly DataContext _dataContext;
         private readonly IConfiguration _config;
+        private readonly IMemoryCache _cache;
 
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
             DataContext dataContext,
-            IConfiguration config)
+            IConfiguration config,
+            IMemoryCache cache)
         {
             _userManager = userManager;
             _signInManager = signInManager;
             _roleManager = roleManager;
             _dataContext = dataContext;
             _config = config;
+            _cache = cache;
         }
 
         public async Task<ApiResult<string>> Authenticate(LoginRequest request)
@@ -62,6 +66,11 @@ namespace BaseProject.Application.System.Users
                 claims,
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: creds);
+
+
+            //var cacheKey = $"user_{user.Id}";
+            //_cache.Set(cacheKey, user, TimeSpan.FromMinutes(30));
+
 
             return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
@@ -100,6 +109,30 @@ namespace BaseProject.Application.System.Users
                 Roles = roles
             };
             return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+        public async Task<ApiResult<string>> GetToken(string request)
+        {
+            var user = await _userManager.FindByNameAsync(request);
+            if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
+
+            var roles = await _userManager.GetRolesAsync(user);
+            var claims = new[]
+            {
+                new Claim(ClaimTypes.Email,user.Email),
+                new Claim(ClaimTypes.Role, string.Join(";",roles)),
+                new Claim(ClaimTypes.Name, request)
+            };
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Tokens:Key"]));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(_config["Tokens:Issuer"],
+                _config["Tokens:Issuer"],
+                claims,
+                expires: DateTime.Now.AddHours(3),
+                signingCredentials: creds);
+
+            return new ApiSuccessResult<string>(new JwtSecurityTokenHandler().WriteToken(token));
         }
 
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request)

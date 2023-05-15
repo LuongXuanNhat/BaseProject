@@ -9,6 +9,9 @@ using BaseProject.BackendApi.Utilities.Constants;
 using Microsoft.IdentityModel.Logging;
 using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
+using Microsoft.Extensions.Caching.Distributed;
+using NuGet.Common;
+using Newtonsoft.Json.Linq;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -16,12 +19,15 @@ namespace BaseProject.WebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
+        private readonly IDistributedCache _cache;
 
         public AccountController(IUserApiClient userApiClient,
-            IConfiguration configuration)
+            IConfiguration configuration,
+            IDistributedCache cache)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
+            _cache = cache;
         }
 
         [HttpGet]
@@ -43,16 +49,28 @@ namespace BaseProject.WebApp.Controllers
                 return View();
             }
             var userPrincipal = this.ValidateToken(result.ResultObj);
+
+            // Lưu cookie khi vào lại mà không logout
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
-                IsPersistent = false
+                ExpiresUtc = DateTimeOffset.UtcNow.AddHours(1),
+                IsPersistent = true
             };
+            
+
+
             HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,
                         userPrincipal,
                         authProperties);
+
+            // Lưu cache token
+            var cacheOptions = new DistributedCacheEntryOptions()
+            {
+                AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
+            };
+            await _cache.SetStringAsync("my_token_key", SystemConstants.AppSettings.Token, cacheOptions);
 
             return RedirectToAction("Index", "Home");
         }

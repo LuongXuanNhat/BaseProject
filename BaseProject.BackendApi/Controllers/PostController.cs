@@ -21,7 +21,7 @@ namespace BaseProject.BackendApi.Controllers
             _postService = postService;
         }
 
-        [AllowAnonymous]
+
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
@@ -32,7 +32,6 @@ namespace BaseProject.BackendApi.Controllers
 
         // https://localhost:7202/posts/create
         [HttpPost]
-        [AllowAnonymous]
         public async Task<IActionResult> CreatePost([FromBody] PostCreateRequest request)
         {
             if (!ModelState.IsValid)

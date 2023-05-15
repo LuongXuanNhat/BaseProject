@@ -29,8 +29,6 @@ namespace BaseProject.WebApp.Controllers
         {
             var user = User.Identity.Name;
 
-            //AppUser user = await _userManager.FindByNameAsync(User.Identity.Name);
-
             var request = new GetUserPagingRequest()
             {
                 Keyword = keyword,

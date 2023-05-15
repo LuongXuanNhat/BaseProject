@@ -1,4 +1,5 @@
 ﻿using BaseProject.ApiIntegration;
+using BaseProject.Application.Common;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.System.Users;
@@ -15,6 +16,8 @@ builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 
+builder.Services.AddMemoryCache();
+builder.Services.AddTransient<ICacheService, MemoryCacheService>();
 
 builder.Services.AddControllersWithViews()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
@@ -25,14 +28,14 @@ builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationSc
  .AddCookie(options =>
  {
      options.LoginPath = "/Account/Login";
+     options.LogoutPath = "/Account/Logout";
      options.AccessDeniedPath = "/User/Forbidden/";
-   //  options.Cookie.Expiration = TimeSpan.FromDays(1);
  });
 builder.Services.AddRazorPages()
     .AddRazorRuntimeCompilation();
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(60);
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
 
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();

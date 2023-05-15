@@ -11,6 +11,7 @@ namespace BaseProject.ApiIntegration
     public interface IUserApiClient
     {
         Task<ApiResult<string>> Authenticate(LoginRequest request);
+        Task<ApiResult<string>> GetToken(string request);
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request);
 

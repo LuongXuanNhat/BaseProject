@@ -99,5 +99,13 @@ namespace BaseProject.BackendApi.Controllers
             var result = await _userService.Delete(id);
             return Ok(result);
         }
+
+        [AllowAnonymous]
+        [HttpGet("{request}")]
+        public async Task<IActionResult> GetToken(string request)
+        {
+            var result = await _userService.GetToken(request);
+            return Ok(result);
+        }
     }
 }

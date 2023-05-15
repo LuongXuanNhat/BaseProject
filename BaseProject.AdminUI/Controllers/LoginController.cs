@@ -43,10 +43,12 @@ namespace BaseProject.AdminUI.Controllers
                 ModelState.AddModelError("", result.Message);
                 return View();
             }
+
+            // lưu phiên làm việc
             var userPrincipal = this.ValidateToken(result.ResultObj);
             var authProperties = new AuthenticationProperties
             {
-                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(10),
+                ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
                 IsPersistent = false
             };
             HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
