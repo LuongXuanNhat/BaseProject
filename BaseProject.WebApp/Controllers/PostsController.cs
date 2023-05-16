@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Identity;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using BaseProject.Data.Entities;
+using Azure.Core;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -25,6 +26,7 @@ namespace BaseProject.WebApp.Controllers
         }
 
         [Authorize]
+        [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 5)
         {
             var user = User.Identity.Name;
@@ -38,11 +40,27 @@ namespace BaseProject.WebApp.Controllers
             };
             var data = await _postApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
+            ViewBag.Token = GetToken();
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
             }
             return View(data.ResultObj);
+        }
+
+        [AllowAnonymous]
+        [HttpGet]
+        public async Task<IActionResult> Details(int id)
+        {
+            var result = await _postApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var post = result.ResultObj;
+                var updateRequest = new PostCreateRequest(post);
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Index");
+
         }
 
         [Authorize]
@@ -138,6 +156,12 @@ namespace BaseProject.WebApp.Controllers
                 return RedirectToAction("Create", numberLocation);
             }
             return RedirectToAction("Create", numberLocation);
+        }
+
+        public string GetToken()
+        {
+            return  _postApiClient.GetToken();
+
         }
     }
 }

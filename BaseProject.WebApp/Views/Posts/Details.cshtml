@@ -1,0 +1,82 @@
+﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
+
+@{
+    ViewData["Title"] = "Xem bài viết";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Chi tiết bài viết</h1>
+<div class="end-0">
+    @Html.ActionLink("Sửa", "EditPost", new { id = Model.PostId })
+    <a asp-action="Index" class="btn" style="color: #337ab7">Trở về</a>
+</div>
+<div>
+
+    <hr />
+    <dl class="row">
+        <div class="row" style="text-align: center">
+            <div>
+                <dt >
+                    @Html.DisplayNameFor(model => model.Title)
+                </dt>
+                <dd class="h4 bg-danger " style="color: yellow">
+                    @Html.DisplayFor(model => model.Title)
+                </dd>
+            </div>
+        </div>
+        @for (int i = 0; i < Model.PostDetail.Count; i++)
+        {
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Title " class="form-control" readonly/>
+                    <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Address " class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].When" class="control-label"></label>
+                    <input asp-for="PostDetail[i].When" type="month" class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Content " class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                </div>
+
+            </div>
+            if (i < Model.PostDetail.Count-1)
+            {
+                i++;
+                <div class="col-md-6">
+                    <div class="form-group">
+                    <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Title " class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Address " class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].When" class="control-label"></label>
+                    <input asp-for="PostDetail[i].When" type="month" class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                    <input asp-for="PostDetail[i].Content " class="form-control" readonly />
+                    <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                </div>
+
+            </div>}
+            <hr />
+        }
+    </dl>
+</div>
+

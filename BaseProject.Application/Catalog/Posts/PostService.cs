@@ -49,7 +49,7 @@ namespace BaseProject.Application.Catalog.Posts
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
                 Location location = new Location();
-                location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
+                location = await _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
                 if ( location == null )
                 {
 
@@ -95,7 +95,7 @@ namespace BaseProject.Application.Catalog.Posts
             for (int i = 0; i < request.PostDetail.Count; i++)
             {
                 Location location = new Location();
-                location =  _context.Locations.FirstOrDefault(x => x.Address.Contains(request.PostDetail[i].Address));
+                location = await  _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
                 if (location == null)
                 {
                     var location1 = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
@@ -145,17 +145,37 @@ namespace BaseProject.Application.Catalog.Posts
             return new ApiSuccessResult<bool>();
         }
 
-        public async Task<ApiResult<bool>> Delete(int categoryId)
+        public async Task<string> Delete(int postId)
         {
-            throw new NotImplementedException();
+            var post = await _context.Posts.Where(x => x.PostId == postId).FirstOrDefaultAsync();
+            var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
+            if (post == null)
+            {
+                return null;
+            }
+            var user = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
+
+            _context.Posts.Remove(post);
+            _context.LocationsDetails.RemoveRange(postDetail);
+            await _context.SaveChangesAsync();
+
+            if (user != null)
+            {
+                return user.UserName.ToString();
+            }
+            return null;
+
         }
+
+
+
 
         public async Task<ApiResult<PostCreateRequest>> GetById(int postId)
         {
             var post = await _context.Posts.Where(x => x.PostId == postId).FirstOrDefaultAsync();
             if (post == null)
             {
-                return new ApiErrorResult<PostCreateRequest>("Danh mục không tồn tại");
+                return new ApiErrorResult<PostCreateRequest>("Bài viết không tồn tại");
             }
 
             var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
@@ -229,7 +249,7 @@ namespace BaseProject.Application.Catalog.Posts
             {
                 query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
             }
-
+            if (query.Count == 0) { query = _context.Posts.Where(x => x.UserId.ToString() == User.Id.ToString()).ToList(); }
             //3. Paging
             int totalRow = query.Count();
 
@@ -254,6 +274,10 @@ namespace BaseProject.Application.Catalog.Posts
             };
             return new ApiSuccessResult<PagedResult<PostVm>>(pagedResult);
         }
-        
+
+        public  async Task<ApiResult<bool>> GetList(int userId)
+        {
+            return new ApiSuccessResult<bool>();
+        }
     }
 }

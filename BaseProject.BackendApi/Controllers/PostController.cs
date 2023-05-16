@@ -1,10 +1,13 @@
 ﻿using BaseProject.Application.Catalog.Posts;
+using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Post;
+using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using System.Security.Claims;
 
 namespace BaseProject.BackendApi.Controllers
@@ -67,5 +70,23 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            var username = await _postService.Delete(id);
+
+            if (username == null)
+            {
+                return BadRequest();
+            }
+            return Ok();
+
+        }
+
+        [HttpGet]
+        public async Task<ApiResult<PostCreateRequest>> LoadPost()
+        {
+            return new ApiSuccessResult<PostCreateRequest>();
+        }
     }
 }

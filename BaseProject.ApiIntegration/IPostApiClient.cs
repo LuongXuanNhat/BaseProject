@@ -19,8 +19,9 @@ namespace BaseProject.ApiIntegration
         Task<ApiResult<bool>> DeletePost(int idPost);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
+        public string GetToken();
 
-        
+
 
     }
 }

@@ -86,6 +86,11 @@ namespace BaseProject.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<PostCreateRequest>>(body);
         }
 
+        public string GetToken()
+        {
+            return _httpContextAccessor.HttpContext.Session.GetString("Token");
+        }
+
         public async Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();

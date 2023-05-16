@@ -16,11 +16,13 @@ namespace BaseProject.Application.Catalog.Posts
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);
 
-        Task<ApiResult<bool>> Delete(int categoryId);
+        Task<string> Delete(int postId);
+        Task<ApiResult<bool>> GetList(int userId);
 
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
         Task<ApiResult<PostCreateRequest>> GetById(int postId);
+        
     }
 }
