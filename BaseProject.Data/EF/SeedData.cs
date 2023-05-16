@@ -132,15 +132,26 @@ namespace BaseProject.Data.EF
 
             //      ADMINISTRATOR
             var roleId = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575");
+            var roleId1 = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a");
             var adminId = new Guid("D1F771DA-B318-42F8-A003-5A15614216F5");
 
-            modelBuilder.Entity<AppRole>().HasData(new AppRole
-            {
-                Id = roleId,
-                Name = "admin",
-                NormalizedName = "admin",
-                Description = "Administrator Role"
-            });
+            modelBuilder.Entity<AppRole>().HasData(
+                new AppRole
+                {
+                    Id = roleId,
+                    Name = "admin",
+                    NormalizedName = "admin",
+                    Description = "Administrator Role"
+                },
+                new AppRole
+                {
+                    Id = roleId1,
+                    Name = "user",
+                    NormalizedName = "user",
+                    Description = "User Role"
+                }) ;
+                
+
             var hasher = new PasswordHasher<AppUser>();
             modelBuilder.Entity<AppUser>().HasData(new AppUser
             {

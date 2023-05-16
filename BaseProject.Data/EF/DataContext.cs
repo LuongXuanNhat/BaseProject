@@ -16,7 +16,7 @@ namespace BaseProject.Data.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=.;Database=BaseProject;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer(@"Server=.;Database=BaseProject2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

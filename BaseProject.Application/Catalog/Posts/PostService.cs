@@ -11,7 +11,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using System.Security.Claims;
-using BaseProject.Data.Migrations;
+
 
 namespace BaseProject.Application.Catalog.Posts
 {

@@ -89,10 +89,18 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "98ffb499-8403-4afa-be24-6acd86b9cc4e",
+                            ConcurrencyStamp = "d234decb-bd0d-447e-af53-6e5136f7e0aa",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
+                        },
+                        new
+                        {
+                            Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
+                            ConcurrencyStamp = "1462744d-a8b8-4d18-8eaa-a8f7a54ea147",
+                            Description = "User Role",
+                            Name = "user",
+                            NormalizedName = "user"
                         });
                 });
 
@@ -192,7 +200,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "881d8ebe-3fc9-43cf-8c78-47659c0f7771",
+                            ConcurrencyStamp = "5c086034-3ba0-43bb-8ab5-18d02d73777c",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -202,7 +210,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGxZmrt0+h9a1MpN5gHGqztTg+Kfy2j1GG7E6n7mVT6LWP8HsOLg/5sNaxbEET6NIg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEEBlsyE+6JkGJ7zTYSLNTjFRz2KikzEug0Giw58VyKZfO1Tl3leO0AQ1GnmuFC4J9g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230502092929_initial_database")]
-    partial class initial_database
+    [Migration("20230516145701_init")]
+    partial class init
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "4885844d-7ffa-4a68-ad29-eeb926552f6a",
+                            ConcurrencyStamp = "38947cea-3c7a-4be2-b278-1bf9de577073",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -195,17 +195,17 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "981c4833-52a1-4131-ba64-56a5a51bd265",
+                            ConcurrencyStamp = "7667cb3b-86fe-4958-9d3c-b199c7be707e",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
-                            Gender = Enums.Gender.Nam,
+                            Gender = 0,
                             Image = "",
                             LockoutEnabled = false,
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHsqtKPu2DxwLWBdQWcC399Ztu80FY62RApuL1x1We4Gp1qn6C8vWDZJTJADvUspbA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMCFs8UzUh2oTRBrDtIcrU3d8W51wVCTpNCv+IVz15op5J2Zk0ALkPN6SZJ25U6CQQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -422,6 +422,12 @@ namespace BaseProject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("ImageId"));
 
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationsDetailId")
+                        .HasColumnType("int");
+
                     b.Property<string>("Name")
                         .HasMaxLength(100)
                         .HasColumnType("nvarchar(100)");
@@ -429,12 +435,11 @@ namespace BaseProject.Data.Migrations
                     b.Property<int>("NumericalOrder")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
                     b.HasKey("ImageId");
 
-                    b.HasIndex("PostId");
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("LocationsDetailId");
 
                     b.ToTable("Images", (string)null);
                 });
@@ -478,14 +483,14 @@ namespace BaseProject.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("LocationId"));
 
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<string>("ShortName")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("LocationId");
 
@@ -494,11 +499,11 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
                 {
-                    b.Property<int>("LocationId")
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<Guid?>("AppUserId")
                         .HasColumnType("uniqueidentifier");
@@ -507,16 +512,24 @@ namespace BaseProject.Data.Migrations
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
 
-                    b.Property<int>("Id")
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .HasMaxLength(250)
                         .HasColumnType("nvarchar(250)");
 
-                    b.HasKey("LocationId", "PostId");
+                    b.Property<DateTime>("When")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
+
+                    b.HasIndex("LocationId");
 
                     b.HasIndex("PostId");
 
@@ -623,7 +636,42 @@ namespace BaseProject.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Ratings", (string)null);
+                    b.ToTable("RatingPost", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Check")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("LocationDetailId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<int?>("Stars")
+                        .HasColumnType("int");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("RatingLocations", (string)null);
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Report", b =>
@@ -954,13 +1002,21 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.Image", b =>
                 {
-                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
+                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
                         .WithMany("Image")
-                        .HasForeignKey("PostId")
+                        .HasForeignKey("LocationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Post");
+                    b.HasOne("BaseProject.Data.Entities.LocationsDetail", "LocationsDetail")
+                        .WithMany("Image")
+                        .HasForeignKey("LocationsDetailId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("LocationsDetail");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Liking", b =>
@@ -1058,6 +1114,25 @@ namespace BaseProject.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("User");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
+                {
+                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
+                        .WithMany("RatingLocation")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
+                        .WithMany("RatingLocation")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Location");
 
                     b.Navigation("User");
                 });
@@ -1226,6 +1301,8 @@ namespace BaseProject.Data.Migrations
 
                     b.Navigation("Rating");
 
+                    b.Navigation("RatingLocation");
+
                     b.Navigation("Report");
 
                     b.Navigation("Saved");
@@ -1249,7 +1326,16 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.Location", b =>
                 {
+                    b.Navigation("Image");
+
                     b.Navigation("LocationsDetail");
+
+                    b.Navigation("RatingLocation");
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
+                {
+                    b.Navigation("Image");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Notification", b =>
@@ -1262,8 +1348,6 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("CategoriesDetail");
 
                     b.Navigation("Comment");
-
-                    b.Navigation("Image");
 
                     b.Navigation("Liking");
 
