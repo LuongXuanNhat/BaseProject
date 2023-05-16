@@ -19,5 +19,8 @@
 
         // relationship
         public List<LocationsDetail> LocationsDetail{ get; set; }
+        public List<RatingLocation> RatingLocation { get; set; }
+        public List<Image> Image { get; set; }
+
     }
 }

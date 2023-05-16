@@ -46,6 +46,7 @@ namespace BaseProject.Data.EF
             modelBuilder.ApplyConfiguration(new SavedConfiguration());
             modelBuilder.ApplyConfiguration(new FollowingConfiguration());
             modelBuilder.ApplyConfiguration(new SearchConfiguration());
+            modelBuilder.ApplyConfiguration(new RatingLocationConfiguration());
 
             modelBuilder.ApplyConfiguration(new ImageConfiguration());
             modelBuilder.ApplyConfiguration(new VideoConfiguration());
@@ -79,6 +80,7 @@ namespace BaseProject.Data.EF
         public DbSet<NoticeDetail> NoticeDetails { set; get; }
         public DbSet<Image> Images { set; get; }
         public DbSet<Video> Videos { set; get; }
+        public DbSet<RatingLocation> RatingLocations { set; get; }
 
     }
 }

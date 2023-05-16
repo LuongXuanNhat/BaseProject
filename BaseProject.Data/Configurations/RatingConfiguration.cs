@@ -8,7 +8,7 @@ namespace BaseProject.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<Rating> builder)
         {
-            builder.ToTable("Ratings");
+            builder.ToTable("RatingPost");
 
             builder.HasKey(x => x.Id);
             builder.Property(x => x.Stars).IsRequired();

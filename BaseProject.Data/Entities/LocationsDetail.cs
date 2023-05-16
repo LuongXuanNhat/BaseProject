@@ -21,6 +21,7 @@ namespace BaseProject.Data.Entities
         // Relationship
         public Post Post { get; set; }
         public Location Location { get; set; }
+        public List<Image> Image { get; set; }
 
 
         // Contructor

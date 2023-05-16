@@ -15,7 +15,8 @@ namespace BaseProject.Data.Configurations
 
 
             // Relationship
-            builder.HasOne(x => x.Post).WithMany(x => x.Image).HasForeignKey(x => x.PostId);
+            builder.HasOne(x => x.LocationsDetail).WithMany(x => x.Image).HasForeignKey(x => x.LocationsDetailId);
+            builder.HasOne(x => x.Location).WithMany(x => x.Image).HasForeignKey(x => x.LocationId);
         }
 
     }
