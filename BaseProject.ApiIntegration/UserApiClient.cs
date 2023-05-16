@@ -46,21 +46,21 @@ namespace BaseProject.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<string>> GetToken(string request)
-        {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);  
+        //public async Task<ApiResult<string>> GetToken(string request)
+        //{
+        //    var client = _httpClientFactory.CreateClient();
+        //    client.BaseAddress = new Uri(_configuration["BaseAddress"]);  
 
 
-            var response = await client.GetAsync($"/api/users/{request}");
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-            {
-                return JsonConvert.DeserializeObject<ApiSuccessResult<string>>(await response.Content.ReadAsStringAsync());
-            }
+        //    var response = await client.GetAsync($"/api/users/{request}");
+        //    var body = await response.Content.ReadAsStringAsync();
+        //    if (response.IsSuccessStatusCode)
+        //    {
+        //        return JsonConvert.DeserializeObject<ApiSuccessResult<string>>(await response.Content.ReadAsStringAsync());
+        //    }
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
-        }
+        //    return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
+        //}
 
         public async Task<ApiResult<bool>> Delete(Guid id)
         {
