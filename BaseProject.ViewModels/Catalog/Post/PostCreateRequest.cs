@@ -24,8 +24,8 @@ namespace BaseProject.ViewModels.Catalog.Post
 
         public TakeNumberLocation? numberLocation { get; set; }
 
-        // Relationship
         public List<PostDetailRequest> PostDetail { get; set; }
+
 
         // Contrustor
         public PostCreateRequest(int postId, string? userId, string title, List<PostDetailRequest> postDetail)

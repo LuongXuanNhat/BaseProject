@@ -12,10 +12,11 @@ namespace BaseProject.ViewModels.Catalog.Post
     public class PostDetailRequest
     {
         public int postDetailId { get; set; }
-
+        [Required]
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }
 
+        [Required]
         [Display(Name = "Địa chỉ")]
         public string Address { get; set; }
 
@@ -24,6 +25,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         [StringLength(500) ]
         public string Content { get; set; }
 
+        [Required]
         [Display(Name = "Bạn đi vào thời gian nào?")]
         [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime When { get; set; }
