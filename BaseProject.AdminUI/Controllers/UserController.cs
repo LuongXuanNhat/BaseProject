@@ -1,11 +1,12 @@
-﻿using BaseProject.ApiIntegration;
-using BaseProject.ViewModels.Common;
+﻿using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using Azure.Core;
 using BaseProject.Data.EF;
+using BaseProject.ApiIntegration.Role;
+using BaseProject.ApiIntegration.User;
 
 namespace BaseProject.AdminUI.Controllers
 {

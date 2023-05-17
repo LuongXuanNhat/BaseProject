@@ -1,4 +1,4 @@
-﻿using BaseProject.ApiIntegration;
+﻿using BaseProject.ApiIntegration.User;
 using BaseProject.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

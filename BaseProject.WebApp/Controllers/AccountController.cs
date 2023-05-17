@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 using System.Text;
-using BaseProject.ApiIntegration;
 using BaseProject.ViewModels.System.Users;
 using BaseProject.BackendApi.Utilities.Constants;
 using Microsoft.IdentityModel.Logging;
@@ -12,6 +11,7 @@ using System.IdentityModel.Tokens.Jwt;
 using Microsoft.Extensions.Caching.Distributed;
 using NuGet.Common;
 using Newtonsoft.Json.Linq;
+using BaseProject.ApiIntegration.User;
 
 namespace BaseProject.WebApp.Controllers
 {

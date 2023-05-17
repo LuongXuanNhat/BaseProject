@@ -1,4 +1,4 @@
-﻿using BaseProject.ApiIntegration;
+﻿using BaseProject.ApiIntegration.Category;
 using BaseProject.Application.Catalog;
 using BaseProject.BackendApi.Utilities.Constants;
 using BaseProject.ViewModels.Catalog.Categories;
@@ -53,7 +53,7 @@ namespace BaseProject.AdminUI.Controllers
                 return View(request);
 
             var result = await _categoryApiClient.RegisterCategory(request);
-            if (result.IsSuccessed != null)
+            if (result.IsSuccessed != null )
             {
                 TempData["result"] = "Thêm mới sản phẩm thành công";
                 return RedirectToAction("Index");

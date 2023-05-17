@@ -1,5 +1,4 @@
-﻿using BaseProject.ApiIntegration;
-using BaseProject.ViewModels.Catalog.Post;
+﻿using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +8,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using BaseProject.Data.Entities;
 using Azure.Core;
+using BaseProject.ApiIntegration.Post;
 
 namespace BaseProject.WebApp.Controllers
 {

@@ -1,4 +1,7 @@
-﻿using BaseProject.ApiIntegration;
+﻿using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.Location;
+using BaseProject.ApiIntegration.Role;
+using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Catalog;
 using BaseProject.ViewModels.System.Users;
 using FluentValidation.AspNetCore;
@@ -32,6 +35,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
 
 
 builder.Services.AddRazorPages()

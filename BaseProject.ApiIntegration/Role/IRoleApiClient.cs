@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.ApiIntegration
+namespace BaseProject.ApiIntegration.Role
 {
     public interface IRoleApiClient
     {

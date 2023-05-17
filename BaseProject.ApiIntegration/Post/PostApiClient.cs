@@ -14,22 +14,43 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
+using BaseProject.ViewModels.Catalog.Post;
 
-namespace BaseProject.ApiIntegration
+namespace BaseProject.ApiIntegration.Post
 {
-    public class CategoryApiClient : ICategoryApiClient
+    public class PostApiClient : IPostApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public CategoryApiClient(IHttpClientFactory httpClientFactory,
+        public PostApiClient(IHttpClientFactory httpClientFactory,
                    IHttpContextAccessor httpContextAccessor,
                     IConfiguration configuration)
         {
             _configuration = configuration;
             _httpContextAccessor = httpContextAccessor;
             _httpClientFactory = httpClientFactory;
+        }
+
+        public async Task<ApiResult<bool>> CreatePost(PostCreateRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+
+            var response = await client.PostAsync($"/api/post", httpContent);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
         public async Task<ApiResult<bool>> DeleteCategory(int idCategory)
@@ -46,21 +67,31 @@ namespace BaseProject.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
-        public async Task<ApiResult<CategoryRequest>> GetById(int id)
+        public Task<ApiResult<bool>> DeletePost(int idCategory)
         {
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/categoriess/{id}");
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<CategoryRequest>>(body);
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<CategoryRequest>>(body);
+            throw new NotImplementedException();
         }
 
-        public async Task<ApiResult<PagedResult<CategoryRequest>>> GetUsersPagings(GetUserPagingRequest request)
+        public async Task<ApiResult<PostCreateRequest>> GetById(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/post/{id}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PostCreateRequest>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<PostCreateRequest>>(body);
+        }
+
+        public string GetToken()
+        {
+            return _httpContextAccessor.HttpContext.Session.GetString("Token");
+        }
+
+        public async Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
@@ -68,40 +99,26 @@ namespace BaseProject.ApiIntegration
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var response = await client.GetAsync($"/api/categoriess/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}");
+            var response = await client.GetAsync($"/api/post/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&UserName={request.UserName}");
 
             var body = await response.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<CategoryRequest>>>(body);
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
             return users;
         }
 
-        
-        public async Task<ApiResult<bool>> RegisterCategory(CategoryRequest request)
+        public async Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"/api/categoriess/", httpContent);
-
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
-        }
-
-        public async Task<ApiResult<bool>> UpdateCategory(int idCategory,CategoryRequest request)
-        {
-            var client = _httpClientFactory.CreateClient();
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PutAsync($"/api/categoriess/{idCategory}", httpContent);
+            var response = await client.PutAsync($"/api/post/{idPost}", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

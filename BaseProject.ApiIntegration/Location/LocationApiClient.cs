@@ -14,17 +14,18 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
-using BaseProject.ViewModels.Catalog.Post;
+using BaseProject.ApiIntegration.Category;
+using BaseProject.Data.Entities;
 
-namespace BaseProject.ApiIntegration
+namespace BaseProject.ApiIntegration.Location
 {
-    public class PostApiClient : IPostApiClient
+    public class LocationApiClient : ILocationApiClient
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        public PostApiClient(IHttpClientFactory httpClientFactory,
+        public LocationApiClient(IHttpClientFactory httpClientFactory,
                    IHttpContextAccessor httpContextAccessor,
                     IConfiguration configuration)
         {
@@ -33,33 +34,13 @@ namespace BaseProject.ApiIntegration
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<bool>> CreatePost(PostCreateRequest request)
-        {
-            var client = _httpClientFactory.CreateClient();
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-
-            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            
-            var response = await client.PostAsync($"/api/post", httpContent);
-
-            var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
-        }
-
-        public async Task<ApiResult<bool>> DeleteCategory(int idCategory)
+        public async Task<ApiResult<bool>> Delete(int locationId)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/categoriess/{idCategory}");
+            var response = await client.DeleteAsync($"/api/locations/{locationId}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
@@ -67,31 +48,21 @@ namespace BaseProject.ApiIntegration
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
-        public Task<ApiResult<bool>> DeletePost(int idCategory)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<ApiResult<PostCreateRequest>> GetById(int id)
+        public async Task<ApiResult<Data.Entities.Location>> GetById(int locationId)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/post/{id}");
+            var response = await client.GetAsync($"/api/locations/{locationId}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<PostCreateRequest>>(body);
+                return JsonConvert.DeserializeObject<ApiSuccessResult<Data.Entities.Location>>(body);
 
-            return JsonConvert.DeserializeObject<ApiErrorResult<PostCreateRequest>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<Data.Entities.Location>>(body);
         }
 
-        public string GetToken()
-        {
-            return _httpContextAccessor.HttpContext.Session.GetString("Token");
-        }
-
-        public async Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<Data.Entities.Location>>> GetUsersPagings(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
@@ -99,26 +70,40 @@ namespace BaseProject.ApiIntegration
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var response = await client.GetAsync($"/api/post/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&UserName={request.UserName}");
+            var response = await client.GetAsync($"/api/locations/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}");
 
             var body = await response.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<Data.Entities.Location>>>(body);
             return users;
         }
 
-        public async Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request)
+
+        public async Task<ApiResult<bool>> Register(Data.Entities.Location request)
         {
             var client = _httpClientFactory.CreateClient();
-            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/post/{idPost}", httpContent);
+            var response = await client.PostAsync($"/api/locations/", httpContent);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<ApiResult<bool>> Update(int idLocation, Data.Entities.Location request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PutAsync($"/api/locations/{idLocation}", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

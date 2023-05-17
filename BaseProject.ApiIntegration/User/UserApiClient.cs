@@ -10,7 +10,7 @@ using System.Net.Http.Headers;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.ApiIntegration
+namespace BaseProject.ApiIntegration.User
 {
     public class UserApiClient : IUserApiClient
     {

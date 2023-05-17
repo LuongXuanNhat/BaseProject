@@ -1,54 +1,80 @@
-﻿@{
-    ViewData["Title"] = "Địa điểm";
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.Data.Entities.Location>
+@{
+    ViewData["Title"] = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<div>
-    <label for="search-input">Enter a location:</label>
-    <input type="text" id="search-input" placeholder="Type here...">
-    <button id="search-button" onclick="">Search</button>
-</div>
-<div id="map" style="height:400px" >
 
-    
-</div>
-@*<script>
-    let map;
+<h1>Danh mục</h1>
 
- async function initMap() {
-        map = new google.maps.Map(document.getElementById("map"), {
-            center: { lat: 10.8231, lng: 106.6297 },
-            zoom: 14,
-        });
-
-        const searchInput = document.getElementById("search-input");
-        const searchButton = document.getElementById("search-button");
-
-        searchButton.addEventListener("click", () => {
-            const searchQuery = searchInput.value;
-            const request = {
-                query: searchQuery,
-                fields: ["name", "geometry"],
-            };
-
-            const service = new google.maps.places.PlacesService(map);
-
-            service.findPlaceFromQuery(request, (results, status) => {
-                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                    const firstResult = results[0];
-                    const location = firstResult.geometry.location;
-                    const name = firstResult.name;
-                    const marker = new google.maps.Marker({
-                        position: location,
-                        map: map,
-                        title: name,
-                    });
-                    map.setCenter(location);
-                }
-            });
-        });
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
     }
-
-
-</script>
-@*<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&callback=initMap"></script>*@
-@*<script async src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places&callback=initMap"></script>*@
+</div>
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a asp-action="Create" class="btn btn-success">Thêm địa điểm</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div class="cold-md-3">
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/Location/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>
+                        Tên địa điểm
+                    </th>
+                    <th>
+                        Địa chỉ
+                    </th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Name)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Address)
+                        </td>
+                        <td>
+                            @Html.ActionLink("Sửa", "Edit", new { id=item.LocationId }) |
+                            @Html.ActionLink("Xóa", "Delete", new {  id=item.LocationId })
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
 

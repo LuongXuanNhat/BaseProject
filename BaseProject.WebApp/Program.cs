@@ -1,4 +1,6 @@
-﻿using BaseProject.ApiIntegration;
+﻿using BaseProject.ApiIntegration.Post;
+using BaseProject.ApiIntegration.Role;
+using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Common;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;

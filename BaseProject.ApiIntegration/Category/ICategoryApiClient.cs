@@ -7,19 +7,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.ApiIntegration
+namespace BaseProject.ApiIntegration.Category
 {
     public interface ICategoryApiClient
     {
         Task<ApiResult<PagedResult<CategoryRequest>>> GetUsersPagings(GetUserPagingRequest request);
         Task<ApiResult<bool>> RegisterCategory(CategoryRequest request);
 
-        Task<ApiResult<bool>> UpdateCategory(int idCategory,CategoryRequest request);
+        Task<ApiResult<bool>> UpdateCategory(int idCategory, CategoryRequest request);
         Task<ApiResult<bool>> DeleteCategory(int idCategory);
 
         Task<ApiResult<CategoryRequest>> GetById(int id);
 
-        
+
 
     }
 }
