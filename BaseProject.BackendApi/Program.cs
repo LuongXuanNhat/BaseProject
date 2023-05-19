@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.Catalog.Categories;
+using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Catalog.Posts;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
@@ -50,6 +51,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<IImageService, ImagesService>();
 
 
 

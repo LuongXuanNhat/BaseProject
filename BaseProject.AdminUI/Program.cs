@@ -1,5 +1,5 @@
 ﻿using BaseProject.ApiIntegration.Category;
-using BaseProject.ApiIntegration.Location;
+using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Role;
 using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Catalog;
