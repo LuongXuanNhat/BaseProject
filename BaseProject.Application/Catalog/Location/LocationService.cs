@@ -34,15 +34,21 @@ namespace BaseProject.Application.Catalog.Categories
             {
                 if (request.LocationId != 0)
                 {
-                    var place = new Location()
+                    if (request.Name == location.Name && request.Address == location.Address )
                     {
-                        LocationId = request.LocationId,
-                        Name = request.Name,
-                        Address = request.Address
 
-                    };
-                    _context.Locations.Update(place);
-                    var saveImagePlace = await _imageService.UpdateImage(request.GetImage, place);
+                    } else
+                    {
+                        var place = new Location()
+                        {
+                            LocationId = request.LocationId,
+                            Name = request.Name,
+                            Address = request.Address
+
+                        };
+                        _context.Locations.Update(place);
+                    }                  
+                    var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
                     if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
                     {
                         _context.SaveChanges();
@@ -61,8 +67,9 @@ namespace BaseProject.Application.Catalog.Categories
 
                 };
                 // Lưu địa điểm
-                _context.SaveChanges();
+                
                 _context.Locations.Add(Location);
+                _context.SaveChanges();
 
 
                 // Lưu ảnh

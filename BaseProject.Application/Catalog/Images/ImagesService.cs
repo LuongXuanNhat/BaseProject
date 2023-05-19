@@ -52,7 +52,12 @@ namespace BaseProject.Application.Catalog.Images
         public async Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, Location location)
         {
             var ImageSave = new List<Image>();
-            _context.Images.RemoveRange(_context.Images.Where(x => x.LocationId == location.LocationId).ToList());
+            var list_image = _context.Images.Where(x => x.LocationId == location.LocationId).ToList();
+            foreach (var image in list_image)
+            {
+                await _storageService.DeleteFileAsync(image.Path);
+            }
+            _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {
@@ -77,7 +82,7 @@ namespace BaseProject.Application.Catalog.Images
             var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
             var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
-            return "localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+            return "https://localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
         

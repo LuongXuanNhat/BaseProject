@@ -9,6 +9,9 @@ namespace BaseProject.Data.EF
 {
     public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
+        //public DataContext() : base()
+        //{
+        //}
         public DataContext(DbContextOptions options) : base(options)
         {
 

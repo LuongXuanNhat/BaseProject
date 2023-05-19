@@ -81,6 +81,8 @@ namespace BaseProject.AdminUI.Controllers
                 return View();
 
             var result = await _locationApiClient.RegisterOrUpdate(request);
+
+            
             if (result.IsSuccessed != null)
             {
                 TempData["result"] = "Cập nhập địa điểm thành công";
