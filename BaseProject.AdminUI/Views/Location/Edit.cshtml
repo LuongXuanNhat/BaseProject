@@ -1,4 +1,4 @@
-﻿@model BaseProject.Data.Entities.Location
+﻿@model BaseProject.ViewModels.Catalog.Location.LocationCreateRequest
 
 @{
     ViewData["Title"] = "Edit";
@@ -11,7 +11,7 @@
 </div>
 <hr />
 <div class="row con">
-    <div class="col-md-4">
+    <div class="col-md-8">
         <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
@@ -26,6 +26,29 @@
                 <label asp-for="Address" class="control-label"></label>
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            @if (Model.ImageList != null)
+            {
+                @for (int i = 0; i < Model.ImageList.Count; i++)
+                {
+                    <div class="">
+
+                        <div class="">
+                            <label asp-for="ImageList[i]" class="control-label"></label>
+                            <img src="@Model.ImageList[i]" alt="Image" class="img-thumbnail" style="height: 80px">
+                            <input asp-for="ImageList[i]" hidden />
+                        </div>
+                    </div>
+
+                }
+            }
+            
+            <div class="form-group">
+                <label asp-for="GetImage" class="control-label"></label>
+                <div class="custom-file">
+                    <input asp-for="GetImage" class="custom-file-input" id="customFile" accept=".jpg,.jpeg,.png">
+                </div>
+                <span asp-validation-for="GetImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-primary" />

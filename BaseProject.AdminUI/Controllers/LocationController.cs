@@ -1,6 +1,7 @@
-﻿using BaseProject.ApiIntegration.Location;
+﻿using BaseProject.ApiIntegration.Locations;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -40,10 +41,16 @@ namespace BaseProject.AdminUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(Location request)
+        public async Task<IActionResult> Create(LocationCreateRequest request)
         {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var result = await _locationApiClient.RegisterOrUpdate(request);
 
-            var result = await _locationApiClient.Register(request);
+
+
             if (result.IsSuccessed != null && result.IsSuccessed == true)
             {
                 TempData["result"] = "Thêm mới địa điểm thành công";
@@ -68,12 +75,12 @@ namespace BaseProject.AdminUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Edit(int id, Location request)
+        public async Task<IActionResult> Edit(LocationCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return View();
 
-            var result = await _locationApiClient.Update(id, request);
+            var result = await _locationApiClient.RegisterOrUpdate(request);
             if (result.IsSuccessed != null)
             {
                 TempData["result"] = "Cập nhập địa điểm thành công";
@@ -88,13 +95,13 @@ namespace BaseProject.AdminUI.Controllers
         [HttpGet]
         public async Task<IActionResult> Delete(int Id)
         {
-            return View(new Location()
+            return View(new LocationCreateRequest()
             {
                 LocationId = Id           
             });
         }
         [HttpPost]
-        public async Task<IActionResult> Delete(Location request)
+        public async Task<IActionResult> Delete(LocationCreateRequest request)
         {
 
             var result = await _locationApiClient.Delete(request.LocationId );
