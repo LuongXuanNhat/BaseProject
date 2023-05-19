@@ -53,11 +53,13 @@ namespace BaseProject.Application.Catalog.Images
         {
             var ImageSave = new List<Image>();
             var list_image = _context.Images.Where(x => x.LocationId == location.LocationId).ToList();
-            foreach (var image in list_image)
+
+            for (int i = 0; i < list_image.Count; i++)
             {
-                await _storageService.DeleteFileAsync(image.Path);
+                list_image[i].Path = list_image[i].Path.Remove(0,30);
+                await _storageService.DeleteFileAsync(list_image[i].Path);
             }
-            _context.Images.RemoveRange(list_image);
+        //    _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {

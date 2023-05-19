@@ -47,14 +47,17 @@ namespace BaseProject.Application.Catalog.Categories
 
                         };
                         _context.Locations.Update(place);
-                    }                  
-                    var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
-                    if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
+                    }     
+                    if (request.GetImage != null && request.GetImage.Count != 0)
                     {
-                        _context.SaveChanges();
-                        return new ApiSuccessResult<bool>();
-                    }
-                    return new ApiErrorResult<bool>("Lỗi lưu ảnh");
+                        var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
+                        if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
+                        {
+                            _context.SaveChanges();
+                            return new ApiSuccessResult<bool>();
+                        }
+                    }                   
+                    return new ApiSuccessResult<bool>();
                 } 
                 
             }
