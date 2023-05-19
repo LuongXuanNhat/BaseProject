@@ -14,12 +14,8 @@
         <li class="breadcrumb-item active">Cập nhật người dùng</li>
     </ol>
     <div class="card mb-4">
-        <div class="card-header">
-            <a class="btn btn-success" asp-action="Index" asp-controller="User">Về danh sách</a>
-        </div>
-
-        <div class="card-body">
-            <div class="col-md-4">
+        <div class="card-body" style="padding-left: 2.5rem; padding-right: 2.5rem">
+            <div>
                 <form asp-action="Edit">
                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                     <div class="form-group">
@@ -36,15 +32,15 @@
                         <span asp-validation-for="DateOfBir" class="text-danger"></span>
                     </div>
                     @*<select class="form-select" aria-label="Default select example">
-                        <option value="0">Nam</option>
-                        <option value="1">Nữ</option>
-                        <option value="2">Không</option>*@
+                    <option value="0">Nam</option>
+                    <option value="1">Nữ</option>
+                    <option value="2">Không</option>*@
                     @*</select>*@
 
                     <div class="form-group">
-                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()"></select>
+                        <select asp-for="Gender" asp-items="Html.GetEnumSelectList<Gender>()" style="padding: 4px;border-radius: 6px;"></select>
                     </div>
-                    
+
                     @*@Html.DropDownList("Gender",
                     new List<Gender>() {
                     new SelectListItem(){ Text="Nam",Value=2 },
@@ -61,7 +57,8 @@
                         <input asp-for="Image" class="form-control" />
                         <span asp-validation-for="Image" class="text-danger"></span>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" style="text-align: end;">
+                        <a class="btn btn-success" asp-action="Index" asp-controller="User">Về danh sách</a>
                         <input type="submit" value="Lưu lại" class="btn btn-primary" />
                     </div>
                 </form>

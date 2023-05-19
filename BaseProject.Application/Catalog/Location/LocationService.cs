@@ -39,23 +39,23 @@ namespace BaseProject.Application.Catalog.Categories
 
                     } else
                     {
-                        var place = new Location()
-                        {
-                            LocationId = request.LocationId,
-                            Name = request.Name,
-                            Address = request.Address
+                    var place = new Location()
+                    {
+                        LocationId = request.LocationId,
+                        Name = request.Name,
+                        Address = request.Address
 
-                        };
-                        _context.Locations.Update(place);
+                    };
+                    _context.Locations.Update(place);
                     }     
                     if (request.GetImage != null && request.GetImage.Count != 0)
                     {
                         var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
-                        if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
-                        {
-                            _context.SaveChanges();
-                            return new ApiSuccessResult<bool>();
-                        }
+                    if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
+                    {
+                        _context.SaveChanges();
+                        return new ApiSuccessResult<bool>();
+                    }
                     }                   
                     return new ApiSuccessResult<bool>();
                 } 
@@ -73,6 +73,7 @@ namespace BaseProject.Application.Catalog.Categories
                 
                 _context.Locations.Add(Location);
                 _context.SaveChanges();
+                _context.Locations.Add(Location);
 
 
                 // Lưu ảnh

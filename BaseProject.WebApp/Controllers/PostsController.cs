@@ -64,7 +64,7 @@ namespace BaseProject.WebApp.Controllers
 
         }
 
-        [AllowAnonymous]
+        [Authorize]
         [HttpGet]
         public async Task<IActionResult> Create(TakeNumberLocation numberLocation)
         {

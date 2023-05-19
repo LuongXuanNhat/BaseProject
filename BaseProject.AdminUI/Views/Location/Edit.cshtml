@@ -12,7 +12,7 @@
 <hr />
 <div class="row con">
     <div class="col-md-8">
-        <form asp-action="Edit" method="post" enctype="multipart/form-data">
+        <form asp-action="Edit" method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                 <input asp-for="LocationId" class="form-control" hidden readonly/>
@@ -27,20 +27,21 @@
                 <input asp-for="Address" class="form-control" />
                 <span asp-validation-for="Address" class="text-danger"></span>
             </div>
-            @{
-                if (Model.ImageList != null)
+            @if (Model.ImageList != null)
+            {
+                @for (int i = 0; i < Model.ImageList.Count; i++)
                 {
-                    var image = Model.ImageList;
-                    if (@image != null)
-                    {
                         for (int i = 0; i < image.Count; i++)
                         {
-                            <div class="">
-                                <label class="control-label"> </label>
-                                <img src="@image[i]" alt="Image" class="img-thumbnail" style="height: 80px">
-                            </div>
-                        }
-                    }
+                    <div class="">
+
+                        <div class="">
+                            <label asp-for="ImageList[i]" class="control-label"></label>
+                            <img src="@Model.ImageList[i]" alt="Image" class="img-thumbnail" style="height: 80px">
+                            <input asp-for="ImageList[i]" hidden />
+                        </div>
+                    </div>
+
                 }
             }
             

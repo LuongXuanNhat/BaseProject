@@ -9,9 +9,9 @@ namespace BaseProject.Data.EF
 {
     public class DataContext : IdentityDbContext<AppUser, AppRole, Guid>
     {
-        //public DataContext() : base()
-        //{
-        //}
+        public DataContext()
+        {
+        }
         public DataContext(DbContextOptions options) : base(options)
         {
 
@@ -19,7 +19,6 @@ namespace BaseProject.Data.EF
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
-            optionsBuilder.UseSqlServer(@"Server=.;Database=BaseProject2;Trusted_Connection=True;MultipleActiveResultSets=true;TrustServerCertificate=True");
 
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)

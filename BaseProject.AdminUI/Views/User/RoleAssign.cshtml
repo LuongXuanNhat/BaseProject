@@ -11,19 +11,15 @@
         <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
         <li class="breadcrumb-item active">Gán quyền</li>
     </ol>
-    <div class="card mb-4">
-        <div class="card-header">
-            <a class="btn btn-success" asp-action="Index" asp-controller="User">Về danh sách</a>
-        </div>
-
+    <div class="card mb-12">
         <div class="card-body">
-            <form asp-action="RoleAssign">
+            <form asp-action="RoleAssign" class="row" style="justify-content: space-between;">
                 <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                 <input type="hidden" asp-for="Id" />
                 @for (var i = 0; i < Model.Roles.Count; i++)
                 {
-                    <div class="form-group">
-                        <label>
+                    <div class="form-group col-ms-4" style="width: unset">
+                        <label style="font-size: 20px;">
                             @Model.Roles[i].Name
                             <input type="checkbox" asp-for="Roles[i].Selected" />
                             <input type="hidden" asp-for="Roles[i].Id" />
@@ -31,8 +27,9 @@
                         </label>
                     </div>
                 }
-                <div class="form-group">
+                <div class="form-group col-ms-4" style="text-align: end; width: unset">
                     <input type="submit" value="Lưu lại" class="btn btn-primary" />
+                    <a class="btn btn-success" asp-action="Index" asp-controller="User">Về danh sách</a>
                 </div>
             </form>
         </div>

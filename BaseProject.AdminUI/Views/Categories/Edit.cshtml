@@ -12,27 +12,24 @@
     <li class="breadcrumb-item active">Cập nhật người dùng</li>
 </ol>
 <hr />
-<div class="row">
-    <div class="card-header">
-        <a class="btn btn-success" asp-action="Index" asp-controller="Categories">Về danh sách</a>
-    </div>
-    <div class="col-md-4">
-        <form asp-action="Edit">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-@*            <div class="form-group">
-                <label asp-for="CategoriesId" class="control-label"></label>
-                <input asp-for="CategoriesId" class="form-control" />
-                <span asp-validation-for="CategoriesId" class="text-danger"></span>
-            </div>*@
-            <div class="form-group">
-                <label asp-for="Name" class="control-label"></label>
-                <input asp-for="Name" class="form-control" />
-                <span asp-validation-for="Name" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Lưu" class="btn btn-primary" />
-            </div>
-        </form>
-    </div>
+<div class="col-md-12" style="padding: 1.5rem">
+    <form asp-action="Edit">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        @*            <div class="form-group">
+        <label asp-for="CategoriesId" class="control-label"></label>
+        <input asp-for="CategoriesId" class="form-control" />
+        <span asp-validation-for="CategoriesId" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="Name" class="control-label"></label>
+            <input asp-for="Name" class="form-control" />
+            <span asp-validation-for="Name" class="text-danger"></span>
+        </div>
+        <div class="form-group" style="text-align: end">
+            <input type="submit" value="Lưu" class="btn btn-primary" />
+            <a class="btn btn-success" asp-action="Index" asp-controller="Categories">Về danh sách</a>
+        </div>
+    </form>
+</div>
 </div>
 
