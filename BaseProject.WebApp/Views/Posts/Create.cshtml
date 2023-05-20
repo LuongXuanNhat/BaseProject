@@ -1,143 +1,67 @@
-﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
-
-@{
-    ViewData["Title"] = "Create";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<h1>Tạo bài đánh giá</h1>
-
-
-<hr />
-<div>
-    <form asp-action="Create" method="get" asp-controller="Posts">
-        <div class="row">
-            <div class="col-md-4" style="text-align: end">
-                <label asp-for="numberLocation.numberOfPlaces" class="control-label"></label>
-            </div>
-            <div class="col-md-4">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-
-                    <input asp-for="numberLocation.numberOfPlaces" class="form-control" value="@ViewBag.Num" />
-                    <span asp-validation-for="numberLocation.numberOfPlaces" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group fl">
-                    <input type="submit" value="Cập nhập" class="btn btn-primary" />
+﻿<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Book your outdoor adventure, About Us, ​Find your next getaway, Our Services, ​Plan Your Camping Trip, ​How to plan a camping trip, Contact Us">
+    <meta name="description" content="">
+    <title>CreateReview</title>
+    <link rel="stylesheet" href="nicepage.css" media="screen">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">    <script src="~/js/jquery.js"></script>
+    <script src="~/js/nicepage.js"></script>
+    <link href="~/css/createreview.css" rel="stylesheet" />
+    <link href="~/css/nicepage.css" rel="stylesheet" />
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="CreateReview">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center-md u-container-align-center-sm u-container-align-center-xs u-section-1" src="" id="sec-804d">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h3 class="u-text u-text-default u-text-1">Viết bài review về trải nghiệm của bạn</h3>
+            <p class="u-text u-text-2"> Những câu chuyện của bạn là những gì giúp du khách có những chuyến đi tốt hơn. Hãy chia sẻ kinh nghiệm của bạn và giúp đỡ các du khách khác!</p>
+            <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <p class="u-text u-text-default u-text-3">Chọn số địa điểm bạn muốn review:&nbsp;</p>
+                    <form action="#" method="get" class="u-border-1 u-border-grey-30 u-radius-16 u-search u-search-left u-white u-search-1">
+                        <button class="u-search-button" type="submit">
+                            <span class="u-search-icon u-spacing-10">
+                                <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 56.966 56.966"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-746b"></use></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-746b" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" class="u-svg-content"><path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"></path></svg>
+                            </span>
+                        </button>
+                        <input class="u-search-input" type="search" name="search" value="" placeholder="Bạn đã đi đến đâu ?">
+                    </form>
+                    <div class="u-form u-form-1">
+                        <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-10 u-form-vertical u-inner-form" source="email" name="form-1" style="padding: 10px;">
+                            <div class="u-form-group u-form-name">
+                                <label for="name-8450" class="u-label">Name</label>
+                                <input type="text" placeholder="Enter your Name" id="name-8450" name="name" class="u-input u-input-rectangle" required="">
+                            </div>
+                            <div class="u-form-email u-form-group">
+                                <label for="email-8450" class="u-label">Email</label>
+                                <input type="email" placeholder="Enter a valid email address" id="email-8450" name="email" class="u-input u-input-rectangle" required="">
+                            </div>
+                            <div class="u-form-group u-form-message">
+                                <label for="message-8450" class="u-label">Message</label>
+                                <textarea placeholder="Enter your message" rows="4" cols="50" id="message-8450" name="message" class="u-input u-input-rectangle" required=""></textarea>
+                            </div>
+                            <div class="u-align-left u-form-group u-form-submit">
+                                <a href="#" class="u-btn u-btn-submit u-button-style">Submit</a>
+                                <input type="submit" value="submit" class="u-form-control-hidden">
+                            </div>
+                            <div class="u-form-send-message u-form-send-success"> Thank you! Your message has been sent. </div>
+                            <div class="u-form-send-error u-form-send-message"> Unable to send your message. Please fix errors then try again. </div>
+                            <input type="hidden" value="" name="recaptchaResponse">
+                            <input type="hidden" name="formServices" value="7602526866edb7c8408d86b1763b4708">
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
-    </form>
-</div>
+    </section>
 
-
-<div class="row">
-        <form asp-action="Create" method="post" asp-controller="Posts">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
-            </div>
-            @for (int i = 0; i < Model.PostDetail.Count; i++)
-            {
-                <div class="row">
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Title " class="form-control" />
-                            <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Address " class="form-control" />
-                            <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].When" class="control-label"></label>
-                            <input asp-for="PostDetail[i].When" type="month" class="form-control" />
-                            <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Content " class="form-control" />
-                            <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
-                        </div>
-
-                    </div>
-                    <div class="col-6">
-                        <br/>
-                        <div>
-                            Tìm địa điểm: <input type="text" id="txtplace" />
-                        </div>
-                        @*&callback=initMap*@
-                        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
-
-                        <script>
-                            let map;
-                            let service;
-                            let infowindow;
-
-
-                            function initMap() {
-                                const sydney = new google.maps.LatLng(-33.867, 151.195);
-
-                                infowindow = new google.maps.InfoWindow();
-                                map = new google.maps.Map(document.getElementById("map"), {
-                                    center: sydney,
-                                    zoom: 15,
-                                });
-
-                                const request = {
-                                    query: "Museum of Contemporary Art Australia",
-                                    fields: ["name", "geometry"],
-                                };
-
-                                service = new google.maps.places.PlacesService(map);
-                                service.findPlaceFromQuery(request, (results, status) => {
-                                    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                                        for (let i = 0; i < results.length; i++) {
-                                            createMarker(results[i]);
-                                        }
-
-                                        map.setCenter(results[0].geometry.location);
-                                    }
-                                });
-                            }
-
-                            function createMarker(place) {
-                                if (!place.geometry || !place.geometry.location) return;
-
-                                const marker = new google.maps.Marker({
-                                    map,
-                                    position: place.geometry.location,
-                                });
-
-                                google.maps.event.addListener(marker, "click", () => {
-                                    infowindow.setContent(place.name || "");
-                                    infowindow.open(map);
-                                });
-                            }
-                            var places = new google.maps.places.Autocomplete(document.getElementById('txtplace'));
-
-                            window.initMap = initMap;
-                        </script>
-                        <div id="map" style="height:300px">
-                        </div>
-
-                    </div>
-                </div>
-                
-            <hr />         
-            }
-
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-</div>
-
-
-
+</body>
+</html>

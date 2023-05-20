@@ -1,48 +1,167 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
-
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
+﻿.u-section-1 {
+    min-height: 678px;
 }
 
-a {
-  color: #0077cc;
+    .u-section-1 .u-sheet-1 {
+        min-height: 854px;
+    }
+
+@media (max-width: 767px) {
+    .u-section-1 {
+        min-height: 660px;
+    }
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+@media (max-width: 575px) {
+    .u-section-1 {
+        min-height: 541px;
+    }
 }
 
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.u-section-2 .u-image-1 {
+    min-height: 468px;
+    background-image: linear-gradient(0deg, rgba(0,0,0,0.45), rgba(0,0,0,0.45)), url("images/gfgfggfggg-min.jpg");
 }
 
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
+.u-section-2 .u-layout-wrap-1 {
+    margin-top: 13px;
+    margin-bottom: 30px;
 }
 
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+.u-section-2 .u-layout-cell-1 {
+    min-height: 426px;
+    --animation-custom_in-translate_x: -300px;
+    --animation-custom_in-translate_y: 0px;
+    --animation-custom_in-opacity: 0;
+    --animation-custom_in-rotate: 0deg;
+    --animation-custom_in-scale: 1;
 }
 
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
+.u-section-2 .u-container-layout-1 {
+    padding: 30px 60px 30px 30px;
 }
 
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px;
+.u-section-2 .u-text-1 {
+    margin: 0;
+}
+
+.u-section-2 .u-text-2 {
+    letter-spacing: 2px;
+    text-shadow: 2px 2px 8px rgba(0,0,0,0.4);
+    margin: 32px 0 0;
+}
+
+.u-section-2 .u-btn-1 {
+    border-style: solid;
+    background-image: none;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-size: 0.875rem;
+    margin: 32px auto 0 0;
+    padding: 10px 40px;
+}
+
+.u-section-2 .u-layout-cell-2 {
+    min-height: 426px;
+    --animation-custom_in-translate_x: 300px;
+    --animation-custom_in-translate_y: 0px;
+    --animation-custom_in-opacity: 0;
+    --animation-custom_in-rotate: 0deg;
+    --animation-custom_in-scale: 1;
+}
+
+.u-section-2 .u-container-layout-2 {
+    padding: 17px 30px 17px 60px;
+}
+
+.u-section-2 .u-form-1 {
+    height: 499px;
+    width: 480px;
+    margin: 0;
+}
+
+.u-section-2 .u-label-1 {
+    font-weight: 700;
+}
+
+.u-section-2 .u-label-2 {
+    font-weight: 700;
+}
+
+.u-section-2 .u-label-3 {
+    font-weight: 700;
+}
+
+.u-section-2 .u-btn-2 {
+    background-image: none;
+    border-style: none;
+    text-transform: uppercase;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 10px 31px 10px 29px;
+}
+
+@media (max-width: 1199px) {
+    .u-section-2 .u-image-1 {
+        min-height: 305px;
+    }
+
+    .u-section-2 .u-layout-cell-1 {
+        min-height: 351px;
+    }
+
+    .u-section-2 .u-layout-cell-2 {
+        min-height: 351px;
+    }
+
+    .u-section-2 .u-form-1 {
+        width: 380px;
+    }
+
+    .u-section-2 .u-btn-2 {
+        width: 100%;
+    }
+}
+
+@media (max-width: 991px) {
+    .u-section-2 .u-image-1 {
+        min-height: 26px;
+    }
+
+    .u-section-2 .u-layout-cell-1 {
+        min-height: 100px;
+    }
+
+    .u-section-2 .u-container-layout-1 {
+        padding-right: 30px;
+    }
+
+    .u-section-2 .u-layout-cell-2 {
+        min-height: 100px;
+    }
+
+    .u-section-2 .u-container-layout-2 {
+        padding-right: 0;
+        padding-left: 17px;
+    }
+
+    .u-section-2 .u-form-1 {
+        width: 300px;
+    }
+}
+
+@media (max-width: 767px) {
+    .u-section-2 .u-image-1 {
+        min-height: 126px;
+    }
+
+    .u-section-2 .u-container-layout-1 {
+        padding-left: 10px;
+        padding-right: 10px;
+    }
+
+    .u-section-2 .u-container-layout-2 {
+        padding-left: 10px;
+    }
 }

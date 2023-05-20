@@ -1,76 +1,175 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html style="font-size: 16px;" lang="en">
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - Web Review</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
-    <link rel="stylesheet" href="~/BaseProject.WebApp.styles.css" asp-append-version="true" />
-    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Nơi review địa điểm tốt nhất, mang lại trại nghiệm thực tế nhất">
+    <meta name="description" content="">
+    <title>web riview</title>
+    <link rel="stylesheet" href="_Layout.cshtml.css" media="screen">
+    <link href="~/css/nicepage.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/nicepage.js"></script>
+    <meta name="generator" content="Nicepage 5.9.10, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="layout">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="~/intlTelInput/">
 
 
-  
 </head>
-<body>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
-    <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
-            <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">BaseProject.WebApp</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+<body class="u-body u-xl-mode" data-lang="en">
+    <header class="u-clearfix u-header" id="sec-049a" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1" data-position="">
+                <div class="menu-collapse" style="font-size: 1.125rem; letter-spacing: 0px; font-weight: 700;">
+                    <a class="u-button-style u-custom-active-border-color u-custom-active-color u-custom-border u-custom-border-color u-custom-border-radius u-custom-borders u-custom-color u-custom-hover-border-color u-custom-hover-color u-custom-left-right-menu-spacing u-custom-padding-bottom u-custom-text-active-color u-custom-text-color u-custom-text-hover-color u-custom-text-shadow u-custom-text-shadow-blur u-custom-text-shadow-color u-custom-text-shadow-transparency u-custom-text-shadow-x u-custom-text-shadow-y u-custom-top-bottom-menu-spacing u-nav-link u-text-active-palette-1-base u-text-hover-palette-2-base" href="#">
+                        <svg class="u-svg-link" viewBox="0 0 24 24"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#menu-hamburger"></use></svg>
+                        <svg class="u-svg-content" version="1.1" id="menu-hamburger" viewBox="0 0 16 16" x="0px" y="0px" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns="http://www.w3.org/2000/svg">
+                            <g>
+                                <rect y="1" width="16" height="2"></rect><rect y="7" width="16" height="2"></rect><rect y="13" width="16" height="2"></rect>
+                            </g>
+                        </svg>
+                    </a>
+                </div>
+                <div class="u-custom-menu u-nav-container">
+                    <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1">
+                        <li class="u-nav-item">
+                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px;">
+                                <span style="color:black">Tạo bài review </span>
+                            </a>
                         </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                        <li class="u-nav-item">
+                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px;">Thông báo</a>
+                        </li>
+                        <li class="u-nav-item">
+                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px;">Cá nhân</a>
                         </li>
                     </ul>
                 </div>
-                <form method="get" asp-controller="Posts" asp-action="TakeNumberLocation">
-                    <button type="submit" class="navbar-brand btn btn-primary text-white">Tạo đánh giá</button>
-                </form>
+                <div class="u-custom-menu u-nav-container-collapse">
+                    <div class="u-black u-container-style u-inner-container-layout u-opacity u-opacity-95 u-sidenav">
+                        <div class="u-inner-container-layout u-sidenav-overflow">
+                            <div class="u-menu-close"></div>
+                            <ul class="u-align-center u-nav u-popupmenu-items u-unstyled u-nav-2">
+                                <li class="u-nav-item">
+                                    <a class="u-button-style u-nav-link" asp-controller="Posts" asp-action="Create">Tạo bài review</a>
+                                </li>
+                                <li class="u-nav-item">
+                                    <a class="u-button-style u-nav-link" href="#">Thông báo</a>
+                                </li>
+                                <li class="u-nav-item">
+                                    <a class="u-button-style u-nav-link" href="#">Cá nhân</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="u-black u-menu-overlay u-opacity u-opacity-70"></div>
+                </div>
+            </nav>
+            <img class="u-image u-image-default u-image-1" src="images/logo_review.jpg" alt="" data-image-width="550" data-image-height="208">
+        </div>
+    </header>   
 
-               
-
-                @if (User.Identity.Name != null )
-                {
-                    <h5 style="padding: 0px 20px">Chào @User.Identity.Name </h5>
-                    <form method="post" asp-controller="Account" asp-action="Logout">
-                        <button type="submit" class="navbar-brand btn btn-danger text-white">Đăng xuất</button>
-                    </form>
-                    <form method="get" asp-controller="Posts" asp-action="Index">
-                        <button type="submit" class="navbar-brand btn btn-success text-white">Đánh giá của bạn</button>
-                    </form>
-                    @*<a class="navbar-brand btn btn-danger text-white " method="post" asp-controller="Account" asp-action="Logout">Đăng xuất</a>*@
-
-                } else {
-                    <a class="navbar-brand navbar-brand btn btn-primary text-white " asp-controller="Account" asp-action="Login">Đăng nhập</a>
-                    <a class="navbar-brand navbar-brand btn btn-primary text-white " asp-controller="Account" asp-action="Register">Đăng ký</a>
-                }
-            </div>
-        </nav>
-    </header>
     <div class="container">
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
     </div>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2023 - BaseProject.WebApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="u-align-center-md u-align-center-sm u-align-center-xs u-clearfix u-footer u-grey-80" id="sec-d59b">
+        <section class="u-clearfix u-section-2" id="sec-2a1f">
+            <div class="u-clearfix u-image u-shading u-sheet u-image-1" data-image-width="1620" data-image-height="1080">
+                <div class="u-clearfix u-expanded-width u-gutter-0 u-layout-wrap u-layout-wrap-1">
+                    <div class="u-layout">
+                        <div class="u-layout-row">
+                            <div class="u-container-style u-layout-cell u-left-cell u-size-30 u-layout-cell-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500">
+                                <div class="u-container-layout u-valign-middle u-container-layout-1">
+                                    <h2 class="u-text">Liên hệ chúng tôi</h2>
+                                    <p class="u-text u-text-body-alt-color" style="font-size:14px !important">Để mang lại trải nghiệm website tuyệt vời hơn không thể thiếu ý kiến đóng góp của các bạn. Chúng tôi sẽ rất vui mừng nếu bạn chia sẻ ý kiến của mình.</p>
+                                    <a href="https://nicepage.com/k/infographic-html-templates" class="u-active-white u-border-2 u-border-active-white u-border-hover-white u-border-white u-btn u-btn-round u-button-style u-hover-white u-none u-radius-50 u-text-active-black u-text-hover-black u-btn-1">Liên hệ</a>
+                                </div>
+                            </div>
+                            <div class="u-container-style u-layout-cell u-right-cell u-size-30 u-layout-cell-2" data-animation-name="customAnimationIn" data-animation-duration="1500">
+                                <div class="u-container-layout u-valign-middle u-container-layout-2">
+                                    <div class="u-form u-form-1">
+                                        <form action="https://forms.nicepagesrv.com/v2/form/process" class="u-clearfix u-form-spacing-30 u-form-vertical u-inner-form" style="padding: 10px" source="email" name="form">
+                                            <div class="u-form-email u-form-group u-form-partition-factor-2">
+                                                <label for="email-319a" class="u-label u-text-body-alt-color u-label-1">Email</label>
+                                                <input type="email" placeholder="Nhập email của bạn" id="email-319a" name="email" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle" required="" wfd-id="id1864">
+                                            </div>
+                                            <div class="u-form-group u-form-name u-form-partition-factor-2">
+                                                <label for="name-319a" class="u-label u-text-body-alt-color u-label-2">Họ tên</label>
+                                                <input type="text" placeholder="Nhập tên của bạn" id="name-319a" name="name" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle" required="" wfd-id="id1865">
+                                            </div>
+                                            <div class="u-form-group u-form-message">
+                                                <label for="message-319a" class="u-label u-text-body-alt-color u-label-3">Lời nhắn</label>
+                                                <textarea placeholder="Để lời nhắn của bạn ở đây" rows="3" cols="50" id="message-319a" name="message" class="u-border-2 u-border-no-left u-border-no-right u-border-no-top u-border-white u-input u-input-rectangle" required=""></textarea>
+                                            </div>
+                                            <div class="u-align-left u-form-group u-form-submit">
+                                                <a href="#" class="u-active-white u-border-none u-btn u-btn-round u-btn-submit u-button-style u-hover-white u-palette-2-base u-radius-50 u-btn-2">Gửi đi</a>
+                                                <input type="submit" value="submit" class="u-form-control-hidden" wfd-id="id1867">
+                                            </div>
+                                            <div class="u-form-send-message u-form-send-success"> Cảm ơn! Chúng tôi đã nhận được lời nhắn! </div>
+                                            <div class="u-form-send-error u-form-send-message"> Đã có lỗi xảy ra, vui lòng gửi lời nhắn lại!!! </div>
+                                            <input type="hidden" value="" name="recaptchaResponse" wfd-id="id1868">
+                                            <input type="hidden" name="formServices" value="7602526866edb7c8408d86b1763b4708">
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-align-left u-social-icons u-spacing-10 u-social-icons-1">
+                <a class="u-social-url" title="facebook" target="_blank" href="">
+                    <span class="u-icon u-social-facebook u-social-icon u-icon-1">
+                        <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-65ee"></use></svg>
+                        <svg class="u-svg-content" viewBox="0 0 112 112" x="0" y="0" id="svg-65ee">
+                            <circle fill="currentColor" cx="56.1" cy="56.1" r="55"></circle>
+                            <path fill="#FFFFFF" d="M73.5,31.6h-9.1c-1.4,0-3.6,0.8-3.6,3.9v8.5h12.6L72,58.3H60.8v40.8H43.9V58.3h-8V43.9h8v-9.2
+      c0-6.7,3.1-17,17-17h12.5v13.9H73.5z"></path>
+                        </svg>
+                    </span>
+                </a>
+                <a class="u-social-url" title="instagram" target="_blank" href="">
+                    <span class="u-icon u-social-icon u-social-instagram u-icon-2">
+                        <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-e7da"></use></svg>
+                        <svg class="u-svg-content" viewBox="0 0 112 112" x="0" y="0" id="svg-e7da">
+                            <circle fill="currentColor" cx="56.1" cy="56.1" r="55"></circle>
+                            <path fill="#FFFFFF" d="M55.9,38.2c-9.9,0-17.9,8-17.9,17.9C38,66,46,74,55.9,74c9.9,0,17.9-8,17.9-17.9C73.8,46.2,65.8,38.2,55.9,38.2
+      z M55.9,66.4c-5.7,0-10.3-4.6-10.3-10.3c-0.1-5.7,4.6-10.3,10.3-10.3c5.7,0,10.3,4.6,10.3,10.3C66.2,61.8,61.6,66.4,55.9,66.4z"></path>
+                            <path fill="#FFFFFF" d="M74.3,33.5c-2.3,0-4.2,1.9-4.2,4.2s1.9,4.2,4.2,4.2s4.2-1.9,4.2-4.2S76.6,33.5,74.3,33.5z"></path>
+                            <path fill="#FFFFFF" d="M73.1,21.3H38.6c-9.7,0-17.5,7.9-17.5,17.5v34.5c0,9.7,7.9,17.6,17.5,17.6h34.5c9.7,0,17.5-7.9,17.5-17.5V38.8
+      C90.6,29.1,82.7,21.3,73.1,21.3z M83,73.3c0,5.5-4.5,9.9-9.9,9.9H38.6c-5.5,0-9.9-4.5-9.9-9.9V38.8c0-5.5,4.5-9.9,9.9-9.9h34.5
+      c5.5,0,9.9,4.5,9.9,9.9V73.3z"></path>
+                        </svg>
+                    </span>
+                </a>
+                <a class="u-social-url" target="_blank" data-type="Telegram" title="Telegram" href="">
+                    <span class="u-icon u-social-icon u-social-telegram u-icon-3">
+                        <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 112 112" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-50fb"></use></svg>
+                        <svg class="u-svg-content" viewBox="0 0 112 112" x="0" y="0" id="svg-50fb">
+                            <circle fill="currentColor" cx="56.1" cy="56.1" r="55"></circle>
+                            <path fill="#FFFFFF" d="M18.4,53.2l64.7-24.9c3-1.1,5.6,0.7,4.7,5.3l0,0l-11,51.8c-0.8,3.7-3,4.6-6.1,2.8L53.9,75.8l-8.1,7.8
+	c-0.9,0.9-1.7,1.6-3.4,1.6l1.2-17l31.1-28c1.4-1.2-0.3-1.9-2.1-0.7L34.2,63.7l-16.6-5.2C14,57.4,14,54.9,18.4,53.2L18.4,53.2z"></path>
+                        </svg>
+                    </span>
+                </a>
+            </div>
+            <p class="u-align-center-lg u-align-center-md u-align-center-xl u-text u-text-1">
+                <span style="font-size: 1rem;">Website được tạo bởi Luong Xuan Nhat &amp; Mai Chi Vy </span>
+                <br>
+                <span style="font-size: 0.875rem;"> Công cụ hộ trợ Nicepage &amp; Asp.net core</span>
+                <br>
+            </p>
         </div>
     </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-
-    @await RenderSectionAsync("Scripts", required: false)
 </body>
 </html>
