@@ -59,7 +59,7 @@ namespace BaseProject.Application.Catalog.Images
                 list_image[i].Path = list_image[i].Path.Remove(0,30);
                 await _storageService.DeleteFileAsync(list_image[i].Path);
             }
-        //    _context.Images.RemoveRange(list_image);
+            _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {
