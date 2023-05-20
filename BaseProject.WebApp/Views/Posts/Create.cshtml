@@ -34,72 +34,70 @@
 
 
 <div class="row">
-        <form asp-action="Create" method="post" asp-controller="Posts">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="row p-3">
+    <form asp-action="Create" method="post" asp-controller="Posts">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <div class="row p-3">
             <div class="col-md-4" style="text-align: end">
                 <label asp-for="Title" class="control-label"></label>
-                </div>
-                <div class="form-group col-md-4">
-                    
+            </div>
+            <div class="form-group col-md-4">
+
                 <input asp-for="Title" class="form-control" />
                 <span asp-validation-for="Title" class="text-danger"></span>
-                    
+
             </div>
-                <div class="col-md-4"> </div>
-            </div>
-                
-            @for (int i = 0; i < Model.PostDetail.Count; i++)
-            {
-                int diaDiemThu = i + 1;
-                <div class="row">
+            <div class="col-md-4"> </div>
+        </div>
+
+        @for (int i = 0; i < Model.PostDetail.Count; i++)
+        {
+            int diaDiemThu = i + 1;
+            <div class="row">
                 <div class="col-4">Địa điểm  @diaDiemThu</div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Title " class="form-control" type="text"
+                <div class="col-6">
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Title " class="form-control" type="text"
                                id="searchInput" placeholder="Nhập địa chỉ tìm kiếm" />
-                            <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                            <ul id="searchResults" class="makeColor"></ul>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                        <input asp-for="PostDetail[i].Address " id="searchInput2"
-                               onchange="handleNameChange()"  class="form-control" readonly />
-                            <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].When" class="control-label"></label>
-                            <input asp-for="PostDetail[i].When" type="month" class="form-control" />
-                            <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Content " class="form-control" />
-                            <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
-                        </div>
-
+                        <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                        <ul id="searchResults" class="makeColor"></ul>
                     </div>
-                    
-                        </div>
-                        @*&callback=initMap*@
-                        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
 
-            <hr />         
-            }
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Address " id="searchInput2"
+                               onchange="handleNameChange()" class="form-control" readonly />
+                        <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                    </div>
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].When" class="control-label"></label>
+                        <input asp-for="PostDetail[i].When" type="month" class="form-control" />
+                        <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                        <input asp-for="PostDetail[i].Content " class="form-control" />
+                        <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                    </div>
+
+                </div>
+
             </div>
-        </form>
+
+            <hr />
+        }
+
+        <div class="form-group">
+            <input type="submit" value="Create" class="btn btn-primary" />
+        </div>
+    </form>
 
 
 
     @section Scripts {
 
-                        <script>
+        <script>
             document.getElementById('searchInput').addEventListener('input', function () {
                 var searchText = this.value;
 
@@ -125,14 +123,14 @@
                             // Xử lý lỗi nếu có
                             console.error(error);
                         }
-                                });
+                    });
                 }
             }
 
             var searchInput = document.getElementById('searchInput');
             var resultList = document.getElementById('searchResults');
 
-            
+
 
 
             function displaySearchResults(locations) {
@@ -155,8 +153,7 @@
 
                         // Xóa danh sách kết quả tìm kiếm
                         resultList.innerHTML = '';
-                                });
-                            }
+                    });
 
                     searchInput.addEventListener('blur', function () {
 
@@ -164,33 +161,21 @@
                             // Nếu không, xóa nội dung của danh sách kết quả
                             resultList.innerHTML = '';
                         }
-                                });
+                    });
 
 
                     // Thêm phần tử li vào danh sách kết quả tìm kiếm
                     resultList.appendChild(listItem);
-                                });
-                            }
-
-
-
-
-                            window.initMap = initMap;
-                        </script>
-                        <div id="map" style="height:300px">
-                        </div>
-
-                    </div>
-                </div>
-                
-            <hr />         
+                });
             }
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
-</div>
 
+
+
+        </script>
+
+
+    }
+</div>
 
 
