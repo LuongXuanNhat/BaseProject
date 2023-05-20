@@ -11,7 +11,9 @@ namespace BaseProject.Data.Configurations
             builder.ToTable("Images");
 
             builder.HasKey(x => x.ImageId);
-            builder.Property(x => x.Name).IsRequired(false).HasMaxLength(100);
+            builder.Property(c => c.LocationsDetailId).IsRequired(false);
+            builder.Property(c => c.LocationId).IsRequired(false);
+
 
 
             // Relationship

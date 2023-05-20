@@ -1,6 +1,7 @@
 ﻿using BaseProject.Application.Catalog.Posts;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -87,6 +88,26 @@ namespace BaseProject.BackendApi.Controllers
         public async Task<ApiResult<PostCreateRequest>> LoadPost()
         {
             return new ApiSuccessResult<PostCreateRequest>();
+        }
+
+        [AllowAnonymous]
+        [HttpGet("locations")]
+        public async Task<IActionResult> SearchLocations(string searchText)
+        {
+            // Truy vấn dữ liệu từ cơ sở dữ liệu dựa trên từ khóa tìm kiếm
+            var results = await _postService.GetAll(searchText);
+            List<SearchPlaceVm> placeList = new List<SearchPlaceVm>();
+            for (int i = 0; i < results.Count; i++)
+            {
+                SearchPlaceVm place = new SearchPlaceVm(); // Khởi tạo đối tượng SearchPlaceVm
+                place.LocationId = results[i].LocationId;
+                place.Name = results[i].Name;
+                place.Address = results[i].Address;
+
+                placeList.Add(place);
+            }
+
+            return Ok(placeList);
         }
     }
 }

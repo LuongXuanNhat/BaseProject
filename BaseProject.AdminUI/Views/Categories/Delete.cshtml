@@ -25,13 +25,14 @@
                     <dt class="col-sm-2">
                         @Html.DisplayNameFor(model => model.CategoriesId)
                     </dt>
-                    <dd class="col-sm-10">
+                    <dd class="col-sm-6">
                         @Html.DisplayFor(model => model.CategoriesId)
                     </dd>
-                    <div class="col-sm-10 d-xxl-inline-flex">
-                        <form asp-action="Delete">
+                    <div class="col-sm-4 d-xxl-inline-flex">
+                        <form asp-action="Delete" style="text-align: end">
                             <input asp-for="CategoriesId" type="hidden" />
-                            <input type="submit" value="Xóa" class="btn btn-danger" /> |
+                            <input type="submit" value="Xóa" class="btn btn-danger" />
+                            <a class="btn btn-success" asp-action="Index" asp-controller="Categories">Về danh sách</a>
                         </form>
                     </div>
                     

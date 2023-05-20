@@ -1,7 +1,9 @@
-﻿using BaseProject.ViewModels.Catalog.Categories;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -23,6 +25,7 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
         Task<ApiResult<PostCreateRequest>> GetById(int postId);
+        Task<List<Location>> GetAll(string searchText);
         
     }
 }

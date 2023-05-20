@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.Catalog.Categories;
+using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Catalog.Posts;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
@@ -8,6 +9,8 @@ using BaseProject.Data.Entities;
 using BaseProject.ViewModels.System.Users;
 using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Cors.Infrastructure;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyModel;
@@ -50,6 +53,7 @@ builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
+builder.Services.AddTransient<IImageService, ImagesService>();
 
 
 
@@ -124,7 +128,7 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:7202");
-    context.Response.Headers.Add("Access-Control-Allow-Methods", "DELETE");
+    context.Response.Headers.Add("Access-Control-Allow-Methods", "GET , DELETE");
     context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
     if (context.Request.Method == "OPTIONS")
     {
@@ -139,6 +143,8 @@ if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+
+app.UseCors();
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();

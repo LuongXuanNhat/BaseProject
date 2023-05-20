@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BaseProject.Data.Entities
 {
@@ -26,6 +27,10 @@ namespace BaseProject.Data.Entities
         public List<LocationsDetail>? LocationsDetail{ get; set; }
         public List<RatingLocation>? RatingLocation { get; set; }
         public List<Image>? Image { get; set; }
+
+        [Required]
+        [NotMapped]
+        public List<IFormFile>? GetImage { get; set; }
 
     }
 }

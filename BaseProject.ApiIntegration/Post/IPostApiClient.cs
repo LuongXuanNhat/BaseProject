@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Catalog.Categories;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -19,6 +20,9 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<bool>> DeletePost(int idPost);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
+
+        Task<List<Location>> GetAll();
+
         public string GetToken();
 
 

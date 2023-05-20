@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc.ModelBinding;
 using BaseProject.Data.Entities;
 using Azure.Core;
 using BaseProject.ApiIntegration.Post;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -73,6 +74,7 @@ namespace BaseProject.WebApp.Controllers
                 numberLocation = new TakeNumberLocation();
             }
             ViewBag.Num = numberLocation.numberOfPlaces;
+            ViewBag.Token = GetToken();
 
             PostDetailRequest detailRequest = new PostDetailRequest();
             List<PostDetailRequest> postDetailRequest = new List<PostDetailRequest>();
@@ -156,6 +158,13 @@ namespace BaseProject.WebApp.Controllers
                 return RedirectToAction("Create", numberLocation);
             }
             return RedirectToAction("Create", numberLocation);
+        }
+
+
+        public async Task<IActionResult> SearchData()
+        {
+            List<Location> results =await _postApiClient.GetAll();
+            return Json(results);
         }
 
         public string GetToken()
