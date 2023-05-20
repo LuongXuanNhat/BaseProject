@@ -60,12 +60,13 @@
                             <input asp-for="PostDetail[i].Title " class="form-control" type="text"
                                id="searchInput" placeholder="Nhập địa chỉ tìm kiếm" />
                             <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                            <ul id="searchResults"></ul>
+                            <ul id="searchResults" class="makeColor"></ul>
                         </div>
                         
                         <div class="form-group">
                             <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Address " class="form-control" />
+                        <input asp-for="PostDetail[i].Address " id="searchInput2"
+                               onchange="handleNameChange()"  class="form-control" readonly />
                             <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
                         </div>
                         
@@ -95,16 +96,15 @@
 
 
     @section Scripts {
+
         <script>
-            // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
             document.getElementById('searchInput').addEventListener('input', function () {
                 var searchText = this.value;
 
                 // Gửi yêu cầu tìm kiếm dữ liệu
                 searchLocations(searchText);
             });
-        </script>
-        <script>
+
             var token = '@Html.Raw(ViewBag.Token)';
 
             function searchLocations(searchText) {
@@ -126,9 +126,13 @@
                     });
                 }
             }
-        </script>
 
-        <script>
+            var searchInput = document.getElementById('searchInput');
+            var resultList = document.getElementById('searchResults');
+
+            
+
+
             function displaySearchResults(locations) {
                 var resultList = document.getElementById('searchResults');
                 resultList.innerHTML = '';
@@ -138,31 +142,39 @@
                     // Tạo phần tử li và thêm nội dung tên địa điểm
                     var listItem = document.createElement('li');
                     listItem.textContent = location.name + " - " + location.address;
+                    listItem.classList.add('highlighted');
 
                     // Thêm sự kiện click để chọn một địa điểm từ danh sách kết quả tìm kiếm
-                    listItem.addEventListener('click', function () {
+                    listItem.addEventListener('mousedown', function () {
 
                         // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
                         document.getElementById('searchInput').value = location.name;
+                        document.getElementById('searchInput2').value = location.address;
 
                         // Xóa danh sách kết quả tìm kiếm
                         resultList.innerHTML = '';
                     });
 
+                    searchInput.addEventListener('blur', function () {
+
+                        if (!resultList.contains(event.relatedTarget)) {
+                            // Nếu không, xóa nội dung của danh sách kết quả
+                            resultList.innerHTML = '';
+                        }
+                    });
+
+
                     // Thêm phần tử li vào danh sách kết quả tìm kiếm
                     resultList.appendChild(listItem);
                 });
             }
+
+
+
+         
         </script>
 
-        <script>
-            var searchInput = document.getElementById('searchInput');
-            var resultList = document.getElementById('searchResults');
-
-            searchInput.addEventListener('blur', function () {
-                resultList.innerHTML = ''; // Xóa nội dung của danh sách kết quả khi ô tìm kiếm mất focus (con trỏ văn bản biến mất)
-            });
-        </script>
+      
     }
 </div>
 

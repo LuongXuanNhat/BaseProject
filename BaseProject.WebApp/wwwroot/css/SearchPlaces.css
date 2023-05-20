@@ -12,10 +12,16 @@
 }
 
     #searchResults li {
+        color: crimson;
         padding: 5px;
         cursor: pointer;
     }
 
-        #searchResults li:hover {
-            background-color: #f2f2f2;
-        }
+#searchResults li:hover {
+    color: crimson;
+    background-color: #f2f2f2;
+}
+
+.makeColor > li {
+    color: crimson;
+}
