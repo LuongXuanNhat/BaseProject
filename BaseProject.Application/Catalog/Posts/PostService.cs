@@ -279,5 +279,15 @@ namespace BaseProject.Application.Catalog.Posts
         {
             return new ApiSuccessResult<bool>();
         }
+
+        public async Task<List<Location>> GetAll(string searchText)
+        {
+            var result = await _context.Locations
+                        .Where(l => l.Name.Contains(searchText))
+                        .ToListAsync();
+            return result;
+        }
+
+
     }
 }

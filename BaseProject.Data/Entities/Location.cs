@@ -30,7 +30,7 @@ namespace BaseProject.Data.Entities
 
         [Required]
         [NotMapped]
-        public List<IFormFile> GetImage { get; set; }
+        public List<IFormFile>? GetImage { get; set; }
 
     }
 }

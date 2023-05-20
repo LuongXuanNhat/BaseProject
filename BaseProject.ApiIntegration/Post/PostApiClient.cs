@@ -15,6 +15,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using BaseProject.ViewModels.Catalog.Post;
+using BaseProject.Data.Entities;
 
 namespace BaseProject.ApiIntegration.Post
 {
@@ -53,6 +54,8 @@ namespace BaseProject.ApiIntegration.Post
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
+
+        // Không dùng
         public async Task<ApiResult<bool>> DeleteCategory(int idCategory)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
@@ -70,6 +73,21 @@ namespace BaseProject.ApiIntegration.Post
         public Task<ApiResult<bool>> DeletePost(int idCategory)
         {
             throw new NotImplementedException();
+        }
+
+        public async Task<List<Location>> GetAll()
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync("/api/post/Find");
+            var body = await response.Content.ReadAsStringAsync();
+            List<Location> locations = JsonConvert.DeserializeObject<List<Location>>(body);
+
+            return locations;
+            //return JsonConvert.DeserializeObject<List<Location>>(body);
+            //return JsonConvert.DeserializeObject<List<Location>>(body);
         }
 
         public async Task<ApiResult<PostCreateRequest>> GetById(int id)

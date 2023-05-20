@@ -36,25 +36,39 @@
 <div class="row">
         <form asp-action="Create" method="post" asp-controller="Posts">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="row p-3">
+            <div class="col-md-4" style="text-align: end">
+                    <label asp-for="Title" class="control-label"></label>
+                </div>
+                <div class="form-group col-md-4">
+                    
+                    <input asp-for="Title" class="form-control" />
+                    <span asp-validation-for="Title" class="text-danger"></span>
+                    
+                </div>
+                <div class="col-md-4"> </div>
             </div>
+                
             @for (int i = 0; i < Model.PostDetail.Count; i++)
             {
+                int diaDiemThu = i + 1;
                 <div class="row">
+                <div class="col-4">Địa điểm  @diaDiemThu</div>
                     <div class="col-6">
                         <div class="form-group">
                             <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Title " class="form-control" />
+                            <input asp-for="PostDetail[i].Title " class="form-control" type="text"
+                               id="searchInput" placeholder="Nhập địa chỉ tìm kiếm" />
                             <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                            <ul id="searchResults"></ul>
                         </div>
+                        
                         <div class="form-group">
                             <label asp-for="PostDetail[i].Address " class="control-label"></label>
                             <input asp-for="PostDetail[i].Address " class="form-control" />
                             <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
                         </div>
+                        
                         <div class="form-group">
                             <label asp-for="PostDetail[i].When" class="control-label"></label>
                             <input asp-for="PostDetail[i].When" type="month" class="form-control" />
@@ -67,67 +81,7 @@
                         </div>
 
                     </div>
-                    <div class="col-6">
-                        <br/>
-                        <div>
-                            Tìm địa điểm: <input type="text" id="txtplace" />
-                        </div>
-                        @*&callback=initMap*@
-                        <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places"> </script>
-
-                        <script>
-                            let map;
-                            let service;
-                            let infowindow;
-
-
-                            function initMap() {
-                                const sydney = new google.maps.LatLng(-33.867, 151.195);
-
-                                infowindow = new google.maps.InfoWindow();
-                                map = new google.maps.Map(document.getElementById("map"), {
-                                    center: sydney,
-                                    zoom: 15,
-                                });
-
-                                const request = {
-                                    query: "Museum of Contemporary Art Australia",
-                                    fields: ["name", "geometry"],
-                                };
-
-                                service = new google.maps.places.PlacesService(map);
-                                service.findPlaceFromQuery(request, (results, status) => {
-                                    if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                                        for (let i = 0; i < results.length; i++) {
-                                            createMarker(results[i]);
-                                        }
-
-                                        map.setCenter(results[0].geometry.location);
-                                    }
-                                });
-                            }
-
-                            function createMarker(place) {
-                                if (!place.geometry || !place.geometry.location) return;
-
-                                const marker = new google.maps.Marker({
-                                    map,
-                                    position: place.geometry.location,
-                                });
-
-                                google.maps.event.addListener(marker, "click", () => {
-                                    infowindow.setContent(place.name || "");
-                                    infowindow.open(map);
-                                });
-                            }
-                            var places = new google.maps.places.Autocomplete(document.getElementById('txtplace'));
-
-                            window.initMap = initMap;
-                        </script>
-                        <div id="map" style="height:300px">
-                        </div>
-
-                    </div>
+                    
                 </div>
                 
             <hr />         
@@ -137,6 +91,79 @@
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>
         </form>
+
+
+
+    @section Scripts {
+        <script>
+            // Lắng nghe sự kiện khi người dùng nhập vào ô tìm kiếm
+            document.getElementById('searchInput').addEventListener('input', function () {
+                var searchText = this.value;
+
+                // Gửi yêu cầu tìm kiếm dữ liệu
+                searchLocations(searchText);
+            });
+        </script>
+        <script>
+            var token = '@Html.Raw(ViewBag.Token)';
+
+            function searchLocations(searchText) {
+                // Kiểm tra nếu độ dài của từ khóa tìm kiếm là ít nhất 3 ký tự
+                if (searchText.length >= 3) {
+                    $.ajax({
+                        url: 'https://localhost:7204/api/post/locations',
+                        type: 'GET',
+                        headers: { Authorization: 'Bearer ' + token },
+                        data: { searchText: searchText },
+                        success: function (locations) {
+                            // Xử lý kết quả tìm kiếm và hiển thị danh sách tên địa điểm
+                            displaySearchResults(locations);
+                        },
+                        error: function (xhr, status, error) {
+                            // Xử lý lỗi nếu có
+                            console.error(error);
+                        }
+                    });
+                }
+            }
+        </script>
+
+        <script>
+            function displaySearchResults(locations) {
+                var resultList = document.getElementById('searchResults');
+                resultList.innerHTML = '';
+
+                // Duyệt qua danh sách kết quả tìm kiếm và tạo các phần tử HTML để hiển thị
+                locations.forEach(function (location) {
+                    // Tạo phần tử li và thêm nội dung tên địa điểm
+                    var listItem = document.createElement('li');
+                    listItem.textContent = location.name + " - " + location.address;
+
+                    // Thêm sự kiện click để chọn một địa điểm từ danh sách kết quả tìm kiếm
+                    listItem.addEventListener('click', function () {
+
+                        // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
+                        document.getElementById('searchInput').value = location.name;
+
+                        // Xóa danh sách kết quả tìm kiếm
+                        resultList.innerHTML = '';
+                    });
+
+                    // Thêm phần tử li vào danh sách kết quả tìm kiếm
+                    resultList.appendChild(listItem);
+                });
+            }
+        </script>
+
+        <script>
+            var searchInput = document.getElementById('searchInput');
+            var resultList = document.getElementById('searchResults');
+
+            searchInput.addEventListener('blur', function () {
+                resultList.innerHTML = ''; // Xóa nội dung của danh sách kết quả khi ô tìm kiếm mất focus (con trỏ văn bản biến mất)
+            });
+        </script>
+    }
 </div>
 
 

@@ -1,0 +1,21 @@
+﻿#searchResults {
+    position: absolute;
+    max-height: 200px;
+    overflow-y: auto;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    padding: 5px;
+    margin: 0;
+    padding: 0;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+    #searchResults li {
+        padding: 5px;
+        cursor: pointer;
+    }
+
+        #searchResults li:hover {
+            background-color: #f2f2f2;
+        }
