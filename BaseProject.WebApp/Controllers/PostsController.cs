@@ -10,6 +10,7 @@ using BaseProject.Data.Entities;
 using Azure.Core;
 using BaseProject.ApiIntegration.Post;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using BaseProject.ApiIntegration.Category;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -18,12 +19,14 @@ namespace BaseProject.WebApp.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IPostApiClient _postApiClient;
+        private readonly ICategoryApiClient _cateApiClient;
         //private readonly UserManager<AppUser> _userManager;
 
-        public PostsController(IConfiguration configuration, IPostApiClient postApiClient)
+        public PostsController(IConfiguration configuration, IPostApiClient postApiClient, ICategoryApiClient cateApiClient)
         {
             _configuration = configuration;
             _postApiClient = postApiClient;
+            _cateApiClient = cateApiClient;
         }
 
         [Authorize]
@@ -82,11 +85,12 @@ namespace BaseProject.WebApp.Controllers
             {
                 postDetailRequest.Add(detailRequest);
             }
-
+            var category = await _cateApiClient.GetAll();
             return View(
                 new PostCreateRequest
                 {
-                    PostDetail = postDetailRequest
+                    PostDetail = postDetailRequest,
+                    CategoryPostDetail = category.ResultObj
                 }
             );
                 

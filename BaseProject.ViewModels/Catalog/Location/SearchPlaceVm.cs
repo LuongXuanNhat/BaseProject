@@ -17,6 +17,7 @@ namespace BaseProject.ViewModels.Catalog.Location
         public int LocationId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public string PlaceImage { get; set; }
     }
 
 }

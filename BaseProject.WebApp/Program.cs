@@ -1,4 +1,5 @@
-﻿using BaseProject.ApiIntegration.Post;
+﻿using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.Role;
 using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Common;
@@ -44,6 +45,7 @@ builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IPostApiClient, PostApiClient>();
+builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 
 
 

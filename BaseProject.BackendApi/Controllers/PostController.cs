@@ -84,11 +84,6 @@ namespace BaseProject.BackendApi.Controllers
 
         }
 
-        [HttpGet]
-        public async Task<ApiResult<PostCreateRequest>> LoadPost()
-        {
-            return new ApiSuccessResult<PostCreateRequest>();
-        }
 
         [AllowAnonymous]
         [HttpGet("locations")]
@@ -96,18 +91,9 @@ namespace BaseProject.BackendApi.Controllers
         {
             // Truy vấn dữ liệu từ cơ sở dữ liệu dựa trên từ khóa tìm kiếm
             var results = await _postService.GetAll(searchText);
-            List<SearchPlaceVm> placeList = new List<SearchPlaceVm>();
-            for (int i = 0; i < results.Count; i++)
-            {
-                SearchPlaceVm place = new SearchPlaceVm(); // Khởi tạo đối tượng SearchPlaceVm
-                place.LocationId = results[i].LocationId;
-                place.Name = results[i].Name;
-                place.Address = results[i].Address;
+            
 
-                placeList.Add(place);
-            }
-
-            return Ok(placeList);
+            return Ok(results);
         }
     }
 }

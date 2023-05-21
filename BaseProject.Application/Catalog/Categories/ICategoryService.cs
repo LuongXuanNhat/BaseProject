@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Catalog.Categories;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using System;
@@ -20,23 +21,8 @@ namespace BaseProject.Application.Catalog.Categories
         Task<ApiResult<PagedResult<CategoryRequest>>> GetCategoryPaging(GetUserPagingRequest request);
 
         Task<ApiResult<CategoryRequest>> GetById(int categoryId);
+        Task<ApiResult<List<Category>>> GetAll();
 
-        //Task<bool> UpdatePrice(int productId, decimal newPrice);
-
-        //Task<bool> UpdateStock(int productId, int addedQuantity);
-
-        //Task AddViewcount(int productId);
-
-        //Task<PagedResult<ProductVm>> GetAllPaging(GetManageProductPagingRequest request);
-
-        //Task<int> AddImage(int productId, ProductImageCreateRequest request);
-
-        //Task<int> RemoveImage(int imageId);
-
-        //Task<int> UpdateImage(int imageId, ProductImageUpdateRequest request);
-
-        //Task<ProductImageViewModel> GetImageById(int imageId);
-
-        //Task<List<ProductImageViewModel>> GetListImages(int productId);
+ 
     }
 }

@@ -5,34 +5,41 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h3>Tạo bài đánh giá</h3>
 
-
-<hr />
 <div>
     <form asp-action="Create" method="get" asp-controller="Posts">
         <div class="row">
-            <div class="col-md-4" style="text-align: end">
-                <label asp-for="numberLocation.numberOfPlaces" class="control-label"></label>
+            <div class="col-md-2">
+                <h4>Tạo bài đánh giá</h4>
             </div>
-            <div class="col-md-4">
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-
+            <div class="col-md-10 row" style="align-items: center">
+                <div class="col-md-8" style="text-align: end">
+                    <label asp-for="numberLocation.numberOfPlaces" class="control-label"></label>
+                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                </div>
+                <div class="form-group col-md-2" style="text-align: end">
                     <input asp-for="numberLocation.numberOfPlaces" class="form-control" value="@ViewBag.Num" />
                     <span asp-validation-for="numberLocation.numberOfPlaces" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="col-md-4">
-                <div class="form-group fl">
-                    <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                <div class="col-md-2" style="text-align: start">
+                    <div class="form-group fl">
+                        <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                    </div>
                 </div>
-            </div>
+            </div>   
         </div>
     </form>
 </div>
+<hr />
+<script>
+    function handleDropdownItemClick(event) {
+        var target = event.target;
+        var checkbox = target.querySelector('input[type="checkbox"]');
 
-
+        // Kiểm tra trạng thái hiện tại của checkbox và thay đổi nó
+        checkbox.checked = !checkbox.checked;
+    }
+</script>
 <div class="row">
     <form asp-action="Create" method="post" asp-controller="Posts">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -46,14 +53,41 @@
                 <span asp-validation-for="Title" class="text-danger"></span>
 
             </div>
-            <div class="col-md-4"> </div>
+            <div class="col-md-4">
+                <div class="dropdown">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                        Danh mục
+                    </button>
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="max-height: 200px; overflow-y: auto;">
+                        @for (var i = 0; i < Model.CategoryPostDetail.Count; i++)
+                        {
+                            var category = Model.CategoryPostDetail[i];
+                            <li class="dropdown-item">
+                                <input type="checkbox" id="@($"checkbox_{i}")" name="CategoryPostDetail[@i].IsSelected" value="@category.Name" style="width: 15px; height: 15px">
+                                <label for="@($"checkbox_{i}")">@category.Name</label>
+                            </li>
+                        }
+                        
+                    </ul>
+                </div>
+
+              
+            </div>
+
         </div>
 
         @for (int i = 0; i < Model.PostDetail.Count; i++)
         {
             int diaDiemThu = i + 1;
-            <div class="row">
-                <div class="col-4">Địa điểm  @diaDiemThu</div>
+            <div class="row" style="background-color:antiquewhite; border-radius: 5px; padding-bottom: 5px; ">
+                <div class="col-4 row">
+                    <div>Địa điểm  @diaDiemThu</div>
+                    <div class="image-container">
+                        <a  target="_blank" asp-action="index" asp-controller="Home">
+                            <img id="showImage_@i" style="max-width: 15rem;"/>
+                        </a>
+                    </div>
+                </div>
                 <div class="col-6">
                     <div class="form-group">
                         <label asp-for="PostDetail[i].Title " class="control-label"></label>
@@ -108,6 +142,9 @@
                                 headers: { Authorization: 'Bearer ' + token },
                                 data: { searchText: searchText },
                                 success: function (locations) {
+
+                                    // check
+                                    console.log(locations);
                                     // Xử lý kết quả tìm kiếm và hiển thị danh sách tên địa điểm
                                     displaySearchResults(locations);
                                 },
@@ -142,6 +179,9 @@
                                 // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
                                 document.getElementById('searchInput_@i').value = location.name;
                                 document.getElementById('searchInput2_@i').value = location.address;
+
+                                // Hiển thị ảnh
+                                document.getElementById('showImage_@i').src = location.placeImage;
 
                                 // Xóa danh sách kết quả tìm kiếm
                                 resultList.innerHTML = '';
@@ -194,14 +234,7 @@
         </div>
     </form>
 
-
-
-    @section Scripts {
-
-        
-
-
-    }
+  
 </div>
 
 
