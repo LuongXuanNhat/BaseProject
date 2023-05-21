@@ -14,6 +14,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
+using BaseProject.Data.Entities;
 
 namespace BaseProject.ApiIntegration.Category
 {
@@ -44,6 +45,20 @@ namespace BaseProject.ApiIntegration.Category
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<ApiResult<List<Data.Entities.Category>>> GetAll()
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/categoriess/getall");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<List<Data.Entities.Category>>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<List<Data.Entities.Category>>>(body);
         }
 
         public async Task<ApiResult<CategoryRequest>> GetById(int id)

@@ -1,5 +1,7 @@
 ﻿using BaseProject.Application.Catalog.Categories;
+using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +11,7 @@ namespace BaseProject.BackendApi.Controllers
     // api/categoriess
     [Route("api/[controller]")]
     [ApiController]
+
     public class CategoriessController : ControllerBase
     {
         private readonly ICategoryService _categoryService;
@@ -74,6 +77,14 @@ namespace BaseProject.BackendApi.Controllers
         {
             var user = await _categoryService.GetById(id);
             return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("getall")]
+        public async Task<IActionResult> GetAll()
+        {
+            var cate = await _categoryService.GetAll();
+            return Ok(cate);
         }
     }
 }

@@ -9,8 +9,8 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 using Microsoft.AspNetCore.Authorization;
-
-
+using BaseProject.ViewModels.Catalog.Location;
+using Microsoft.AspNetCore.Http;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -281,12 +281,23 @@ namespace BaseProject.Application.Catalog.Posts
             return new ApiSuccessResult<bool>();
         }
 
-        public async Task<List<Location>> GetAll(string searchText)
+        public async Task<List<SearchPlaceVm>> GetAll(string searchText)
         {
             var result = await _context.Locations
                         .Where(l => l.Name.Contains(searchText))
                         .ToListAsync();
-            return result;
+
+            List<SearchPlaceVm> placeList = new List<SearchPlaceVm>();
+            for (int i = 0; i < result.Count; i++)
+            {
+                SearchPlaceVm place = new SearchPlaceVm(); // Khởi tạo đối tượng SearchPlaceVm
+                place.LocationId = result[i].LocationId;
+                place.Name = result[i].Name;
+                place.Address = result[i].Address;
+                place.PlaceImage = await _context.Images.Where(x => x.LocationId == result[i].LocationId).Select(x => x.Path).FirstOrDefaultAsync();
+                placeList.Add(place);
+            }
+            return placeList;
         }
 
 

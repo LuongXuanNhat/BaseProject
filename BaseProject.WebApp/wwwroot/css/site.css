@@ -14,9 +14,23 @@ html {
 }
 
 body {
-  margin-bottom: 60px;
+    margin-bottom: 60px;
+    font-family: Mulish, sans-serif !important;
+    font-weight: 400;
 }
 
 .font {
-    font-family: Mulish, sans-serif !important;
+    font-family: Mulish, sans-serif !important; 
+}
+
+.scrollable-dropdown {
+    max-height: 50px;
+    overflow-y: auto;
+}
+.hidden {
+    display: none !important;
+}
+
+.show {
+    display: block !important;
 }

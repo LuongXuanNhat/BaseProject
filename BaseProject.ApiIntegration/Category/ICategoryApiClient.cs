@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Catalog.Categories;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using System;
@@ -18,6 +19,7 @@ namespace BaseProject.ApiIntegration.Category
         Task<ApiResult<bool>> DeleteCategory(int idCategory);
 
         Task<ApiResult<CategoryRequest>> GetById(int id);
+        Task<ApiResult<List<Data.Entities.Category>>> GetAll();
 
 
 

@@ -124,5 +124,11 @@ namespace BaseProject.Application.Catalog.Categories
             };
             return new ApiSuccessResult<CategoryRequest>(category);
         }
+
+        public async Task<ApiResult<List<Category>>> GetAll()
+        {
+            var cate = await _context.Categories.ToListAsync();
+            return new ApiSuccessResult<List<Category>>(cate);
+        }
     }
 }

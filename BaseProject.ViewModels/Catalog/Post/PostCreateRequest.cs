@@ -25,6 +25,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         public TakeNumberLocation? numberLocation { get; set; }
 
         public List<PostDetailRequest> PostDetail { get; set; }
+        public List<Category> CategoryPostDetail { get; set; }
 
 
         // Contrustor
