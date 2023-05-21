@@ -31,7 +31,15 @@
     </form>
 </div>
 <hr />
+<script>
+    function handleDropdownItemClick(event) {
+        var target = event.target;
+        var checkbox = target.querySelector('input[type="checkbox"]');
 
+        // Kiểm tra trạng thái hiện tại của checkbox và thay đổi nó
+        checkbox.checked = !checkbox.checked;
+    }
+</script>
 <div class="row">
     <form asp-action="Create" method="post" asp-controller="Posts">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
@@ -47,17 +55,19 @@
             </div>
             <div class="col-md-4">
                 <div class="dropdown">
-                    <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                         Danh mục
                     </button>
-                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                        @foreach (var category in Model.CategoryPostDetail)
+                    <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="max-height: 200px; overflow-y: auto;">
+                        @for (var i = 0; i < Model.CategoryPostDetail.Count; i++)
                         {
+                            var category = Model.CategoryPostDetail[i];
                             <li class="dropdown-item">
-                                <input type="checkbox" value="@category.Name">
-                                <label>@category.Name</label>
+                                <input type="checkbox" id="@($"checkbox_{i}")" name="CategoryPostDetail[@i].IsSelected" value="@category.Name" style="width: 15px; height: 15px">
+                                <label for="@($"checkbox_{i}")">@category.Name</label>
                             </li>
                         }
+                        
                     </ul>
                 </div>
 
