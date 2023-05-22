@@ -135,8 +135,8 @@ namespace BaseProject.Data.EF
                 new Location()
                 {
                     LocationId = 100,
-                    Name = "Quán Cà Phê Trung Nguyên  ",
-                    Address = "19B Phạm Ngọc Thạch, Phường 6, Quận 3 ,TP. Hồ Chí Minh, Việt Nam"
+                    Name = "Công viên 23/9",
+                    Address = "Phạm Ngũ Lão, Phường Phạm Ngũ Lão, Quận 1, Thành phố Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {
@@ -151,13 +151,13 @@ namespace BaseProject.Data.EF
                 },
                 new Location()
                 {LocationId = 103,
-                    Name = "Bãi biển Vũng Tàu ",
-                    Address = "Thùy Vân, Thành phố Vũng Tàu , Việt Nam"
+                    Name = "Bãi Thùy Vân (bãi Sau)",
+                    Address = "Đường Thùy Vân, Tp. Vũng Tàu, Việt Nam"
                 },
                 new Location()
                 {LocationId = 104,
-                    Name = "Khu bảo tồn Thiên nhiên Cần Giờ ",
-                    Address = " Cần Giờ ,TP. Hồ Chí Minh, Việt Nam"
+                    Name = "Rừng Sác",
+                    Address = "đường Rừng Sác, xã Long Hòa, huyện Cần Giờ, Thành phố Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 105,
@@ -190,14 +190,16 @@ namespace BaseProject.Data.EF
                     Address = "7 Công trường Lam Sơn, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 111,
-                    Name = "Quán ăn Ngon Xưa ",
-                    Address = "138 Nguyễn Thị Minh Khai, Phường 6, Quận 3 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 111,
+                    Name = "Nhà Thờ Cha Tam",
+                    Address = "số 25 đường Học Lạc, phường 14, quận 5, thành phố Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 112,
-                    Name = "Bảo tàng Mỹ thuật TP. Hồ Chí Minh  ",
-                    Address = " 97A Phó Đức Chính, Nguyễn Thái Bình, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 112,
+                    Name = "Công Viên Cá Koi Rinrin Park",
+                    Address = "87/8P Xuân Thới Thượng 6, xã Xuân Thới Đông, huyện Hóc Môn, thành phố Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 113,
@@ -215,8 +217,9 @@ namespace BaseProject.Data.EF
                     Address = "108-120 Lê Duẩn, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 116,
-                    Name = "Nhà hàng Huế Cẩm ",
+                {
+                    LocationId = 116,
+                    Name = "Công Viên Nước Lego Water Park",
                     Address = "233B Nguyễn Văn Cừ, Phường 4, Quận 5 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
@@ -236,7 +239,7 @@ namespace BaseProject.Data.EF
                 },
                 new Location()
                 {LocationId = 120,
-                    Name = "Khu du lịch Bình Quới ",
+                    Name = "Khu du lịch Bình Quới 1",
                     Address = "1147 Bình Quới, Phường 28, Quận Bình Thạnh ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
@@ -272,7 +275,7 @@ namespace BaseProject.Data.EF
                 new Location()
                 {LocationId = 127,
                     Name = "Trung tâm Thể thao Rạch Miễu ",
-                    Address = "80 D2, Tổ 4, Phường 11, Quận Tân Bình ,TP. Hồ Chí Minh, Việt Nam"
+                    Address = "Số 01 đường Hoa Phượng, phường 2, quận Phú Nhuận ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 128,
@@ -281,7 +284,7 @@ namespace BaseProject.Data.EF
                 },
                 new Location()
                 {LocationId = 129,
-                    Name = "Khu phố Tây Bùi Viện ",
+                    Name = "Phố đi bộ Bùi Viện ",
                     Address = " Phạm Ngũ Lão, Phường Phạm Ngũ Lão, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
@@ -290,9 +293,10 @@ namespace BaseProject.Data.EF
                     Address = "Đồng Khởi, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 131,
-                    Name = "Quán ăn Lẩu Bò Tòng Dương  ",
-                    Address = " 110 Cống Quỳnh, Phường Phạm Ngũ Lão, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 131,
+                    Name = "Cầu Mống",
+                    Address = "22A Bến Vân Đồn, Phường 12, Quận 4, Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {
@@ -306,14 +310,16 @@ namespace BaseProject.Data.EF
                     Address = "720A Điện Biên Phủ, Phường 22, Quận Bình Thạnh ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 134,
-                    Name = "Nhà thờ Đức Bà Sài Gòn ",
-                    Address = "01 Công xã Paris, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 134,
+                    Name = "Địa Đạo Củ Chi",
+                    Address = "Ấp Phú Hiệp, xã Phú Mỹ Hưng, huyện Củ Chi, Tp. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 135,
-                    Name = "Nhà hàng Buffet Villa ",
-                    Address = " 99 Nguyễn Huệ, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 135,
+                    Name = "Hồ Con Rùa",
+                    Address = "Nằm giữa 3 đường: Võ Văn Tần, Phạm Ngọc Thạch và Trần Cao Vân, quận 3, TP Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 136,
@@ -337,14 +343,16 @@ namespace BaseProject.Data.EF
                     Address = "268 Lý Thường Kiệt, Phường 14, Quận 10 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 140,
-                    Name = "Nhà hàng Hủ Tiếu Mỹ Tho 3 Miền ",
-                    Address = " 229 Đường 3/2, Phường 12, Quận 10 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 140,
+                    Name = "Khu Du Lịch Suối Mơ",
+                    Address = "Đường 11,phường Long Thạnh Mỹ, Quận 9, Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 141,
-                    Name = "Công viên Cá Mập ",
-                    Address = "Đại lộ Nguyễn Văn Linh, Phường 7, Quận 7 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 141,
+                    Name = "Tòa Tháp Bitexco",
+                    Address = "7, 2 Hải Triều, Bến Nghé, Quận 1, Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 142,
@@ -357,9 +365,10 @@ namespace BaseProject.Data.EF
                     Address = "15 Nguyễn Thị Minh Khai, Phường Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 144,
-                    Name = "Khu vui chơi giải trí 7 viên ngọc rồng ",
-                    Address = "202 Lê Hồng Phong, Phường 4, Quận 5 ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 144,
+                    Name = "Công Viên Nước Đại Thế Giới",
+                    Address = "106 Võ Văn Kiệt, Phường 6, Quận 5, TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 145,
@@ -369,7 +378,7 @@ namespace BaseProject.Data.EF
                 new Location()
                 {LocationId = 146,
                     Name = "Rạp chiếu phim CGV Cinemas ",
-                    Address = "ầng 5, Parkson Flemington, 184 Lê Đại Hành, Phường 15, Quận 11 ,TP. Hồ Chí Minh, Việt Nam"
+                    Address = "Tầng 5, Parkson Flemington, 184 Lê Đại Hành, Phường 15, Quận 11 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 147,
@@ -378,18 +387,20 @@ namespace BaseProject.Data.EF
                 },
                 new Location()
                 {LocationId = 148,
-                    Name = "Quán cà phê The Coffee Bean & Tea Leaf  ",
+                    Name = "Quán cà phê The Coffee Bean & Tea Leaf",
                     Address = "14 Nguyễn Thị Minh Khai, Bến Nghé, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 149,
-                    Name = "Khu du lịch Đầm Sen ",
-                    Address = " ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 149,
+                    Name = "Bảo Tàng Tranh 3D Sài Gòn",
+                    Address = "Đường số 9, Khu đô thị Him Lam, Quận 7, Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
-                {LocationId = 150,
-                    Name = "176 Đường Hồng Lạc, Phường 10, Quận 11 ",
-                    Address = " ,TP. Hồ Chí Minh, Việt Nam"
+                {
+                    LocationId = 150,
+                    Name = "Khu Đô Thị Phú Mỹ Hưng",
+                    Address = "Tân Phong, Quận 7, thành phố Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 151,
@@ -408,28 +419,28 @@ namespace BaseProject.Data.EF
                 },
                 new Location()
                 {LocationId = 154,
-                    Name = "Start Cup Coffee ",
+                    Name = "Star Cup Coffee ",
                     Address = "80 Hoàng Hoa Thám, Phường 12, Tân Bình ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 155,
-                    Name = "Start Cup Coffee ",
+                    Name = "Star Cup Coffee ",
                     Address = " 82 Võ Văn Tần, Phường 6, Quận 3 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 156,
-                    Name = "Start Cup Coffee ",
+                    Name = "Star Cup Coffee ",
                     Address = "63 Nguyễn Huệ, Bến Nghé, Quận 1  ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {LocationId = 157,
-                    Name = "Start Cup Coffee ",
+                    Name = "Star Cup Coffee ",
                     Address = " 190 Xô Viết Nghệ Tĩnh, Phường 21, Bình Thạnh ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
                 {
                     LocationId = 158,
-                    Name = "Start Cup Coffee ",
+                    Name = "Star Cup Coffee ",
                     Address = " 297 Nguyễn Trãi, Phường Nguyễn Cư Trinh, Quận 1 ,TP. Hồ Chí Minh, Việt Nam"
                 },
                 new Location()
@@ -481,22 +492,412 @@ namespace BaseProject.Data.EF
 
                 );
 
-            //      Images Location
-            //modelBuilder.Entity<Image>().HasData(
-            //    new Image
-            //    { 
-            //        ImageId = 50,
-            //        LocationId = 100,
-            //        Path = ""
-            //    },
-            //    new Image
-            //    {
-            //        ImageId = 51,
-            //        LocationId = 101,
-            //        Path = ""
-            //    },
-
-            //    );
+            //images location
+            modelBuilder.Entity<Image>().HasData(
+                new Image
+                {
+                    ImageId = 100,
+                    LocationId = 100,
+                    Path = "https://drive.google.com/uc?export=view&id=1fHOZklZjf9AatLGCPmQkV3YarE5s7Wjp"
+                },
+                new Image
+                {
+                    ImageId = 101,
+                    LocationId = 101,
+                    Path = "https://drive.google.com/uc?export=view&id=1K4ooUsEFygeX6QT0VEhg8rAJCRhZ9R52"
+                },
+                new Image
+                {
+                    ImageId = 102,
+                    LocationId = 102,
+                    Path = "https://drive.google.com/uc?export=view&id=1kWC4nZYnEzod1FCV6XRgvjiKsPMh0ExZ"
+                }, new Image
+                {
+                    ImageId = 103,
+                    LocationId = 103,
+                    Path = "https://drive.google.com/uc?export=view&id=18AGFSaOqlD9kCVdYJCGxW0uxLBlaOiiq"
+                },
+                new Image
+                {
+                    ImageId = 104,
+                    LocationId = 104,
+                    Path = "https://drive.google.com/uc?export=view&id=1Bnl07rzofdANpc2WpLHJuw3DCgNd9VSI"
+                },
+                new Image
+                {
+                    ImageId = 105,
+                    LocationId = 105,
+                    Path = "https://drive.google.com/uc?export=view&id=1waEm4TJvDVU4_3L_O5UK2f0RP5z5qQfi"
+                },
+                new Image
+                {
+                    ImageId = 106,
+                    LocationId = 106,
+                    Path = "https://drive.google.com/uc?export=view&id=1UNCVk-LPleq1c40b1ds9kRsKHzmHqfWw"
+                }, new Image
+                {
+                    ImageId = 107,
+                    LocationId = 107,
+                    Path = "https://drive.google.com/uc?export=view&id=1R9qLfvWn12fLQHYWtDbMegLo4HLsKPmX"
+                },
+                new Image
+                {
+                    ImageId = 108,
+                    LocationId = 108,
+                    Path = "https://drive.google.com/uc?export=view&id=1PzvX1Q5Y4huY_RnudtCazFUuSj9xuOlG"
+                },
+                new Image
+                {
+                    ImageId = 109,
+                    LocationId = 109,
+                    Path = "https://drive.google.com/uc?export=view&id=1AAO5vZrU53PDeypYUR3pV4u5UhkPd_O1"
+                }, new Image
+                {
+                    ImageId = 110,
+                    LocationId = 110,
+                    Path = "https://drive.google.com/uc?export=view&id=1PIK0JFgllAEa6RN4Opblx1K77UcelEZ5"
+                },
+                new Image
+                {
+                    ImageId = 111,
+                    LocationId = 111,
+                    Path = "https://drive.google.com/uc?export=view&id=1nSRZ9hTobuz-SHKd00KhDdV7XoluAYQK"
+                },
+                new Image
+                {
+                    ImageId = 112,
+                    LocationId = 112,
+                    Path = "https://drive.google.com/uc?export=view&id=1cjioOGuG1fr-4euclgnr0TnmmrU5TcZD"
+                },
+                new Image
+                {
+                    ImageId = 113,
+                    LocationId = 113,
+                    Path = "https://drive.google.com/uc?export=view&id=1C7zq3aLyTK4sGr6i7-TfSKkd-Aw1ptG-"
+                },
+                new Image
+                {
+                    ImageId = 114,
+                    LocationId = 114,
+                    Path = "https://drive.google.com/uc?export=view&id=1bMYjn3JpgI7YHEnQykuBAFfxC0Vazyqw"
+                },
+                new Image
+                {
+                    ImageId = 115,
+                    LocationId = 115,
+                    Path = "https://drive.google.com/uc?export=view&id=1f0i9wBq8A6DoFYAcX8hUbVe4Wf1yDQUq"
+                },
+                new Image
+                {
+                    ImageId = 116,
+                    LocationId = 116,
+                    Path = "https://drive.google.com/uc?export=view&id=1WdiUgauHIaDfwP_bDWU82Vqx-vmWXa9Z"
+                },
+                new Image
+                {
+                    ImageId = 117,
+                    LocationId = 117,
+                    Path = "https://drive.google.com/uc?export=view&id=19DacLfp54jpo1ewNoXGxpqny0SvxJnmz"
+                },
+                new Image
+                {
+                    ImageId = 118,
+                    LocationId = 118,
+                    Path = "https://drive.google.com/uc?export=view&id=1rii4B0soXl-fwucpEjAXmhyz7MMQ-myA"
+                },
+                new Image
+                {
+                    ImageId = 119,
+                    LocationId = 119,
+                    Path = "https://drive.google.com/uc?export=view&id=1tkwcEXYjTZn5SBXpBbdT4ikyIjICcqH3"
+                },
+                new Image
+                {
+                    ImageId = 120,
+                    LocationId = 120,
+                    Path = "https://drive.google.com/uc?export=view&id=1q9L3iReSw4sgz0QLHgQBHeZBGNt7iobb"
+                },
+                new Image
+                {
+                    ImageId = 121,
+                    LocationId = 121,
+                    Path = "https://drive.google.com/uc?export=view&id=1BYL9Hvry4zxawm2oxY8ssRXLW_GIWrbK"
+                },
+                new Image
+                {
+                    ImageId = 122,
+                    LocationId = 122,
+                    Path = "https://drive.google.com/uc?export=view&id=1nNybfHTFFpKy2lWp3ywijmEuoyPwYwt4"
+                },
+                new Image
+                {
+                    ImageId = 123,
+                    LocationId = 123,
+                    Path = "https://drive.google.com/uc?export=view&id=1qwwi96MqYdJC6DUAXrK9PQ_bn-eWCtZD"
+                },
+                new Image
+                {
+                    ImageId = 124,
+                    LocationId = 124,
+                    Path = "https://drive.google.com/uc?export=view&id=1eDbyrsZdqH5utcrG-sIOVF9j6TbS5W89"
+                },
+                new Image
+                {
+                    ImageId = 125,
+                    LocationId = 125,
+                    Path = "https://drive.google.com/uc?export=view&id=1TvfPRC_MzJA8EsOYRbP-bqKEzqxWpo3m"
+                },
+                new Image
+                {
+                    ImageId = 126,
+                    LocationId = 126,
+                    Path = "https://drive.google.com/uc?export=view&id=1vLrmVAm4u3VFhZ3e30num2FJ7IcpHPX4"
+                },
+                new Image
+                {
+                    ImageId = 127,
+                    LocationId = 127,
+                    Path = "https://drive.google.com/uc?export=view&id=1huB0477UFGuGlcqLRFkaS7v1Ea6JdWZW"
+                },
+                new Image
+                {
+                    ImageId = 128,
+                    LocationId = 128,
+                    Path = "https://drive.google.com/uc?export=view&id=1coJouzaEKjS9dGP2COMPazyG2G3mGxUD"
+                },
+                new Image
+                {
+                    ImageId = 129,
+                    LocationId = 129,
+                    Path = "https://drive.google.com/uc?export=view&id=1hkSbvZ6laBLO6jEaq9mQvL-weq1gX6l5"
+                },
+                new Image
+                {
+                    ImageId = 130,
+                    LocationId = 130,
+                    Path = "https://drive.google.com/uc?export=view&id=1xA1Uj-qEILAZ04UrdVotKkfyRPihrd3r"
+                },
+                new Image
+                {
+                    ImageId = 131,
+                    LocationId = 131,
+                    Path = "https://drive.google.com/uc?export=view&id=1xr3M5sb0tKp8MDse3US1NzxnjoKN9tty"
+                },
+                new Image
+                {
+                    ImageId = 132,
+                    LocationId = 132,
+                    Path = "https://drive.google.com/uc?export=view&id=1W5lZtJfhsnLAaA_o8x-qWEFG9zNTTxIZ"
+                },
+                new Image
+                {
+                    ImageId = 133,
+                    LocationId = 133,
+                    Path = "https://drive.google.com/uc?export=view&id=1JT_h0T3bmdjqRRZr1wQrnqCrKE2rB8yl"
+                },
+                new Image
+                {
+                    ImageId = 134,
+                    LocationId = 134,
+                    Path = "https://drive.google.com/uc?export=view&id=13rM4ccF2DXUHkv2obM0osGOs2Rvy6a8I"
+                },
+                new Image
+                {
+                    ImageId = 135,
+                    LocationId = 135,
+                    Path = "https://drive.google.com/uc?export=view&id=1TJjrOqRAhJ-8thxNO3YdcC4uHUtEi3-W"
+                },
+                new Image
+                {
+                    ImageId = 136,
+                    LocationId = 136,
+                    Path = "https://drive.google.com/uc?export=view&id=1bXK36UtHqWggEr1Yk9I7V11yeaUjvUdc"
+                },
+                new Image
+                {
+                    ImageId = 137,
+                    LocationId = 137,
+                    Path = "https://drive.google.com/uc?export=view&id=16yktL6QoBK0ec-PsnMK8u8sbMslLHrtg"
+                },
+                new Image
+                {
+                    ImageId = 138,
+                    LocationId = 138,
+                    Path = "https://drive.google.com/uc?export=view&id=10Mjl_UX6YYnxfM9LBaKWz10F5p3KnQ5k"
+                },
+                new Image
+                {
+                    ImageId = 139,
+                    LocationId = 139,
+                    Path = "https://drive.google.com/uc?export=view&id=1E3Nu7KhR-hZzi8d1geekxGHUXJUgCX0Z"
+                },
+                new Image
+                {
+                    ImageId = 140,
+                    LocationId = 140,
+                    Path = "https://drive.google.com/uc?export=view&id=1mNK-Bysxg90876o9cRMVE--xAzm5bS2E"
+                }, 
+                new Image
+                {
+                    ImageId = 141,
+                    LocationId = 141,
+                    Path = "https://drive.google.com/uc?export=view&id=18uda_mP0wTbHET2mWsds6aC3J-GVrCXh"
+                },
+                new Image
+                {
+                    ImageId = 142,
+                    LocationId = 142,
+                    Path = "https://drive.google.com/uc?export=view&id=11_L8m1S3XRfHSKC_5_MkiSc-EbMZ5AQN"
+                }, 
+                new Image
+                {
+                    ImageId = 143,
+                    LocationId = 143,
+                    Path = "https://drive.google.com/uc?export=view&id=1D42PxvUs1oWT8UVsikjscrt94B5i7vGk"
+                },
+                new Image
+                {
+                    ImageId = 144,
+                    LocationId = 144,
+                    Path = "https://drive.google.com/uc?export=view&id=1GUOlBXCGMI0OjF8qXmwlxxmizww8HzBB"
+                }, 
+                new Image
+                {
+                    ImageId = 145,
+                    LocationId = 145,
+                    Path = "https://drive.google.com/uc?export=view&id=10xyM2v1VrwfYhPN2z1b-P-aTqDNLtXFO"
+                },
+                new Image
+                {
+                    ImageId = 146,
+                    LocationId = 146,
+                    Path = "https://drive.google.com/uc?export=view&id=1zqKNc8iD_eBxkQMw-RpSlN5xRhT_L_48"
+                }, 
+                new Image
+                {
+                    ImageId = 147,
+                    LocationId = 147,
+                    Path = "https://drive.google.com/uc?export=view&id=1In_gKRvfxPL7HDSa7ajfnHqw-h41J5eu"
+                },
+                new Image
+                {
+                    ImageId = 148,
+                    LocationId = 148,
+                    Path = "https://drive.google.com/uc?export=view&id=1muXfZ1NI5802rhf5K56aNEFIe3VWhCmW"
+                }, 
+                new Image
+                {
+                    ImageId = 149,
+                    LocationId = 149,
+                    Path = "https://drive.google.com/uc?export=view&id=12lSjx2kAZ_4QKNkrF3WdLwdDWZcFCA7d"
+                },
+                new Image
+                {
+                    ImageId = 150,
+                    LocationId = 150,
+                    Path = "https://drive.google.com/uc?export=view&id=1YCpp-SLUCaF6bG_7ThevfQkEunkFi2Lg"
+                }, 
+                new Image
+                {
+                    ImageId = 151,
+                    LocationId = 151,
+                    Path = "https://drive.google.com/uc?export=view&id=1mCJDso1_7SUMzTqLWbb-LhDN_s8auY9R"
+                },
+                new Image
+                {
+                    ImageId = 152,
+                    LocationId = 152,
+                    Path = "https://drive.google.com/uc?export=view&id=1VbHR10OTxGiHPysB5cSzOsa2JrAhiX3C"
+                }, 
+                new Image
+                {
+                    ImageId = 153,
+                    LocationId = 153,
+                    Path = "https://drive.google.com/uc?export=view&id=1IDx-I98-YJrS4V1o31H1qGJxK0y-yznP"
+                },
+                new Image
+                {
+                    ImageId = 154,
+                    LocationId = 154,
+                    Path = "https://drive.google.com/uc?export=view&id=1VvzQnuphX8yr5qg5Jbq2yX0KjpwSSLqu"
+                }, 
+                new Image
+                {
+                    ImageId = 155,
+                    LocationId = 155,
+                    Path = "https://drive.google.com/uc?export=view&id=1VvzQnuphX8yr5qg5Jbq2yX0KjpwSSLqu"
+                },
+                new Image
+                {
+                    ImageId = 156,
+                    LocationId = 156,
+                    Path = "https://drive.google.com/uc?export=view&id=1VvzQnuphX8yr5qg5Jbq2yX0KjpwSSLqu"
+                }, new Image
+                {
+                    ImageId = 157,
+                    LocationId = 157,
+                    Path = "https://drive.google.com/uc?export=view&id=1VvzQnuphX8yr5qg5Jbq2yX0KjpwSSLqu"
+                },
+                new Image
+                {
+                    ImageId = 158,
+                    LocationId = 158,
+                    Path = "https://drive.google.com/uc?export=view&id=1VvzQnuphX8yr5qg5Jbq2yX0KjpwSSLqu"
+                }, 
+                new Image
+                {
+                    ImageId = 159,
+                    LocationId = 159,
+                    Path = "https://drive.google.com/uc?export=view&id=1osjGuuBmGRN9hFBSZlDkeZ509cElGmzG"
+                },
+                new Image
+                {
+                    ImageId = 160,
+                    LocationId = 160,
+                    Path = "https://drive.google.com/uc?export=view&id=1pYNym5ylCPQrBH8S9YLDxA-Ll7izvOa0"
+                }, new Image
+                {
+                    ImageId = 161,
+                    LocationId = 161,
+                    Path = "https://drive.google.com/uc?export=view&id=1Po7TnNb9d4r9MpBZotFdfAI88D65gplv"
+                },
+                new Image
+                {
+                    ImageId = 162,
+                    LocationId = 162,
+                    Path = "https://drive.google.com/uc?export=view&id=1iP4s0LuF7ChPsrNSOnjF2ELqL_x_0vMu"
+                }, 
+                new Image
+                {
+                    ImageId = 163,
+                    LocationId = 163,
+                    Path = "https://drive.google.com/uc?export=view&id=1a8EjKeMsREiOZSMXiKi_8fVJAdvf-OR8"
+                },
+                new Image
+                {
+                    ImageId = 164,
+                    LocationId = 164,
+                    Path = "https://drive.google.com/uc?export=view&id=1kF3ovOwv7T27mj2QzvF83litiTt4iuy2"
+                }, 
+                new Image
+                {
+                    ImageId = 165,
+                    LocationId = 165,
+                    Path = "https://drive.google.com/uc?export=view&id=1XKDI9qr2CVKocZhhMJCAkbpARvFnrJVm"
+                },
+                new Image
+                {
+                    ImageId = 166,
+                    LocationId = 166,
+                    Path = "https://drive.google.com/uc?export=view&id=1w-2BZjO_whBby3mMrdCYfQG14PQJgrrT"
+                }, 
+                new Image
+                {
+                    ImageId = 167,
+                    LocationId = 167,
+                    Path = "https://drive.google.com/uc?export=view&id=12XYgeFHpABQSfHZ5sd7uN2ERHU066H_l"
+                }
+                );
 
             //      ADMINISTRATOR
             var roleId = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575");
