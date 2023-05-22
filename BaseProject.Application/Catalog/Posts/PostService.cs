@@ -11,6 +11,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authorization;
 using BaseProject.ViewModels.Catalog.Location;
 using Microsoft.AspNetCore.Http;
+using BaseProject.Application.Catalog.Categories;
+using BaseProject.Application.Catalog.Images;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -18,58 +20,119 @@ namespace BaseProject.Application.Catalog.Posts
     {
         private readonly DataContext _context;
         private readonly IStorageService _storageService;
+        private readonly ICategoryService _categoryService;
+        private readonly IImageService _imageService;
         private readonly UserManager<AppUser> _userManager;
 
 
-        public PostService(DataContext context, UserManager<AppUser> userManager)
+        public PostService(DataContext context, 
+            UserManager<AppUser> userManager, 
+            ICategoryService categoryService,
+            IImageService imageService)
         {
             _userManager = userManager;
             _context = context;
+            _categoryService = categoryService;
+            _imageService = imageService;
         }
-        public async Task<ApiResult<bool>> Create(PostCreateRequest request)
+        public async Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request)
         {
             if (request == null)
             {
                 return new ApiErrorResult<bool>("Lỗi");
             }
-
-            // Lưu Bài đánh giá 
-            var user = from getId
-                               in _context.Users
-                       where getId.UserName == request.UserId
-                       select getId.Id;
-            Guid userId = user.First();
-
-            Post post = new Post(request.Title, userId);
-            _context.Posts.AddAsync(post);
-            await _context.SaveChangesAsync();
-
-            // Lưu chi tiết đánh giá
-            for (int i = 0; i < request.PostDetail.Count; i++)
+            if (request.PostId != null && request.PostId != 0)
             {
-                Location location = new Location();
-                location = await _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
-                if (location == null)
+                Post post = new Post()
                 {
+                    PostId = request.PostId,
+                    Title = request.Title
+                };
 
-                    Location createLocation = new Location(request.PostDetail[i].Title, request.PostDetail[i].Address);
-                    _context.Locations.AddAsync(createLocation);
-                    await _context.SaveChangesAsync();
-                    location = await _context.Locations.FirstOrDefaultAsync(x => x.Name.Contains(request.PostDetail[i].Title));
-                }
-                LocationsDetail locationsDetail = new LocationsDetail(
-                    location.LocationId,
-                    post.PostId,
-                    request.PostDetail[i].Title,
-                    request.PostDetail[i].When,
-                    request.PostDetail[i].Content
-                );
-                _context.LocationsDetails.AddAsync(locationsDetail);
+                // Gắn vào ngữ cảnh
+                _context.Posts.Attach(post);
+                // Các thuộc tính thay đổi sẽ được cập nhập
+                _context.Entry(post).Property(p => p.Title).IsModified = true;
                 await _context.SaveChangesAsync();
+
+                // Lưu Category detail
+                if (request.CategoryPostDetail != null && request.CategoryPostDetail.Count != 0)
+                {
+                    var saveCategoryPost = await _categoryService.Update( request.PostId, request.CategoryPostDetail);
+
+                }
+
+                // Lưu chi tiết đánh giá
+                for (int i = 0; i < request.PostDetail.Count; i++)
+                {
+                    Location location = new Location();
+                    location = await _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
+                    LocationsDetail locationsDetail = new LocationsDetail(
+                        request.PostDetail[i].postDetailId,
+                        location.LocationId,
+                        post.PostId,
+                        request.PostDetail[i].Title,
+                        request.PostDetail[i].When,
+                        request.PostDetail[i].Content
+                    );
+                    _context.LocationsDetails.Update(locationsDetail);
+                    await _context.SaveChangesAsync();
+
+                    // Lưu PostDetail Image
+                    if (request.PostDetail[i].GetImage != null && request.PostDetail[i].GetImage.Count != 0)
+                    {
+                        var saveImage = await _imageService.UpdateImage(request.PostDetail[i].GetImage, locationsDetail.Id);
+
+                    }
+                }
+
+
+                return new ApiSuccessResult<bool>();
             }
+            else
+            {
+                // Lưu Bài đánh giá 
+                var user = from getId
+                           in _context.Users
+                           where getId.UserName == request.UserId
+                           select getId.Id;
+                Guid userId = user.First();
+
+                Post post = new Post(request.Title, userId);
+                _context.Posts.AddAsync(post);
+                await _context.SaveChangesAsync();
+
+                // Lưu Category detail
+                var postID = post.PostId;
+                var saveCategoryPost = await _categoryService.SaveCatelogyDetail(request.CategoryPostDetail, postID);
 
 
-            return new ApiSuccessResult<bool>();
+                // Lưu chi tiết đánh giá
+                for (int i = 0; i < request.PostDetail.Count; i++)
+                {
+                    Location location = new Location();
+                    location = await _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
+                    LocationsDetail locationsDetail = new LocationsDetail(
+                        location.LocationId,
+                        post.PostId,
+                        request.PostDetail[i].Title,
+                        request.PostDetail[i].When,
+                        request.PostDetail[i].Content
+                    );
+                    _context.LocationsDetails.AddAsync(locationsDetail);
+                    await _context.SaveChangesAsync();
+
+                    // Lưu PostDetail Image
+                    if (request.PostDetail[i].GetImage != null && request.PostDetail[i].GetImage.Count != 0)
+                    {
+                        var saveImage = await _imageService.UpdateImage(request.PostDetail[i].GetImage, locationsDetail.Id);
+
+                    }
+                }
+
+
+                return new ApiSuccessResult<bool>();
+            }
         }
 
         public async Task<ApiResult<bool>> Update(int id, PostCreateRequest request)
@@ -195,12 +258,14 @@ namespace BaseProject.Application.Catalog.Posts
                 list.Add(item);
             }
 
+            var cate = await _categoryService.GetAll();
             var newPost = new PostCreateRequest()
             {
                 PostId = postId,
                 UserId = post.UserId.ToString(),
                 PostDetail = list,
-                Title = post.Title
+                Title = post.Title,
+                CategoryPostDetail = cate.ResultObj
 
             };
             return new ApiSuccessResult<PostCreateRequest>(newPost);

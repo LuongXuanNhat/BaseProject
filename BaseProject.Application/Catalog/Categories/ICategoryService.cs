@@ -15,6 +15,7 @@ namespace BaseProject.Application.Catalog.Categories
         Task<ApiResult<bool>> Create(CategoryRequest request);
 
         Task<ApiResult<bool>> Update(int id,CategoryRequest request);
+        Task<ApiResult<bool>> Update(int id,List<Category> request);
 
         Task<ApiResult<bool>> Delete(int categoryId);
 
@@ -22,6 +23,7 @@ namespace BaseProject.Application.Catalog.Categories
 
         Task<ApiResult<CategoryRequest>> GetById(int categoryId);
         Task<ApiResult<List<Category>>> GetAll();
+        Task<ApiResult<bool>> SaveCatelogyDetail(List<Category> category, int postId);
 
  
     }

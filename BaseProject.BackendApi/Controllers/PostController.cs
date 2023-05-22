@@ -36,13 +36,14 @@ namespace BaseProject.BackendApi.Controllers
 
         // https://localhost:7202/posts/create
         [HttpPost]
-        public async Task<IActionResult> CreatePost([FromBody] PostCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> CreatePost([FromForm] PostCreateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
             
-            var result = await _postService.Create(request);
+            var result = await _postService.CreateOrUpdate(request);
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);

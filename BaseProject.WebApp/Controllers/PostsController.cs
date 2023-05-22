@@ -97,16 +97,26 @@ namespace BaseProject.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(PostCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> Create(PostCreateRequest request, [FromForm(Name = "SelectedCategories")] string[] selectedCategories)
         {
+            // Lấy danh mục
+            request.CategoryPostDetail = new List<Category>();
+            foreach (var categoryName in selectedCategories)
+            {
+                var category = new Category { Name = categoryName , CategoriesId = 0 };
+                request.CategoryPostDetail.Add(category);
+            }            
+
+            //request.CategoryPostDetail = categoryPostDetail;
             request.numberLocation = new TakeNumberLocation();
-            request.PostId = 123456;
+            request.PostId = 0;
             request.UserId = User.Identity.Name;
-            var result = await _postApiClient.CreatePost(request);
+
+            var result = await _postApiClient.CreateOrUpdatePost(request);
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Thêm bài đánh giá thành công";
-                //return RedirectToAction("Index");
                 return RedirectToAction("Index");
             }
 
@@ -119,22 +129,33 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> EditPost(int id)
         {
             var result = await _postApiClient.GetById(id);
+
             if (result.IsSuccessed)
             {
-                var post = result.ResultObj;
-                var updateRequest = new PostCreateRequest(post);
-                return View(updateRequest);
+                return View(
+                result.ResultObj
+            );
             }
             return RedirectToAction("Error", "Index");
         }
 
         [HttpPost]
-        public async Task<IActionResult> EditPost(PostCreateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> EditPost(PostCreateRequest request, [FromForm(Name = "SelectedCategories")] string[] selectedCategories)
         {
-            if (!ModelState.IsValid)
-                return View();
+            // Lấy danh mục
+            request.CategoryPostDetail = new List<Category>();
+            foreach (var categoryName in selectedCategories)
+            {
+                var category = new Category { Name = categoryName, CategoriesId = 0 };
+                request.CategoryPostDetail.Add(category);
+            }
 
-            var result = await _postApiClient.UpdatePost(request.PostId, request);
+            //request.CategoryPostDetail = categoryPostDetail;
+            request.numberLocation = new TakeNumberLocation();
+
+            var result = await _postApiClient.CreateOrUpdatePost(request);
+
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Cập nhật bài viết thành công";

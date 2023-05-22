@@ -16,6 +16,7 @@ using Microsoft.AspNetCore.Http;
 using Newtonsoft.Json.Linq;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.Data.Entities;
+using Microsoft.SqlServer.Server;
 
 namespace BaseProject.ApiIntegration.Post
 {
@@ -34,7 +35,7 @@ namespace BaseProject.ApiIntegration.Post
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<ApiResult<bool>> CreatePost(PostCreateRequest request)
+        public async Task<ApiResult<bool>> CreateOrUpdatePost(PostCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
@@ -42,11 +43,51 @@ namespace BaseProject.ApiIntegration.Post
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var requestContent = new MultipartFormDataContent();
+
+            
+            requestContent.Add(new StringContent(request.PostId.ToString()), "PostId");
+            requestContent.Add(new StringContent(request.UserId), "UserId");
+            requestContent.Add(new StringContent(request.Title), "Title");
+            requestContent.Add(new StringContent(request.numberLocation.ToString()), "NumberLocation");
+
+            // Thêm các thuộc tính khác của PostDetail
+            foreach (var postDetail in request.PostDetail)
+            {
+                requestContent.Add(new StringContent(postDetail.Title), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Title");
+                requestContent.Add(new StringContent(postDetail.Address), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Address");
+                requestContent.Add(new StringContent(postDetail.Content), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
+                requestContent.Add(new StringContent(postDetail.postDetailId.ToString()), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].postDetailId");
+                requestContent.Add(new StringContent(postDetail.When.ToString("MM-yyyy")), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].When");
+                if (postDetail.GetImage != null && postDetail.GetImage.Count != 0)
+                {
+                    byte[] data;
+                    for (int i = 0; i < postDetail.GetImage.Count; i++)
+                    {
+                        using (var br = new BinaryReader(postDetail.GetImage[i].OpenReadStream()))
+                        {
+                            data = br.ReadBytes((int)postDetail.GetImage[i].OpenReadStream().Length);
+                        }
+                        ByteArrayContent bytes = new ByteArrayContent(data);
+                        requestContent.Add(bytes, "GetImage", postDetail.GetImage[i].FileName);
+                    }
+                }
+            }
+
+            if (request.CategoryPostDetail != null)
+            {
+                foreach (var categoryDetail in request.CategoryPostDetail)
+                {
+                    requestContent.Add(new StringContent(categoryDetail.CategoriesId.ToString()), $"CategoryPostDetail[{request.CategoryPostDetail.IndexOf(categoryDetail)}].CategoriesId");
+                    requestContent.Add(new StringContent(categoryDetail.Name), $"CategoryPostDetail[{request.CategoryPostDetail.IndexOf(categoryDetail)}].Name");
+                }
+            }
+
+            //var json = JsonConvert.SerializeObject(request);
+            //var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
 
-            var response = await client.PostAsync($"/api/post", httpContent);
+            var response = await client.PostAsync($"/api/post", requestContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)

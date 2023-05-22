@@ -13,103 +13,203 @@
 <hr />
 <div class="row">
     <div class="row">
-        <form asp-action="EditPost" method="post">
+        <form asp-action="EditPost" method="post" enctype="multipart/form-data">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
             <input asp-for="PostId" class="form-control"  hidden readonly/>
             <input asp-for="UserId" class="form-control"  hidden readonly/>
-            <div class="form-group">
-                <label asp-for="Title" class="control-label"></label>
-                <input asp-for="Title" class="form-control" />
-                <span asp-validation-for="Title" class="text-danger"></span>
+            <div class="row p-3">
+                <div class="col-md-4" style="text-align: end">
+                    <label asp-for="Title" class="control-label" style="align-items: center"></label>
+                </div>
+                <div class="form-group col-md-4">
+
+                    <input asp-for="Title" class="form-control" type="text"/>
+                    <span asp-validation-for="Title" class="text-danger"></span>
+
+                </div>
+                <div class="col-md-4">
+                    <div class="dropdown">
+                        <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                            Danh mục
+                        </button>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="max-height: 200px; overflow-y: auto;">
+                            @for (var i = 0; i < Model.CategoryPostDetail.Count; i++)
+                            {
+                                var category = Model.CategoryPostDetail[i];
+                                <li class="dropdown-item">
+                                    <input type="checkbox" id="@($"checkbox_{i}")" name="SelectedCategories"
+                                           value="@category.Name" style="width:15px; height: 15px" />
+                                    <label>@category.Name</label>
+                                </li>
+                            }
+                        </ul>
+
+                    </div>
+
+
+                </div>
+
             </div>
+
             @for (int i = 0; i < Model.PostDetail.Count; i++)
             {
-                <div class="col-md-6">
-                    <div class="form-group">
-                        <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                        <input asp-for="PostDetail[i].Title " class="form-control" />
-                        <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                int diaDiemThu = i + 1;
+                <div class="row" style="background-color:antiquewhite; border-radius: 5px; padding-bottom: 5px; ">
+                    <div class="col-4 row">
+                        <div>Địa điểm  @diaDiemThu</div>
+                        <div class="image-container">
+                            <a target="_blank" asp-action="index" asp-controller="Home">
+                                <img id="showImage_@i" style="max-width: 15rem;" />
+                            </a>
+                        </div>
                     </div>
-                    <div class="form-group">
-                        <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                        <input asp-for="PostDetail[i].Address " class="form-control" />
-                        <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PostDetail[i].When" class="control-label"></label>
-                        <input asp-for="PostDetail[i].When" type="month" class="form-control" />
-                        <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                    </div>
-                    <div class="form-group">
-                        <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                        <input asp-for="PostDetail[i].Content " class="form-control" />
-                        <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                    <div class="col-6">
+                        <div class="form-group">
+                            <label asp-for="PostDetail[i].Title " class="control-label"></label>
+                            <input asp-for="PostDetail[i].Title " class="form-control" type="text"
+                                   id="searchInput_@i" placeholder="Nhập địa chỉ tìm kiếm" />
+                            <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                            <ul id="searchResults_@i" class="makeColor"></ul>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PostDetail[i].Address " class="control-label"></label>
+                            <input asp-for="PostDetail[i].Address " id="searchInput2_@i"
+                                   onchange="handleNameChange()" class="form-control" readonly />
+                            <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                        </div>
+
+                        <div class="form-group">
+                            <label asp-for="PostDetail[i].When" class="control-label"></label>
+                            <input asp-for="PostDetail[i].When" type="month" class="form-control" />
+                            <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                            <input asp-for="PostDetail[i].Content " class="form-control" />
+                            <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="PostDetail[i].GetImage" class="form-label"></label>
+                            <div class="custom-file">
+                                <input asp-for="PostDetail[i].GetImage" class="form-control" id="customFile" accept=".jpg,.jpeg,.png" placeholder="0 ảnh">
+                            </div>
+                            <span asp-validation-for="PostDetail[i].GetImage" class="text-danger"></span>
+                        </div>
                     </div>
 
                 </div>
-                <div class="col-md-6">
-                    <div>
-                        Tìm địa điểm: <input type="text" id="txtplace" />
-                    </div>
-                    @*&callback=initMap*@
-                    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAsfGwLsAoCca2agIBcDK60Tzrk2AZ-3UM&libraries=places&callback=initMap"> </script>
 
-                    <script>
-                        let map;
-                        let service;
-                        let infowindow;
+                <script>
+                    (function () {
 
-                        initMap();
-                        function initMap() {
-                            const sydney = new google.maps.LatLng(-33.867, 151.195);
 
-                            infowindow = new google.maps.InfoWindow();
-                            map = new google.maps.Map(document.getElementById("map"), {
-                                center: sydney,
-                                zoom: 15,
-                            });
 
-                            const request = {
-                                query: "Museum of Contemporary Art Australia",
-                                fields: ["name", "geometry"],
-                            };
+                        document.getElementById('searchInput_@i').addEventListener('input', function () {
+                            var searchText = this.value;
 
-                            service = new google.maps.places.PlacesService(map);
-                            service.findPlaceFromQuery(request, (results, status) => {
-                                if (status === google.maps.places.PlacesServiceStatus.OK && results) {
-                                    for (let i = 0; i < results.length; i++) {
-                                        createMarker(results[i]);
+                            // Gửi yêu cầu tìm kiếm dữ liệu
+                            searchLocations(searchText);
+                        });
+
+                        var token = '@Html.Raw(ViewBag.Token)';
+
+                        function searchLocations(searchText) {
+                            // Kiểm tra nếu độ dài của từ khóa tìm kiếm là ít nhất 3 ký tự
+                            if (searchText.length >= 3) {
+                                $.ajax({
+                                    url: 'https://localhost:7204/api/post/locations',
+                                    type: 'GET',
+                                    headers: { Authorization: 'Bearer ' + token },
+                                    data: { searchText: searchText },
+                                    success: function (locations) {
+
+                                        // check
+                                        console.log(locations);
+                                        // Xử lý kết quả tìm kiếm và hiển thị danh sách tên địa điểm
+                                        displaySearchResults(locations);
+                                    },
+                                    error: function (xhr, status, error) {
+                                        // Xử lý lỗi nếu có
+                                        console.error(error);
                                     }
+                                });
+                            }
+                        }
 
-                                    map.setCenter(results[0].geometry.location);
-                                }
+                        var searchInput = document.getElementById('searchInput_@i');
+                        var resultList = document.getElementById('searchResults_@i');
+
+
+
+
+                        function displaySearchResults(locations) {
+                            var resultList = document.getElementById('searchResults_@i');
+                            resultList.innerHTML = '';
+
+                            // Duyệt qua danh sách kết quả tìm kiếm và tạo các phần tử HTML để hiển thị
+                            locations.forEach(function (location) {
+                                // Tạo phần tử li và thêm nội dung tên địa điểm
+                                var listItem = document.createElement('li');
+                                listItem.textContent = location.name + " - " + location.address;
+                                listItem.classList.add('highlighted');
+
+                                // Thêm sự kiện click để chọn một địa điểm từ danh sách kết quả tìm kiếm
+                                listItem.addEventListener('mousedown', function () {
+
+                                    // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
+                                    document.getElementById('searchInput_@i').value = location.name;
+                                    document.getElementById('searchInput2_@i').value = location.address;
+
+                                    // Hiển thị ảnh
+                                    document.getElementById('showImage_@i').src = location.placeImage;
+
+                                    // Xóa danh sách kết quả tìm kiếm
+                                    resultList.innerHTML = '';
+                                });
+
+                                searchInput.addEventListener('blur', function () {
+
+                                    if (!resultList.contains(event.relatedTarget)) {
+                                        // Nếu không, xóa nội dung của danh sách kết quả
+                                        resultList.innerHTML = '';
+                                    }
+                                });
+
+
+                                // Thêm phần tử li vào danh sách kết quả tìm kiếm
+                                resultList.appendChild(listItem);
                             });
                         }
 
-                        function createMarker(place) {
-                            if (!place.geometry || !place.geometry.location) return;
 
-                            const marker = new google.maps.Marker({
-                                map,
-                                position: place.geometry.location,
-                            });
 
-                            google.maps.event.addListener(marker, "click", () => {
-                                infowindow.setContent(place.name || "");
-                                infowindow.open(map);
+                    })();
+                </script>
+                <script>
+                    var selectedItems = [];
+                    var selectedItemsInput = document.getElementById('selectedItems_@i');
+
+                    function handleNameChange() {
+                        var addressInput = document.getElementById('searchInput2_@i').value;
+                        var titleInput = document.getElementById('searchInput_@i').value;
+
+                        var item = titleInput + ' - ' + addressInput;
+
+                        if (selectedItems.includes(item)) {
+                            selectedItems = selectedItems.filter(function (value) {
+                                return value !== item;
                             });
+                        } else {
+                            selectedItems.push(item);
                         }
-                        var places = new google.maps.places.Autocomplete(document.getElementById('txtplace'));
 
-                        window.initMap = initMap;
-                    </script>
-                    <div id="map" style="height:300px">
-                    </div>
-
-                </div>
-
+                        selectedItemsInput.value = selectedItems.join(', ');
+                    }
+                </script>
                 <hr />
             }
+
             <div class="form-group">
                 <input type="submit" value="Cập nhập thay đổi" class="btn btn-success" />
             </div>

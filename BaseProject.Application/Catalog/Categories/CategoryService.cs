@@ -130,5 +130,50 @@ namespace BaseProject.Application.Catalog.Categories
             var cate = await _context.Categories.ToListAsync();
             return new ApiSuccessResult<List<Category>>(cate);
         }
+
+        public async Task<ApiResult<bool>> SaveCatelogyDetail(List<Category> category, int postId)
+        {
+            List<CategoriesDetail> details = new List<CategoriesDetail>();
+            foreach (var item in category)
+            {
+                CategoriesDetail categoriesDetail = new CategoriesDetail();
+                item.CategoriesId = await _context.Categories.
+                    Where(x=> x.Name == item.Name).Select(x=>x.CategoriesId).FirstOrDefaultAsync();
+                categoriesDetail.PostId = postId;
+                categoriesDetail.CategoriesId = item.CategoriesId;
+                categoriesDetail.Description = item.Name;
+
+               details.Add(categoriesDetail);
+            }
+            _context.CategoriesDetails.AddRangeAsync(details);
+            await _context.SaveChangesAsync();
+
+            return new ApiSuccessResult<bool>();
+        }
+
+        // Update for CateloriesDetail of Post
+        public async Task<ApiResult<bool>> Update(int id, List<Category> request)
+        {
+            // Xóa  cũ
+            var list = await _context.CategoriesDetails.Where(x=>x.PostId == id).ToListAsync();
+            _context.CategoriesDetails.RemoveRange(list);
+
+            // Thêm mới
+            List<CategoriesDetail > categories = new List<CategoriesDetail>();
+            foreach (var item in request)
+            {
+                CategoriesDetail cate = new CategoriesDetail()
+                {
+                    CategoriesId = item.CategoriesId,
+                    Description = item.Name,
+                    PostId = id
+                };
+                categories.Add(cate);
+            }
+            _context.CategoriesDetails.AddRangeAsync(categories);
+            await _context.SaveChangesAsync();
+
+            return new ApiSuccessResult<bool>();
+        }
     }
 }

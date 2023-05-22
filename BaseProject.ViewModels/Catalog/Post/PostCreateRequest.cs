@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -24,8 +25,14 @@ namespace BaseProject.ViewModels.Catalog.Post
 
         public TakeNumberLocation? numberLocation { get; set; }
 
+        [Required]
         public List<PostDetailRequest> PostDetail { get; set; }
-        public List<Category> CategoryPostDetail { get; set; }
+
+
+        public List<Category>? CategoryPostDetail { get; set; }
+        public List<string>? ImageList { get; set; }
+
+        
 
 
         // Contrustor

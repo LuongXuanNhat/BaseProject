@@ -12,7 +12,11 @@ namespace BaseProject.Application.Catalog.Images
     public interface IImageService
     {
         Task<ApiResult<bool>> SaveImage(List<IFormFile> images, Location location);
+        Task<ApiResult<bool>> SaveImage(List<IFormFile> images, int postID);
+
         Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, Location location);
+        Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, int postDetailID);
+
         
     }
 }
