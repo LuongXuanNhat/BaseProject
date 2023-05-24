@@ -39,9 +39,27 @@
         // Kiểm tra trạng thái hiện tại của checkbox và thay đổi nó
         checkbox.checked = !checkbox.checked;
     }
+
+    // Lấy category
+    //document.querySelector("form").addEventListener("submit", function (event) {
+    //    event.preventDefault();
+    //    // Lấy danh sách các checkbox đã chọn
+    //    var selectedCheckboxes = document.querySelectorAll("input[name='SelectedCategories']:checked");
+
+    //    // Lấy danh sách các giá trị ID của category đã chọn
+    //    var selectedCategoryIds = Array.from(selectedCheckboxes).map(function (checkbox) {
+    //        return checkbox.value;
+    //    });
+
+    //    // Gán giá trị vào input ẩn selectedCategoryIds
+    //    document.getElementById("selectedCategoryIds").value = selectedCategoryIds.join(",");
+
+    //    // Submit form
+    //    this.submit();
+    });
 </script>
 <div class="row">
-    <form asp-action="Create" method="post" asp-controller="Posts">
+    <form asp-action="Create" method="post" asp-controller="Posts" enctype="multipart/form-data">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <div class="row p-3">
             <div class="col-md-4" style="text-align: end">
@@ -63,12 +81,13 @@
                         {
                             var category = Model.CategoryPostDetail[i];
                             <li class="dropdown-item">
-                                <input type="checkbox" id="@($"checkbox_{i}")" name="CategoryPostDetail[@i].IsSelected" value="@category.Name" style="width: 15px; height: 15px">
-                                <label for="@($"checkbox_{i}")">@category.Name</label>
+                                <input type="checkbox" id="@($"checkbox_{i}")" name="SelectedCategories"
+                                       value="@category.Name" style="width:15px; height: 15px"/>
+                                <label>@category.Name</label>
                             </li>
                         }
-                        
                     </ul>
+    
                 </div>
 
               
@@ -106,7 +125,7 @@
                     
                     <div class="form-group">
                         <label asp-for="PostDetail[i].When" class="control-label"></label>
-                        <input asp-for="PostDetail[i].When" type="month" class="form-control" />
+                        <input asp-for="PostDetail[i].When" type="month" class="form-control" value="@DateTime.Now.ToString("MM-yyyy")" />
                         <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
                     </div>
                     <div class="form-group">
@@ -114,7 +133,20 @@
                         <input asp-for="PostDetail[i].Content " class="form-control" />
                         <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
                     </div>
-
+                    <div class="form-group">
+                        <label asp-for="PostDetail[i].GetImage" class="form-label"></label>
+                        <div class="custom-file">
+                            <input asp-for="PostDetail[i].GetImage" class="form-control" id="customFile" accept=".jpg,.jpeg,.png" placeholder="0 ảnh">
+                        </div>
+                        <span asp-validation-for="PostDetail[i].GetImage" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="col-2">
+               @*     <div class="mb-3">
+                        <label for="formFileMultiple" class="form-label">Multiple files input example</label>
+                        <input class="form-control" type="file" id="formFileMultiple" multiple>
+                    </div>*@
+                    
                 </div>
 
             </div>
@@ -228,6 +260,8 @@
             </script>
             <hr />
         }
+
+        
 
         <div class="form-group">
             <input type="submit" value="Create" class="btn btn-primary" />

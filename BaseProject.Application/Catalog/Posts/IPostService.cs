@@ -15,7 +15,7 @@ namespace BaseProject.Application.Catalog.Posts
 {
     public interface IPostService
     {
-        Task<ApiResult<bool>> Create(PostCreateRequest request);
+        Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request);
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);
 

@@ -7,7 +7,7 @@ namespace BaseProject.Data.Entities
         public int CategoriesId { get; set; }
         public string Name { get; set; }
 
-        public List<CategoriesDetail> CategoriesDetail { get; set; }
+        public List<CategoriesDetail>? CategoriesDetail { get; set; }
 
     }
 }

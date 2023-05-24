@@ -27,6 +27,8 @@ namespace BaseProject.Application.Catalog.Images
             _context = context;
             _storageService = storageService;
         }
+
+        // Save Location Image
         public async Task<ApiResult<bool>> SaveImage(List<IFormFile> image, Location location)
         {
 
@@ -49,17 +51,45 @@ namespace BaseProject.Application.Catalog.Images
             return new ApiSuccessResult<bool>();
         }
 
+        // Save PostDetail Image
+        public async Task<ApiResult<bool>> SaveImage(List<IFormFile> image, int postDetailID)
+        {
+
+            var ImageSave = new List<Image>();
+            foreach (var item in image)
+            {
+                var GetImages = new Image()
+                {
+                    LocationsDetailId = postDetailID,
+                    FileName = item.FileName,
+                    Path = await SaveFile(item)
+                };
+                ImageSave.Add(GetImages);
+            }
+            _context.Images.AddRangeAsync(ImageSave);
+            //   _context.Locations.Update(location);
+            await _context.SaveChangesAsync();
+
+
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, Location location)
         {
             var ImageSave = new List<Image>();
             var list_image = _context.Images.Where(x => x.LocationId == location.LocationId).ToList();
 
-            for (int i = 0; i < list_image.Count; i++)
+            // Xóa ảnh cũ
+            if (list_image != null && list_image.Count > 0)
             {
-                list_image[i].Path = list_image[i].Path.Remove(0,30);
-                await _storageService.DeleteFileAsync(list_image[i].Path);
+                for (int i = 0; i < list_image.Count; i++)
+                {
+                    list_image[i].Path = list_image[i].Path.Remove(0, 30);
+                    await _storageService.DeleteFileAsync(list_image[i].Path);
+                }
+                _context.Images.RemoveRange(list_image);
+                await _context.SaveChangesAsync();
             }
-            _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {
@@ -71,8 +101,40 @@ namespace BaseProject.Application.Catalog.Images
                 };
                 ImageSave.Add(GetImages);
             }
+
+            await _context.Images.AddRangeAsync(ImageSave);
+            await _context.SaveChangesAsync();
+
+
+            return new ApiSuccessResult<bool>();
+        }
+
+        public async Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, int postDetailID)
+        {
+            var ImageSave = new List<Image>();
+            var list_image = _context.Images.Where(x => x.LocationsDetailId == postDetailID).ToList();
+
+            if (list_image != null && list_image.Count > 0)
+            {
+                for (int i = 0; i < list_image.Count; i++)
+                {
+                    list_image[i].Path = list_image[i].Path.Remove(0, 30);
+                    await _storageService.DeleteFileAsync(list_image[i].Path);
+                }
+                _context.Images.RemoveRange(list_image);
+            }
+
+            foreach (var item in images)
+            {
+                var GetImages = new Image()
+                {
+                    LocationsDetailId = postDetailID,
+                    FileName = item.FileName,
+                    Path = await SaveFile(item)
+                };
+                ImageSave.Add(GetImages);
+            }
             _context.Images.AddRangeAsync(ImageSave);
-            //   _context.Locations.Update(location);
             await _context.SaveChangesAsync();
 
 

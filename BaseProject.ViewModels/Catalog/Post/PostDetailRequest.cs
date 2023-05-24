@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.Data.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -30,11 +31,14 @@ namespace BaseProject.ViewModels.Catalog.Post
         [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime When { get; set; }
 
+        [Display(Name = "Thêm ảnh")]
+        public List<IFormFile>? GetImage { get; set; }
+
 
         // Relationship
         //public PostCreateRequest Post { get; set; }
         //public Location Location { get; set; }
 
-        
+
     }
 }

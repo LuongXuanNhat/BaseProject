@@ -9,7 +9,7 @@ namespace BaseProject.Data.Configurations
         public void Configure(EntityTypeBuilder<CategoriesDetail> builder)
         {
             builder.ToTable("CategoriesDetails");
-
+            
             builder.HasKey(x => new { x.CategoriesId, x.PostId });
             builder.Property(x => x.Description).IsRequired(false).HasMaxLength(250);
 
