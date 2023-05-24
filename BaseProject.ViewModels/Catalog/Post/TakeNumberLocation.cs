@@ -17,6 +17,9 @@ namespace BaseProject.ViewModels.Catalog.Post
         public TakeNumberLocation() { 
             numberOfPlaces = 1;
         }
+        public TakeNumberLocation(int number) {
+            numberOfPlaces = number;
+        }
 
 
     }

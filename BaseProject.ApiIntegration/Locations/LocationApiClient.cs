@@ -57,6 +57,19 @@ namespace BaseProject.ApiIntegration.Locations
 
             return JsonConvert.DeserializeObject<ApiErrorResult<LocationCreateRequest>>(body);
         }
+        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/locations/detai/{locationId}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<LocationDetailRequest>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<LocationDetailRequest>>(body);
+        }
 
         public async Task<ApiResult<PagedResult<LocationCreateRequest>>> GetUsersPagings(GetUserPagingRequest request)
         {

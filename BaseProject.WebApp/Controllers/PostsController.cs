@@ -76,10 +76,18 @@ namespace BaseProject.WebApp.Controllers
             {
                 numberLocation = new TakeNumberLocation();
             }
+
+            // max numberOfPlaces = 3;
+            if (numberLocation != null && numberLocation.numberOfPlaces > 3)
+            {
+                numberLocation = new TakeNumberLocation(3);
+            }
+                        
             ViewBag.Num = numberLocation.numberOfPlaces;
             ViewBag.Token = GetToken();
 
             PostDetailRequest detailRequest = new PostDetailRequest();
+
             List<PostDetailRequest> postDetailRequest = new List<PostDetailRequest>();
             for (int i = 0; i < numberLocation.numberOfPlaces; i++)
             {
@@ -100,13 +108,55 @@ namespace BaseProject.WebApp.Controllers
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> Create(PostCreateRequest request, [FromForm(Name = "SelectedCategories")] string[] selectedCategories)
         {
+            if (request.PostDetail.Count > 1)
+            {
+                //Check Not Duplicates
+                bool hasDuplicates = request.PostDetail.GroupBy(obj => obj.Address).Any(group => group.Count() > 1);
+                if (hasDuplicates)
+                {
+                    var duplicates = request.PostDetail
+                                    .GroupBy(obj => obj.Address)
+                                    .Where(group => group.Count() > 1)
+                                    .SelectMany(group => group.Select((item, index) => new { Item = item, Index = index }));
+
+                    foreach (var duplicate in duplicates)
+                    {
+                        int index = duplicate.Index; // Vị trí (chỉ mục) của đối tượng trùng lặp
+                        var duplicateItem = duplicate.Item; // Đối tượng trùng lặp
+
+                        // Thêm thông báo lỗi cho đối tượng trùng lặp tại vị trí (chỉ mục) index
+                        ModelState.AddModelError($"PostDetail[{index}].Address", "Bạn không được đánh giá liên tục 1 địa điểm");
+                       
+                    }
+                    return View(request);
+                }              
+            }
+
             // Lấy danh mục
             request.CategoryPostDetail = new List<Category>();
+
             foreach (var categoryName in selectedCategories)
             {
                 var category = new Category { Name = categoryName , CategoriesId = 0 };
                 request.CategoryPostDetail.Add(category);
-            }            
+            }
+
+            // Chỉ lấy tối đa 5 danh mục
+            if (request.CategoryPostDetail.Count > 5)
+            {
+                List<Category> firstThreeCategories = request.CategoryPostDetail.Take(5).ToList();
+                request.CategoryPostDetail = firstThreeCategories;
+            }
+
+            // Chỉ lấy tối đa 5 ảnh
+            foreach (var item in request.PostDetail)
+            {
+                if (item.GetImage != null && item.GetImage.Count > 5)
+                {
+                    List<IFormFile> img_list = item.GetImage.Take(5).ToList();
+                    item.GetImage = img_list;
+                }
+            }
 
             //request.CategoryPostDetail = categoryPostDetail;
             request.numberLocation = new TakeNumberLocation();

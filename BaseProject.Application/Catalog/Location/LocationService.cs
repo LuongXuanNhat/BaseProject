@@ -202,5 +202,49 @@ namespace BaseProject.Application.Catalog.Categories
 
             return new ApiSuccessResult<LocationCreateRequest>(updateLocationRequest);
         }
+
+        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId)
+        {
+            var location = await _context.Locations.Where(x => x.LocationId == locationId).FirstOrDefaultAsync();
+            if (location == null)
+            {
+                return new ApiErrorResult<LocationDetailRequest>("Địa điểm không tồn tại");
+            }
+            // Lấy ảnh
+            var img_list = await _context.Images.Where(x => x.LocationId.Equals(location.LocationId)).Select(x => x.Path).ToListAsync();
+
+            // Lấy số liệu đánh giá
+            int rating_count;
+            double rating_score;
+            var rating_list = await _context.RatingLocations.Where(x => x.LocationId.Equals(location.LocationId) && x.Stars != null).ToListAsync();
+            if (!rating_list.Any()) {
+                rating_count = 0;
+                rating_score = 0;
+            }
+            else
+            {
+                rating_count = rating_list.Count();
+                int rating_sum = rating_list.Sum(x => x.Stars.HasValue ? x.Stars.Value : 0);
+                rating_score = Math.Ceiling((rating_sum * 1.0 / rating_count) * 10) / 10;
+            }
+            
+            // Lấy danh sách bài đánh giá
+            var postDetail = await _context.LocationsDetails.Where(x => x.LocationId.Equals(location.LocationId)).ToListAsync();
+
+
+            var updateLocationRequest = new LocationDetailRequest()
+            {
+                LocationId = location.LocationId,
+                Name = location.Name,
+                Address = location.Address,
+                Description = location.Description,
+                View = location.View == null ? 0: location.View,
+                RatingCount = rating_count,
+                RatingScore = rating_score,
+                ImageList = img_list.ToList()
+            };
+
+            return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
+        }
     }
 }
