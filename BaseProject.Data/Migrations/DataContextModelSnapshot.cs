@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "e69210e6-5ade-44d6-ae0c-a610bd8e8125",
+                            ConcurrencyStamp = "d7ec2465-fbd9-4046-9e32-7ca709c67dd0",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +97,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "1f4507de-53a5-4a55-a419-fcbfe143750b",
+                            ConcurrencyStamp = "544485b3-937c-4d07-82c9-ec1d12e9f170",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -200,7 +200,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "1e8e6e23-0d46-4b2e-a094-620a16234138",
+                            ConcurrencyStamp = "2d043eab-c6e3-4ab9-b98d-56c4dc90497c",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -210,7 +210,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFt+mzHN8oaLeSdXqZGQTYhTVsCOCEv00RGNZ2UL5AJDh6J4ecZsUDukPwVlPoSWUw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEP7C+rnPkdyBifoDuAADPVRwKAFLJS/udKgPReFBw4iuvR2KK3JJTWLmXSkPWgKS0Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -221,10 +221,7 @@ namespace BaseProject.Data.Migrations
             modelBuilder.Entity("BaseProject.Data.Entities.CategoriesDetail", b =>
                 {
                     b.Property<int>("CategoriesId")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CategoriesId"));
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
