@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230524060513_Add_Attr_description_forLocationTable")]
+    partial class Add_Attr_description_forLocationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "e82a3ab5-dd21-4e85-ab75-84412d2fe4d2",
+                            ConcurrencyStamp = "227d358c-56a8-45f8-9ca1-8680e2853d09",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "d7c784bd-88e1-464f-b343-e72217f0f547",
+                            ConcurrencyStamp = "a3ef2c2e-0797-4085-8664-236f682d61d3",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -200,7 +203,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "102b074d-0bb9-4d80-a110-93b93105114d",
+                            ConcurrencyStamp = "1045f8c8-ce62-4512-bf19-6aba9d35bffb",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -210,7 +213,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGXFYBPNDeL+Z8hjmyheCEzGawAh/09h5WSoQ0PRD1dL9WJ4Gj2ub4s5iGL64w27jg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDFa1L+v/u3awgFr6rb4ti1PXE0r903HH1LP2uOS5m8Y+m1lAVs2pTK4trlnNSj9gA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -909,9 +912,6 @@ namespace BaseProject.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(150)
                         .HasColumnType("nvarchar(150)");
-
-                    b.Property<int?>("View")
-                        .HasColumnType("int");
 
                     b.HasKey("LocationId");
 

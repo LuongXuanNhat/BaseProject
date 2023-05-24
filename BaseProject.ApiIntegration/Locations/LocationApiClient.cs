@@ -74,6 +74,22 @@ namespace BaseProject.ApiIntegration.Locations
             return users;
         }
 
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetPlacesPagings(GetUserPagingRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/locations/pagingPlace?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&ProvinceName={request.ProvinceName}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);
+            return users;
+        }
+
 
         public async Task<ApiResult<bool>> RegisterOrUpdate(LocationCreateRequest request)
         {

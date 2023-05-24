@@ -11,6 +11,8 @@ namespace BaseProject.Data.Entities
         public string Name { get; set; }
         [Required]
         public string Address { get; set; }
+        public string? Description { get; set; }
+        public int? View { get; set; }
 
         public Location()
         {

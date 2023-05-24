@@ -10,7 +10,6 @@ using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-
 namespace BaseProject.Application.Catalog.Categories
 {
     public class LocationService : ILocationService
@@ -145,6 +144,43 @@ namespace BaseProject.Application.Catalog.Categories
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<LocationCreateRequest>>(pagedResult);
+        }
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByProvince(GetUserPagingRequest request)
+        {
+            var query = await _context.Locations.ToListAsync();
+            if (!string.IsNullOrEmpty(request.Keyword))
+            {
+                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
+            else
+            {
+                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString())).ToList();
+            }
+            //3. Paging
+            int totalRow =  query.Count();
+
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x =>
+                     new LocationVm()
+                     {
+                         LocationId = x.LocationId, // Sử dụng bản sao của x.LocationId
+                         Name = x.Name,
+                         Address = x.Address,
+                         ImageList = (from tb in _context.Images
+                                      where tb.LocationId == x.LocationId
+                                      select tb.Path).ToList()
+                     }).ToList();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<LocationVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<LocationVm>>(pagedResult);
         }
 
         public async Task<ApiResult<LocationCreateRequest>> GetById(int locationId)

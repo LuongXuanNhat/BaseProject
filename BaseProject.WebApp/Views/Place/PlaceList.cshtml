@@ -1,0 +1,72 @@
+﻿@*
+    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+*@
+@{
+}
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
+@{
+    ViewData["Title"] = "Danh mục";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/places_style.css" rel="stylesheet" />
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="PlaceList" asp-controller="Place" method="get">
+                    <div class="row">
+                        <div class="cold-md-3 user-search-btn" style="width: unset;">
+                            <button type="submit" class="btn btn-primary">
+                                Tìm
+                            </button>
+                            <a style=" font-size: 15px;" type="button" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@ViewBag.ProvinceName" class="btn btn-dark">
+                                <i class="fa-solid fa-arrow-rotate-right"></i> Tải lại danh sách
+                                </a>
+                        </div>
+                        <div class="col-md-9" style="flex: 1;">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            <input type="text" value="@ViewBag.ProvinceName" name="provinceName" class="form-control" hidden/>
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="">
+        <div class="container">
+            <h2 style="display:block; text-align: center">Các điểm đến @ViewBag.ProvinceName hàng đầu</h2>
+            <div class="destination-list">
+                @foreach (var item in Model.Items)
+                {
+                    <a class="destination-item" asp-action="Detail" asp-route-ID="@item.LocationId" asp-controller="Place" style="padding-bottom: 5px;">
+                        <img src="@item.ImageList.FirstOrDefault()" alt="Destination 1" >           
+                                <h3 style="display: block; text-align: center">@item.Name</h3>
+                                <p style="font-size: 14px">@item.Address</p>
+                        </a>
+                }
+
+            </div>
+                
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+

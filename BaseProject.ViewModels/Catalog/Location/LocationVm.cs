@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,10 @@ namespace BaseProject.ViewModels.Catalog.Location
 {
     public class LocationVm
     {
-
+        public int LocationId { get; set; }
+        public string Name { get; set; }
+        public string Address { get; set; }
+        public string Description { get; set; }
+        public List<string>? ImageList { get; set; }
     }
 }
