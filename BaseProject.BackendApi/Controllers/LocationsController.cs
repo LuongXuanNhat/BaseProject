@@ -71,6 +71,15 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(products);
         }
 
+        // Get Places List by province
+        //http://localhost/api/categoriess/pagingPlace?pageIndex=1&pageSize=10&keyword=@province=
+        [HttpGet("pagingPlace")]
+        public async Task<IActionResult> GetPlacesPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var products = await _locationService.GetLocationPagingByProvince(request);
+            return Ok(products);
+        }
+
         //http://localhost/api/location/3
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(int id)

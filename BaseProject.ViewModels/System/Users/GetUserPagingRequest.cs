@@ -12,5 +12,6 @@ namespace BaseProject.ViewModels.System.Users
     {
         public string? Keyword { get; set; }
         public string? UserName { get; set;}
+        public string? ProvinceName { get; set;}
     }
 }

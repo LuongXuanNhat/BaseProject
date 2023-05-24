@@ -8,6 +8,7 @@ namespace BaseProject.ApiIntegration.Locations
     public interface ILocationApiClient
     {
         Task<ApiResult<PagedResult<LocationCreateRequest>>> GetUsersPagings(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<LocationVm>>> GetPlacesPagings(GetUserPagingRequest request);
         Task<ApiResult<bool>> RegisterOrUpdate(LocationCreateRequest request);
 
         Task<ApiResult<bool>> Update(LocationCreateRequest request);

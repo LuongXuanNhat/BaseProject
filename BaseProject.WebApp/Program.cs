@@ -1,4 +1,5 @@
 ﻿using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.Role;
 using BaseProject.ApiIntegration.User;
@@ -18,6 +19,7 @@ builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
+builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
 
 builder.Services.AddMemoryCache();
 builder.Services.AddTransient<ICacheService, MemoryCacheService>();
