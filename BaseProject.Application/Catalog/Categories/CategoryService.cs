@@ -156,22 +156,27 @@ namespace BaseProject.Application.Catalog.Categories
         {
             // Xóa  cũ
             var list = await _context.CategoriesDetails.Where(x=>x.PostId == id).ToListAsync();
-            _context.CategoriesDetails.RemoveRange(list);
+            if (list != null && list.Count != 0)
+            {
+                _context.CategoriesDetails.RemoveRange(list);
+            }
+            
 
             // Thêm mới
             List<CategoriesDetail > categories = new List<CategoriesDetail>();
             foreach (var item in request)
             {
+                var cateID = await _context.Categories.Where(x=>x.Name.Equals(item.Name)).Select(x=>x.CategoriesId).FirstOrDefaultAsync();
                 CategoriesDetail cate = new CategoriesDetail()
                 {
-                    CategoriesId = item.CategoriesId,
+                    CategoriesId = cateID,
                     Description = item.Name,
                     PostId = id
                 };
                 categories.Add(cate);
             }
-            _context.CategoriesDetails.AddRangeAsync(categories);
-            await _context.SaveChangesAsync();
+            await _context.CategoriesDetails.AddRangeAsync(categories);
+            await _context.SaveChangesAsync();          
 
             return new ApiSuccessResult<bool>();
         }

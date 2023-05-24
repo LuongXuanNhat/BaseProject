@@ -59,7 +59,8 @@ namespace BaseProject.ApiIntegration.Post
                 requestContent.Add(new StringContent(postDetail.Content), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
                 requestContent.Add(new StringContent(postDetail.postDetailId.ToString()), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].postDetailId");
                 requestContent.Add(new StringContent(postDetail.When.ToString("MM-yyyy")), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].When");
-                if (postDetail.GetImage != null && postDetail.GetImage.Count != 0)
+            
+                if (postDetail.GetImage != null )
                 {
                     byte[] data;
                     for (int i = 0; i < postDetail.GetImage.Count; i++)
@@ -68,13 +69,15 @@ namespace BaseProject.ApiIntegration.Post
                         {
                             data = br.ReadBytes((int)postDetail.GetImage[i].OpenReadStream().Length);
                         }
-                        ByteArrayContent bytes = new ByteArrayContent(data);
-                        requestContent.Add(bytes, "GetImage", postDetail.GetImage[i].FileName);
+                        ByteArrayContent bytes = new ByteArrayContent(data); 
+                        requestContent.Add(bytes, $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].GetImage", postDetail.GetImage[i].FileName);
+                        
                     }
                 }
+
             }
 
-            if (request.CategoryPostDetail != null)
+            if (request.CategoryPostDetail != null && request.CategoryPostDetail.Count != 0)
             {
                 foreach (var categoryDetail in request.CategoryPostDetail)
                 {

@@ -79,12 +79,17 @@ namespace BaseProject.Application.Catalog.Images
             var ImageSave = new List<Image>();
             var list_image = _context.Images.Where(x => x.LocationId == location.LocationId).ToList();
 
-            for (int i = 0; i < list_image.Count; i++)
+            // Xóa ảnh cũ
+            if (list_image != null && list_image.Count > 0)
             {
-                list_image[i].Path = list_image[i].Path.Remove(0,30);
-                await _storageService.DeleteFileAsync(list_image[i].Path);
+                for (int i = 0; i < list_image.Count; i++)
+                {
+                    list_image[i].Path = list_image[i].Path.Remove(0, 30);
+                    await _storageService.DeleteFileAsync(list_image[i].Path);
+                }
+                _context.Images.RemoveRange(list_image);
+                await _context.SaveChangesAsync();
             }
-            _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {
@@ -96,8 +101,8 @@ namespace BaseProject.Application.Catalog.Images
                 };
                 ImageSave.Add(GetImages);
             }
-            _context.Images.AddRangeAsync(ImageSave);
-            //   _context.Locations.Update(location);
+
+            await _context.Images.AddRangeAsync(ImageSave);
             await _context.SaveChangesAsync();
 
 
@@ -109,12 +114,15 @@ namespace BaseProject.Application.Catalog.Images
             var ImageSave = new List<Image>();
             var list_image = _context.Images.Where(x => x.LocationsDetailId == postDetailID).ToList();
 
-            for (int i = 0; i < list_image.Count; i++)
+            if (list_image != null && list_image.Count > 0)
             {
-                list_image[i].Path = list_image[i].Path.Remove(0, 30);
-                await _storageService.DeleteFileAsync(list_image[i].Path);
+                for (int i = 0; i < list_image.Count; i++)
+                {
+                    list_image[i].Path = list_image[i].Path.Remove(0, 30);
+                    await _storageService.DeleteFileAsync(list_image[i].Path);
+                }
+                _context.Images.RemoveRange(list_image);
             }
-            _context.Images.RemoveRange(list_image);
 
             foreach (var item in images)
             {
@@ -127,7 +135,6 @@ namespace BaseProject.Application.Catalog.Images
                 ImageSave.Add(GetImages);
             }
             _context.Images.AddRangeAsync(ImageSave);
-            //   _context.Locations.Update(location);
             await _context.SaveChangesAsync();
 
 

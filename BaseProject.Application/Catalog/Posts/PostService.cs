@@ -103,8 +103,12 @@ namespace BaseProject.Application.Catalog.Posts
                 await _context.SaveChangesAsync();
 
                 // Lưu Category detail
-                var postID = post.PostId;
-                var saveCategoryPost = await _categoryService.SaveCatelogyDetail(request.CategoryPostDetail, postID);
+                if (request.CategoryPostDetail != null && request.CategoryPostDetail.Count != 0)
+                {
+                    var postID = post.PostId;
+                    var saveCategoryPost = await _categoryService.SaveCatelogyDetail(request.CategoryPostDetail, postID);
+                }
+                
 
 
                 // Lưu chi tiết đánh giá
@@ -211,23 +215,43 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<string> Delete(int postId)
         {
+            // Xóa bài viết 
             var post = await _context.Posts.Where(x => x.PostId == postId).FirstOrDefaultAsync();
-            var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
-            if (post == null)
+            if (post != null )
             {
-                return null;
+                _context.Posts.Remove(post);
             }
-            var user = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
 
-            _context.Posts.Remove(post);
-            _context.LocationsDetails.RemoveRange(postDetail);
+            // Xóa bài viết chi tiết
+            var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
+            if (postDetail != null && postDetail.Count > 0)
+            {
+                _context.LocationsDetails.RemoveRange(postDetail);
+            }
+
+            // Xóa danh mục bài viết
+            var cate_list = await _context.CategoriesDetails.Where(x => x.PostId == postId).ToListAsync();
+            if (cate_list != null && cate_list.Count > 0)
+            {
+                _context.CategoriesDetails.RemoveRange(cate_list);
+            }
+
+            // Xóa ảnh chi tiết bài viết
+            foreach (var item in postDetail)
+            {
+                var image_list = await _context.Images.Where(x => x.LocationsDetailId == item.Id).ToListAsync();
+                if (image_list != null && image_list.Count > 0)
+                {
+                    _context.Images.RemoveRange(image_list);
+                }
+            }
+            
+            // Lưu thay đổi
             await _context.SaveChangesAsync();
 
-            if (user != null)
-            {
+            var user = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
                 return user.UserName.ToString();
-            }
-            return null;
+
 
         }
 
@@ -250,6 +274,7 @@ namespace BaseProject.Application.Catalog.Posts
             for (int i = 0; i < postDetail.Count; i++)
             {
                 PostDetailRequest item = new PostDetailRequest();
+                item.postDetailId = postDetail[i].Id;
                 item.Title = postDetail[i].Title;
                 address = location.FirstOrDefault(x => x.LocationId == postDetail[i].LocationId);
                 item.Address = address.Address;
