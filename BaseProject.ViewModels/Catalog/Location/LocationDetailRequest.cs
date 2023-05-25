@@ -18,7 +18,7 @@ namespace BaseProject.ViewModels.Catalog.Location
         public int? RatingCount { get; set; }
         public double? RatingScore { get; set; }
         public int? ReviewCount { get; set; }
-        public List<string>? ImageList { get; set; }
+        public List<string> ImageList { get; set; }
         public List<PostDetailRequest>? PostDetailRequest { get; set; }
     }
 }

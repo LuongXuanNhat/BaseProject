@@ -5,6 +5,7 @@ using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
+using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
@@ -216,6 +217,7 @@ namespace BaseProject.Application.Catalog.Categories
             // Lấy số liệu đánh giá
             int rating_count;
             double rating_score;
+            int review_count = await _context.LocationsDetails.Where(x=>x.LocationId == location.LocationId).CountAsync();
             var rating_list = await _context.RatingLocations.Where(x => x.LocationId.Equals(location.LocationId) && x.Stars != null).ToListAsync();
             if (!rating_list.Any()) {
                 rating_count = 0;
@@ -227,9 +229,88 @@ namespace BaseProject.Application.Catalog.Categories
                 int rating_sum = rating_list.Sum(x => x.Stars.HasValue ? x.Stars.Value : 0);
                 rating_score = Math.Ceiling((rating_sum * 1.0 / rating_count) * 10) / 10;
             }
-            
-            // Lấy danh sách bài đánh giá
-            var postDetail = await _context.LocationsDetails.Where(x => x.LocationId.Equals(location.LocationId)).ToListAsync();
+
+            // Lấy danh sách bài đánh giá - 11 thuộc tính
+            // Lấy chỉ số postID
+            var result = await _context.LocationsDetails
+                .Where(x=>x.LocationId == location.LocationId)
+                .Select(x=>x.PostId).Distinct()
+                .ToListAsync();
+
+            // Lấy post
+            List<Post> posts = new List<Post>();
+            for(int i=0; i< result.Count; i++)
+            {
+                var reponse = await _context.Posts.Where(x=>x.PostId == result[i]).FirstOrDefaultAsync();
+                posts.Add(reponse);
+                
+            }
+
+            // Lấy postDetail
+            List<PostDetailRequest> list = new List<PostDetailRequest>();
+            foreach(Post post in posts)
+            {
+                var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
+                
+                // Lấy 1post - 1postDetail
+                if( postDetails != null && postDetails.Count == 1 ) {
+                    PostDetailRequest postDetailRequest = new PostDetailRequest();
+                    postDetailRequest.PostId = post.PostId;
+                    var User = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
+
+                    postDetailRequest.UserName = User.UserName;
+                    postDetailRequest.UserId = User.Id;
+                    postDetailRequest.Title = post.Title;
+                    postDetailRequest.Content = post.LocationsDetail[0].Content;
+                    postDetailRequest.When = post.LocationsDetail[0].When;
+
+                    postDetailRequest.postDetailId = post.LocationsDetail[0].Id;
+
+                    postDetailRequest.ImageList = await _context.Images.Where(x => x.LocationsDetailId == postDetailRequest.postDetailId).Select(x => x.Path).ToListAsync();
+
+                    postDetailRequest.Address = await _context.Locations.Where(x => x.LocationId == post.LocationsDetail[0].LocationId).Select(x => x.Address).FirstOrDefaultAsync();
+
+                    var shareCount = _context.Shares.Where(x => x.PostId == post.PostId).Count();
+                    var saveCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
+
+                    postDetailRequest.ShareCount = shareCount;
+                    postDetailRequest.SaveCount = saveCount;
+
+                    list.Add(postDetailRequest);
+                } else
+                {
+                    if (postDetails != null && postDetails.Count > 1)
+                    {
+                        for (int i = 0; i < post.LocationsDetail.Count; i++)
+                        {
+                            PostDetailRequest postDetailRequest = new PostDetailRequest();
+                            postDetailRequest.PostId = post.PostId;
+                            var User = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
+
+                            postDetailRequest.UserName = User.UserName;
+                            postDetailRequest.UserId = User.Id;
+                            postDetailRequest.Title = post.Title;
+                            postDetailRequest.Content = post.LocationsDetail[i].Content;
+                            postDetailRequest.When = post.LocationsDetail[i].When;
+
+                            postDetailRequest.postDetailId = post.LocationsDetail[i].Id;
+
+                            postDetailRequest.ImageList = await _context.Images.Where(x => x.LocationsDetailId == postDetailRequest.postDetailId).Select(x => x.Path).ToListAsync();
+
+                            postDetailRequest.Address = await _context.Locations.Where(x => x.LocationId == post.LocationsDetail[i].LocationId).Select(x => x.Address).FirstOrDefaultAsync();
+
+                            var shareCount = _context.Shares.Where(x => x.PostId == post.PostId).Count();
+                            var saveCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
+
+                            postDetailRequest.ShareCount = shareCount;
+                            postDetailRequest.SaveCount = saveCount;
+
+                            list.Add(postDetailRequest);
+                        }
+                    }
+                }
+
+            }
 
 
             var updateLocationRequest = new LocationDetailRequest()
@@ -237,11 +318,13 @@ namespace BaseProject.Application.Catalog.Categories
                 LocationId = location.LocationId,
                 Name = location.Name,
                 Address = location.Address,
-                Description = location.Description,
-                View = location.View == null ? 0: location.View,
+                Description = "Thông tin mô tả về địa điểm này đang được cập nhập",
+                View = location.View == null ? 0 : location.View,
                 RatingCount = rating_count,
                 RatingScore = rating_score,
-                ImageList = img_list.ToList()
+                ReviewCount = review_count != null ? review_count : null,
+                ImageList = img_list.ToList() == null ? null : img_list.ToList(),
+                PostDetailRequest = null
             };
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
