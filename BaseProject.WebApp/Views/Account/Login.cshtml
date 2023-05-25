@@ -7,58 +7,53 @@
 <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
 <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
 <link rel="stylesheet" href="~/BaseProject.WebApp.styles.css" asp-append-version="true" />
-<h1>Login</h1>
-<a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">Trang chủ</a>
 
-<main class="main-content  mt-0">
-    <section>
-        <div class="page-header min-vh-75">
-            <div class="container">
-                <div class="row">
-                    <div class="col-xl-4 col-lg-5 col-md-6 d-flex flex-column mx-auto">
-                        <div class="card card-plain mt-8">
-                            <div class="card-header pb-0 text-left bg-transparent">
-                                <h3 class="font-weight-bolder text-info text-gradient">Đăng nhập</h3>
-                                <p class="mb-0">Chào mừng quay trở lại</p>
+<main>
+    <section class="vh-100" style="background-color: #ffcce6;">
+        <div class="container py-5 h-100">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col col-xl-10">
+                    <div class="card" style="border-radius: 1rem;">
+                        <div class="row g-0">
+                            <div class="col-md-6 col-lg-5 d-none d-md-block">
+                                <img src="~/images/lankmark81.jpg" 
+                                     alt="login form" class="img-fluid" style="border-radius: 1rem 0 0 1rem;" />
                             </div>
-                            <div class="card-body">
-                                <form asp-action="Login" asp-controller="Account" method="post">
-                                    <div asp-validation-summary="All" class="text-danger"></div>
+                            <div class="col-md-2 col-lg-7 d-flex align-items-center" style="padding-left:100px">
+                                <div class="card-body p-4 p-lg-5 text-black">
 
-                                    <label>Tài khoản</label>
-                                    <div class="mb-3">
-                                        @*<input type="email" class="form-control" placeholder="Email" aria-label="Email" aria-describedby="email-addon">*@
-                                        <input class="form-control" asp-for="UserName" type="text" placeholder="Nhập tài khoản" />
-                                    </div>
-                                    <label>Mật khẩu</label>
-                                    <div class="mb-3">
-                                        @*<input type="email" class="form-control" placeholder="Password" aria-label="Password" aria-describedby="password-addon">*@
-                                        <input class="form-control" asp-for="Password" type="password" placeholder="Nhập mật khẩu" />
-                                    </div>
-                                    <div class="form-check form-switch">
-                                        <input class="form-check-input" asp-for="RememberMe" type="checkbox" />
-                                        @*<input class="form-check-input" type="checkbox" id="rememberMe" checked="">*@
-                                        <label class="form-check-label" for="rememberMe">Ghi nhớ đăng nhập</label>
-                                    </div>
-                                    <div class="form-group d-flex align-items-center justify-content-between mt-4 mb-0">
-                                        <a class="small" href="/User/ForgotPassword">Bạn quên mật khẩu?</a>
-                                    </div>
-                                    <div class="text-center">
-                                        <button type="submit" class="btn btn-primary w-100 mt-4 mb-0">Đăng nhập</button>
-                                    </div>
-                                </form>
+                                    <form asp-action="Login" asp-controller="Account" method="post">
+                                        <div asp-validation-summary="All" class="text-danger"></div>
+
+                                        <div class="d-flex align-items-center mb-3 pb-1">
+                                            <a asp-controller="Home" asp-action="Index" style="padding-left:100px">
+                                                <img style="border-image:space" width="170" height="60" src="~/images/logo_review.jpg" />
+                                            </a>
+                                        </div>
+
+                                        <h5 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Đăng nhập tài khoản của bạn</h5>
+
+                                        <div class="form-outline mb-4" style="max-width:300px">
+                                            <input class="form-control" asp-for="UserName" type="text" placeholder="Nhập tên tài khoản" />
+                                        </div>
+
+                                        <div class="form-outline mb-4" style="max-width:300px">
+                                            <input class="form-control" asp-for="Password" type="password" placeholder="Nhập mật khẩu" />
+                                        </div>
+
+                                        <div class="pt-1 mb-4">
+                                            <button class="btn btn-dark btn-lg btn-block" type="submit">Đăng nhập</button>
+                                        </div>
+
+                                        <a class="small text-muted" href="#!">Quên mật khẩu?</a>
+                                        <p class="mb-5 pb-lg-2" style="color: #393f81;">
+                                            Bạn chưa có tài khoản? <a asp-controller="Account" asp-action="Register"
+                                                                      style="color: #393f81;">Đăng ký ở đây</a>
+                                        </p>
+                                    </form>
+
+                                </div>
                             </div>
-                            <div class="card-footer text-center pt-0 px-lg-2 px-1">
-                                <p class="mb-4 text-sm mx-auto">
-                                    Don't have an account?
-                                    <a href="javascript:;" class="text-info text-gradient font-weight-bold">Sign up</a>
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6">
-                        <div class="oblique position-absolute top-0 h-100 d-md-block d-none me-n8">
-                            <div class="oblique-image bg-cover position-absolute fixed-top ms-auto h-100 z-index-0 ms-n6" style="background-image:url('../assets/img/curved-images/curved6.jpg')"></div>
                         </div>
                     </div>
                 </div>
