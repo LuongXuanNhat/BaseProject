@@ -40,9 +40,10 @@ namespace BaseProject.WebApp.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> Detail(int ID)
+        public async Task<IActionResult> Detail(int ID, string provinceName)
         {
-            var result = await _locationApiClient.GetById(ID);
+            ViewBag.ProvinceName = provinceName;
+            var result = await _locationApiClient.GetByIdDetail(ID);
             return View(result.ResultObj);
         }
     }

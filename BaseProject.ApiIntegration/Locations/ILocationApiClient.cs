@@ -15,6 +15,7 @@ namespace BaseProject.ApiIntegration.Locations
         Task<ApiResult<bool>> Delete(int locationId);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int id);
+        Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int id);
 
 
 

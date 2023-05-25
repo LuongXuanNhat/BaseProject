@@ -51,3 +51,10 @@ h1 {
         width: 100%;
     }
 }
+
+.fix-img {
+    border-radius: 20px;
+    object-fit: cover;
+    width: 100%;
+    height:auto;
+}

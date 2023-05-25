@@ -87,5 +87,12 @@ namespace BaseProject.BackendApi.Controllers
             var user = await _locationService.GetById(id);
             return Ok(user);
         }
+
+        [HttpGet("detai/{idDetail}")]
+        public async Task<IActionResult> GetByIdDetail(int idDetail)
+        {
+            var user = await _locationService.GetByIdDetail(idDetail);
+            return Ok(user);
+        }
     }
 }

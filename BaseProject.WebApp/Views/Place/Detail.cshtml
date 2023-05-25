@@ -1,0 +1,59 @@
+﻿@model BaseProject.ViewModels.Catalog.Location.LocationDetailRequest
+
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<link href="~/css/places_style.css" rel="stylesheet" />
+
+
+<div>
+    <a asp-action="PlaceList" asp-route-provinceName="@ViewBag.ProvinceName"> Trở về </a>
+</div>
+<div class="container-fluid">
+    @if (Model != null)
+    {
+        <h1>
+            @Model.Name
+        </h1>
+        <div style="display:inline-flex; font-size: 16px;">
+            <div>
+                @Model.ReviewCount bài đánh giá  | 
+            </div>
+            <div>
+                |  @Model.RatingCount người chấm điểm  |
+            </div>
+            <div>
+                |  #@Model.ReviewCount *  |
+            </div>
+            <div>
+                |  #2 trong 100 top địa điểm được yêu thích nhất ở TP. Hồ Chí Minh 
+            </div>
+        </div>
+        <hr/>
+        <div class="row" style="height: 500px; ">
+            <div class="col-4">
+                <div class="card text-dark bg-light" style="max-width: 25rem;">
+                    <div class="card-header">Giới thiệu</div>
+                    <div class="card-body">
+                        <p class="" style="font-size: 16px;margin-top: 8px !important;">@Model.Description</p>
+                        <span href="https://www.google.com/maps/place/@Model.Address">
+                           Địa chỉ: <strong>@Model.Address</strong>
+                        </span>
+                        <iframe width="328"
+                                height="256"
+                                frameborder="0" style="border:0"
+                                src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA4QIxm3saVM9bn5KY2Fo-Mv2c_aHZSc3U&q=@Model.Address" allowfullscreen>
+                        </iframe>
+                    </div>
+                </div>                   
+            </div>
+            <div class="col-8">
+                <div class="" style="overflow: hidden; height: 550px">
+                    <img src="@Model.ImageList.FirstOrDefault()" class="fix-img"/>
+                </div>
+            </div>           
+        </div>
+
+    }
+</div>
