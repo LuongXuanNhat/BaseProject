@@ -35,10 +35,6 @@ namespace BaseProject.WebApp.Controllers
                 HttpContext.Session.Remove("Token");
                 return RedirectToAction("Index", "Home");
             }
-
-
-
-
             return View();
         }
 
@@ -60,7 +56,6 @@ namespace BaseProject.WebApp.Controllers
                 CookieRequestCultureProvider.MakeCookieValue(new RequestCulture(cltr)),
                 new CookieOptions { Expires = DateTimeOffset.UtcNow.AddYears(1) }
                 );
-
             return LocalRedirect(returnUrl);
         }
     }
