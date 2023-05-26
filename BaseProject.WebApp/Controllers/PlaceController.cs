@@ -36,10 +36,8 @@ namespace BaseProject.WebApp.Controllers
             {
                 ViewBag.ProvinceName = provinceName;
                 ViewBag.SuccessMsg = TempData["result"];
-                var places = data.ResultObj;
-                return View( places );
             }
-            return View();
+            return View(data.ResultObj);
         }
 
         [HttpGet]

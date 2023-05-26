@@ -1,5 +1,5 @@
 ﻿@using BaseProject.ViewModels.Common;
-@*@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>*@
+@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
 
 @{
     ViewData["Title"] = "Danh mục";
@@ -54,7 +54,7 @@
                 @foreach (var item in Model.Items)
                 {
                     <a class="destination-item" asp-action="Detail" asp-route-ID="@item.LocationId" asp-route-provinceName="@ViewBag.ProvinceName" asp-controller="Place" style="padding-bottom: 5px;">
-                        <img src="@item.ImageList.FirstOrDefault()" alt="Destination 1" >           
+                        <img src="@item.ImageList" alt="Destination 1" >           
                                 <h3 style="display: block; text-align: center">@item.Name</h3>
                                 <p style="font-size: 14px">@item.Address : @item.View</p>
                         </a>
