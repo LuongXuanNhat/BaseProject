@@ -72,7 +72,7 @@ namespace BaseProject.BackendApi.Controllers
         }
 
         // Get Places List by province
-        //http://localhost/api/categoriess/pagingPlace?pageIndex=1&pageSize=10&keyword=@province=
+        //http://localhost/api/Location/pagingPlace?pageIndex=1&pageSize=10&keyword=@province=
         [HttpGet("pagingPlace")]
         public async Task<IActionResult> GetPlacesPaging([FromQuery] GetUserPagingRequest request)
         {

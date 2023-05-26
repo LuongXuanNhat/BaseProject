@@ -1,4 +1,5 @@
 ﻿using BaseProject.ApiIntegration.Locations;
+using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
@@ -35,8 +36,10 @@ namespace BaseProject.WebApp.Controllers
             {
                 ViewBag.ProvinceName = provinceName;
                 ViewBag.SuccessMsg = TempData["result"];
+                var places = data.ResultObj;
+                return View( places );
             }
-            return View(data.ResultObj);
+            return View();
         }
 
         [HttpGet]

@@ -170,7 +170,8 @@ namespace BaseProject.Application.Catalog.Categories
                          Address = x.Address,
                          ImageList = (from tb in _context.Images
                                       where tb.LocationId == x.LocationId
-                                      select tb.Path).ToList()
+                                      select tb.Path).FirstOrDefault(),
+                         View = x.View == null ? 0 : x.View,
                      }).ToList();
 
             //4. Select and projection

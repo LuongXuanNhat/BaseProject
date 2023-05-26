@@ -104,7 +104,7 @@ namespace BaseProject.Data.Enums
         QuangTri=48,
         [Display(Name = "Sóc Trăng")]
         SocTrang=49,
-        [Display(Name = "Sơn La")],
+        [Display(Name = "Sơn La")]
         SonLa=50,
         [Display(Name = "Tây Ninh")]
         TayNinh=51,
@@ -124,7 +124,7 @@ namespace BaseProject.Data.Enums
         TraVinh=58,
         [Display(Name = "Tuyên Quang")]
         TuyenQuang=59,
-        [Display(Name = "Vĩnh Long")],
+        [Display(Name = "Vĩnh Long")]
         VinhLong=60,
         [Display(Name = "Vĩnh Phúc")]
         VinhPhuc=61,

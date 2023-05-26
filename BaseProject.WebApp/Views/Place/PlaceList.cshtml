@@ -1,10 +1,6 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@using BaseProject.ViewModels.Common;
+﻿@using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
+
 @{
     ViewData["Title"] = "Danh mục";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -60,7 +56,7 @@
                     <a class="destination-item" asp-action="Detail" asp-route-ID="@item.LocationId" asp-route-provinceName="@ViewBag.ProvinceName" asp-controller="Place" style="padding-bottom: 5px;">
                         <img src="@item.ImageList.FirstOrDefault()" alt="Destination 1" >           
                                 <h3 style="display: block; text-align: center">@item.Name</h3>
-                                <p style="font-size: 14px">@item.Address</p>
+                                <p style="font-size: 14px">@item.Address : @item.View</p>
                         </a>
                 }
 
