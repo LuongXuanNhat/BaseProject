@@ -49,7 +49,7 @@ namespace BaseProject.Application.System.Users
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
             {
-                return new ApiErrorResult<string>("Đăng nhập không đúng");
+                return new ApiErrorResult<string>("Sai mật khẩu");
             }
             var roles = await _userManager.GetRolesAsync(user);
             var claims = new[]
@@ -192,6 +192,8 @@ namespace BaseProject.Application.System.Users
                 UserName = request.UserName,
                 Gender = request.Gender
             };
+
+            // Lưu mật khẩu
             var result = await _userManager.CreateAsync(user, request.Password);
             if (result.Succeeded)
             {
@@ -204,7 +206,40 @@ namespace BaseProject.Application.System.Users
 
             
 
-            return new ApiErrorResult<bool>("Đăng ký không thành công");
+            return new ApiErrorResult<bool>("Đăng ký không thành công : Mật khẩu không hợp lệ, yêu cầu gồm có ít 6 ký tự bao gồm ký tự: Hoa, thường, số, ký tự đặc biệt ");
+        }
+
+        public async Task<ApiResult<bool>> NewRegister(RegisterRequestOfUser request)
+        {
+            var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user != null)
+            {
+                return new ApiErrorResult<bool>("Tài khoản đã tồn tại");
+            }
+            if (await _userManager.FindByEmailAsync(request.Email) != null)
+            {
+                return new ApiErrorResult<bool>("Emai đã tồn tại");
+            }
+
+            user = new AppUser()
+            {
+                Email = request.Email,
+                UserName = request.UserName,
+            };
+            // Lưu mật khẩu
+            var result = await _userManager.CreateAsync(user, request.Password);
+            if (result.Succeeded)
+            {
+                // Auto RoleAssign
+                var role = await _dataContext.Roles.FirstOrDefaultAsync(x => x.Name == "User");
+                var getUser = await _dataContext.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
+                await _userManager.AddToRoleAsync(getUser, role.Name);
+                return new ApiSuccessResult<bool>();
+            }
+
+            
+
+            return new ApiErrorResult<bool>("Đăng ký không thành công : Mật khẩu không hợp lệ, yêu cầu gồm có ít 6 ký tự bao gồm ký tự: Hoa, thường, số, ký tự đặc biệt ");
         }
 
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)

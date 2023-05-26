@@ -13,8 +13,8 @@ namespace BaseProject.ViewModels.Catalog.Post
 {
     public class PostDetailRequest
     {
-        public int PostId { get; set; }
-        public string UserName { get; set; }
+        public int? PostId { get; set; }
+        public string? UserName { get; set; }
         public Guid UserId { get; set; }
         public int postDetailId { get; set; }
         [Required]

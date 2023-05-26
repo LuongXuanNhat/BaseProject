@@ -325,7 +325,7 @@ namespace BaseProject.Application.Catalog.Categories
                 RatingScore = rating_score,
                 ReviewCount = review_count != null ? review_count : null,
                 ImageList = img_list.ToList() == null ? null : img_list.ToList(),
-                PostDetailRequest = null
+                PostDetailRequest = list == null ? null : list,
             };
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);

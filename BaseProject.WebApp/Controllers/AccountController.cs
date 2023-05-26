@@ -12,6 +12,7 @@ using Microsoft.Extensions.Caching.Distributed;
 using NuGet.Common;
 using Newtonsoft.Json.Linq;
 using BaseProject.ApiIntegration.User;
+using FluentValidation.Results;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -40,13 +41,16 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> Login(LoginRequest request)
         {
             if (!ModelState.IsValid)
+            {
                 return View(request);
+            }
+                
 
             var result = await _userApiClient.Authenticate(request);
             if (result.ResultObj == null)
             {
-                ModelState.AddModelError("", "Lỗi đăng nhập");
-                return View();
+                ModelState.AddModelError("", result.Message);
+                return View(request);
             }
             var userPrincipal = this.ValidateToken(result.ResultObj);
 
@@ -90,14 +94,14 @@ namespace BaseProject.WebApp.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterRequest registerRequest)
+        public async Task<IActionResult> Register(RegisterRequestOfUser registerRequest)
         {
             if (!ModelState.IsValid)
             {
-                return View(registerRequest);
+                return View(registerRequest); // Trả về view và hiển thị thông báo lỗi
             }
 
-            var result = await _userApiClient.RegisterUser(registerRequest);
+            var result = await _userApiClient.Register(registerRequest);
             if (!result.IsSuccessed)
             {
                 ModelState.AddModelError("", result.Message);

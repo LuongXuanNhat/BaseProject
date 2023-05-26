@@ -25,7 +25,11 @@
                     </div>
                     <div class="form-group">
                         @{
-                            string formattedDateOfBirth = Model.DateOfBir.ToString("dd/MM/yyyy");
+                            if (Model.DateOfBir != null)
+                            {
+                                string formattedDateOfBirth = Model.DateOfBir.ToString();
+                            }
+
                         }
                         <label asp-for="DateOfBir" class="control-label"></label>
                         <input asp-for="DateOfBir" class="form-control" placeholder="@Html.DisplayFor(model => model.DateOfBir)" asp-format="{0:dd/MM/yyyy}" />

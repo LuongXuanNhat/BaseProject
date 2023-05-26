@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "e82a3ab5-dd21-4e85-ab75-84412d2fe4d2",
+                            ConcurrencyStamp = "34261a68-3f1a-4ef5-8138-12227cec6aea",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +97,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "d7c784bd-88e1-464f-b343-e72217f0f547",
+                            ConcurrencyStamp = "f9fba264-b8ac-494b-bfb2-2ad28ba49f8d",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -121,7 +121,7 @@ namespace BaseProject.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateOfBir")
+                    b.Property<DateTime?>("DateOfBir")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
@@ -135,13 +135,12 @@ namespace BaseProject.Data.Migrations
                     b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("Gender")
+                    b.Property<int?>("Gender")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasDefaultValue(2);
 
                     b.Property<string>("Image")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<bool>("LockoutEnabled")
@@ -151,7 +150,6 @@ namespace BaseProject.Data.Migrations
                         .HasColumnType("datetimeoffset");
 
                     b.Property<string>("Name")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("NormalizedEmail")
@@ -200,7 +198,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "102b074d-0bb9-4d80-a110-93b93105114d",
+                            ConcurrencyStamp = "a2505cc4-9f10-4172-8e17-bb6a0a3298d7",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -210,7 +208,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEGXFYBPNDeL+Z8hjmyheCEzGawAh/09h5WSoQ0PRD1dL9WJ4Gj2ub4s5iGL64w27jg==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEE2Wdz7JbJWAoIzGrL1Q/d5XBO8E6Rb/5+oaBoFiFI34rkQob/oFgL2zE25GdQAQGA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

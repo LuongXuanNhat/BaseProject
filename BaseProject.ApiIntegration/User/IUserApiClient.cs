@@ -14,6 +14,7 @@ namespace BaseProject.ApiIntegration.User
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request);
 
+        Task<ApiResult<bool>> Register(RegisterRequestOfUser registerRequest);
         Task<ApiResult<bool>> RegisterUser(RegisterRequest registerRequest);
 
         Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);

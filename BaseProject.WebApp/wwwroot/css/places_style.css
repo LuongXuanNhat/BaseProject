@@ -1,4 +1,4 @@
-.container {
+﻿.container {
     max-width: 1200px;
     margin: 0 auto;
     padding: 20px;
@@ -57,4 +57,67 @@ h1 {
     object-fit: cover;
     width: 100%;
     height:auto;
+}
+
+.liked {
+    color: orangered ;
+}
+
+.gray-color {
+    color: #7F7F7F ;
+}
+
+.limited-lines {
+    max-height: 3em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 2; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+}
+
+.rating-outer {
+    position: relative;
+    color: red;
+    display: inline-block;
+}
+
+.rating-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.rating-outer {
+    position: relative;
+    color: red;
+    display: inline-block;
+}
+
+.rating-inner {
+    position: absolute;
+    top: 0;
+    left: 0;
+    overflow: hidden;
+}
+
+.icon::before {
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+    display: inline-block;
+    font-style: normal;
+    font-variant: normal;
+    text-rendering: auto;
+    line-height: 1;
+}
+
+.rating-outer::before,
+.rating-inner::before {
+    font-family: "Font Awesome 5 Free";
+    font-weight: 400;
+    content: "\f005 \f005 \f005 \f005 \f005";
+}
+
+.rating-inner::before {
+    font-weight: 900;
 }

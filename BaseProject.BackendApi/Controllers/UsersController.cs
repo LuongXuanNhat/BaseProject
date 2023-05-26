@@ -33,6 +33,7 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(result);
         }
 
+        // Admin tạo tài khoản người dùng
         //POST: http://localhost/api/users/create
         [HttpPost]
         [AllowAnonymous]
@@ -42,6 +43,23 @@ namespace BaseProject.BackendApi.Controllers
                 return BadRequest(ModelState);
 
             var result = await _userService.Register(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+        
+        
+        // Người dùng đăng ký tài khoản
+        [HttpPost("register")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Register([FromBody] RegisterRequestOfUser request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.NewRegister(request);
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);
