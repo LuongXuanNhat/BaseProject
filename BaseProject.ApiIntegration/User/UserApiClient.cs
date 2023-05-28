@@ -1,6 +1,8 @@
-﻿using BaseProject.ViewModels.Common;
+﻿using BaseProject.Data.Enums;
+using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
 using System;
@@ -89,6 +91,19 @@ namespace BaseProject.ApiIntegration.User
 
             return JsonConvert.DeserializeObject<ApiErrorResult<UserVm>>(body);
         }
+        public async Task<ApiResult<UserVm>> GetByUserName(string username)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/users/setting/{username}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<UserVm>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<UserVm>>(body);
+        }
 
         public async Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request)
         {
@@ -164,10 +179,30 @@ namespace BaseProject.ApiIntegration.User
 
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/users/{id}", httpContent);
+            var requestContent = new MultipartFormDataContent();
+
+            if (request.GetImage != null)
+            {
+                byte[] data;
+                using (var br = new BinaryReader(request.GetImage.OpenReadStream()))
+                {
+                    data = br.ReadBytes((int)request.GetImage.OpenReadStream().Length);
+                }
+                ByteArrayContent bytes = new ByteArrayContent(data);
+                requestContent.Add(bytes, "GetImage", request.GetImage.FileName);
+            }
+            requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+
+            string dateOfBirth = request.DateOfBir?.ToString("dd-MM-yyyy") ?? string.Empty;
+            requestContent.Add(new StringContent(dateOfBirth), "DateOfBir");
+
+            requestContent.Add(new StringContent(request.Gender?.ToString()), "Gender");
+            requestContent.Add(new StringContent(request.Description?.ToString()), "Description");
+
+            requestContent.Add(new StringContent(request.Email.ToString()), "Email");
+
+            var response = await client.PutAsync($"/api/users/{id}", requestContent);
             var result = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);

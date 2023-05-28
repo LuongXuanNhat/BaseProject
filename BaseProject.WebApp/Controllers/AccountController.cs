@@ -13,6 +13,7 @@ using NuGet.Common;
 using Newtonsoft.Json.Linq;
 using BaseProject.ApiIntegration.User;
 using FluentValidation.Results;
+using Azure.Core;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -145,6 +146,77 @@ namespace BaseProject.WebApp.Controllers
             ClaimsPrincipal principal = new JwtSecurityTokenHandler().ValidateToken(jwtToken, validationParameters, out validatedToken);
 
             return principal;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> AccountSetting(string UserName)
+        {
+            if (UserName != null)
+            {
+                var result = await _userApiClient.GetByUserName(UserName);
+
+                ViewBag.UserName = User.Identity.Name;
+                return View(result.ResultObj);
+            }
+            else
+            {
+                var result = await _userApiClient.GetByUserName(User.Identity.Name);
+
+                ViewBag.UserName = User.Identity.Name;
+                return View(result.ResultObj);
+            }
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Edit(Guid id)
+        {
+            var result = await _userApiClient.GetById(id);
+            if (result.IsSuccessed)
+            {
+                var user = result.ResultObj;
+                var updateRequest = new UserVm()
+                {
+                    Id = id,
+                    Name = user.Name,
+                    UserName = user.UserName,
+                    Image = user.Image,
+                    Email = user.Email,
+                    DateOfBir = user.DateOfBir,
+                    Gender = user.Gender,
+                    Description = user.Description,
+                };
+                return View(updateRequest);
+            }
+            return RedirectToAction("Error", "Home");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserVm request)
+        {
+            if (!ModelState.IsValid)
+                return View();
+
+            var updateRequest = new UserUpdateRequest()
+            {
+                Id = request.Id,
+                Name = request.Name,
+                Image = request.Image,
+                Email = request.Email,
+                DateOfBir = request.DateOfBir,
+                Gender = request.Gender,
+                Description = request.Description,
+            };
+
+            var result = await _userApiClient.UpdateUser(updateRequest.Id, updateRequest);
+            if (result.IsSuccessed)
+            {
+                TempData["result"] = "Cập nhật người dùng thành công";
+                return RedirectToAction("Index");
+            }
+
+            ModelState.AddModelError("", result.Message);
+            return View(request);
         }
     }
 }

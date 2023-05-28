@@ -65,7 +65,9 @@
                             <div class="card" style="width: 95%;">
                                 <div class="card-body">
                                     <div style="display: flex; justify-content: space-between;">
-                                        <h5 class="card-title"><i class="fa-regular fa-circle-user"></i> @item.UserName</h5>
+                                        <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" style="text-decoration: none;">
+                                            <h5 class="card-title"><i class="fa-regular fa-circle-user"></i> @item.UserName</h5>
+                                        </a>
                                         <div style="display: flex">
                                             <div style="margin-right: 8px">
                                                 <i class="fa-solid fa-pen-fancy"></i> 123  

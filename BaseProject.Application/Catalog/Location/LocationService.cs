@@ -51,11 +51,11 @@ namespace BaseProject.Application.Catalog.Categories
                     if (request.GetImage != null && request.GetImage.Count != 0)
                     {
                         var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
-                    if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
-                    {
-                        _context.SaveChanges();
-                        return new ApiSuccessResult<bool>();
-                    }
+                        if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
+                        {
+                            _context.SaveChanges();
+                            return new ApiSuccessResult<bool>();
+                        }
                     }                   
                     return new ApiSuccessResult<bool>();
                 } 

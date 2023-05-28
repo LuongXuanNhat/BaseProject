@@ -118,7 +118,7 @@
                     </div>
                     <div class="form-group">
                         <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                        <textarea asp-for="PostDetail[i].Content" id="editor" class="form-control"> </textarea>
+                        <textarea asp-for="PostDetail[i].Content" id="editor_@i" class="form-control"> </textarea>
                         <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
                     </div>
                 </div>
@@ -133,7 +133,7 @@
             </div>
 
             <script>
-                CKEDITOR.replace("editor");
+                    CKEDITOR.replace("editor_@i");
             </script>
 
             <script>

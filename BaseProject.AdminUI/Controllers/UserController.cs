@@ -86,7 +86,8 @@ namespace BaseProject.AdminUI.Controllers
                     Image = user.Image,
                     Email = user.Email,
                     DateOfBir = user.DateOfBir,
-                    Gender = user.Gender
+                    Gender = user.Gender,
+                    Description = user.Description
                 };
                 return View(updateRequest);
             }
