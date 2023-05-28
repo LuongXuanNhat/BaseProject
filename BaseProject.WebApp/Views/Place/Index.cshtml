@@ -3,55 +3,178 @@
 *@
 @{
 }
+@using BaseProject.Data.Enums
+
+
 <link href="~/css/places_style.css" rel="stylesheet" />
 
-<div class="align-items-center">
-    <h3>Lựa chọn điểm đến của bạn qua 63 tỉnh thành Việt Nam</h3>
-</div>
-
 <div class="container">
-    <h2 style="display:block; text-align: center">Lựa chọn điểm đến của bạn</h2>
+    <h3 style="display:block; text-align: center">Lựa chọn điểm đến của bạn</h3>
     <div class="destination-list">
-        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="Hồ Chí Minh">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/06/ChợBếnThành-HanoiTourism_optimized-e1560829173317.jpg" alt="Destination 1" class="fix-img">
-            <h3>Du lịch Hồ Chí Minh</h3>
-            <p>Mô tả điểm đến 1</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.HoChiMinh.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/06/ChợBếnThành-HanoiTourism_optimized-e1560829173317.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.HoChiMinh.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/09/dia-diem-checkin-ha-noi-khamphadisan.jpg" alt="Destination 2" class="fix-img">
-            <h3>Du lịch Hà Nội</h3>
-            <p>Mô tả điểm đến 2</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.HaNoi.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/09/dia-diem-checkin-ha-noi-khamphadisan.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.HaNoi.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/03/hoi-an-huyen-ao-voi-goc-nhin-tu-tren-cao-ivivu-4.jpg" alt="Destination 3" class="fix-img">
-            <h3>Du lịch Hội An</h3>
-            <p>Mô tả điểm đến 3</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.HaiPhong.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/05/1.-cang-hai-phong-e1558408578539.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.HaiPhong.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2016/05/bac-ninh-e1463021073448.jpg" alt="Destination 3" class="fix-img">
-            <h3>Du lịch Bắc Ninh</h3>
-            <p>Mô tả điểm đến 4</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.DaNang.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2017/11/%C4%91%C3%A0-n%E1%BA%B5ng-v%E1%BB%81-%C4%91%C3%AAm.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.DaNang.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/06/ChợBếnThành-HanoiTourism_optimized-e1560829173317.jpg" alt="Destination 1" class="fix-img">
-            <h3>Du lịch Hồ Chí Minh</h3>
-            <p>Mô tả điểm đến 1</p>
+
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.QuangNam.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/03/hoi-an-huyen-ao-voi-goc-nhin-tu-tren-cao-ivivu-4.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.QuangNam.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/07/TrungLương1-QuyNhơnLand_optimized.jpg" alt="Destination 2" class="fix-img">
-            <h3>Du lịch Bình Định</h3>
-            <p>Mô tả điểm đến 2</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.ThuaThienHue.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/05/%C4%90%E1%BA%A1i-N%E1%BB%99i-3-blue.nomad-Instagram.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.ThuaThienHue.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/03/hoi-an-huyen-ao-voi-goc-nhin-tu-tren-cao-ivivu-4.jpg" alt="Destination 3" class="fix-img">
-            <h3>Du lịch Hội An</h3>
-            <p>Mô tả điểm đến 3</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BacNinh.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2016/05/bac-ninh-e1463021073448.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BacNinh.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <a class="destination-item">
-            <img src="https://khamphadisan.com.vn/wp-content/uploads/2016/05/bac-ninh-e1463021073448.jpg" alt="Destination 3" class="fix-img">
-            <h3>Du lịch Bắc Ninh</h3>
-            <p>Mô tả điểm đến 4</p>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BinhDinh.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/07/TrungLương1-QuyNhơnLand_optimized.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BinhDinh.GetDisplayName()
+                </div>
+            </div>
         </a>
-        <!-- Thêm các mục điểm đến khác tại đây -->
+
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BinhDinh.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/07/TrungLương1-QuyNhơnLand_optimized.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BinhDinh.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.QuangNinh.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/08/BaitamBaTraiDao-Halong-Bay.info_optimized.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.QuangNinh.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.ThaiNguyen.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/10/dia-diem-checki-thai-nguyen-khamphadisan.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.ThaiNguyen.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BacGiang.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2017/04/cao-nguyen-dong-cao-bac-giang-khamphadisan-3.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BacGiang.GetDisplayName()
+                </div>
+            </div>
+        </a>
+
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BacKan.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2017/06/bac-kan-co-gi-du-lich-khamphadisan2.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BacKan.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.BinhDuong.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2019/06/Khudul%E1%BB%8Bch%C4%90%E1%BA%A1iNamB%C3%ACnhD%C6%B0%C6%A1ng-s%C6%B0ut%E1%BA%A7m_optimized-e1559792875623.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.BinhDuong.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.TuyenQuang.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2017/10/nui-pac-ta-tuyen-quang-khamphadisan-2.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.TuyenQuang.GetDisplayName()
+                </div>
+            </div>
+        </a>
+        <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.CaoBang.GetDisplayName()">
+            <div style="position: relative; display:flex; justify-content: center;">
+                <img src="https://khamphadisan.com.vn/wp-content/uploads/2022/09/dia-diem-checkin-cao-bang-khamphadisan.jpg" alt="Destination 1" class="fix-img">
+                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                </div>
+                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                    @Provinces.CaoBang.GetDisplayName()
+                </div>
+            </div>
+        </a>
+
     </div>
 </div>

@@ -128,7 +128,7 @@ namespace BaseProject.Data.Enums
         VinhLong=60,
         [Display(Name = "Vĩnh Phúc")]
         VinhPhuc=61,
-        [Display(Name = "Yen Bai")]
+        [Display(Name = "Yên Bái")]
         YenBai=62
     }
 }

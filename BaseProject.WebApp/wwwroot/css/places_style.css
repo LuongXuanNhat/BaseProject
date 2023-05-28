@@ -14,11 +14,11 @@ h1 {
     
     display: flex;
     flex-wrap: wrap;
-}
+} 
 
 .destination-item {
     width: 25%;
-    padding: 10px;
+    padding: 8px;
     overflow: hidden;
 }
 

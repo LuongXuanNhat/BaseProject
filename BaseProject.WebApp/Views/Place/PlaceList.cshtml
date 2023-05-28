@@ -49,15 +49,15 @@
     </div>
     <div class="">
         <div class="container">
-            <h2 style="display:block; text-align: center">Các điểm đến @ViewBag.ProvinceName hàng đầu</h2>
+            <h2 style="display:block; text-align: center">Các điểm đến hàng đầu @ViewBag.ProvinceName</h2>
             <div class="destination-list">
                 @foreach (var item in Model.Items)
                 {
-                    <a class="destination-item" asp-action="Detail" asp-route-ID="@item.LocationId" asp-route-provinceName="@ViewBag.ProvinceName" asp-controller="Place" style="padding-bottom: 5px;">
+                    <a class="destination-item" asp-action="Detail" asp-route-ID="@item.LocationId" asp-route-provinceName="@ViewBag.ProvinceName" asp-controller="Place" style="padding-bottom: 5px;text-decoration: none;color:black">
                         <img src="@item.ImageList" alt="Destination 1" >           
                                 <h3 style="display: block; text-align: center">@item.Name</h3>
-                                <p style="font-size: 14px">@item.Address : @item.View</p>
-                        </a>
+                                <p style="font-size: 14px;max-height:3em">@item.Address : @item.View</p>
+                    </a>
                 }
 
             </div>
