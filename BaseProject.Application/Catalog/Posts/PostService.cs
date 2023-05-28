@@ -99,17 +99,17 @@ namespace BaseProject.Application.Catalog.Posts
                 Guid USER_ID = await _context.Users.Where(x => x.UserName.Equals(request.UserId)).Select(x => x.Id).FirstOrDefaultAsync();
                 foreach (var item in request.PostDetail)
                 {
-                    // Lấy danh sách bài viết
+                    // Lấy danh sách bài viết của User
                     var list = await _context.Posts.Where(x=>x.UserId == USER_ID).OrderBy(x => x.PostId).ToListAsync();
                     for (var i = list.Count-1; i >= 0; i--)
                     {
-                        // Lấy danh sách bài viết chi tiết của 1 bài viết
+                        // Lấy danh sách bài viết chi tiết của 1 bài viết và so sánh
                         var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId).OrderBy(x => x.PostId).ToListAsync();
                         for (int y = list2.Count - 1; y >= 0; y--)
                         {
                             // Kiếm tra địa chỉ đánh giá này đã được đánh giá chưa
-                            var addess = await _context.Locations.Where(x=>x.LocationId == list2[y].LocationId).FirstOrDefaultAsync();
-                            if (addess != null)
+                            var getAddess = await _context.Locations.Where(x => x.Address.Equals(item.Address)).FirstOrDefaultAsync();
+                            if (getAddess.LocationId == list2[y].LocationId)
                             {
                                 // Kiếm tra địa chỉ đánh giá này gần nhất có đủ 1 tháng ( so với hiện tại ) chưa.
                                 DateTime date1 = list[i].UploadDate;
@@ -121,7 +121,7 @@ namespace BaseProject.Application.Catalog.Posts
                                     int totalDays = 30 - (int)Math.Ceiling(Math.Abs(duration.TotalDays));
 
                                     // In thông báo: Chưa đủ 30 ngày kể từ lần gần nhất đánh giá địa điểm này
-                                    return new ApiErrorResult<bool>($"Để đánh giá địa điểm {addess.Name} | {addess.Address} bạn cần chờ thêm khoảng {totalDays} ngày");
+                                    return new ApiErrorResult<bool>($"Để đánh giá địa điểm {getAddess.Name} | {getAddess.Address} bạn cần chờ thêm khoảng {totalDays} ngày");
                                 }
                             }
                         }

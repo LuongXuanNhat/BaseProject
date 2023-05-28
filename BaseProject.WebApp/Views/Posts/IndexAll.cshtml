@@ -1,0 +1,167 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
+@{
+    ViewData["Title"] = "Đánh giá của tôi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+
+<h1>Tất cả bài đánh giá</h1>
+
+
+
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+
+
+
+@*XÓA BÀi Viết*@
+@*<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="post-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="post-modal-label">Xóa bài đăng</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa bài đăng này?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancel()">Hủy</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+
+
+
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a asp-action="Create" class="btn btn-success">Thêm đánh giá</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+                        <div class="cold-md-3">
+                            <button type="submit" class="btn btn-primary">Tìm</button>
+                            <button type="button" onclick="window.location.href='/Posts/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        </td>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width:40em">
+                        Tiêu đề
+                    </th>
+                    <th style="min-width: 5em;">
+                        Thời gian tạo
+                    </th>
+                    <th style="min-width: 5em;">
+                        Số lượt xem
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.View)
+                        </td>
+                        <td style="width:200px">
+                            <a title="Sửa bài" class="btn btn-warning" href="@Url.Action("EditPost", new { id = item.PostId })">
+                                <i class="fa fa-edit"></i>
+                            </a>
+
+                            <a title="Xem chi tiết" class="btn btn-success " href="@Url.Action("Details", new { id = item.PostId })">
+                                <i class="fa-solid fa-circle-info"></i>
+                            </a>
+                            <div style="display: inline">
+                                <button class="btn btn-danger" onclick="showDeleteModal(@item.PostId)" title="Xóa bài"> <i class="fa-solid fa-trash-can"></i> </button>
+
+                            </div>
+                           </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+
+    <!-- Gọi mã javascript để hiển thị modal và xóa bài đăng -->
+    <script>
+        var token = '@Html.Raw(ViewBag.Token)';
+        var a = @Model.Items.Count;
+
+
+        function showDeleteModal(id) {
+            $('#deleteModal').modal('show');
+            $('#deleteButton').attr('data-id', id);
+
+        }
+
+
+        $('#deleteButton').click(function () {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url: 'https://localhost:7204/api/post/' + id,
+                type: 'DELETE',
+                headers: { Authorization: 'Bearer ' + token },
+                success: function (data) {
+                    $('#deleteModal').modal('hide');
+                    alert('Xóa thành công');
+                    loadPosts();
+
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi xóa');
+                }
+            });
+        });
+        var LoadPage = window.location;
+        function loadPosts() {
+            LoadPage.reload(true);
+        }
+
+        function cancel() {
+            $('#deleteModal').modal('hide');
+        }
+    </script>
+
+
+}

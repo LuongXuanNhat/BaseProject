@@ -58,6 +58,26 @@ namespace BaseProject.WebApp.Controllers
             return View(data.ResultObj);
         }
 
+        // Lấy tất cả bài viết
+        [HttpGet]
+        public async Task<IActionResult> IndexAll(string keyword, int pageIndex = 1, int pageSize = 5)
+        {
+            var request = new GetUserPagingRequest()
+            {
+                Keyword = keyword,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var data = await _postApiClient.GetAllPostPagings(request);
+            ViewBag.Keyword = keyword;
+            ViewBag.Token = _baseApiClient.GetToken();
+            if (TempData["result"] != null)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+            }
+            return View(data.ResultObj);
+        }
+
         [AllowAnonymous]
         [HttpGet]
         public async Task<IActionResult> Details(int id)

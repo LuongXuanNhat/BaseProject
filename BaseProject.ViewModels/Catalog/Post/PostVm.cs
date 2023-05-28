@@ -19,6 +19,5 @@ namespace BaseProject.ViewModels.Catalog.Post
         public DateTime Date { get; set; }
         public int View { get; set; }
 
-
     }
 }

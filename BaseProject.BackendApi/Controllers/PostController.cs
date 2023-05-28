@@ -33,6 +33,15 @@ namespace BaseProject.BackendApi.Controllers
             var products = await _postService.GetPostPagingUser(request);
             return Ok(products);
         }
+        
+        // Lấy tất cả bài viết
+        [HttpGet("pagingall")]
+        public async Task<IActionResult> GetAllPostPaging([FromQuery] GetUserPagingRequest request)
+        {
+
+            var products = await _postService.GetPostPaging(request);
+            return Ok(products);
+        }
 
         // https://localhost:7202/posts/create
         [HttpPost]

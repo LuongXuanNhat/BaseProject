@@ -82,7 +82,7 @@
                 @foreach (var item in Model.Items)
                 {
                     <tr>
-                        <td >
+                        <td>
                             @Html.DisplayFor(modelItem => item.Title)
                         </td>
                         <td>
@@ -92,20 +92,18 @@
                             @Html.DisplayFor(modelItem => item.View)
                         </td>
                         <td style="width:200px">
-                            <div title="Sửa bài" class="btn btn-warning">
+                            <a title="Sửa bài" class="btn btn-warning" href="@Url.Action("EditPost", new { id = item.PostId })">
                                 <i class="fa fa-edit"></i>
-                                @Html.ActionLink("", "EditPost", new { id =item.PostId })
-                            </div>
-                            
-                            <div title="Xem chi tiết" class="btn btn-success ">
+                            </a>
+
+                            <a title="Xem chi tiết" class="btn btn-success " href="@Url.Action("Details", new { id = item.PostId })">
                                 <i class="fa-solid fa-circle-info"></i>
-                                @Html.ActionLink("", "Details", new { id =item.PostId })
-                            </div>
+                            </a>
                             <div style="display: inline">
                                 <button class="btn btn-danger" onclick="showDeleteModal(@item.PostId)" title="Xóa bài"> <i class="fa-solid fa-trash-can"></i> </button>
 
                             </div>
-                            
+                        </td>
                     </tr>
                 }
             </tbody>
@@ -162,6 +160,5 @@
         }
     </script>
 
-    
-}
 
+}
