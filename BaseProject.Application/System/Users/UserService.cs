@@ -1,4 +1,6 @@
-﻿using BaseProject.Data.EF;
+﻿using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.Common;
+using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -11,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +22,12 @@ namespace BaseProject.Application.System.Users
 {
     public class UserService : IUserService
     {
+        private const string USER_CONTENT_FOLDER_NAME = "Images";
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly IStorageService _storageService;
+        private readonly IImageService _imageService;
         private readonly DataContext _dataContext;
         private readonly IConfiguration _config;
         private readonly IMemoryCache _cache;
@@ -29,14 +35,18 @@ namespace BaseProject.Application.System.Users
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
+            IStorageService storageService,
+            IImageService imageService,
             DataContext dataContext,
             IConfiguration config,
             IMemoryCache cache)
         {
-            _userManager = userManager;
+            _storageService = storageService;
             _signInManager = signInManager;
+            _userManager = userManager;
             _roleManager = roleManager;
             _dataContext = dataContext;
+            _imageService = imageService;
             _config = config;
             _cache = cache;
         }
@@ -106,7 +116,31 @@ namespace BaseProject.Application.System.Users
                 DateOfBir = user.DateOfBir,
                 Gender = user.Gender,
                 UserName = user.UserName,
-                Roles = roles
+                Roles = roles,
+                Description = user.Description
+            };
+            return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+        public async Task<ApiResult<UserVm>> GetByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return new ApiErrorResult<UserVm>("User không tồn tại");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            var userVm = new UserVm()
+            {
+                Id = user.Id,
+                Image = user.Image,
+                Email = user.Email,
+                Name = user.Name,
+                DateOfBir = user.DateOfBir,
+                Gender = user.Gender,
+                UserName = user.UserName,
+                Roles = roles,
+                Description = user.Description
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
@@ -284,12 +318,35 @@ namespace BaseProject.Application.System.Users
             user.Gender = request.Gender;
             user.Image = request.Image;
 
+            if (request.GetImage != null)
+            {
+                if (user.Image != null)
+                {
+                    RemoveImage(user.Image);
+                }
+                request.Image = await this.SaveFile(request.GetImage);
+            }
+
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
             {
                 return new ApiSuccessResult<bool>();
             }
             return new ApiErrorResult<bool>("Cập nhật không thành công");
+        }
+
+
+        public async Task<bool> RemoveImage(string request)
+        {
+            await _storageService.DeleteFileAsync(request);
+            return true;
+        }
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return "https://localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
     }
 }

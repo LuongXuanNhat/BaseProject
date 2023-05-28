@@ -103,7 +103,7 @@ namespace BaseProject.ApiIntegration.Locations
             return users;
         }
 
-
+        
         public async Task<ApiResult<bool>> RegisterOrUpdate(LocationCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
