@@ -17,7 +17,7 @@ namespace BaseProject.ApiIntegration
         private readonly IConfiguration _configuration;
         private readonly IHttpContextAccessor _httpContextAccessor;
 
-        protected BaseApiClient(IHttpClientFactory httpClientFactory,
+        public BaseApiClient(IHttpClientFactory httpClientFactory,
                    IHttpContextAccessor httpContextAccessor,
                     IConfiguration configuration)
         {
@@ -84,6 +84,11 @@ namespace BaseProject.ApiIntegration
                 return true;
             }
             return false;
+        }
+
+        public string GetToken()
+        {
+            return _httpContextAccessor.HttpContext.Session.GetString("Token");
         }
     }
 }

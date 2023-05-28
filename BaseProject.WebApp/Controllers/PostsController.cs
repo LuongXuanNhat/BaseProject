@@ -11,6 +11,7 @@ using Azure.Core;
 using BaseProject.ApiIntegration.Post;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -20,13 +21,18 @@ namespace BaseProject.WebApp.Controllers
         private readonly IConfiguration _configuration;
         private readonly IPostApiClient _postApiClient;
         private readonly ICategoryApiClient _cateApiClient;
+        private readonly BaseApiClient _baseApiClient;
         //private readonly UserManager<AppUser> _userManager;
 
-        public PostsController(IConfiguration configuration, IPostApiClient postApiClient, ICategoryApiClient cateApiClient)
+        public PostsController(IConfiguration configuration, 
+            IPostApiClient postApiClient, ICategoryApiClient cateApiClient,
+            BaseApiClient baseApiClient)
         {
             _configuration = configuration;
             _postApiClient = postApiClient;
             _cateApiClient = cateApiClient;
+            _baseApiClient = baseApiClient;
+
         }
 
         [Authorize]
@@ -44,7 +50,7 @@ namespace BaseProject.WebApp.Controllers
             };
             var data = await _postApiClient.GetUsersPagings(request);
             ViewBag.Keyword = keyword;
-            ViewBag.Token = GetToken();
+            ViewBag.Token = _baseApiClient.GetToken();
             if (TempData["result"] != null)
             {
                 ViewBag.SuccessMsg = TempData["result"];
@@ -84,7 +90,7 @@ namespace BaseProject.WebApp.Controllers
             }
                         
             ViewBag.Num = numberLocation.numberOfPlaces;
-            ViewBag.Token = GetToken();
+            ViewBag.Token = _baseApiClient.GetToken();
 
             PostDetailRequest detailRequest = new PostDetailRequest();
 
@@ -245,12 +251,6 @@ namespace BaseProject.WebApp.Controllers
         {
             List<Location> results =await _postApiClient.GetAll();
             return Json(results);
-        }
-
-        public string GetToken()
-        {
-            return  _postApiClient.GetToken();
-
         }
     }
 }

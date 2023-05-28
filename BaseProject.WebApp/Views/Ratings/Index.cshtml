@@ -194,9 +194,11 @@
 
     // Sự kiện click nút Submit
     var submitButton = document.querySelector('#ratingSubmit');
+    
     submitButton.addEventListener('click', function () {
         // Lấy giá trị số sao rating
-        var ratingValue = document.querySelector('input[name="rating"]:checked').value;
+        var ratingValue = document.querySelector('input[name="rating"]:checked');
+     //   var ratingInput = document.querySelector('input[name="rating"]:checked');
 
         // Lấy giá trị data-id từ button
         var itemId = submitButton.getAttribute('data-id');
@@ -207,23 +209,33 @@
             id: itemId
         };
 
+        var token = '@Html.Raw(ViewBag.Token)';
         // Thực hiện AJAX request
         // Thay đổi đường dẫn '/your-controller/action' thành đường dẫn tương ứng của controller và action trong ứng dụng của bạn
-        fetch('/your-controller/action', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
+
+        $.ajax({
+            url: 'https://localhost:7204/api/rating', // Thay đổi đường dẫn '/your-controller/action' thành đường dẫn tương ứng của controller và action trong ứng dụng của bạn
+            type: 'POST', // Thay đổi phương thức POST thành phương thức tương ứng với yêu cầu của bạn
+            headers: { Authorization: 'Bearer ' + token },
+            data: data,
+            success: function (response) {
+                // Xử lý thành công
+                $('#deleteModal').modal('hide');
+                alert('Đánh giá thành công');
+                loadPosts();
             },
-            body: JSON.stringify(data)
-        })
-            .then(function (response) {
-                // Xử lý response từ server (nếu cần)
-                console.log(response);
-            })
-            .catch(function (error) {
-                // Xử lý lỗi (nếu có)
-                console.error(error);
-            });
+            error: function () {
+                // Xử lý lỗi
+                alert('Có lỗi xảy ra khi đánh giá');
+            }
+        });
+
+        var LoadPage = window.location;
+        function loadPosts() {
+            LoadPage.reload(true);
+        }
+
+        
     });
 
 </script>

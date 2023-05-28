@@ -51,7 +51,7 @@ namespace BaseProject.AdminUI.Controllers
                 ExpiresUtc = DateTimeOffset.UtcNow.AddMinutes(30),
                 IsPersistent = false
             };
-            HttpContext.Session.SetString(SystemConstants.AppSettings.DefaultLanguageId, _configuration[SystemConstants.AppSettings.DefaultLanguageId]);
+            
             HttpContext.Session.SetString(SystemConstants.AppSettings.Token, result.ResultObj);
             await HttpContext.SignInAsync(
                         CookieAuthenticationDefaults.AuthenticationScheme,

@@ -3,6 +3,7 @@ using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Common;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
@@ -42,9 +43,29 @@ namespace BaseProject.Application.Catalog.Categories
             return true;
         }
 
-        public async Task<bool> Update(int id, int star_number)
+        public async Task<bool> Rating(int id, int star_number)
         {
-            throw new NotImplementedException();
+            var star = await _context.RatingLocations.Where(x=>x.Id == id).FirstOrDefaultAsync();
+            if (star != null)
+            {
+                return false;
+            }
+
+            var UpdateRating = new RatingLocation()
+            {
+                LocationId = star.Id,
+                UserId = star.UserId ,
+                Date = DateTime.UtcNow,
+                Stars = star_number,
+                Check = YesNo.yes
+            };
+
+
+            // Cập nhật dữ liệu vào database
+            _context.RatingLocations.Update(UpdateRating);
+            _context.SaveChanges();
+
+            return true;
         }
 
         public async Task<ApiResult<bool>> Delete(int locationId)

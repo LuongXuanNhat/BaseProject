@@ -1,4 +1,5 @@
-﻿using BaseProject.Application.Catalog.Categories;
+﻿using Azure.Core;
+using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Posts;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
@@ -25,6 +26,25 @@ namespace BaseProject.BackendApi.Controllers
         {
             var rating = await _ratingService.GetByUserName(request);
             return Ok(rating);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Rating(string rating, string id)
+        {
+            if (rating == null || id == null)
+            {
+                return BadRequest();
+            }
+
+            int ratingValue = Convert.ToInt32(rating);
+            int itemId = Convert.ToInt32(id);
+
+            var result = await _ratingService.Rating(itemId , ratingValue);
+            if (result == true)
+            {
+                return Ok();
+            }
+            return BadRequest();
         }
 
     }

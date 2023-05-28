@@ -12,7 +12,7 @@ namespace BaseProject.ApiIntegration.RatingStars
 {
     public interface IRatingApiClient
     {
-        Task<ApiResult<bool>> UpdatePost(int id, int stars);
+        Task<ApiResult<bool>> Rating(int id, int stars);
         Task<ApiResult<bool>> DeletePost(int id);
 
         Task<ApiResult<RatingLocationDetailVm>> GetById(int id);

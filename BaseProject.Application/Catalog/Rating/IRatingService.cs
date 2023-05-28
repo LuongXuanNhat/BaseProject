@@ -15,7 +15,7 @@ namespace BaseProject.Application.Catalog.Categories
     public interface IRatingService
     {
         Task<bool> Create(Guid userID, int LocationID);
-        Task<bool> Update(int id, int star_number);
+        Task<bool> Rating(int id, int star_number);
         Task<ApiResult<bool>> Delete(int categoryId);
 
         Task<ApiResult<PagedResult<LocationCreateRequest>>> GetLocationPaging(GetUserPagingRequest request);

@@ -62,7 +62,7 @@ namespace BaseProject.ApiIntegration.RatingStars
             return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<RatingLocationDetailVm>>>(body);
         }
 
-        public async Task<ApiResult<bool>> UpdatePost(int id, int stars)
+        public async Task<ApiResult<bool>> Rating(int id, int stars)
         {
             throw new NotImplementedException();
         }
