@@ -1,13 +1,19 @@
 ﻿using BaseProject.Data.Enums;
+using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace BaseProject.Data.Entities
+namespace BaseProject.ViewModels.Catalog.RatingStar
 {
-    public class RatingLocation
+    public class RatingLocationDetailVm
     {
         public int Id { get; set; }
         public int LocationId { get; set; }
-        public int LocationDetailId { get; set; }
+        public string LocationName { get; set; }
+        public string Address { get; set; }
         public Guid UserId { get; set; }
         public int? Stars { get; set; }
 
@@ -16,13 +22,6 @@ namespace BaseProject.Data.Entities
         public DateTime? Date { get; set; }
 
         public YesNo Check { get; set; }
-
-
-
-        // Relationship
-
-        public Location Location { get; set; }
-        public AppUser User { get; set; }
 
     }
 }

@@ -163,6 +163,11 @@ namespace BaseProject.WebApp.Controllers
             request.PostId = 0;
             request.UserId = User.Identity.Name;
 
+            if (!ModelState.IsValid)
+            {
+                return View(request);
+            }
+
             var result = await _postApiClient.CreateOrUpdatePost(request);
             if (result.IsSuccessed)
             {
@@ -170,7 +175,7 @@ namespace BaseProject.WebApp.Controllers
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm đánh giá thất bại");
+            ModelState.AddModelError("", result.Message);
             return View(request);
         }
 

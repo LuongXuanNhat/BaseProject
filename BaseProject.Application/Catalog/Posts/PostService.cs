@@ -21,6 +21,7 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly DataContext _context;
         private readonly IStorageService _storageService;
         private readonly ICategoryService _categoryService;
+        private readonly IRatingService _ratingService;
         private readonly IImageService _imageService;
         private readonly UserManager<AppUser> _userManager;
 
@@ -28,12 +29,14 @@ namespace BaseProject.Application.Catalog.Posts
         public PostService(DataContext context, 
             UserManager<AppUser> userManager, 
             ICategoryService categoryService,
-            IImageService imageService)
+            IImageService imageService,
+            IRatingService ratingService)
         {
             _userManager = userManager;
             _context = context;
             _categoryService = categoryService;
             _imageService = imageService;
+            _ratingService = ratingService;
         }
         public async Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request)
         {
@@ -91,6 +94,50 @@ namespace BaseProject.Application.Catalog.Posts
             }
             else
             {
+                
+                // Kiểm tra đã đánh giá trong vòng 1 tháng trước chưa
+                Guid USER_ID = await _context.Users.Where(x => x.UserName.Equals(request.UserId)).Select(x => x.Id).FirstOrDefaultAsync();
+                foreach (var item in request.PostDetail)
+                {
+                    // Lấy danh sách bài viết
+                    var list = await _context.Posts.Where(x=>x.UserId == USER_ID).OrderBy(x => x.PostId).ToListAsync();
+                    for (var i = list.Count-1; i >= 0; i--)
+                    {
+                        // Lấy danh sách bài viết chi tiết của 1 bài viết
+                        var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId).OrderBy(x => x.PostId).ToListAsync();
+                        for (int y = list2.Count - 1; y >= 0; y--)
+                        {
+                            // Kiếm tra địa chỉ đánh giá này đã được đánh giá chưa
+                            var addess = await _context.Locations.Where(x=>x.LocationId == list2[y].LocationId).FirstOrDefaultAsync();
+                            if (addess != null)
+                            {
+                                // Kiếm tra địa chỉ đánh giá này gần nhất có đủ 1 tháng ( so với hiện tại ) chưa.
+                                DateTime date1 = list[i].UploadDate;
+                                DateTime currentDate = DateTime.Now.Date;
+                                TimeSpan duration = currentDate.Subtract(date1); // Tính khoảng thời gian giữa date1 và ngày hiện tại
+                                if (duration.TotalDays < 30)
+                                {
+                                    // Lấy số ngày thiếu
+                                    int totalDays = 30 - (int)Math.Ceiling(Math.Abs(duration.TotalDays));
+
+                                    // In thông báo: Chưa đủ 30 ngày kể từ lần gần nhất đánh giá địa điểm này
+                                    return new ApiErrorResult<bool>($"Để đánh giá địa điểm {addess.Name} | {addess.Address} bạn cần chờ thêm khoảng {totalDays} ngày");
+                                }
+                            }
+                        }
+                    }
+                }
+                //DateTime date1 = await _context.Posts.Where(x => x.UserId == USER_ID).OrderBy(x => x.PostId).Select(x => x.UploadDate).LastOrDefaultAsync();
+                //DateTime currentDate = DateTime.Now.Date; // Lấy ngày hiện tại
+                //TimeSpan duration = currentDate.Subtract(date1); // Tính khoảng thời gian giữa date1 và ngày hiện tại
+                //if (duration.TotalDays < 30)
+                //{
+                //    int totalDays = 30 - (int)Math.Ceiling(Math.Abs(duration.TotalDays));
+
+                //    // Chưa đủ 30 ngày kể từ lần gần nhất đánh giá địa điểm này
+                //    return new ApiErrorResult<bool>($"Để đánh giá địa điểm này bạn cần chờ thêm khoảng {totalDays} ngày");
+                //}
+
                 // Lưu Bài đánh giá 
                 var user = from getId
                            in _context.Users
@@ -101,6 +148,8 @@ namespace BaseProject.Application.Catalog.Posts
                 Post post = new Post(request.Title, userId);
                 _context.Posts.AddAsync(post);
                 await _context.SaveChangesAsync();
+
+                
 
                 // Lưu Category detail
                 if (request.CategoryPostDetail != null && request.CategoryPostDetail.Count != 0)
@@ -132,6 +181,9 @@ namespace BaseProject.Application.Catalog.Posts
                         var saveImage = await _imageService.UpdateImage(request.PostDetail[i].GetImage, locationsDetail.Id);
 
                     }
+
+                    // Cập nhập bảng rating_location của user - Thêm mới địa điểm đánh giá
+                     await _ratingService.Create(userId, location.LocationId);
                 }
 
 

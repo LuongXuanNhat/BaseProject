@@ -30,7 +30,6 @@ namespace BaseProject.AdminUI.Controllers
         {
             var request = new GetUserPagingRequest()
             {                
-                Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize
             };

@@ -40,6 +40,11 @@
 
 </head>
 <body class="u-body u-xl-mode" data-lang="en" >
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
     <header class="u-clearfix u-header" id="sec-049a" data-animation-name="" data-animation-duration="0" data-animation-delay="0" data-animation-direction="">
         <div class="u-clearfix u-sheet u-sheet-1">
             <nav class="u-menu u-menu-one-level u-offcanvas u-menu-1" data-position="" style="z-index: 2">
@@ -57,7 +62,7 @@
                     <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1">
                         <li class="u-nav-item">
                             <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px;">
-                                <span style="color:black">Tạo bài review </span>
+                                <span style="color:black">Viết bài</span>
                             </a>
                         </li>
                         <li class="u-nav-item">
@@ -72,12 +77,12 @@
                                     </button>
                                     <ul class="dropdown-menu">
                                         <li class="dropdown-item">
-                                            <a href="#" class="btn btn-success">
+                                            <a class="btn btn-success" asp-controller="Posts" asp-action="Index">
                                                 Bài viết của tôi
                                             </a>
                                         </li>
                                         <li class="dropdown-item">
-                                            <a href="#" class="btn btn-success">
+                                            <a asp-controller="Ratings" asp-action="Index" class="btn btn-success">
                                                 Địa điểm đánh giá
                                             </a>
                                         </li>
@@ -125,6 +130,11 @@
         <main role="main" class="pb-3">
             @RenderBody()
         </main>
+    </div>
+
+    @*Lên top*@
+    <div class="td-scroll-up td-hide-scroll-up-on-mob td-scroll-up-visible" >
+        <a href="#"><i class="fa-solid fa-circle-arrow-up fa-xl"></i></a>
     </div>
 
     <footer class="u-align-center-md u-align-center-sm u-align-center-xs u-clearfix u-footer u-grey-80" id="sec-d59b">
@@ -220,8 +230,6 @@
     </footer>
 
  
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     @*<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>*@
 

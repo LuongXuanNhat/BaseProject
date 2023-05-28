@@ -54,6 +54,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IImageService, ImagesService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
 
 
 

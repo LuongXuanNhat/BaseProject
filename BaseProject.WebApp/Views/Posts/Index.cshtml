@@ -91,10 +91,20 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.View)
                         </td>
-                        <td style="width:180px">
-                            @Html.ActionLink("Sửa", "EditPost", new { id =item.PostId }) |
-                            @Html.ActionLink("Xem chi tiết", "Details", new { id =item.PostId }) |
-                            <button class="btn btn-danger " onclick="showDeleteModal(@item.PostId)"> Xóa </button>
+                        <td style="width:200px">
+                            <div title="Sửa bài" class="btn btn-warning">
+                                <i class="fa fa-edit"></i>
+                                @Html.ActionLink("", "EditPost", new { id =item.PostId })
+                            </div>
+                            
+                            <div title="Xem chi tiết" class="btn btn-success ">
+                                <i class="fa-solid fa-circle-info"></i>
+                                @Html.ActionLink("", "Details", new { id =item.PostId })
+                            </div>
+                            <div style="display: inline">
+                                <button class="btn btn-danger" onclick="showDeleteModal(@item.PostId)" title="Xóa bài"> <i class="fa-solid fa-trash-can"></i> </button>
+
+                            </div>
                             
                     </tr>
                 }

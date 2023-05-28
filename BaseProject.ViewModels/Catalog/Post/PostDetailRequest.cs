@@ -17,7 +17,8 @@ namespace BaseProject.ViewModels.Catalog.Post
         public string? UserName { get; set; }
         public Guid UserId { get; set; }
         public int postDetailId { get; set; }
-        [Required]
+
+        [Required(ErrorMessage = "Tên địa điểm không được để trống")]
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }
 
@@ -30,18 +31,17 @@ namespace BaseProject.ViewModels.Catalog.Post
         [StringLength(500) ]
         public string Content { get; set; }
 
-        
+        [Display(Name = "Bạn đi vào thời gian nào?")]
+        [Required(ErrorMessage = "Bạn cần nhập thời gian đến địa chỉ này")]
+        [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
+        public DateTime When { get; set; }
+
         public int? ViewCount { get; set; }
 
         public int? LikeCount { get; set; }
         public int? ShareCount { get; set; }
         public int? SaveCount { get; set; }
-
-        
-        [Display(Name = "Bạn đi vào thời gian nào?")]
-        [Required(ErrorMessage = "Bạn cần nhập thời gian đến địa chỉ này")]
-        [DisplayFormat(DataFormatString = "{0:MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime When { get; set; }
+     
 
         [Display(Name = "Thêm ảnh")]
         public List<IFormFile>? GetImage { get; set; }
