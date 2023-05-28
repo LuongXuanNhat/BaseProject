@@ -15,7 +15,7 @@
             <div class="col-md-10 row" style="align-items: center">
                 <div class="col-md-8" style="text-align: end">
                     <label asp-for="numberLocation.numberOfPlaces" class="control-label"></label>
-                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                    <div asp-validation-summary="None" class="text-danger"></div>
                 </div>
                 <div class="form-group col-md-2" style="text-align: end">
                     <input asp-for="numberLocation.numberOfPlaces" class="form-control" value="@ViewBag.Num" />
@@ -23,7 +23,10 @@
                 </div>
                 <div class="col-md-2" style="text-align: start">
                     <div class="form-group fl">
-                        <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                        <div class="btn btn-primary">
+                            <i class="fa-solid fa-rotate-right"></i>
+                            <input type="submit" value="Cập nhập"  style="background: none; border: none" />
+                        </div>
                     </div>
                 </div>
             </div>   
@@ -39,23 +42,6 @@
         // Kiểm tra trạng thái hiện tại của checkbox và thay đổi nó
         checkbox.checked = !checkbox.checked;
     }
-
-    // Lấy category
-    //document.querySelector("form").addEventListener("submit", function (event) {
-    //    event.preventDefault();
-    //    // Lấy danh sách các checkbox đã chọn
-    //    var selectedCheckboxes = document.querySelectorAll("input[name='SelectedCategories']:checked");
-
-    //    // Lấy danh sách các giá trị ID của category đã chọn
-    //    var selectedCategoryIds = Array.from(selectedCheckboxes).map(function (checkbox) {
-    //        return checkbox.value;
-    //    });
-
-    //    // Gán giá trị vào input ẩn selectedCategoryIds
-    //    document.getElementById("selectedCategoryIds").value = selectedCategoryIds.join(",");
-
-    //    // Submit form
-    //    this.submit();
     });
 </script>
 <div class="row">

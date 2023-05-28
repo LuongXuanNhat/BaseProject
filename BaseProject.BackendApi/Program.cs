@@ -54,6 +54,7 @@ builder.Services.AddTransient<ICategoryService, CategoryService>();
 builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IImageService, ImagesService>();
+builder.Services.AddTransient<IRatingService, RatingService>();
 
 
 
@@ -128,7 +129,7 @@ var app = builder.Build();
 app.Use(async (context, next) =>
 {
     context.Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:7202");
-    context.Response.Headers.Add("Access-Control-Allow-Methods", "GET , DELETE");
+    context.Response.Headers.Add("Access-Control-Allow-Methods", "GET , DELETE, POST");
     context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");
     if (context.Request.Method == "OPTIONS")
     {

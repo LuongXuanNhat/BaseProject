@@ -40,3 +40,7 @@ function callback(results, status) {
         }
     }
 }
+
+// Tạo thanh cuộn category ở INDEX PAGE
+
+

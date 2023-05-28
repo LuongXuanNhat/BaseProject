@@ -22,7 +22,7 @@
                                 <div class="card-body p-4 p-lg-5 text-black">
 
                                     <form asp-action="Login" asp-controller="Account" method="post">
-                                        <div asp-validation-summary="All" class="text-danger"></div>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
                                         <div class="d-flex align-items-center mb-3 pb-1">
                                             <a asp-controller="Home" asp-action="Index" style="padding-left:100px">
@@ -34,10 +34,12 @@
 
                                         <div class="form-outline mb-4" style="max-width:300px">
                                             <input class="form-control" asp-for="UserName" type="text" placeholder="Nhập tên tài khoản" />
+                                            <span asp-validation-for="UserName" class="text-danger"></span>
                                         </div>
 
                                         <div class="form-outline mb-4" style="max-width:300px">
                                             <input class="form-control" asp-for="Password" type="password" placeholder="Nhập mật khẩu" />
+                                            <span asp-validation-for="Password" class="text-danger"></span>
                                         </div>
 
                                         <div class="pt-1 mb-4">

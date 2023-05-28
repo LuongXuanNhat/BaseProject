@@ -23,8 +23,6 @@ namespace BaseProject.ApiIntegration.Post
 
         Task<List<Location>> GetAll();
 
-        public string GetToken();
-
 
 
     }

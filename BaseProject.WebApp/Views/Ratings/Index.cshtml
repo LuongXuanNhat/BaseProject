@@ -1,0 +1,263 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.RatingStar.RatingLocationDetailVm>
+@{
+    ViewData["Title"] = "Danh sách đánh giá địa điểm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+
+<div class="card mb-12">
+    <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                        <h5 class="modal-title" id="ratingModalLabel" style="text-align:center;">Đánh giá sao</h5>
+                        
+                        <button type="button" class="close" style="background: none;color: red; border-radius: 50%; border: 1px solid red; width: 30px;" data-dismiss="modal" aria-label="Đóng">
+                            <span aria-hidden="true">&times;</span>
+                        </button> 
+                </div>
+                <div style="font-size: 12px; text-align: center; padding-top: 8px;">
+                    <h5 id="modalContent"></h5>
+                    <span id="modalAddressContent"></span>
+                </div>
+                <div class="modal-body">
+                    <table class="rating-table" style="display: flex; justify-content: center;">
+                        <tbody>
+                            <tr>
+                                <td><span class="star" data-value="1">&#9734;</span></td>
+                                <td><span class="star" data-value="2">&#9734;</span></td>
+                                <td><span class="star" data-value="3">&#9734;</span></td>
+                                <td><span class="star" data-value="4">&#9734;</span></td>
+                                <td><span class="star" data-value="5">&#9734;</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" id="ratingSubmit" data-id="">Lưu thay đổi</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card-body" style="min-height: 500px">
+        <table class="table">
+            <thead>
+                <tr class="no-margin">
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        Địa điểm
+                    </th>
+                    <th>
+                        Điểm
+                    </th>
+                    <th>
+                        Ngày đánh giá
+                    </th>
+                    <th>
+                        Trạng thái
+                    </th>
+                    <th class="col-2"></th>
+                </tr>
+            </thead>
+            @{
+                int a = 1;
+            }
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="no-margin">
+                        <td>
+                            @(a++)
+                        </td>
+                        <td>
+                            <div title="@item.Address" style="cursor: pointer">
+                                @Html.DisplayFor(modelItem => item.LocationName)
+                            </div>
+                        </td>
+                        <td>
+                            @if (item.Stars == 0)
+                            {
+                                <span> *** </span>
+                            }
+                            else
+                            {
+                                @Html.DisplayFor(modelItem => item.Stars)
+                            }
+                        </td>
+                        <td>
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td>
+                            @if (item.Check == 0)
+                            {
+                                <div style="color: orangered">
+                                    @Html.DisplayFor(modelItem => item.Check)
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="color: forestgreen">
+                                    @Html.DisplayFor(modelItem => item.Check)
+                                </div>
+                            }
+                        </td>
+                        <td>
+                            @if (item.Check == 0)
+                            {
+                                <button class="btn btn-secondary " type="button" title="Đánh giá" data-toggle="modal" data-target="#ratingModal" data-id="@item.Id" data-name="@item.LocationName" data-address="@item.Address"><i class="fa fa-edit"></i> Đánh giá</button>
+                                
+                            }
+                            else
+                            {
+                                <button class="btn btn-success " type="button" title="Đã đánh giá" data-toggle="modal" data-target="#ratingModal" data-id="@item.Id"><i class="fa fa-edit"></i> Thay đổi</button>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+<script>
+    
+
+    // Lấy tất cả các nút "Đánh giá" và gắn sự kiện click
+    var ratingButtons = document.querySelectorAll('button[data-toggle="modal"][data-target="#ratingModal"]');
+    ratingButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetModalId = button.getAttribute('data-target');
+            var modal = document.querySelector(targetModalId);
+
+            // Lấy giá trị data-name từ button
+            var locationName = button.getAttribute('data-name');
+            // Lấy giá trị data-adress từ button
+            var locationAddress = button.getAttribute('data-address'); 
+            // Lấy giá trị data-id từ button
+            var id = button.getAttribute('data-id'); 
+
+            // Hiển thị giá trị data-name trong modal
+            modalContent.textContent = locationName;
+            modalAddressContent.textContent = locationAddress;
+
+            // Lưu giá trị data-id vào nút Submit trong modal
+            submitButton.setAttribute('data-id', id);
+
+            $(modal).modal('show');
+        });
+    });
+
+    // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
+    var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+    closeModalButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var modal = button.closest('.modal');
+            $(modal).modal('hide');
+        });
+    });
+
+    // Lấy tất cả các ngôi sao trong modal
+    var starSpans = document.querySelectorAll('#ratingModal .star');
+    var ratingValue = 0; // Biến lưu giá trị rating
+
+    // Gắn sự kiện click vào mỗi ngôi sao
+    starSpans.forEach(function (star) {
+        star.addEventListener('click', function () {
+            // Đặt lại trạng thái của tất cả ngôi sao
+            starSpans.forEach(function (s) {
+                s.classList.remove('active'); // Loại bỏ lớp active
+                s.classList.remove('getValue'); // Loại bỏ lớp active
+            });
+
+            // Đặt lại giá trị rating
+            ratingValue = parseInt(star.getAttribute('data-value'));
+
+            // Đặt trạng thái cho các ngôi sao được chọn
+            for (var i = 0; i < ratingValue; i++) {
+                starSpans[i].classList.add('active'); // Thêm lớp active
+                if (i == ratingValue - 1){
+                    starSpans[i].classList.add('getValue');
+                    console.log(i);
+                }
+            }
+
+
+        });
+    });
+
+    // Sự kiện click nút Submit
+    var submitButton = document.querySelector('#ratingSubmit');
+    var selectedRating = null;
+    
+    submitButton.addEventListener('click', function () {
+        // Lấy giá trị số sao rating
+        var selectedRating = document.querySelector('#ratingModal .star.active.getValue:last-child');
+        var ratingValue = selectedRating ? parseInt(selectedRating.getAttribute('data-value')) : 0;
+
+        // Lấy giá trị data-id từ button
+        var id = parseInt(this.getAttribute('data-id'));
+
+        // Tạo object chứa dữ liệu để gửi đi
+        var data = {
+            rating: ratingValue,
+            id: id
+        };
+        
+
+        console.log(data);
+        var token = '@Html.Raw(ViewBag.Token)';
+        // Thực hiện AJAX request
+        // Thay đổi đường dẫn '/your-controller/action' thành đường dẫn tương ứng của controller và action trong ứng dụng của bạn
+
+        $.ajax({
+            url: 'https://localhost:7204/api/rating?rating=' + ratingValue + '&id=' + id,
+            type: 'POST', // Thay đổi phương thức POST thành phương thức tương ứng với yêu cầu của bạn
+            headers: { Authorization: 'Bearer ' + token },
+            data: data,
+            success: function (response) {
+                // Xử lý thành công
+                var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+                closeModalButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var modal = button.closest('.modal');
+                        $(modal).modal('hide');
+                    });
+                });
+                alert('Đánh giá thành công');
+                loadPosts();
+            },
+            error: function () {
+                // Xử lý lỗi
+                alert('Có lỗi xảy ra khi đánh giá');
+            }
+        });
+
+        var LoadPage = window.location;
+        function loadPosts() {
+            LoadPage.reload(true);
+        }
+
+        
+    });
+
+</script>

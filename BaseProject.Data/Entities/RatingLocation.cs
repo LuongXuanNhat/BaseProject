@@ -13,7 +13,7 @@ namespace BaseProject.Data.Entities
 
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
         public YesNo Check { get; set; }
 

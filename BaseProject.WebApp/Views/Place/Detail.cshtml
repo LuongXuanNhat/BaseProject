@@ -7,6 +7,7 @@
 <link href="~/css/places_style.css" rel="stylesheet" />
 
 
+
 <div>
     <a asp-action="PlaceList" asp-route-provinceName="@ViewBag.ProvinceName"> Trở về </a>
 </div>
@@ -31,7 +32,7 @@
             </div>
         </div>
         <hr/>
-        <div class="row" style="height: 500px; ">
+        <div class="row" style="height: 550px; ">
             <div class="col-4">
                 <div class="card text-dark bg-light" style="max-width: 25rem;">
                     <div class="card-header">Giới thiệu</div>
@@ -54,6 +55,75 @@
                 </div>
             </div>           
         </div>
+        <div>
+            <ul class="row">
+                @if (Model.PostDetailRequest != null)
+                {
+                    foreach (var item in Model.PostDetailRequest)
+                    {
+                        <li class="col-6" style="list-style: none;margin-bottom: 8px;">
+                            <div class="card" style="width: 95%;">
+                                <div class="card-body">
+                                    <div style="display: flex; justify-content: space-between;">
+                                        <h5 class="card-title"><i class="fa-regular fa-circle-user"></i> @item.UserName</h5>
+                                        <div style="display: flex">
+                                            <div style="margin-right: 8px">
+                                                <i class="fa-solid fa-pen-fancy"></i> 123  
+                                            </div>
+                                            <div>
+                                                <div class="text-black-50" style="margin-right: 12px">
+                                                    <span class="icon rating-outer">
+                                                        <span class="icon rating-inner" style="width: 50%"></span>
+                                                    </span>
+                                                    69
+                                                </div>
+                                            </div>
+                                            <div class="dropdown">
+                                                <a class="btn btn-secondary dropdown-toggle" style="border-radius: 50%;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    
+                                                </a>
 
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    <li><a class="dropdown-item" href="#">Báo cáo bài đánh giá</a></li>
+                                                    <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
+                                                    <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <h6 class="card-subtitle mb-2 text-muted">@item.Title </h6>
+                                    <p class="card-text limited-lines">@item.Content</p>
+                                    <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Xem bình luận">10 <i class="fa-solid fa-comment-dots"></i></a>
+                                    <a href="#" class="card-link text-black-50 like-link" like-link-id="@item.postDetailId" style="text-decoration: none; padding-right: 8px" title="Thích">2 <i class="fa-regular fa-thumbs-up "></i></a>
+                                    <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Lưu bài viết">5 <i class="fa-solid fa-bookmark"></i></a>
+                                    <a href="#" class="card-link text-black-50" style="text-decoration: none;" title="Chia sẻ">3 <i class="fa-solid fa-share"></i></a>
+                                </div>
+                            </div>
+                        </li>
+                    }
+                }
+               
+            </ul>
+            
+        </div>
     }
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('.like-link').click(function (event) {
+            event.preventDefault();
+            var itemId = $(this).attr('like-link-id');
+            var likeIcon = $(this).find('i');
+
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
+            if (likeIcon.hasClass('liked')) {
+                likeIcon.removeClass('liked').addClass('gray-color');
+            } else {
+                likeIcon.removeClass('gray-color').addClass('liked');
+            }
+        });
+    });
+</script>

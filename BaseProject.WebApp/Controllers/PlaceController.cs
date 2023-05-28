@@ -1,4 +1,6 @@
 ﻿using BaseProject.ApiIntegration.Locations;
+using BaseProject.ApiIntegration.RatingStars;
+using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.System.Users;
@@ -9,10 +11,13 @@ namespace BaseProject.WebApp.Controllers
     public class PlaceController : Controller
     {
         private readonly ILocationApiClient _locationApiClient;
+        private readonly IRatingApiClient _ratingApiClient;
         public PlaceController(
-            ILocationApiClient locationApiClient)
+            ILocationApiClient locationApiClient,
+            IRatingApiClient ratingApiClient)
         {
             _locationApiClient = locationApiClient;
+            _ratingApiClient = ratingApiClient;
         }
         public IActionResult Index()
         {
@@ -47,5 +52,7 @@ namespace BaseProject.WebApp.Controllers
             var result = await _locationApiClient.GetByIdDetail(ID);
             return View(result.ResultObj);
         }
+
+       
     }
 }

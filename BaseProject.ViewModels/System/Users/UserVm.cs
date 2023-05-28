@@ -23,12 +23,12 @@ namespace BaseProject.ViewModels.System.Users
         public string Image { get; set; }
 
         [Display(Name = "Giới tính")]
-        public Gender Gender { get; set; }
+        public Gender? Gender { get; set; }
 
         [Display(Name = "Ngày sinh")]
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
-        public DateTime DateOfBir { get; set; }
+        public DateTime? DateOfBir { get; set; }
 
         [Display(Name = "Email")]
         public string Email { get; set; }
