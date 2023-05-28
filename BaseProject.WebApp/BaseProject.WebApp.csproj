@@ -20,15 +20,6 @@
     <ProjectReference Include="..\BaseProject.ViewModels\BaseProject.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\flash\dialogs\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\flash\images\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\wsc\dialogs\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\wsc\skins\moono-lisa\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\youtube\images\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\youtube\lang\" />
-    <Folder Include="wwwroot\plugin\ckeditor\samples\old\htmlwriter\assets\outputforflash\" />
-    <Folder Include="wwwroot\plugin\ckeditor\skins\moono-lisa\images\hidpi\" />
-  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4plugin_4ckeditor5-38_10_11-4o6fchvo7y8p_4package_1json__JsonSchema="https://json.schemastore.org/npm-badges.json" /></VisualStudio></ProjectExtensions>
 
 </Project>
