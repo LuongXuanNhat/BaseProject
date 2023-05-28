@@ -1,4 +1,8 @@
- .u-section-1 {
+﻿
+
+
+
+.u-section-1 {
   min-height: 678px;
 }
 
@@ -1802,3 +1806,4 @@
 .u-container-layout.hover .u-block-7bc6-79:not([data-block-selected]):not([data-cell-selected]) {
   transform: translateX(0px) translateY(-5px) scale(1) !important;
 }
+

@@ -45,24 +45,20 @@ namespace BaseProject.Application.Catalog.Categories
 
         public async Task<bool> Rating(int id, int star_number)
         {
-            var star = await _context.RatingLocations.Where(x=>x.Id == id).FirstOrDefaultAsync();
-            if (star != null)
+            var star = await _context.RatingLocations.Where(x => x.Id == id).FirstOrDefaultAsync();
+            if (star == null)
             {
                 return false;
             }
 
-            var UpdateRating = new RatingLocation()
-            {
-                LocationId = star.Id,
-                UserId = star.UserId ,
-                Date = DateTime.UtcNow,
-                Stars = star_number,
-                Check = YesNo.yes
-            };
-
+         //   star.LocationId = star.Id;
+         //   star.UserId = star.UserId;
+            star.Date = DateTime.UtcNow;
+            star.Stars = star_number;
+            star.Check = YesNo.yes;
 
             // Cập nhật dữ liệu vào database
-            _context.RatingLocations.Update(UpdateRating);
+          //  _context.RatingLocations.Update(star);
             _context.SaveChanges();
 
             return true;

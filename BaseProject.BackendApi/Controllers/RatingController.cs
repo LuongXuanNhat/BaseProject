@@ -29,17 +29,17 @@ namespace BaseProject.BackendApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Rating(string rating, string id)
+        public async Task<IActionResult> Rating()
         {
-            if (rating == null || id == null)
+            int rating = int.Parse(Request.Query["rating"]);
+            int id = int.Parse(Request.Query["id"]);
+
+            if (rating == 0 || id == 0)
             {
                 return BadRequest();
             }
 
-            int ratingValue = Convert.ToInt32(rating);
-            int itemId = Convert.ToInt32(id);
-
-            var result = await _ratingService.Rating(itemId , ratingValue);
+            var result = await _ratingService.Rating(id , rating);
             if (result == true)
             {
                 return Ok();

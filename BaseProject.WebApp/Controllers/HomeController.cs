@@ -1,4 +1,6 @@
-﻿using BaseProject.ApiIntegration.User;
+﻿using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.User;
+using BaseProject.Data.Entities;
 using BaseProject.WebApp.Models;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
@@ -15,14 +17,17 @@ namespace BaseProject.WebApp.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserApiClient _userApiClient;
+        private readonly ICategoryApiClient _cateApiClient;
 
         public HomeController(ILogger<HomeController> logger,
                     IHttpContextAccessor httpContextAccessor,
-                    IUserApiClient userApiClient)
+                    IUserApiClient userApiClient,
+                    ICategoryApiClient cateApiClient)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _userApiClient = userApiClient;
+            _cateApiClient = cateApiClient;
         }
 
         public async Task<IActionResult> Index()
@@ -35,6 +40,11 @@ namespace BaseProject.WebApp.Controllers
                 HttpContext.Session.Remove("Token");
                 return RedirectToAction("Index", "Home");
             }
+
+            var CategoryList = await _cateApiClient.GetAll(); // Hàm để lấy danh sách đối tượng
+
+            ViewData["ObjectList"] = CategoryList.ResultObj;
+
             return View();
         }
 

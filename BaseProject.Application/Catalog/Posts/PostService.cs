@@ -127,16 +127,6 @@ namespace BaseProject.Application.Catalog.Posts
                         }
                     }
                 }
-                //DateTime date1 = await _context.Posts.Where(x => x.UserId == USER_ID).OrderBy(x => x.PostId).Select(x => x.UploadDate).LastOrDefaultAsync();
-                //DateTime currentDate = DateTime.Now.Date; // Lấy ngày hiện tại
-                //TimeSpan duration = currentDate.Subtract(date1); // Tính khoảng thời gian giữa date1 và ngày hiện tại
-                //if (duration.TotalDays < 30)
-                //{
-                //    int totalDays = 30 - (int)Math.Ceiling(Math.Abs(duration.TotalDays));
-
-                //    // Chưa đủ 30 ngày kể từ lần gần nhất đánh giá địa điểm này
-                //    return new ApiErrorResult<bool>($"Để đánh giá địa điểm này bạn cần chờ thêm khoảng {totalDays} ngày");
-                //}
 
                 // Lưu Bài đánh giá 
                 var user = from getId

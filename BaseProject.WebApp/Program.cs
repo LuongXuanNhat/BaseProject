@@ -23,6 +23,7 @@ builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
 builder.Services.AddTransient<IRatingApiClient, RatingApiClient>();
+builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<BaseApiClient>();
 
 builder.Services.AddMemoryCache();
