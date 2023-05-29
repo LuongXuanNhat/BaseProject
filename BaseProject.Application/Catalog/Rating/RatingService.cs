@@ -112,11 +112,11 @@ namespace BaseProject.Application.Catalog.Categories
             var query = await _context.Locations.ToListAsync();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
             }
             else
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString())).ToList();
+                query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
             }
             //3. Paging
             int totalRow =  query.Count();

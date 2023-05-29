@@ -138,17 +138,34 @@ namespace BaseProject.Application.Catalog.Categories
             };
             return new ApiSuccessResult<PagedResult<LocationCreateRequest>>(pagedResult);
         }
-        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByProvince(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request)
         {
+            // get all địa điểm
             var query = await _context.Locations.ToListAsync();
-            if (!string.IsNullOrEmpty(request.Keyword))
+            if (request.number == 1)
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+                else
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
+                }
+
             }
-            else
+            if (request.number == 2)
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString())).ToList();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                }
+                else
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
+                }
             }
+            
             //3. Paging
             int totalRow =  query.Count();
 

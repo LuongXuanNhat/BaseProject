@@ -899,6 +899,784 @@ namespace BaseProject.Data.EF
                 }
                 );
 
+            //      Category
+            modelBuilder.Entity<CategoriesLocation>().HasData(
+                new CategoriesLocation()
+                {
+                    Id = 1,
+                    LocationId = 24,
+                    CategoriesId = 18
+                },
+                new CategoriesLocation()
+                {
+                    Id = 2,
+                    LocationId = 24,
+                    CategoriesId = 15
+                },
+                new CategoriesLocation()
+                {
+                    Id = 3,
+                    LocationId = 100,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 4,
+                    LocationId = 100,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 5,
+                    LocationId = 101,
+                    CategoriesId = 8
+                },
+                new CategoriesLocation()
+                {
+                    Id = 6,
+                    LocationId = 102,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 7,
+                    LocationId = 102,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 8,
+                    LocationId = 103,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 9,
+                    LocationId = 103,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 10,
+                    LocationId = 103,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 11,
+                    LocationId = 103,
+                    CategoriesId = 5
+                },
+                new CategoriesLocation()
+                {
+                    Id = 12,
+                    LocationId = 103,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 13,
+                    LocationId = 104,
+                    CategoriesId = 18
+                },
+                new CategoriesLocation()
+                {
+                    Id = 14,
+                    LocationId = 104,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 15,
+                    LocationId = 104,
+                    CategoriesId = 14
+                },
+                new CategoriesLocation()
+                {
+                    Id = 15,
+                    LocationId = 105,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 16,
+                    LocationId = 107,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 17,
+                    LocationId = 108,
+                    CategoriesId = 11
+                },
+                new CategoriesLocation()
+                {
+                    Id = 18,
+                    LocationId = 109,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 19,
+                    LocationId = 109,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 20,
+                    LocationId = 109,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 21,
+                    LocationId = 110,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 22,
+                    LocationId = 110,
+                    CategoriesId = 4
+                },
+                new CategoriesLocation()
+                {
+                    Id = 23,
+                    LocationId = 111,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 24,
+                    LocationId = 111,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 25,
+                    LocationId = 112,
+                    CategoriesId = 8
+                },
+                new CategoriesLocation()
+                {
+                    Id = 26,
+                    LocationId = 114,
+                    CategoriesId = 11
+                },
+                new CategoriesLocation()
+                {
+                    Id = 27,
+                    LocationId = 115,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 28,
+                    LocationId = 116,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 29,
+                    LocationId = 116,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 30,
+                    LocationId = 117,
+                    CategoriesId = 17
+                },
+                new CategoriesLocation()
+                {
+                    Id = 31,
+                    LocationId = 118,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 32,
+                    LocationId = 118,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 33,
+                    LocationId = 118,
+                    CategoriesId = 16
+                },
+                new CategoriesLocation()
+                {
+                    Id = 34,
+                    LocationId = 119,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 35,
+                    LocationId = 120,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 36,
+                    LocationId = 120,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 37,
+                    LocationId = 120,
+                    CategoriesId = 4
+                },
+                new CategoriesLocation()
+                {
+                    Id = 38,
+                    LocationId = 121,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 39,
+                    LocationId = 122,
+                    CategoriesId = 12
+                },
+                new CategoriesLocation()
+                {
+                    Id = 40,
+                    LocationId = 123,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 41,
+                    LocationId = 123,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 42,
+                    LocationId = 124,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 43,
+                    LocationId = 125,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 44,
+                    LocationId = 125,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 45,
+                    LocationId = 126,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 46,
+                    LocationId = 126,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 47,
+                    LocationId = 126,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 48,
+                    LocationId = 127,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 49,
+                    LocationId = 128,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 50,
+                    LocationId = 128,
+                    CategoriesId = 8
+                },
+                new CategoriesLocation()
+                {
+                    Id = 51,
+                    LocationId = 129,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 52,
+                    LocationId = 129,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 53,
+                    LocationId = 129,
+                    CategoriesId = 4
+                },
+                new CategoriesLocation()
+                {
+                    Id = 54,
+                    LocationId = 130,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 55,
+                    LocationId = 130,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 56,
+                    LocationId = 131,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 57,
+                    LocationId = 131,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 58,
+                    LocationId = 132,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 59,
+                    LocationId = 132,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 60,
+                    LocationId = 132,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 61,
+                    LocationId = 132,
+                    CategoriesId = 12
+                },
+                new CategoriesLocation()
+                {
+                    Id = 62,
+                    LocationId = 132,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 63,
+                    LocationId = 133,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 64,
+                    LocationId = 133,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 65,
+                    LocationId = 133,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 66,
+                    LocationId = 133,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 67,
+                    LocationId = 133,
+                    CategoriesId = 12
+                },
+                new CategoriesLocation()
+                {
+                    Id = 68,
+                    LocationId = 134,
+                    CategoriesId = 11
+                },
+                new CategoriesLocation()
+                {
+                    Id = 69,
+                    LocationId = 135,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 70,
+                    LocationId = 135,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 71,
+                    LocationId = 136,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 72,
+                    LocationId = 136,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 73,
+                    LocationId = 136,
+                    CategoriesId = 4
+                },
+                new CategoriesLocation()
+                {
+                    Id = 74,
+                    LocationId = 136,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 75,
+                    LocationId = 137,
+                    CategoriesId = 8
+                },
+                new CategoriesLocation()
+                {
+                    Id = 76,
+                    LocationId = 137,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 77,
+                    LocationId = 138,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 78,
+                    LocationId = 138,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 79,
+                    LocationId = 140,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 80,
+                    LocationId = 141,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 81,
+                    LocationId = 141,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 82,
+                    LocationId = 142,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 83,
+                    LocationId = 142,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 84,
+                    LocationId = 142,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 85,
+                    LocationId = 142,
+                    CategoriesId = 4
+                },
+                new CategoriesLocation()
+                {
+                    Id = 86,
+                    LocationId = 142,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 87,
+                    LocationId = 143,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 88,
+                    LocationId = 143,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 89,
+                    LocationId = 144,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 90,
+                    LocationId = 144,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 91,
+                    LocationId = 146,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 92,
+                    LocationId = 147,
+                    CategoriesId = 10
+                },
+                new CategoriesLocation()
+                {
+                    Id = 93,
+                    LocationId = 147,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 94,
+                    LocationId = 147,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 95,
+                    LocationId = 148,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 96,
+                    LocationId = 148,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 97,
+                    LocationId = 148,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 98,
+                    LocationId = 149,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 99,
+                    LocationId = 149,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 100,
+                    LocationId = 149,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 101,
+                    LocationId = 142,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 102,
+                    LocationId = 136,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 103,
+                    LocationId = 132,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 104,
+                    LocationId = 120,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 105,
+                    LocationId = 118,
+                    CategoriesId = 9
+                },
+                new CategoriesLocation()
+                {
+                    Id = 106,
+                    LocationId = 150,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 107,
+                    LocationId = 151,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 108,
+                    LocationId = 151,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 109,
+                    LocationId = 152,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 110,
+                    LocationId = 152,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 111,
+                    LocationId = 152,
+                    CategoriesId = 19
+                },
+                new CategoriesLocation()
+                {
+                    Id = 112,
+                    LocationId = 153,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 113,
+                    LocationId = 153,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 114,
+                    LocationId = 153,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 115,
+                    LocationId = 151,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 116,
+                    LocationId = 154,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 117,
+                    LocationId = 154,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 118,
+                    LocationId = 155,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 119,
+                    LocationId = 155,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 120,
+                    LocationId = 156,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 121,
+                    LocationId = 156,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 122,
+                    LocationId = 157,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 123,
+                    LocationId = 157,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 124,
+                    LocationId = 158,
+                    CategoriesId = 1
+                },
+                new CategoriesLocation()
+                {
+                    Id = 125,
+                    LocationId = 158,
+                    CategoriesId = 3
+                },
+                new CategoriesLocation()
+                {
+                    Id = 126,
+                    LocationId = 168,
+                    CategoriesId = 2
+                },
+                new CategoriesLocation()
+                {
+                    Id = 127,
+                    LocationId = 168,
+                    CategoriesId = 3
+                }
+
+            );
+
+
+
+
+
+
             //      ADMINISTRATOR
             var roleId = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575");
             var roleId1 = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a");

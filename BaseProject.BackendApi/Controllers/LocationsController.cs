@@ -76,7 +76,7 @@ namespace BaseProject.BackendApi.Controllers
         [HttpGet("pagingPlace")]
         public async Task<IActionResult> GetPlacesPaging([FromQuery] GetUserPagingRequest request)
         {
-            var products = await _locationService.GetLocationPagingByProvince(request);
+            var products = await _locationService.GetLocationPagingByKeys(request);
             return Ok(products);
         }
 
