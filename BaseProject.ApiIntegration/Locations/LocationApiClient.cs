@@ -110,12 +110,11 @@ namespace BaseProject.ApiIntegration.Locations
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
 
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
 
             var requestContent = new MultipartFormDataContent();
-
+            
             if (request.GetImage != null)
             {
                 byte[] data;

@@ -99,6 +99,7 @@ namespace BaseProject.Application.System.Users
             return new ApiErrorResult<bool>("Xóa không thành công");
         }
 
+        // Lấy thông tin user name - Admin
         public async Task<ApiResult<UserVm>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -117,11 +118,13 @@ namespace BaseProject.Application.System.Users
                 Gender = user.Gender,
                 UserName = user.UserName,
                 Roles = roles,
-                Description = user.Description
+                Description = user.Description,
+                UserAddress = user.Address,
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
 
+        // Xem thông tin user name -PUBLIC
         public async Task<ApiResult<UserVm>> GetByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -140,7 +143,8 @@ namespace BaseProject.Application.System.Users
                 Gender = user.Gender,
                 UserName = user.UserName,
                 Roles = roles,
-                Description = user.Description
+                Description = user.Description,
+                UserAddress = user.Address
             };
             return new ApiSuccessResult<UserVm>(userVm);
         }
@@ -312,11 +316,15 @@ namespace BaseProject.Application.System.Users
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
-            user.DateOfBir = request.DateOfBir;
+            if (request.DateOfBir != null)
+            {
+                user.DateOfBir = request.DateOfBir;
+            }
             user.Email = request.Email;
             user.Name = request.Name;
             user.Gender = request.Gender;
-            user.Image = request.Image;
+            user.Description = request.Description;
+            user.Address = request.UserAddress;
 
             if (request.GetImage != null)
             {
@@ -324,7 +332,7 @@ namespace BaseProject.Application.System.Users
                 {
                     RemoveImage(user.Image);
                 }
-                request.Image = await this.SaveFile(request.GetImage);
+                user.Image = await SaveFile(request.GetImage);
             }
 
             var result = await _userManager.UpdateAsync(user);

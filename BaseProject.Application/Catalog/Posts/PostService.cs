@@ -94,17 +94,18 @@ namespace BaseProject.Application.Catalog.Posts
             }
             else
             {
-                
+
                 // Kiểm tra đã đánh giá trong vòng 1 tháng trước chưa
-                Guid USER_ID = await _context.Users.Where(x => x.UserName.Equals(request.UserId)).Select(x => x.Id).FirstOrDefaultAsync();
+                var USER = await _userManager.FindByNameAsync(request.UserId);
                 foreach (var item in request.PostDetail)
                 {
-                    // Lấy danh sách bài viết của User
-                    var list = await _context.Posts.Where(x=>x.UserId == USER_ID).OrderBy(x => x.PostId).ToListAsync();
+                    // Lấy danh sách bài viết của User đó 
+                    var list = await _context.Posts.Where(x=>x.UserId == USER.Id).OrderBy(x => x.PostId).ToListAsync();
+                    if (list.Any())
                     for (var i = list.Count-1; i >= 0; i--)
                     {
                         // Lấy danh sách bài viết chi tiết của 1 bài viết và so sánh
-                        var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId).OrderBy(x => x.PostId).ToListAsync();
+                        var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId ).OrderBy(x => x.PostId).ToListAsync();
                         for (int y = list2.Count - 1; y >= 0; y--)
                         {
                             // Kiếm tra địa chỉ đánh giá này đã được đánh giá chưa

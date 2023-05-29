@@ -15,10 +15,10 @@ namespace BaseProject.ViewModels.System.Users
         public Guid Id { get; set; }
 
         [Display(Name = "Họ và Tên")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Ảnh đại diện")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         
         [Display(Name = "Thêm ảnh đại diện")]
         [NotMapped]
@@ -37,5 +37,8 @@ namespace BaseProject.ViewModels.System.Users
 
         [Display(Name = "Mô tả")]
         public string? Description { get; set; }
+
+        [Display(Name = "Địa chỉ")]
+        public string? UserAddress { get; set; }
     }
 }

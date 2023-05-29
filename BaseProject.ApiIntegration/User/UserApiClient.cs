@@ -176,7 +176,6 @@ namespace BaseProject.ApiIntegration.User
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
-
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
 
@@ -193,14 +192,23 @@ namespace BaseProject.ApiIntegration.User
                 requestContent.Add(bytes, "GetImage", request.GetImage.FileName);
             }
             requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+            requestContent.Add(new StringContent(request.Id.ToString()), "Id");
 
             string dateOfBirth = request.DateOfBir?.ToString("dd-MM-yyyy") ?? string.Empty;
             requestContent.Add(new StringContent(dateOfBirth), "DateOfBir");
 
             requestContent.Add(new StringContent(request.Gender?.ToString()), "Gender");
-            requestContent.Add(new StringContent(request.Description?.ToString()), "Description");
+
+            string Description = request.Description?.ToString() ?? string.Empty;
+            requestContent.Add(new StringContent(Description), "Description");
+
+            string UserAddress = request.UserAddress?.ToString() ?? string.Empty;
+            requestContent.Add(new StringContent(UserAddress), "UserAddress");
 
             requestContent.Add(new StringContent(request.Email.ToString()), "Email");
+
+            string Image = request.Image?.ToString() ?? string.Empty;
+            requestContent.Add(new StringContent(Image), "Image");
 
             var response = await client.PutAsync($"/api/users/{id}", requestContent);
             var result = await response.Content.ReadAsStringAsync();

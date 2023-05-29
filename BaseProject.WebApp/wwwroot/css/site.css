@@ -115,11 +115,24 @@ h6::before {
     color: #000; /* Màu sắc của dấu chấm */
 }
 .limited-lines {
-    max-height: 4.8em; /* Giới hạn chiều cao tối đa */
+    max-height: 6.4em; /* Giới hạn chiều cao tối đa */
     overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
     display: -webkit-box;
     -webkit-line-clamp: 4; /* Số dòng tối đa */
     -webkit-box-orient: vertical;
+}
+.ThuNhoDienTich {
+    width: 20%;
+}
+@media (max-width: 776px) {
+    .Compatible {
+        display: block;
+        font-size: 14px;
+        margin-top: 60px;
+    }
+    .ThuNhoDienTich{
+        width: 0px;
+    }
 }
 
 
