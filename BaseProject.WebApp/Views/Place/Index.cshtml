@@ -8,8 +8,42 @@
 
 <link href="~/css/places_style.css" rel="stylesheet" />
 
-<div class="container">
-    <h3 style="display:block; text-align: center">Lựa chọn điểm đến của bạn</h3>
+<div class="">
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active text-black" style="font-weight:600;" aria-current="page" asp-action="index" asp-controller="Place"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-black" href="#" style="font-weight:600;" ><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-black" href="#" style="font-weight:600;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
+        </li>
+        <li class="nav-item" style="flex-grow: 1; margin-top: 4px;">
+            <div class="row col-xs-12">
+                <form asp-action="PlaceList" asp-controller="Place" method="get">
+                    <div class="row">
+                        <div class="col-md-9" style="flex: 1; padding-right: 0px; margin-left: 2rem;">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                            <input type="text" value="@ViewBag.ProvinceName" name="provinceName" class="form-control" hidden />
+                        </div>
+                        <div class="cold-md-3 user-search-btn" style="width: unset; padding-left:8px; ">
+                            <button title="Tìm" type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                            <a title="Tải lại danh sách" style=" font-size: 15px; margin-right: 8px;" type="button" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@ViewBag.ProvinceName" class="btn btn-dark">
+                                <i class="fa-solid fa-arrow-rotate-right"></i>
+                            </a>
+                        </div>
+                        
+
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
+
+    <h3 style="display:block; text-align: center; color: transparent">Lựa chọn điểm đến của bạn</h3>
     <div class="destination-list">
         <a class="destination-item" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@Provinces.HoChiMinh.GetDisplayName()">
             <div style="position: relative; display:flex; justify-content: center;">

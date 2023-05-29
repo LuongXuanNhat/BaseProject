@@ -31,9 +31,9 @@ namespace BaseProject.Data.EF
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());
 
-
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoriesDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoriesLocationConfiguration());
 
             modelBuilder.ApplyConfiguration(new LocationConfiguration());
             modelBuilder.ApplyConfiguration(new LocationsDetailConfiguration());
@@ -68,6 +68,7 @@ namespace BaseProject.Data.EF
 
         public DbSet<Category> Categories { set; get; }
         public DbSet<CategoriesDetail> CategoriesDetails { set; get; }
+        public DbSet<CategoriesLocation> CategoriesLocations { set; get; }
         public DbSet<Location> Locations { set; get; }
         public DbSet<LocationsDetail> LocationsDetails { set; get; }
         public DbSet<Post> Posts { set; get; }

@@ -20,7 +20,7 @@ namespace BaseProject.Application.Catalog.Categories
         Task<ApiResult<bool>> Delete(int categoryId);
 
         Task<ApiResult<PagedResult<LocationCreateRequest>>> GetLocationPaging(GetUserPagingRequest request);
-        Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByProvince(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int locationId);
         Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId);
