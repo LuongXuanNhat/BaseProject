@@ -55,12 +55,12 @@ namespace BaseProject.AdminUI.Controllers
             var result = await _categoryApiClient.RegisterCategory(request);
             if (result.IsSuccessed != null )
             {
-                TempData["result"] = "Thêm mới sản phẩm thành công";
+                TempData["result"] = "Thêm mới danh mục thành công";
                 return RedirectToAction("Index");
 
             }
 
-            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            ModelState.AddModelError("", "Thêm danh mục thất bại");
             return View(request);
         }
 
@@ -94,7 +94,7 @@ namespace BaseProject.AdminUI.Controllers
                 return RedirectToAction("Index");
             }
 
-            ModelState.AddModelError("", "Thêm sản phẩm thất bại");
+            ModelState.AddModelError("", "Cập nhập danh mục thất bại");
             return View();
         }
 

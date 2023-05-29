@@ -127,11 +127,16 @@ namespace BaseProject.ApiIntegration.Locations
                     ByteArrayContent bytes = new ByteArrayContent(data);
                     requestContent.Add(bytes, "GetImage", request.GetImage[i].FileName);
                 }
-                requestContent.Add(new StringContent(request.Name.ToString()), "Name");
-                requestContent.Add(new StringContent(request.Address.ToString()), "Address");
-                requestContent.Add(new StringContent(string.IsNullOrEmpty(request.LocationId.ToString()) ? "" : request.LocationId.ToString()), "LocationId");
-
+               
             }
+            requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+            requestContent.Add(new StringContent(request.Address.ToString()), "Address");
+
+            string Description = request.Description?.ToString() ?? string.Empty;
+            requestContent.Add(new StringContent(Description), "Description");
+
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.LocationId.ToString()) ? "" : request.LocationId.ToString()), "LocationId");
+
 
             var response = await client.PostAsync($"/api/locations/", requestContent);
 
