@@ -16,16 +16,16 @@ namespace BaseProject.ViewModels.System.Users
         public Guid Id { get; set; }
 
         [Display(Name = "Họ và Tên")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Tên tài khoản")]
         public string UserName { get; set; }
         
         [Display(Name = "Mô tả")]
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         [Display(Name = "Ảnh đại diện")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
         [Display(Name = "Thêm ảnh đại diện")]
         [NotMapped]
         public IFormFile? GetImage { get; set; }
@@ -41,7 +41,10 @@ namespace BaseProject.ViewModels.System.Users
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        public IList<string> Roles { get; set; }
+        [Display(Name = "Địa chỉ")]
+        public string? UserAddress { get; set; }
+
+        public IList<string>? Roles { get; set; }
 
         // Thông số 
         public int? PostNumber { get; set; }

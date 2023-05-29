@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+
+
 <section class="h-100 gradient-custom-2">
     <div class="container py-5 h-100">
         <div class="row d-flex justify-content-center align-items-center h-100">
@@ -46,26 +55,51 @@
                             </h5>
                             <p style="padding-bottom: 8px;" title="Tên tài khoản">@Model.UserName</p>
                         </div>
-                    </div>
-                    <div class="p-3 text-black" style="background-color: #f8f9fa;">
-                        <div class="d-flex justify-content-end text-center py-1">
-                            <div>
-                                <p class="mb-1 h5" style="margin-top: 0px;">253</p>
-                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Số bài viết</p>
-                            </div>
-                            <div class="px-3">
-                                <p class="mb-1 h5" style="margin-top: 0px;">1026</p>
-                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Số người theo dõi</p>
-                            </div>
-                            <div>
-                                <p class="mb-1 h5" style="margin-top: 0px;">478</p>
-                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Đang theo dõi</p>
-                            </div>
+                        <div class="ThuNhoDienTich">
+
                         </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            @if (!String.Equals(ViewBag.UserName, Model.UserName))
+                            {
+                                <button class="btn text-white btn-primary btn-rounded" type="button">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    Theo dõi
+                                </button>
+                            } else {
+
+                            }                              
+                        </div>
+                    </div>
+
+                    
+                    <div class="p-3 text-black" style="background-color: #f8f9fa;">
+                        <div class="Compatible d-flex justify-content-end text-center py-1">
+                            <a class="text-black text-decoration-none" title="Xem danh sách bài viết" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">253</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 0px;">Bài viết</p>
+                            </a>
+                            <a class="px-3 text-black text-decoration-none" style="" title="Xem danh sách người theo dõi" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">1026</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 12px;">Người theo dõi</p>
+                            </a>
+                            <a class="text-black text-decoration-none" title="Xem danh sách người đang theo dõi" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">478</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 0px;">Đang theo dõi</p>
+                            </a>
+                        </div>
+                    </div>
+                    @*      Xuất thông báo      *@
+                    <div class="row" style="margin: 0 20px;">
+                        @if (ViewBag.SuccessMsg != null)
+                        {
+                            <div id="msgAlert" class="alert alert-success" role="alert">
+                                @ViewBag.SuccessMsg
+                            </div>
+                        }
                     </div>
                     <div class="card-body p-4 text-black">
                         <div class="mb-5">
-                            <p class="lead fw-normal mb-1">Thông tin</p>
+                            <p class="lead fw-normal mb-1" style="margin-top: 0px;">Thông tin</p>
                             <div class="p-4" style="background-color: #f8f9fa;min-height: 50px;">
                                 <h6>Giới thiệu</h6>
                                 @if (Model.Description != null)
@@ -95,6 +129,15 @@
                                 }
                                 <h6 style="padding-top: 12px;">Email</h6>
                                 <span>@Model.Email</span>
+                                <h6 style="padding-top: 12px;">Địa chỉ</h6>
+                                @if (Model.UserAddress != null)
+                                {
+                                    <span>@Model.UserAddress</span>
+                                }
+                                else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
 
                             </div>
                         </div>

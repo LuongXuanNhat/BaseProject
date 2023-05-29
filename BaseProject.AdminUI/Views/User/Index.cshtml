@@ -96,10 +96,11 @@
                                     @Html.DisplayFor(modelItem => item.Email)
                                 </td>
                                 <td class="col-2">
-                                    <a href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-edit"></i></a>
-                                    <a href="@Url.Action("Details", new { id = item.Id })"><i class="fa-solid fa-eye"></i></a>
-                                    <a href="@Url.Action("Delete", new { id = item.Id })"><i class="fa-solid fa-trash-can"></i></a>
-                                    <a href="@Url.Action("RoleAssign", new { id = item.Id })"><i class="fa-solid fa-unlock"></i></a>
+                                    <a title="Sửa" href="@Url.Action("Edit", new { id = item.Id })"><i class="fa fa-edit"></i></a>
+                                    <a title="Xem chi tiết" href="@Url.Action("Details", new { id = item.Id })"><i class="fa-solid fa-eye"></i></a>
+
+                                    <a title="Khóa tài khoản" href="@Url.Action("Delete", new { id = item.Id })"><i class="fa-solid fa-user-lock"></i></a>
+                                    <a title="Gán quyền" href="@Url.Action("RoleAssign", new { id = item.Id })"><i class="fa-solid fa-unlock"></i></a>
                                 </td>
                             </tr>
                         }

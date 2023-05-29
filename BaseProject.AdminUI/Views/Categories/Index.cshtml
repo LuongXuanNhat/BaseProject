@@ -63,8 +63,8 @@
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
                         <td class="col-2">
-                            <a href="@Url.Action("Edit", new { id=item.CategoriesId })"><i class="fa fa-edit"></i></a>
-                            <a href="@Url.Action("Delete", new { idCategory=item.CategoriesId })"><i class="fa-solid fa-trash-can"></i></a>
+                            <a title="Sửa" href="@Url.Action("Edit", new { id=item.CategoriesId })"><i class="fa fa-edit"></i></a>
+                            <a title="Xóa" href="@Url.Action("Delete", new { idCategory=item.CategoriesId })"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                 }

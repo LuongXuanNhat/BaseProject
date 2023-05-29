@@ -28,32 +28,23 @@ namespace BaseProject.Application.Catalog.Categories
 
         public async Task<ApiResult<bool>> CreateOrUpdate(LocationCreateRequest request)
         {
-            Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Address == request.Address);
+            Location location = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == request.LocationId);
 
             if (location != null)
             {
                 if (request.LocationId != 0)
                 {
-                    if (request.Name == location.Name && request.Address == location.Address )
-                    {
+                    location.Name = request.Name;
+                    location.Address = request.Address;
+                    location.Description = request.Description;
 
-                    } else
-                    {
-                    var place = new Location()
-                    {
-                        LocationId = request.LocationId,
-                        Name = request.Name,
-                        Address = request.Address
-
-                    };
-                    _context.Locations.Update(place);
-                    }     
+                    _context.Locations.Update(location);   
                     if (request.GetImage != null && request.GetImage.Count != 0)
                     {
                         var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
                         if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
                         {
-                            _context.SaveChanges();
+                            await _context.SaveChangesAsync();
                             return new ApiSuccessResult<bool>();
                         }
                     }                   
@@ -73,22 +64,22 @@ namespace BaseProject.Application.Catalog.Categories
                 
                 _context.Locations.Add(Location);
                 _context.SaveChanges();
-                _context.Locations.Add(Location);
 
 
                 // Lưu ảnh
-                Location findID = await _context.Locations.FirstOrDefaultAsync(x => x.Address == request.Address);
-                var saveImage = await _imageService.SaveImage(request.GetImage, findID);
-
-                if (saveImage != null && saveImage.IsSuccessed == true)
+                if (request.GetImage != null)
                 {
-                    return new ApiSuccessResult<bool>();
+                    Location findID = await _context.Locations.FirstOrDefaultAsync(x => x.Address.Equals(location.Address));
+                    var saveImage = await _imageService.SaveImage(request.GetImage, findID);
+                    if (saveImage != null && saveImage.IsSuccessed == true)
+                    {
+                        return new ApiSuccessResult<bool>();
+                    }
+                     else   return new ApiErrorResult<bool>("Lỗi lưu ảnh");
                 }
-                return new ApiErrorResult<bool>("Lỗi lưu ảnh");
+   
             }
-
-
-            return new ApiErrorResult<bool>();
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<ApiResult<bool>> Update(int id, LocationCreateRequest request)
@@ -98,7 +89,8 @@ namespace BaseProject.Application.Catalog.Categories
                 return new ApiErrorResult<bool>("Lỗi cập nhập");
             }
 
-         //   _context.Locations.Update(request);
+           // Không sử dụng update này
+           // _context.Locations.Update(request);
             _context.SaveChanges();
             return new ApiSuccessResult<bool>();
         }
@@ -112,7 +104,7 @@ namespace BaseProject.Application.Catalog.Categories
             var location = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == locationId);
 
             _context.Locations.Remove(location);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>();
         }
 

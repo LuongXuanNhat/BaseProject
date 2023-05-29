@@ -154,14 +154,20 @@ namespace BaseProject.WebApp.Controllers
             if (UserName != null)
             {
                 var result = await _userApiClient.GetByUserName(UserName);
-
+                if (TempData["result"] != null)
+                {
+                    ViewBag.SuccessMsg = TempData["result"];
+                }
                 ViewBag.UserName = User.Identity.Name;
                 return View(result.ResultObj);
             }
             else
             {
                 var result = await _userApiClient.GetByUserName(User.Identity.Name);
-
+                if (TempData["result"] != null)
+                {
+                    ViewBag.SuccessMsg = TempData["result"];
+                }
                 ViewBag.UserName = User.Identity.Name;
                 return View(result.ResultObj);
             }
@@ -185,6 +191,7 @@ namespace BaseProject.WebApp.Controllers
                     DateOfBir = user.DateOfBir,
                     Gender = user.Gender,
                     Description = user.Description,
+                    UserAddress = user.UserAddress
                 };
                 return View(updateRequest);
             }
@@ -206,17 +213,20 @@ namespace BaseProject.WebApp.Controllers
                 DateOfBir = request.DateOfBir,
                 Gender = request.Gender,
                 Description = request.Description,
+                GetImage = request.GetImage,
+                UserAddress = request.UserAddress
+                
             };
 
             var result = await _userApiClient.UpdateUser(updateRequest.Id, updateRequest);
             if (result.IsSuccessed)
             {
-                TempData["result"] = "Cập nhật người dùng thành công";
-                return RedirectToAction("Index");
+                TempData["result"] = "Bạn đã cập nhật thông tin thành công";
+                return RedirectToAction("AccountSetting");
             }
 
             ModelState.AddModelError("", result.Message);
-            return View(request);
+            return RedirectToAction("Error", "Home"); ;
         }
     }
 }
