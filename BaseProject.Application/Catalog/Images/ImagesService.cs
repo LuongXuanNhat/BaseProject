@@ -149,6 +149,9 @@ namespace BaseProject.Application.Catalog.Images
             return "https://localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
 
-        
+        public async Task<string> GetById(int ID)
+        {
+            return await _context.Images.Where(x => x.LocationId == ID).Select(x => x.Path).FirstOrDefaultAsync();
+        }
     }
 }

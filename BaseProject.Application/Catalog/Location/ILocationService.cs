@@ -23,6 +23,7 @@ namespace BaseProject.Application.Catalog.Categories
         Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int locationId);
+        Task<List<LocationVm>> TakeByQuantity(int quantity);
         Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId);
         
 

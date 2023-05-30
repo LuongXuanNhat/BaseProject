@@ -4,6 +4,7 @@ using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -85,6 +86,14 @@ namespace BaseProject.BackendApi.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _locationService.GetById(id);
+            return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("show/{quantity}")]
+        public async Task<IActionResult> TakeByQuantity(int quantity)
+        {
+            var user = await _locationService.TakeByQuantity(quantity);
             return Ok(user);
         }
 

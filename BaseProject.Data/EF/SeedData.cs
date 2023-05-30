@@ -1672,6 +1672,22 @@ namespace BaseProject.Data.EF
 
             );
 
+            //Data Seeding for Notification
+            modelBuilder.Entity<Notification>().HasData(
+                new Notification
+                {
+                   NotificationId = 1,
+                   Title = "Thông báo hệ thống",
+                   Date = DateTime.Now
+                },
+                new Notification
+                {
+                   NotificationId = 2,
+                   Title = "Tương tác",
+                   Date = DateTime.Now
+                }
+
+            );
 
 
 
