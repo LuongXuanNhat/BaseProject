@@ -1,4 +1,5 @@
-﻿using BaseProject.ApiIntegration.Locations;
+﻿using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.RatingStars;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
@@ -12,12 +13,15 @@ namespace BaseProject.WebApp.Controllers
     {
         private readonly ILocationApiClient _locationApiClient;
         private readonly IRatingApiClient _ratingApiClient;
+        private readonly ICategoryApiClient _cateApiClient;
         public PlaceController(
             ILocationApiClient locationApiClient,
-            IRatingApiClient ratingApiClient)
+            IRatingApiClient ratingApiClient,
+            ICategoryApiClient cateApiClient)
         {
             _locationApiClient = locationApiClient;
             _ratingApiClient = ratingApiClient;
+            _cateApiClient = cateApiClient;
         }
         public IActionResult Index()
         {
@@ -47,22 +51,27 @@ namespace BaseProject.WebApp.Controllers
             return View(data.ResultObj);
         }
 
-        public async Task<IActionResult> PlaceListByCategory(string keyword, string category, int pageIndex = 1, int pageSize = 20 )
+        public async Task<IActionResult> LocationsByCategory(string keyword, string CategoryName, int pageIndex = 1, int pageSize = 20 )
         {
+            // Hàm để lấy danh sách danh mục
+            var CategoryList = await _cateApiClient.GetAll(); 
+            ViewData["ObjectList"] = CategoryList.ResultObj;
+
             // number 2 là tìm kiếm vs danh mục
             var request = new GetUserPagingRequest()
             {
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
-                Keyword2 = category,
+                Keyword2 = CategoryName,
                 number = 2
             };
             var data = await _locationApiClient.GetPlacesPagings(request);
             ViewBag.Keyword = keyword;
+            ViewBag.ReponseCount = data.ResultObj.TotalRecords;
             if (data.ResultObj != null && data.IsSuccessed == true)
             {
-                ViewBag.ProvinceName = category;
+                ViewBag.CategoryName = CategoryName;
                 ViewBag.SuccessMsg = TempData["result"];
             }
             return View(data.ResultObj);

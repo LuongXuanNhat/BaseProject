@@ -142,6 +142,7 @@ namespace BaseProject.Application.Catalog.Categories
         {
             // get all địa điểm
             var query = await _context.Locations.ToListAsync();
+
             if (request.number == 1)
             {
                 if (!string.IsNullOrEmpty(request.Keyword))
@@ -154,16 +155,30 @@ namespace BaseProject.Application.Catalog.Categories
                 }
 
             }
+            // 2: Category Location
             if (request.number == 2)
             {
-                if (!string.IsNullOrEmpty(request.Keyword))
+                var cateId = await _context.Categories.FirstOrDefaultAsync(x=>x.Name.Equals(request.Keyword2));
+                if (!string.IsNullOrEmpty(request.Keyword) && cateId != null)
                 {
-                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                    // Lấy danh sách địa điểm nằm trong cate đó
+                    var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
+                    query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
+                    query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
                 }
                 else
+                    if (cateId != null)
                 {
-                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
+                    var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
+                    query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
                 }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(request.Keyword))
+                        {
+                            query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                        }
+                    }
             }
             
             //3. Paging
@@ -188,7 +203,7 @@ namespace BaseProject.Application.Catalog.Categories
             {
                 TotalRecords = totalRow,
                 PageIndex = request.PageIndex,
-                PageSize = request.PageSize,
+                PageSize = request.PageSize, 
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<LocationVm>>(pagedResult);

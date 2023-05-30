@@ -1,0 +1,102 @@
+﻿@using BaseProject.Data.Entities;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
+@{
+    List<Category> objectList = ViewData["ObjectList"] as List<Category>;
+}
+
+@{
+    ViewData["Title"] = "Danh mục địa điểm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/places_style.css" rel="stylesheet" />
+
+<div >
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link  text-black" style="font-weight:600;" aria-current="page" href="@Url.Action("Index","Place")"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-black" href="#" style="font-weight:600;"><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-black" href="#" style="font-weight:600;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
+        </li>
+        <li class="nav-item" style="flex-grow: 1; margin-top: 4px;">
+            <div class="row col-xs-12">
+                <form asp-action="LocationsByCategory" asp-controller="Place" method="get">
+                    <div class="row">
+                        <div class="col-md-9 row" style="flex: 1; padding-right: 0px; margin-left: 2rem;">
+                            <div class=" col-4" style="display: flex;justify-content: flex-end; align-items: center; font-size: 16px;">
+                                @ViewBag.CategoryName (@ViewBag.ReponseCount)
+                            </div>
+                            <input type="text" value="@ViewBag.Keyword" placeholder="@ViewBag.Keyword" name="keyword" class="form-control" style="width: 65%" />
+                            <input type="text" value="@ViewBag.CategoryName" name="CategoryName" class="form-control" hidden />
+                        </div>
+                        <div class="cold-md-3 user-search-btn" style="width: unset; padding-left:8px; ">
+                            <button title="Tìm" type="submit" class="btn btn-primary">
+                                <i class="fa-solid fa-magnifying-glass"></i>
+                            </button>
+                            <a title="Tải lại danh sách" style=" font-size: 15px; margin-right: 8px;" type="button" href="@Url.Action("LocationsByCategory","Place", new { keyword = "" , CategoryName = ""})" class="btn btn-dark">
+                                <i class="fa-solid fa-arrow-rotate-right"></i>
+                            </a>
+                        </div>
+
+
+                    </div>
+                </form>
+            </div>
+        </li>
+    </ul>
+
+    <div class="scroll-containercate">
+        <div class="category" id="category">
+            @foreach (var obj in objectList)
+            {
+                <a class="btn btn-secondary" onclick="highlightLink(this)" asp-action="LocationsByCategory" asp-route-CategoryName="@obj.Name" asp-controller="Place" style=" margin: 4px 4px; padding: 0.3rem 0.5rem; font-size: 14px;">@obj.Name</a>
+            }
+        </div>
+    </div>
+
+    <h3 style="display:block; text-align: center; color: transparent">Lựa chọn điểm đến của bạn</h3>
+    <div class="destination-list">
+        @*          Danh sách địa điểm          *@
+        <div class="">
+            <div class="">
+                <div class="destination-list">
+                    @if (Model.Items.Count == 1)
+                    {
+                        <a class="destination-item" asp-action="LocationsByCategory" asp-route-CategoryName="@Model.Items[0].Name" asp-route-keyword="" asp-controller="Place" style="padding-bottom: 5px;text-decoration: none;color:black; width: 95% !important;">
+                            <img src="@Model.Items[0].ImageList" alt="Điểm đến @Model.Items[0].Name">
+                            <h3 style="display: block; text-align: center; color: darkblue">@Model.Items[0].Name</h3>
+                            <p style="font-size: 14px;max-height:3em">@Model.Items[0].Address : @Model.Items[0].View</p>
+                        </a>
+                    } else {
+                    @foreach (var item in Model.Items)
+                    {
+                     
+                        <a class="destination-item" asp-action="LocationsByCategory" asp-route-CategoryName="@item.Name" asp-route-keyword="" asp-controller="Place" style="padding-bottom: 5px;text-decoration: none;color:black">
+                            <img src="@item.ImageList" alt="Điểm đến @item.Name">
+                            <h3 style="display: block; text-align: center; color: darkblue">@item.Name</h3>
+                            <p style="font-size: 14px;max-height:3em">@item.Address : @item.View</p>
+                        </a>
+                    }
+                    }
+                </div>
+
+                @await Component.InvokeAsync("Pager", Model)
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+
+

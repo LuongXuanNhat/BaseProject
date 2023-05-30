@@ -1,9 +1,4 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
-@using BaseProject.Data.Enums
+﻿@using BaseProject.Data.Enums
 
 
 <link href="~/css/places_style.css" rel="stylesheet" />
@@ -11,17 +6,17 @@
 <div class="">
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link active text-black" style="font-weight:600;" aria-current="page" asp-action="index" asp-controller="Place"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
+            <a class="nav-link active text-black" style="font-weight:600;" aria-current="page" href="@Url.Action("Index","Place")"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-black" href="#" style="font-weight:600;" ><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
+            <a class="nav-link text-black" style="font-weight:600;" href="@Url.Action("LocationsByCategory","Place", new { keyword = "" , CategoryName = ""})"><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
         </li>
         <li class="nav-item">
             <a class="nav-link text-black" href="#" style="font-weight:600;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
         </li>
         <li class="nav-item" style="flex-grow: 1; margin-top: 4px;">
             <div class="row col-xs-12">
-                <form asp-action="PlaceList" asp-controller="Place" method="get">
+                <form asp-action="Index" asp-controller="Place" method="get">
                     <div class="row">
                         <div class="col-md-9" style="flex: 1; padding-right: 0px; margin-left: 2rem;">
                             <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
@@ -31,7 +26,7 @@
                             <button title="Tìm" type="submit" class="btn btn-primary">
                                 <i class="fa-solid fa-magnifying-glass"></i>
                             </button>
-                            <a title="Tải lại danh sách" style=" font-size: 15px; margin-right: 8px;" type="button" asp-action="PlaceList" asp-controller="Place" asp-route-provinceName="@ViewBag.ProvinceName" class="btn btn-dark">
+                            <a title="Tải lại danh sách" style=" font-size: 15px; margin-right: 8px;" type="button" asp-action="PlaceList" asp-controller="Place"  class="btn btn-dark">
                                 <i class="fa-solid fa-arrow-rotate-right"></i>
                             </a>
                         </div>

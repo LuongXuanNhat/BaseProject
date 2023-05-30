@@ -41,9 +41,6 @@ namespace BaseProject.WebApp.Controllers
                 return RedirectToAction("Index", "Home");
             }
 
-            var CategoryList = await _cateApiClient.GetAll(); // Hàm để lấy danh sách đối tượng
-
-            ViewData["ObjectList"] = CategoryList.ResultObj;
 
             return View();
         }
