@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Location;
+using Azure.Core;
 
 namespace BaseProject.ApiIntegration.Locations
 {
@@ -160,6 +161,21 @@ namespace BaseProject.ApiIntegration.Locations
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<List<LocationVm>> TakeByQuantity(int quantity)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/locations/show/{quantity}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<List<LocationVm>>(body);
+            return users;
         }
     }
 }

@@ -138,3 +138,17 @@ h6::before {
 
 
 /*      KHÔNG GIAN KHÁC         */
+
+/*Login*/
+.addImageLogin {
+    background-image: url("/images/ngo-ngang-voi-ve-dep-pho-co-hoi-an-nhin-tu-tren-cao-11-16195044601901189703392.jpg");
+    background-size: 100vw;
+    background-position: center;
+}
+.image-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    object-fit: cover;
+}
+

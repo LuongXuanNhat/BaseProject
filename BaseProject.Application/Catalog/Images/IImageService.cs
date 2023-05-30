@@ -16,6 +16,7 @@ namespace BaseProject.Application.Catalog.Images
 
         Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, Location location);
         Task<ApiResult<bool>> UpdateImage(List<IFormFile> images, int postDetailID);
+        Task<string> GetById(int ID);
 
         
     }

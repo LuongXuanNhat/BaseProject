@@ -156,7 +156,7 @@ namespace BaseProject.Application.Catalog.Categories
 
             }
             // 2: Category Location
-            if (request.number == 2)
+            else if (request.number == 2)
             {
                 var cateId = await _context.Categories.FirstOrDefaultAsync(x=>x.Name.Equals(request.Keyword2));
                 if (!string.IsNullOrEmpty(request.Keyword) && cateId != null)
@@ -353,6 +353,38 @@ namespace BaseProject.Application.Catalog.Categories
             };
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
+        }
+
+        public async Task<List<LocationVm>> TakeByQuantity(int quantity)
+        {
+            var location = await _context.Locations.ToListAsync();
+            List<Location> locationVms = new List<Location>();
+            Random random = new Random();
+
+            while (locationVms.Count < 6)
+            {
+                int index = random.Next(0, location.Count);
+                Location randomLocation = location[index];
+
+                if (!locationVms.Contains(randomLocation))
+                {
+                    locationVms.Add(randomLocation);
+                }
+            }
+
+
+            List<LocationVm> getList = new List<LocationVm>();
+            foreach (var item in locationVms)
+            {
+                LocationVm location1 = new LocationVm();
+                location1.LocationId = item.LocationId;
+                location1.Address = item.Address;
+                location1.Name = item.Name;
+                location1.ImageList = await _imageService.GetById(item.LocationId);
+
+                getList.Add(location1);
+            }
+            return getList;
         }
     }
 }

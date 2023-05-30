@@ -71,14 +71,18 @@
                     <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1">
                         <li class="u-nav-item">
                             <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px;">
+                                <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
                                 <span style="color:black">Viết bài</span>
                             </a>
                         </li>
-                        <li class="u-nav-item">
-                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px;">Thông báo</a>
-                        </li>
+                        
                         @if (User.Identity.Name != null)
                         {
+                            <li class="u-nav-item">
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px;">
+                                    <i class="fa-solid fa-bell" style="color: #fe9b2a;"></i>
+                                    Thông báo</a>
+                            </li>
                             <li style="display: inline-block">
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
