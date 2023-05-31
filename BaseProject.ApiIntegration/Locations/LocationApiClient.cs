@@ -97,7 +97,7 @@ namespace BaseProject.ApiIntegration.Locations
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var response = await client.GetAsync($"/api/locations/pagingPlace?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}");
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}&UserName={request.UserName}");
 
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);

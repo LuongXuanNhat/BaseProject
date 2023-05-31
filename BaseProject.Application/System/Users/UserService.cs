@@ -149,6 +149,14 @@ namespace BaseProject.Application.System.Users
             return new ApiSuccessResult<UserVm>(userVm);
         }
 
+
+        // Lấy ID từ UserName
+        public async Task<Guid> GetIdByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user.Id;
+        }
+
         public async Task<ApiResult<string>> GetToken(string request)
         {
             var user = await _userManager.FindByNameAsync(request);
@@ -360,8 +368,12 @@ namespace BaseProject.Application.System.Users
         public async Task<List<UserVm>> TakeByQuantity(int quantity)
         {
             var listUser = await _dataContext.Users.ToListAsync();
+            if (listUser.Count < quantity)
+            {
+                quantity = listUser.Count;
+            }
 
-            // Lấy ra top 3 người dùng có số bài viết nhiều nhất
+            // Lấy ra top x người dùng có số bài viết nhiều nhất
             var topUsers = _dataContext.Posts.GroupBy(p => p.UserId)
                 .Select(g => new { UserId = g.Key, PostCount = g.Count() })
                 .OrderByDescending(u => u.PostCount)
@@ -390,5 +402,8 @@ namespace BaseProject.Application.System.Users
             return users;
 
         }
+
+
+
     }
 }

@@ -59,14 +59,21 @@ namespace BaseProject.WebApp.Controllers
         }
 
         // Lấy tất cả bài viết
+        // Nếu tìm kiếm tất cả _ Lưu lịch sử tìm kiếm
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> IndexAll(string keyword, int pageIndex = 1, int pageSize = 5)
         {
+
+            // 3: Tìm kiếm bài viết tất cả
             var request = new GetUserPagingRequest()
             {
+                UserName = User.Identity.Name,
                 Keyword = keyword,
+                Keyword2 = "",
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                number = 3
             };
             var data = await _postApiClient.GetAllPostPagings(request);
             ViewBag.Keyword = keyword;

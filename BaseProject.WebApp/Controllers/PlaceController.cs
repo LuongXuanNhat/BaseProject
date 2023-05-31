@@ -35,6 +35,7 @@ namespace BaseProject.WebApp.Controllers
 
             var request = new GetUserPagingRequest()
             {
+                UserName = User.Identity.Name,
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,
@@ -60,6 +61,7 @@ namespace BaseProject.WebApp.Controllers
             // number 2 là tìm kiếm vs danh mục
             var request = new GetUserPagingRequest()
             {
+                UserName = User.Identity.Name,
                 Keyword = keyword,
                 PageIndex = pageIndex,
                 PageSize = pageSize,

@@ -1,15 +1,16 @@
 ﻿using Azure.Core;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Common;
+using BaseProject.Application.System.Users;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
-using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BaseProject.Application.Catalog.Searchs;
 
 namespace BaseProject.Application.Catalog.Categories
 {
@@ -18,12 +19,16 @@ namespace BaseProject.Application.Catalog.Categories
 
         private readonly DataContext _context;
         private readonly IImageService _imageService;
+        private readonly ISearchService _searchService;
+        private readonly IUserService _userService;
         private const string USER_CONTENT_FOLDER_NAME = "Images";
 
-        public LocationService(DataContext context, IImageService imageService)
+        public LocationService(DataContext context, IImageService imageService, ISearchService searchService, IUserService userService )
         {
             _context = context;
             _imageService = imageService;
+            _searchService = searchService;
+            _userService = userService;
         }
 
         public async Task<ApiResult<bool>> CreateOrUpdate(LocationCreateRequest request)
@@ -140,7 +145,9 @@ namespace BaseProject.Application.Catalog.Categories
         }
         public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request)
         {
+            
             // get all địa điểm
+            List<string> keys = new List<string>();
             var query = await _context.Locations.ToListAsync();
 
             if (request.number == 1)
@@ -148,10 +155,25 @@ namespace BaseProject.Application.Catalog.Categories
                 if (!string.IsNullOrEmpty(request.Keyword))
                 {
                     query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                    if (request.UserName != null)
+                    {
+                        keys.Add(request.Keyword);
+                        keys.Add("Tìm kiếm địa điểm trong tỉnh "+ request.Keyword2);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
                 }
                 else
                 {
                     query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
+                    
+                    if (request.UserName != null)
+                    {
+                        keys.Add(request.Keyword2);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
                 }
 
             }
@@ -161,24 +183,51 @@ namespace BaseProject.Application.Catalog.Categories
                 var cateId = await _context.Categories.FirstOrDefaultAsync(x=>x.Name.Equals(request.Keyword2));
                 if (!string.IsNullOrEmpty(request.Keyword) && cateId != null)
                 {
-                    // Lấy danh sách địa điểm nằm trong cate đó
+                    // Lấy danh sách địa điểm 
                     var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
                     query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
                     query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                    if (request.UserName != null)
+                    {
+                        keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
+                        keys.Add(request.Keyword);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
+                        
                 }
                 else
-                    if (cateId != null)
                 {
-                    var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
-                    query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
-                }
+                    if (cateId != null)
+                    {
+                        // Lấy danh sách địa điểm nằm trong cate đó
+                        var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
+                        query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
+
+                        if (request.UserName != null)
+                        {
+                            keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
+                            Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                             await _searchService.Add(UserID, keys);
+                        }
+                            
+                    }
                     else
                     {
                         if (!string.IsNullOrEmpty(request.Keyword))
                         {
                             query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                            if (request.UserName != null)
+                            {
+                                keys.Add(request.Keyword);
+                                Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                                await _searchService.Add(UserID, keys);
+                            }
+                                
                         }
                     }
+                }
             }
             
             //3. Paging

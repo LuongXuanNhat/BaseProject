@@ -13,6 +13,8 @@ using BaseProject.ViewModels.Catalog.Location;
 using Microsoft.AspNetCore.Http;
 using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.System.Users;
+using BaseProject.Application.Catalog.Searchs;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -22,21 +24,25 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly IStorageService _storageService;
         private readonly ICategoryService _categoryService;
         private readonly IRatingService _ratingService;
+        private readonly IUserService _userService;
         private readonly IImageService _imageService;
+        private readonly ISearchService _searchService;
         private readonly UserManager<AppUser> _userManager;
 
 
         public PostService(DataContext context, 
-            UserManager<AppUser> userManager, 
+            ISearchService searchService, 
             ICategoryService categoryService,
             IImageService imageService,
-            IRatingService ratingService)
+            IRatingService ratingService,
+            IUserService userService)
         {
-            _userManager = userManager;
             _context = context;
             _categoryService = categoryService;
             _imageService = imageService;
             _ratingService = ratingService;
+            _userService = userService;
+            _searchService = searchService;
         }
         public async Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request)
         {
@@ -342,10 +348,23 @@ namespace BaseProject.Application.Catalog.Posts
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
             var query = await _context.Posts.ToListAsync();
-            if (!string.IsNullOrEmpty(request.Keyword))
+            List<String> list = new List<String>();
+            if (request.number == 3)
             {
-                query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+
+                    // Lưu lịch sử tìm kiếm
+                    if (request.UserName != null)
+                    {
+                        list.Add($"Tìm kiếm bài đánh giá: {request.Keyword}");
+                        var UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, list);
+                    }
+                }
             }
+            
 
             //3. Paging
             int totalRow = query.Count();
