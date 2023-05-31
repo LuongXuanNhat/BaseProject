@@ -120,6 +120,15 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
+        [AllowAnonymous]
+        [HttpGet("show/{quantity}")]
+        public async Task<IActionResult> TakeByQuantity(int quantity)
+        {
+            var user = await _userService.TakeByQuantity(quantity);
+            return Ok(user);
+        }
+
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)
         {

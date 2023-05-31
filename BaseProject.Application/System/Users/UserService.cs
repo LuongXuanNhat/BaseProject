@@ -356,5 +356,39 @@ namespace BaseProject.Application.System.Users
             await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
             return "https://localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
         }
+
+        public async Task<List<UserVm>> TakeByQuantity(int quantity)
+        {
+            var listUser = await _dataContext.Users.ToListAsync();
+
+            // Lấy ra top 3 người dùng có số bài viết nhiều nhất
+            var topUsers = _dataContext.Posts.GroupBy(p => p.UserId)
+                .Select(g => new { UserId = g.Key, PostCount = g.Count() })
+                .OrderByDescending(u => u.PostCount)
+                .Take(quantity);
+
+            List<UserVm> users = new List<UserVm>();
+            if (topUsers.Any())
+            {
+
+                foreach (var user in topUsers)
+                {
+                    var getUser = await _dataContext.Users.Where(x => x.Id == user.UserId).FirstOrDefaultAsync();
+                    UserVm userVm = new UserVm();
+                    userVm.Id = user.UserId;
+                    userVm.PostNumber = user.PostCount;
+                    userVm.UserName = getUser.UserName;
+                    userVm.Email = "not displayed!";
+                    userVm.Description = getUser.Description;
+                    userVm.Image = getUser.Image;
+                    users.Add(userVm);
+                }
+
+                return users;
+            }
+
+            return users;
+
+        }
     }
 }

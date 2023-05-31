@@ -1,4 +1,6 @@
-﻿using BaseProject.Data.Enums;
+﻿using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
+using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
@@ -216,6 +218,21 @@ namespace BaseProject.ApiIntegration.User
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(result);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(result);
+        }
+
+        public async Task<List<UserVm>> TakeByQuantity(int quantity)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/users/show/{quantity}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<List<UserVm>>(body);
+            return users;
         }
     }
 }

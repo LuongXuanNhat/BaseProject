@@ -121,6 +121,14 @@ h6::before {
     -webkit-line-clamp: 4; /* Số dòng tối đa */
     -webkit-box-orient: vertical;
 }
+.limited-lines-2 {
+    min-height: 6.4em;
+    max-height: 6.4em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+}
 .ThuNhoDienTich {
     width: 20%;
 }

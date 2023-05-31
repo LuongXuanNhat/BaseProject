@@ -1,7 +1,11 @@
 ﻿
 @using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.System.Users;
 @{
     List<LocationVm> objectList = ViewData["ObjectList"] as List<LocationVm>;
+}
+@{
+    List<UserVm> objectTopList = ViewData["ObjectTopList"] as List<UserVm>;
 }
 
 <!DOCTYPE html>
@@ -35,7 +39,7 @@
         <div class="u-clearfix u-sheet u-sheet-1"> 
             <div class="u-layout-grid u-list ">
                 <div class="u-repeater u-repeater-1 ">
-                        <div class=" u-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white " data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                        <div class=" u-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white " data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0">
                             <a class="u-container-layout u-similar-container u-container-layout-1" href="@Url.Action("Index","Place")">
                                 <span class="u-align-center u-icon u-text-black u-icon-1">
                                     <i class="fa-solid fa-map-location-dot fa-xl" style="color: #fe3434; line-height: 1.4em"></i>
@@ -85,21 +89,21 @@
 
 
                     
-                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0">
                         <a class="u-container-layout u-similar-container u-container-layout-2" asp-controller="Posts" asp-action="IndexAll">
                             <span class="u-align-center u-file-icon u-icon u-icon-2"><i class="fa-regular fa-newspaper fa-xl" style="line-height: 1.4em;color: #E82385"></i></span>
                             <h4 class="u-align-center u-text u-text-2" style="color:black">Review</h4>
                         </a>
                     </div>
-                    <div class="u-align-center u-container-style u-custom-item u-list-item u-radius-14 u-repeater-item u-shape-round u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                    <div class="u-align-center u-container-style u-custom-item u-list-item u-radius-14 u-repeater-item u-shape-round u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0" style="cursor: pointer;">
                         <div class="u-container-layout u-similar-container u-container-layout-3">
                             <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-text-black u-icon-3"><i class="fa-solid fa-rss fa-xl" style="color: #FF26FF; line-height: 1.4em; "></i></span>
                             <h4 class="u-align-center u-text u-text-3">Tin tức &amp; sự kiện</h4>
                         </div>
                     </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0" style="cursor: pointer;">
                         <div class="u-container-layout u-similar-container u-container-layout-4">
-                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-icon-4"><img src="images/512142.png" alt=""></span>
+                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-icon-4"><i class="fa-solid fa-angles-right fa-xl" style="color: #FF6526; line-height: 1.5em;"></i></span>
                             <h4 class="u-align-center u-text u-text-4">Nhiều hơn</h4>
                         </div>
                     </div>
@@ -123,7 +127,7 @@
     </section>
     <section class="u-align-center u-clearfix u-container-align-center u-white u-section-2" id="sec-3d1c" style="height: 740px;">
         <div class="u-clearfix u-sheet u-sheet-1">
-            <h2 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">Đi chơi thôi nào</h2>
+            <h2 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0" style="margin-top: 40px; ">Đi chơi thôi nào</h2>
             <p class="u-align-center u-text u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">Hãy chọn cho mình một địa điểm yêu thích, chúng ta sẽ có thêm những trải nghiệm tuyệt vời</p>
             
             
@@ -161,38 +165,52 @@
         </div>
         <div class="u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-white u-list-item-1">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
-                        <img class="u-expanded-width u-image u-image-default u-image-2" src="images/32.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-2">Sport Activities</h4>
-                        <p class="u-hover-feature u-text u-text-3">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.online" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-2">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-3">
-                        <img class="u-expanded-width u-image u-image-default u-image-3" src="images/1.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-4">Internet Access </h4>
-                        <p class="u-hover-feature u-text u-text-5">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/k/birthday-html-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-3">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-4">
-                        <img class="u-expanded-width u-image u-image-default u-image-4" src="images/777.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-6"> Climbing Instructor</h4>
-                        <p class="u-hover-feature u-text u-text-7">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/c/slider-website-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-4">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-5">
-                        <img class="u-expanded-width u-image u-image-default u-image-5" src="images/dfdf.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-8"> Mountain Bikes</h4>
-                        <p class="u-hover-feature u-text u-text-9">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/k/astrology-website-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-4">more</a>
-                    </div>
-                </div>
+                @*Chèn Địa điểm*@
+                @{ int dem = 0;}
+                    @foreach (var obj in objectTopList)
+                    {
+                        dem++;
+                    
+                        <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-white u-list-item-1">
+                            <div class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
+                                <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@obj.UserName">
+                                @if (obj.Image != null)
+                                {
+                                    <img class="u-expanded-width u-image u-image-default u-image-2" src="@obj.Image" alt="" data-image-width="900" data-image-height="600">
+                                }
+                                else
+                                {
+                                    <img class="u-expanded-width u-image u-image-default u-image-2" src="images/32.jpg" alt="" data-image-width="900" data-image-height="600">
+                                }
+                                <h4 class="u-hover-feature u-text u-text-2">
+                                    @obj.UserName
+                                    @if (dem == 1)
+                                    {
+                                        <img class=" " src="images/707163.png" style="width: 24px;top: -3px; position: absolute; ">
+                                    }
+                                </h4>
+                                <p class="u-hover-feature u-text u-text-3">
+                                    @if (obj.Description != null)
+                                    {
+                                        <span class="limited-lines-2">@obj.Description</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="limited-lines-2" style="font-style: italic; ">Đang cập nhập</span>
+                                    }
+                                </p>
+                                <a href="#" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1" style="margin: 0 0;">
+                                    <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
+                                    @obj.PostNumber bài viết
+                                </a>
+                            </a>
+                            </div>
+                        </div>
+
+                        
+                    }
+                
+                
             </div>
         </div>
     </section>

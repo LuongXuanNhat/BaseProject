@@ -72,7 +72,7 @@
                         <li class="u-nav-item">
                             <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px;">
                                 <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
-                                <span style="color:black">Viết bài</span>
+                                Viết bài
                             </a>
                         </li>
                         
@@ -116,6 +116,7 @@
                                                 <button type="submit" class="navbar-brand btn btn-danger text-white">Đăng xuất</button>
                                             </form>
                                         </li>
+                                        
                                     </ul>
                                 </div>                                             
                             </li>
@@ -124,7 +125,10 @@
                         else
                         {
                             <li class="u-nav-item">
-                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Login" style="padding: 10px;">Đăng nhập</a>
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Login" style="padding: 10px 0px 10px 10px;">Đăng nhập</a>
+                            </li>
+                            <li class="u-nav-item">
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Register" style="padding: 10px 10px 10px 0px;">Đăng ký</a>
                             </li>
                         }
                         
