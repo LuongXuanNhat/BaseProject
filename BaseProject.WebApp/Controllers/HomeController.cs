@@ -39,6 +39,10 @@ namespace BaseProject.WebApp.Controllers
             // Hàm để lấy danh sách danh mục
             var CategoryList = await _locationApiClient.TakeByQuantity(6);
             ViewData["ObjectList"] = CategoryList;
+            
+            // Hàm để lấy danh sách top writer
+            var TopList = await _userApiClient.TakeByQuantity(4);
+            ViewData["ObjectTopList"] = TopList;
 
             var user = User.Identity.Name;
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");

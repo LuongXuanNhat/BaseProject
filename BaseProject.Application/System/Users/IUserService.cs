@@ -22,6 +22,7 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
+        Task<List<UserVm>> TakeByQuantity(int quantity);
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
         Task<ApiResult<bool>> Delete(Guid id);
