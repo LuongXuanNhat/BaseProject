@@ -47,18 +47,18 @@
 <div class="card mb-12">
     <div class="card-header">
         <div class="row">
-            <div class="col-md-6 col-xs-12">
+           @* <div class="col-md-6 col-xs-12">
                 <a asp-action="Create" class="btn btn-success">Thêm đánh giá</a>
-            </div>
+            </div>*@
             <div class="col-md-6 col-xs-12">
-                <form asp-action="Index" method="get">
+                <form asp-action="IndexAll" method="get">
                     <div class="row">
                         <div class="col-md-9">
                             <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
                         </div>
                         <div class="cold-md-3">
                             <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Posts/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                            <button type="button" onclick="window.location.href='/Posts/IndexAll'" class="btn btn-dark">Tải lại danh sách</button>
                         </div>
                     </div>
                 </form>
@@ -86,7 +86,10 @@
                 {
                     <tr>
                         <td>
-                            @Html.DisplayFor(modelItem => item.Title)
+                            <a title="Xem chi tiết" href="@Url.Action("Details", new { id = item.PostId })" class="text-decoration-none text-black">
+                                @Html.DisplayFor(modelItem => item.Title)
+
+                            </a>
                         </td>
                         <td>
                             @Html.DisplayFor(modelItem => item.Date)
@@ -94,19 +97,7 @@
                         <td>
                             @Html.DisplayFor(modelItem => item.View)
                         </td>
-                        <td style="width:200px">
-                            <a title="Sửa bài" class="btn btn-warning" href="@Url.Action("EditPost", new { id = item.PostId })">
-                                <i class="fa fa-edit"></i>
-                            </a>
-
-                            <a title="Xem chi tiết" class="btn btn-success " href="@Url.Action("Details", new { id = item.PostId })">
-                                <i class="fa-solid fa-circle-info"></i>
-                            </a>
-                            <div style="display: inline">
-                                <button class="btn btn-danger" onclick="showDeleteModal(@item.PostId)" title="Xóa bài"> <i class="fa-solid fa-trash-can"></i> </button>
-
-                            </div>
-                           </td>
+                   
                     </tr>
                 }
             </tbody>

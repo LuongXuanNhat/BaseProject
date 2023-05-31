@@ -1,6 +1,7 @@
 ﻿using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Catalog.Posts;
+using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
 using BaseProject.Application.System.Users;
@@ -55,6 +56,7 @@ builder.Services.AddTransient<IPostService, PostService>();
 builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IImageService, ImagesService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
+builder.Services.AddTransient<ISearchService, SearchService>();
 
 
 
