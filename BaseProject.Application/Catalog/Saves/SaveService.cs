@@ -6,6 +6,7 @@ using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.Data.Enums;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Catalog.RatingStar;
@@ -29,50 +30,39 @@ namespace BaseProject.Application.Catalog.Saves
             _userService = userService;
         }
 
-        public async Task<bool> Create(Guid userID, int LocationID)
+        public async Task<Saved> Check(string UserName, int PlacesId)
         {
-            var CreateRating = new RatingLocation()
-            {
-                LocationId = LocationID,
-                UserId = userID,
-                Date = DateTime.UtcNow,
-                Stars = null,
-                Check = 0
-            };
-            _context.RatingLocations.Add(CreateRating);
-            await _context.SaveChangesAsync();
+            var UserId = await _userService.GetIdByUserName(UserName);
+            var check = await _context.Saveds.FirstOrDefaultAsync(x => x.LocationId == PlacesId && x.UserId == UserId);
 
-            return true;
+            return check == null ? null : check;
         }
 
         // Lưu địa điểm vào danh mục yêu thích
-        public async Task<bool> AddPlaces(string UserName, int PlacesId)
+        // Xóa địa điểm khỏi danh mục yêu thích
+        public async Task<ApiResult<bool>> AddPlacesOrDelete(string UserName, int PlacesId)
         {
             var UserId = await _userService.GetIdByUserName(UserName);
-            var item = new Saved()
+            var check = await Check(UserName, PlacesId);
+            if (check != null)
             {
-                PostId = null,
-                UserId = UserId,
-                LocationId = PlacesId,
-                Date = DateTime.UtcNow
-            };
-            _context.Saveds.Add(item);
-            await _context.SaveChangesAsync();
-
-            return true;
-        }
-
-        public async Task<ApiResult<bool>> Delete(int locationId)
-        {
-            if (locationId == null)
-            {
-                return new ApiErrorResult<bool>("Lỗi cập nhập");
+                _context.Saveds.Remove(check);
+                await _context.SaveChangesAsync();
+                return new ApiErrorResult<bool> ("Đã xóa địa điểm khỏi danh sách yêu thích");
             }
-            var location = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == locationId);
-
-            _context.Locations.Remove(location);
-            _context.SaveChanges();
-            return new ApiSuccessResult<bool>();
+            else
+            {
+                var item = new Saved()
+                {
+                    PostId = null,
+                    UserId = UserId,
+                    LocationId = PlacesId,
+                    Date = DateTime.UtcNow
+                };
+                _context.Saveds.Add(item);
+                await _context.SaveChangesAsync();
+                return new ApiErrorResult<bool>("Đã thêm địa điểm vào danh sách yêu thích");
+            }
         }
 
         public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPaging(GetUserPagingRequest request)
@@ -134,6 +124,18 @@ namespace BaseProject.Application.Catalog.Saves
             };
 
             return new ApiSuccessResult<LocationCreateRequest>(updateLocationRequest);
+        }
+
+        public async Task<ApiResult<bool>> Delete(string usename)
+        {
+            var UserId = await _userService.GetIdByUserName(usename);
+
+            var query = await _context.Saveds.Where(x => x.UserId == UserId && x.LocationId != 0).ToListAsync();
+
+
+            _context.Saveds.RemoveRange(query);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>();
         }
     }
 }

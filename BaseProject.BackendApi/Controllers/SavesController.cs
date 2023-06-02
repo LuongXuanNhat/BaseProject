@@ -1,6 +1,7 @@
-﻿using BaseProject.Application.Catalog.Locations;
+﻿using Azure.Core;
+using BaseProject.Application.Catalog.Locations;
 using BaseProject.Application.Catalog.Saves;
-using BaseProject.ViewModels.Catalog.Search;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
@@ -18,32 +19,54 @@ namespace BaseProject.BackendApi.Controllers
         private readonly ISaveService _saveService;
 
 
-        public SavesController(
-            ILocationService locationService, ISaveService saveService)
+        public SavesController(ISaveService saveService)
         {
             _saveService = saveService;
 
+        }
+
+        [HttpGet("check")]
+        public async Task<IActionResult> Check([FromQuery] AddAddressSaveVm request)
+        {
+            var result = await _saveService.Check(request.Username, request.IdPlaces);
+            if (result != null)
+            {
+                return Ok();
+            }
+            return BadRequest();
+            
         }
 
 
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
-            var rating = await _saveService.GetLocationPaging(request);
-            return Ok(rating);
+            var result = await _saveService.GetLocationPaging(request);
+            return Ok(result);
         }
 
         [HttpPost]
         public async Task<IActionResult> AddAddressToArchive(AddAddressSaveVm request)
         {
-            var result = await _saveService.AddPlaces(request.Username, request.IdPlaces);
-            if (result == true)
+            var result = await _saveService.AddPlacesOrDelete(request.Username, request.IdPlaces);
+            if (result != null)
             {
-                return Ok(request);
+                return Ok(result);
             }
             return BadRequest(request);
         }
 
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> Delete(string name)
+        {
+            var username = await _saveService.Delete(name);
 
+            if (username == null)
+            {
+                return BadRequest();
+            }
+            return Ok();
+
+        }
     }
 }

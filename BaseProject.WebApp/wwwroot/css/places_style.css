@@ -95,7 +95,7 @@ h1 {
     color: #7F7F7F ;
 }
 
-.saved-color {
+h2 .saved-color {
     color: yellow ;
 }
 
@@ -239,8 +239,18 @@ h1 {
 
 
 /*                                */
-
-
+.delete-item-save {
+    position: absolute;
+    border-radius: 3px;
+    background: white;
+    padding: 4px;
+    right: -37px;
+    top: 13px;
+    display: block;
+}
+.hidden-class{
+    display: none;
+}
 /*                                */
 
 

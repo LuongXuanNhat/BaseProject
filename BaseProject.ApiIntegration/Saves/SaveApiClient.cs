@@ -1,5 +1,4 @@
 ﻿using BaseProject.Data.Entities;
-using BaseProject.ViewModels.Catalog.Search;
 using BaseProject.ViewModels.Common;
 using Newtonsoft.Json;
 using System;
@@ -14,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using BaseProject.ViewModels.Catalog.RatingStar;
 using BaseProject.ViewModels.System.Users;
 using BaseProject.ViewModels.Catalog.Location;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 
 namespace BaseProject.ApiIntegration.Saves
 {
@@ -47,9 +47,28 @@ namespace BaseProject.ApiIntegration.Saves
             var response = await client.PostAsync($"/api/saves/", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+
+
+        }
+
+        public async Task<ApiResult<bool>> Check(AddAddressSaveVm request)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/saves/check?Username={request.Username}&IdPlaces={request.IdPlaces}");
+
+            var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
-                return  JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+                return new ApiSuccessResult<bool>();
+            return new ApiErrorResult<bool>();
         }
 
         public async Task<ApiResult<PagedResult<LocationVm>>> GetByUserName(GetUserPagingRequest request)

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.ViewModels.Catalog.Search
+namespace BaseProject.ViewModels.Catalog.FavoriteSave
 {
     public class AddAddressSaveVm
     {

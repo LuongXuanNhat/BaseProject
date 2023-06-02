@@ -2,7 +2,9 @@
 using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.RatingStars;
+using BaseProject.ApiIntegration.Saves;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Catalog.Search;
@@ -18,17 +20,20 @@ namespace BaseProject.WebApp.Controllers
         private readonly ILocationApiClient _locationApiClient;
         private readonly IRatingApiClient _ratingApiClient;
         private readonly ICategoryApiClient _cateApiClient;
+        private readonly ISaveApiClient _saveApiClient;
         private readonly BaseApiClient _baseApiClient;
         public PlaceController(
             ILocationApiClient locationApiClient,
             IRatingApiClient ratingApiClient,
             ICategoryApiClient cateApiClient,
+            ISaveApiClient saveApiClient,
             BaseApiClient baseApiClient)
         {
             _locationApiClient = locationApiClient;
             _ratingApiClient = ratingApiClient;
             _cateApiClient = cateApiClient;
             _baseApiClient = baseApiClient;
+            _saveApiClient = saveApiClient;
         }
         public IActionResult Index()
         {
@@ -91,7 +96,25 @@ namespace BaseProject.WebApp.Controllers
         {
             ViewBag.Token = _baseApiClient.GetToken();
             ViewBag.UserName = User.Identity.Name;
-            
+
+            var addAddressSaveVm = new AddAddressSaveVm();
+
+            addAddressSaveVm.Username = User.Identity.Name;
+            addAddressSaveVm.IdPlaces = ID;
+
+            var checkSave = await _saveApiClient.Check(addAddressSaveVm);
+
+            if (checkSave.IsSuccessed == true)
+            {
+              //  ViewBag.SuccessMsg = "Đã thêm địa điểm vào danh sách yêu thích";
+                ViewBag.CheckSave = true;
+            }
+            else
+            {
+               // ViewBag.SuccessMsg = "Đã xóa địa điểm khỏi danh sách yêu thích";
+                ViewBag.CheckSave = false;
+            }
+
             ViewBag.ProvinceName = provinceName;
             var result = await _locationApiClient.GetByIdDetail(ID);
             return View(result.ResultObj);

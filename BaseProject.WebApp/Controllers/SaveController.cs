@@ -2,7 +2,7 @@
 using BaseProject.ApiIntegration;
 using BaseProject.ApiIntegration.RatingStars;
 using BaseProject.ApiIntegration.Saves;
-using BaseProject.ViewModels.Catalog.Search;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +32,9 @@ namespace BaseProject.WebApp.Controllers
                 PageSize = pageSize
             };
             var data = await _saveApiClient.GetByUserName(request);
-
+            ViewBag.UserName = User.Identity.Name;
             ViewBag.Token = _baseApiClient.GetToken();
+
             return View(data.ResultObj);
         }
 
@@ -46,10 +47,9 @@ namespace BaseProject.WebApp.Controllers
                 return BadRequest();
             }
             var data = await _saveApiClient.AddAddressToArchive(model);
-            if (data.IsSuccessed == true)
+            if (!data.IsSuccessed == true)
             {
-                ViewBag.SuccessMsg = "Đã thêm vào địa điểm yêu thích";
-                return Ok();
+                return Json(new { successMsg = data.Message});
             }
           //  ViewBag.Token = _baseApiClient.GetToken();
 
