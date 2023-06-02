@@ -11,6 +11,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
+using BaseProject.ViewModels.Catalog.RatingStar;
+using BaseProject.ViewModels.System.Users;
+using BaseProject.ViewModels.Catalog.Location;
 
 namespace BaseProject.ApiIntegration.Saves
 {
@@ -47,6 +50,22 @@ namespace BaseProject.ApiIntegration.Saves
             if (response.IsSuccessStatusCode)
                 return  JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetByUserName(GetUserPagingRequest request)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/saves/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&UserName={request.UserName}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<LocationVm>>>(body);
         }
     }
 }

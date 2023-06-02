@@ -1,6 +1,7 @@
 ﻿using BaseProject.Application.Catalog.Locations;
 using BaseProject.Application.Catalog.Saves;
 using BaseProject.ViewModels.Catalog.Search;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
@@ -25,6 +26,13 @@ namespace BaseProject.BackendApi.Controllers
         }
 
 
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var rating = await _saveService.GetLocationPaging(request);
+            return Ok(rating);
+        }
+
         [HttpPost]
         public async Task<IActionResult> AddAddressToArchive(AddAddressSaveVm request)
         {
@@ -35,5 +43,7 @@ namespace BaseProject.BackendApi.Controllers
             }
             return BadRequest(request);
         }
+
+
     }
 }

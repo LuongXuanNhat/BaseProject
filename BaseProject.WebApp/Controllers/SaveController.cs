@@ -3,6 +3,7 @@ using BaseProject.ApiIntegration;
 using BaseProject.ApiIntegration.RatingStars;
 using BaseProject.ApiIntegration.Saves;
 using BaseProject.ViewModels.Catalog.Search;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -21,9 +22,19 @@ namespace BaseProject.WebApp.Controllers
             _baseApiClient = baseApiClient;
         }
 
-        public IActionResult Index()
+
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
-            return View();
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var data = await _saveApiClient.GetByUserName(request);
+
+            ViewBag.Token = _baseApiClient.GetToken();
+            return View(data.ResultObj);
         }
 
         [Authorize]
