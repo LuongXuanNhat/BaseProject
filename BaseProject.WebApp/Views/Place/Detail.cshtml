@@ -5,17 +5,38 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/css/places_style.css" rel="stylesheet" />
+<script>
+    setTimeout(function () {
+        $('#msgAlert2').fadeOut('slow');
+    }, 2000);
+    
+</script>
+
+<div class="row">
+
+    <div id="msgAlert2" class="hidden-class" role="alert">
+            
+</div>
 
 
-
-@*<div>
-    <a asp-action="PlaceList" asp-route-provinceName="@ViewBag.ProvinceName"> Trở về </a>
-</div>*@
+</div>
 <div class="container-fluid">
     @if (Model != null)
     {
-        <h2 style="display: flex; justify-content: space-between;">
-            @Model.Name <i class="fa-solid fa-bookmark fa-xs" style="color: #b3b4b7; margin: 20px 20px 0px 0px;"></i>
+        <h2 style="display: flex; justify-content: space-between;"  >
+            @Model.Name
+            @if (@ViewBag.CheckSave == true)
+            {
+                <a title="Xóa khỏi địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon saved-color daluu" style=" margin: 20px 20px 0px 0px;">
+                    <i class="fa-solid fa-bookmark fa-xl "></i>
+                </a>
+            } else
+            {
+                <a title="Lưu vào địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon " style=" margin: 20px 20px 0px 0px;">
+                    <i class="fa-solid fa-bookmark fa-xl "></i>
+                </a>
+            }
+
         </h2>
         <div style="display:inline-flex; font-size: 16px;">
             <div>
@@ -113,6 +134,9 @@
 </div>
 
 <script>
+   // var token = '@Html.Raw(ViewBag.Token)';
+    var username = '@Html.Raw(ViewBag.UserName)';
+
     $(document).ready(function () {
         $('.like-link').click(function (event) {
             event.preventDefault();
@@ -126,6 +150,64 @@
             } else {
                 likeIcon.removeClass('gray-color').addClass('liked');
             }
+        }); 
+        $('.save-places-icon').click(function (event) {
+            event.preventDefault();
+            var idPlaces = $(this).attr('save-places-id');
+            var likeIconn = $(this).find('i');
+            var likeYconn = $('a.saved-color');
+
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
+            if (likeIconn.hasClass('saved-color') || likeYconn.length > 0) {
+                $.ajax({
+                    url: '/Save/AddAddressToArchive',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ idPlaces: idPlaces, username: username }),
+                    success: function (response) {
+                        likeIconn.removeClass('saved-color').addClass('gray-color');
+                        $('a.saved-color').removeClass('saved-color');
+                        var successMsg = response.successMsg;
+                        $('#msgAlert2').removeClass('hidden-class').addClass('alert alert-success');
+                        $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
+                            $(this).addClass('hidden-class');
+                        });
+                        
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa địa điểm');
+                    }
+                });
+                
+                
+            } else {
+                $.ajax({
+                    url: '/Save/AddAddressToArchive',
+                    type: 'POST',
+                    headers: { 
+                            'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ idPlaces: idPlaces, username: username }),
+                    success: function (response) {
+                        likeIconn.removeClass('gray-color').addClass('saved-color');
+
+                        var successMsg = response.successMsg;
+                        $('#msgAlert2').removeClass('hidden-class').addClass('alert alert-success');
+                        $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
+                            $(this).addClass('hidden-class');
+                        });
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi lưu địa điểm');
+                    }
+                });
+                
+            }
         });
     });
+
+
 </script>

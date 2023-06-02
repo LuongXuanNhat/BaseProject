@@ -1,6 +1,9 @@
 ﻿using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.Catalog.Locations;
 using BaseProject.Application.Catalog.Posts;
+using BaseProject.Application.Catalog.Rating;
+using BaseProject.Application.Catalog.Saves;
 using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Roles;
@@ -57,6 +60,7 @@ builder.Services.AddTransient<ILocationService, LocationService>();
 builder.Services.AddTransient<IImageService, ImagesService>();
 builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<ISearchService, SearchService>();
+builder.Services.AddTransient<ISaveService, SaveService>();
 
 
 
@@ -130,6 +134,7 @@ var app = builder.Build();
 
 app.Use(async (context, next) =>
 {
+    //
     context.Response.Headers.Add("Access-Control-Allow-Origin", "https://localhost:7202");
     context.Response.Headers.Add("Access-Control-Allow-Methods", "GET , DELETE, POST");
     context.Response.Headers.Add("Access-Control-Allow-Headers", "Content-Type, Authorization");

@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230601030930_DropTableMigration")]
+    partial class DropTableMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "b301b6ca-1568-410a-a07b-5ec20995b6d6",
+                            ConcurrencyStamp = "e2974ed5-78a7-4cb4-af37-e40a7fa76340",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "625b6b6b-1383-4bf2-b3c4-b07bb8bd8083",
+                            ConcurrencyStamp = "170b69f4-13f5-4e4c-9fc6-1d9e07f18372",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -198,7 +201,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "e5b8ac07-7299-4fa5-b335-2ecce23b7fa3",
+                            ConcurrencyStamp = "726356b4-bd15-4686-98e0-c5aa57ec0d2d",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -208,7 +211,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHL0JW4sViEMy864NhPrWkJDWDQ2hVOJiYca9gY0O8Ckcnl0NNJVpIbtGNhsPsYvkA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEDMCCa6u8/PrKRQNUkM4VVCmOLrZbk4x+ltY/MOCz8PZZOCx5dORQc2Jv7+zpT7gDg==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2178,13 +2181,13 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             NotificationId = 1,
-                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6001),
+                            Date = new DateTime(2023, 6, 1, 10, 9, 30, 421, DateTimeKind.Local).AddTicks(8862),
                             Title = "Thông báo hệ thống"
                         },
                         new
                         {
                             NotificationId = 2,
-                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6014),
+                            Date = new DateTime(2023, 6, 1, 10, 9, 30, 421, DateTimeKind.Local).AddTicks(8872),
                             Title = "Tương tác"
                         });
                 });
@@ -2310,16 +2313,20 @@ namespace BaseProject.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int?>("LocationId")
+                    b.Property<int>("LocationId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("PostId")
+                    b.Property<int>("PostId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -2732,11 +2739,27 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.Saved", b =>
                 {
+                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
+                        .WithMany("Saved")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
+                        .WithMany("Saved")
+                        .HasForeignKey("PostId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Saved")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+
+                    b.Navigation("Location");
+
+                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -2879,6 +2902,8 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("LocationsDetail");
 
                     b.Navigation("RatingLocation");
+
+                    b.Navigation("Saved");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
@@ -2900,6 +2925,8 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("LocationsDetail");
 
                     b.Navigation("Report");
+
+                    b.Navigation("Saved");
 
                     b.Navigation("Share");
 

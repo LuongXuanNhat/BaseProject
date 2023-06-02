@@ -19,7 +19,7 @@ namespace BaseProject.WebApp.Controllers
             _ratingApiClient = ratingApiClient;
             _baseApiClient = baseApiClient;
         }
-        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 5)
+        public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
             var request = new GetUserPagingRequest()
             {

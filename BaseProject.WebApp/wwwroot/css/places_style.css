@@ -95,6 +95,10 @@ h1 {
     color: #7F7F7F ;
 }
 
+h2 .saved-color {
+    color: yellow ;
+}
+
 .limited-lines {
     max-height: 3em; /* Giới hạn chiều cao tối đa */
     overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
@@ -235,8 +239,18 @@ h1 {
 
 
 /*                                */
-
-
+.delete-item-save {
+    position: absolute;
+    border-radius: 3px;
+    background: white;
+    padding: 4px;
+    right: -37px;
+    top: 13px;
+    display: block;
+}
+.hidden-class{
+    display: none;
+}
 /*                                */
 
 

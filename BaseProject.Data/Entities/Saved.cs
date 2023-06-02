@@ -5,8 +5,8 @@ namespace BaseProject.Data.Entities
     public class Saved
     {
         public int Id { get; set; }
-        public int PostId { get; set; }
-        public int LocationId { get; set; }
+        public int? PostId { get; set; }
+        public int? LocationId { get; set; }
         public Guid UserId { get; set; }
 
         [DataType(DataType.Date)]
@@ -16,8 +16,9 @@ namespace BaseProject.Data.Entities
 
 
         // Relationship
-        public Post? Post { get; set; }
-        public Location? Location { get; set; }
+        //public Post? Post { get; set; }
+        //public Location? Location { get; set; }
+
         public AppUser User { get; set; }
     }
 }
