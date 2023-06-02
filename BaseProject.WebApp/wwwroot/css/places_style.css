@@ -95,6 +95,10 @@ h1 {
     color: #7F7F7F ;
 }
 
+.saved-color {
+    color: yellow ;
+}
+
 .limited-lines {
     max-height: 3em; /* Giới hạn chiều cao tối đa */
     overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */

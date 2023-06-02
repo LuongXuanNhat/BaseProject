@@ -13,7 +13,7 @@ using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
-namespace BaseProject.Application.Catalog.Categories
+namespace BaseProject.Application.Catalog.Rating
 {
     public class RatingService : IRatingService
     {

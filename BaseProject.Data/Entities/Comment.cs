@@ -9,6 +9,7 @@ namespace BaseProject.Data.Entities
         public Guid UserId { get; set; }
         public int PreCommentId { get; set; }
         public string Content { get; set; }
+        public int Like { get; set; }
         public DateTime Date { get; set; }
 
 
@@ -16,7 +17,6 @@ namespace BaseProject.Data.Entities
         public Post Post { get; set; }
         public AppUser User { get; set; }
         public Comment PreComment { get; set; }
-        public List<Liking> Liking { get; set; }
         public List<Report> Report { get; set; }
     }
 }

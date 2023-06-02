@@ -15,6 +15,7 @@ using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.System.Users;
 using BaseProject.Application.Catalog.Searchs;
+using BaseProject.Application.Catalog.Rating;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -27,7 +28,6 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
         private readonly ISearchService _searchService;
-        private readonly UserManager<AppUser> _userManager;
 
 
         public PostService(DataContext context, 
@@ -102,11 +102,11 @@ namespace BaseProject.Application.Catalog.Posts
             {
 
                 // Kiểm tra đã đánh giá trong vòng 1 tháng trước chưa
-                var USER = await _userManager.FindByNameAsync(request.UserId);
+                var UserId = await _userService.GetIdByUserName(request.UserId);
                 foreach (var item in request.PostDetail)
                 {
                     // Lấy danh sách bài viết của User đó 
-                    var list = await _context.Posts.Where(x=>x.UserId == USER.Id).OrderBy(x => x.PostId).ToListAsync();
+                    var list = await _context.Posts.Where(x=>x.UserId == UserId).OrderBy(x => x.PostId).ToListAsync();
                     if (list.Any())
                     for (var i = list.Count-1; i >= 0; i--)
                     {

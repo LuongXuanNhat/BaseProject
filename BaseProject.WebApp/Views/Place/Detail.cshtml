@@ -7,15 +7,22 @@
 <link href="~/css/places_style.css" rel="stylesheet" />
 
 
-
-@*<div>
-    <a asp-action="PlaceList" asp-route-provinceName="@ViewBag.ProvinceName"> Trở về </a>
-</div>*@
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
 <div class="container-fluid">
     @if (Model != null)
     {
-        <h2 style="display: flex; justify-content: space-between;">
-            @Model.Name <i class="fa-solid fa-bookmark fa-xs" style="color: #b3b4b7; margin: 20px 20px 0px 0px;"></i>
+        <h2 style="display: flex; justify-content: space-between;" title="Lưu địa điểm yêu thích" >
+            @Model.Name
+            <a save-places-id="@Model.LocationId" class="save-places-icon " style=" margin: 20px 20px 0px 0px;">
+                    <i class="fa-solid fa-bookmark fa-xl "></i>
+            </a>
         </h2>
         <div style="display:inline-flex; font-size: 16px;">
             <div>
@@ -113,6 +120,9 @@
 </div>
 
 <script>
+   // var token = '@Html.Raw(ViewBag.Token)';
+    var username = '@Html.Raw(ViewBag.UserName)';
+
     $(document).ready(function () {
         $('.like-link').click(function (event) {
             event.preventDefault();
@@ -126,6 +136,37 @@
             } else {
                 likeIcon.removeClass('gray-color').addClass('liked');
             }
+        }); 
+        $('.save-places-icon').click(function (event) {
+            event.preventDefault();
+            var idPlaces = $(this).attr('save-places-id');
+            var likeIconn = $(this).find('i');
+
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
+            if (likeIconn.hasClass('saved-color')) {
+                likeIconn.removeClass('saved-color').addClass('gray-color');
+                
+            } else {
+                $.ajax({
+                    url: '/Save/AddAddressToArchive',
+                    type: 'POST',
+                    headers: { 
+                            'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ idPlaces: idPlaces, username: username }),
+                    success: function (response) {
+                        alert('Thêm thành công');
+                        likeIconn.removeClass('gray-color').addClass('saved-color');
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi lưu địa điểm');
+                    }
+                });
+                
+            }
         });
     });
+
+
 </script>

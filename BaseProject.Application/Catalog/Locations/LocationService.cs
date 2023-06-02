@@ -12,7 +12,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BaseProject.Application.Catalog.Searchs;
 
-namespace BaseProject.Application.Catalog.Categories
+namespace BaseProject.Application.Catalog.Locations
 {
     public class LocationService : ILocationService
     {

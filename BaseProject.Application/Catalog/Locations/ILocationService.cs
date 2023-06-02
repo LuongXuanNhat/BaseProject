@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.Catalog.Categories
+namespace BaseProject.Application.Catalog.Locations
 {
     public interface ILocationService
     {
