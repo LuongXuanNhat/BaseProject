@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Http;
 
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Location;
+using Azure.Core;
 
 namespace BaseProject.ApiIntegration.Locations
 {
@@ -96,26 +97,25 @@ namespace BaseProject.ApiIntegration.Locations
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var response = await client.GetAsync($"/api/locations/pagingPlace?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&ProvinceName={request.ProvinceName}");
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}&UserName={request.UserName}");
 
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);
             return users;
         }
 
-
+        
         public async Task<ApiResult<bool>> RegisterOrUpdate(LocationCreateRequest request)
         {
             var client = _httpClientFactory.CreateClient();
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
 
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
-
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
 
             var requestContent = new MultipartFormDataContent();
-
+            
             if (request.GetImage != null)
             {
                 byte[] data;
@@ -128,11 +128,16 @@ namespace BaseProject.ApiIntegration.Locations
                     ByteArrayContent bytes = new ByteArrayContent(data);
                     requestContent.Add(bytes, "GetImage", request.GetImage[i].FileName);
                 }
-                requestContent.Add(new StringContent(request.Name.ToString()), "Name");
-                requestContent.Add(new StringContent(request.Address.ToString()), "Address");
-                requestContent.Add(new StringContent(string.IsNullOrEmpty(request.LocationId.ToString()) ? "" : request.LocationId.ToString()), "LocationId");
-
+               
             }
+            requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+            requestContent.Add(new StringContent(request.Address.ToString()), "Address");
+
+            string Description = request.Description?.ToString() ?? string.Empty;
+            requestContent.Add(new StringContent(Description), "Description");
+
+            requestContent.Add(new StringContent(string.IsNullOrEmpty(request.LocationId.ToString()) ? "" : request.LocationId.ToString()), "LocationId");
+
 
             var response = await client.PostAsync($"/api/locations/", requestContent);
 
@@ -156,6 +161,21 @@ namespace BaseProject.ApiIntegration.Locations
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<List<LocationVm>> TakeByQuantity(int quantity)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/locations/show/{quantity}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<List<LocationVm>>(body);
+            return users;
         }
     }
 }

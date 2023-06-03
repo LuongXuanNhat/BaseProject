@@ -1,4 +1,6 @@
-﻿using BaseProject.Data.EF;
+﻿using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.Common;
+using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -11,6 +13,7 @@ using Microsoft.IdentityModel.Tokens;
 using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
@@ -19,9 +22,12 @@ namespace BaseProject.Application.System.Users
 {
     public class UserService : IUserService
     {
+        private const string USER_CONTENT_FOLDER_NAME = "Images";
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
+        private readonly IStorageService _storageService;
+        private readonly IImageService _imageService;
         private readonly DataContext _dataContext;
         private readonly IConfiguration _config;
         private readonly IMemoryCache _cache;
@@ -29,14 +35,18 @@ namespace BaseProject.Application.System.Users
         public UserService(UserManager<AppUser> userManager,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
+            IStorageService storageService,
+            IImageService imageService,
             DataContext dataContext,
             IConfiguration config,
             IMemoryCache cache)
         {
-            _userManager = userManager;
+            _storageService = storageService;
             _signInManager = signInManager;
+            _userManager = userManager;
             _roleManager = roleManager;
             _dataContext = dataContext;
+            _imageService = imageService;
             _config = config;
             _cache = cache;
         }
@@ -89,6 +99,7 @@ namespace BaseProject.Application.System.Users
             return new ApiErrorResult<bool>("Xóa không thành công");
         }
 
+        // Lấy thông tin user name - Admin
         public async Task<ApiResult<UserVm>> GetById(Guid id)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
@@ -106,9 +117,44 @@ namespace BaseProject.Application.System.Users
                 DateOfBir = user.DateOfBir,
                 Gender = user.Gender,
                 UserName = user.UserName,
-                Roles = roles
+                Roles = roles,
+                Description = user.Description,
+                UserAddress = user.Address,
             };
             return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+        // Xem thông tin user name -PUBLIC
+        public async Task<ApiResult<UserVm>> GetByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            if (user == null)
+            {
+                return new ApiErrorResult<UserVm>("User không tồn tại");
+            }
+            var roles = await _userManager.GetRolesAsync(user);
+            var userVm = new UserVm()
+            {
+                Id = user.Id,
+                Image = user.Image,
+                Email = user.Email,
+                Name = user.Name,
+                DateOfBir = user.DateOfBir,
+                Gender = user.Gender,
+                UserName = user.UserName,
+                Roles = roles,
+                Description = user.Description,
+                UserAddress = user.Address
+            };
+            return new ApiSuccessResult<UserVm>(userVm);
+        }
+
+
+        // Lấy ID từ UserName
+        public async Task<Guid> GetIdByUserName(string username)
+        {
+            var user = await _userManager.FindByNameAsync(username);
+            return user.Id;
         }
 
         public async Task<ApiResult<string>> GetToken(string request)
@@ -278,11 +324,24 @@ namespace BaseProject.Application.System.Users
                 return new ApiErrorResult<bool>("Emai đã tồn tại");
             }
             var user = await _userManager.FindByIdAsync(id.ToString());
-            user.DateOfBir = request.DateOfBir;
+            if (request.DateOfBir != null)
+            {
+                user.DateOfBir = request.DateOfBir;
+            }
             user.Email = request.Email;
             user.Name = request.Name;
             user.Gender = request.Gender;
-            user.Image = request.Image;
+            user.Description = request.Description;
+            user.Address = request.UserAddress;
+
+            if (request.GetImage != null)
+            {
+                if (user.Image != null)
+                {
+                    RemoveImage(user.Image);
+                }
+                user.Image = await SaveFile(request.GetImage);
+            }
 
             var result = await _userManager.UpdateAsync(user);
             if (result.Succeeded)
@@ -291,5 +350,60 @@ namespace BaseProject.Application.System.Users
             }
             return new ApiErrorResult<bool>("Cập nhật không thành công");
         }
+
+
+        public async Task<bool> RemoveImage(string request)
+        {
+            await _storageService.DeleteFileAsync(request);
+            return true;
+        }
+        private async Task<string> SaveFile(IFormFile file)
+        {
+            var originalFileName = ContentDispositionHeaderValue.Parse(file.ContentDisposition).FileName.Trim('"');
+            var fileName = $"{Guid.NewGuid()}{Path.GetExtension(originalFileName)}";
+            await _storageService.SaveFileAsync(file.OpenReadStream(), fileName);
+            return "https://localhost:7204/" + USER_CONTENT_FOLDER_NAME + "/" + fileName;
+        }
+
+        public async Task<List<UserVm>> TakeByQuantity(int quantity)
+        {
+            var listUser = await _dataContext.Users.ToListAsync();
+            if (listUser.Count < quantity)
+            {
+                quantity = listUser.Count;
+            }
+
+            // Lấy ra top x người dùng có số bài viết nhiều nhất
+            var topUsers = _dataContext.Posts.GroupBy(p => p.UserId)
+                .Select(g => new { UserId = g.Key, PostCount = g.Count() })
+                .OrderByDescending(u => u.PostCount)
+                .Take(quantity);
+
+            List<UserVm> users = new List<UserVm>();
+            if (topUsers.Any())
+            {
+
+                foreach (var user in topUsers)
+                {
+                    var getUser = await _dataContext.Users.Where(x => x.Id == user.UserId).FirstOrDefaultAsync();
+                    UserVm userVm = new UserVm();
+                    userVm.Id = user.UserId;
+                    userVm.PostNumber = user.PostCount;
+                    userVm.UserName = getUser.UserName;
+                    userVm.Email = "not displayed!";
+                    userVm.Description = getUser.Description;
+                    userVm.Image = getUser.Image;
+                    users.Add(userVm);
+                }
+
+                return users;
+            }
+
+            return users;
+
+        }
+
+
+
     }
 }

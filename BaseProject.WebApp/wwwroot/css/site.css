@@ -1,4 +1,4 @@
-html {
+﻿html {
   font-size: 14px;
 }
 
@@ -97,3 +97,66 @@ body {
 .star.active {
     color: yellow;
 }
+
+
+
+/* CSS FOR USER ACCOUNT */
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    background: #fbc2eb;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1));
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, rgba(251, 194, 235, 1), rgba(166, 193, 238, 1))
+}
+h6::before {
+    content: "\2022"; /* Sử dụng mã Unicode của dấu chấm tròn */
+    margin-right: 8px; /* Khoảng cách giữa dấu chấm và nội dung */
+    color: #000; /* Màu sắc của dấu chấm */
+}
+.limited-lines {
+    max-height: 6.4em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+}
+.limited-lines-2 {
+    min-height: 6.4em;
+    max-height: 6.4em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 4; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+}
+.ThuNhoDienTich {
+    width: 20%;
+}
+@media (max-width: 776px) {
+    .Compatible {
+        display: block;
+        font-size: 14px;
+        margin-top: 60px;
+    }
+    .ThuNhoDienTich{
+        width: 0px;
+    }
+}
+
+
+
+/*      KHÔNG GIAN KHÁC         */
+
+/*Login*/
+.addImageLogin {
+    background-image: url("/images/ngo-ngang-voi-ve-dep-pho-co-hoi-an-nhin-tu-tren-cao-11-16195044601901189703392.jpg");
+    background-size: 100vw;
+    background-position: center;
+}
+.image-container {
+    width: 100%;
+    height: 200px;
+    display: flex;
+    object-fit: cover;
+}
+

@@ -3,6 +3,7 @@ using BaseProject.Data.Entities;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.Extensions.Options;
 
 namespace BaseProject.Data.EF
@@ -31,9 +32,9 @@ namespace BaseProject.Data.EF
             modelBuilder.ApplyConfiguration(new UserConfiguration());
             modelBuilder.ApplyConfiguration(new PostConfiguration());
 
-
             modelBuilder.ApplyConfiguration(new CategoryConfiguration());
             modelBuilder.ApplyConfiguration(new CategoriesDetailConfiguration());
+            modelBuilder.ApplyConfiguration(new CategoriesLocationConfiguration());
 
             modelBuilder.ApplyConfiguration(new LocationConfiguration());
             modelBuilder.ApplyConfiguration(new LocationsDetailConfiguration());
@@ -41,8 +42,9 @@ namespace BaseProject.Data.EF
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
             modelBuilder.ApplyConfiguration(new NoticeDetailConfiguration());
 
-            modelBuilder.ApplyConfiguration(new RatingConfiguration());
-            modelBuilder.ApplyConfiguration(new LikingConfiguration());
+        //    modelBuilder.ApplyConfiguration(new RatingConfiguration());
+        //    modelBuilder.ApplyConfiguration(new LikingConfiguration());
+
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new ReportConfiguration());
             modelBuilder.ApplyConfiguration(new ShareConfiguration());
@@ -64,15 +66,20 @@ namespace BaseProject.Data.EF
 
             base.OnModelCreating(modelBuilder);
             new SeedData(modelBuilder).Seed();
+
+
         }
 
         public DbSet<Category> Categories { set; get; }
         public DbSet<CategoriesDetail> CategoriesDetails { set; get; }
+        public DbSet<CategoriesLocation> CategoriesLocations { set; get; }
         public DbSet<Location> Locations { set; get; }
         public DbSet<LocationsDetail> LocationsDetails { set; get; }
         public DbSet<Post> Posts { set; get; }
-        public DbSet<Rating> Ratings { set; get; }
-        public DbSet<Liking> Likings { set; get; }
+
+        //public DbSet<Rating> Ratings { set; get; }
+        //public DbSet<Liking> Likings { set; get; }
+
         public DbSet<Comment> Comments { set; get; }
         public DbSet<Report> Reports { set; get; }
         public DbSet<Saved> Saveds { set; get; }

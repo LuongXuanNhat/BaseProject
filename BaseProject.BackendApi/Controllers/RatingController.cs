@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Posts;
+using BaseProject.Application.Catalog.Rating;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;

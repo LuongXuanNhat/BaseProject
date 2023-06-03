@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Common;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,19 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
+        
+        Task<List<UserVm>> TakeByQuantity(int quantity);
+
+
+        Task<ApiResult<UserVm>> GetByUserName(string username);
+
+        Task<Guid> GetIdByUserName(string username);
 
         Task<ApiResult<bool>> Delete(Guid id);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
+
+
+
     }
 }

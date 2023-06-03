@@ -13,7 +13,8 @@ namespace BaseProject.ViewModels.Catalog.Location
         public int LocationId { get; set; }
         public string Name { get; set; }
         public string Address { get; set; }
+        public string? Description { get; set; }
         public List<string>? ImageList { get; set; }
-        public List<IFormFile> GetImage { get; set; }
+        public List<IFormFile>? GetImage { get; set; }
     }
 }

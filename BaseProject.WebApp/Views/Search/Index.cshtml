@@ -1,0 +1,137 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Search.SearchVm>
+@{
+    ViewData["Title"] = "Lịch sử tìm kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    setTimeout(function () {
+        $('#msgAlert').fadeOut('slow');
+    }, 2000);
+</script>
+
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="post-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="post-modal-label">Xóa lịch sử tìm kiếm</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p >Bạn có chắc chắn muốn xóa tất cả lịch sử tìm kiếm không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancel()">Hủy</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-12">
+    
+    <div class="card-body" style="min-height: 500px">
+        <table class="table">
+            <thead>
+                <tr class="no-margin">
+                    <th>
+                        Ngày
+                    </th>
+                    <th>
+                        Nội dung
+                    </th>
+                    <th style="width: 16px;">
+                        @if (Model.Items.Count != 0)
+                        {
+                            <div style="display: inline">
+                                <button class="btn btn-danger" onclick="showDeleteModal()" title="Xóa tất cả lịch sử tìm kiếm"> <i class="fa-solid fa-trash-can"></i> </button>
+                            </div>
+                        } else
+                        {
+                            <i class="fa-solid fa-circle-check fa-xl" style="color: #31c408;"></i>
+                        }
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null)
+                {
+                    foreach (var item in Model.Items)
+                    {
+                        <tr class="no-margin">
+
+                            <td>
+                                @Html.DisplayFor(modelItem => item.Date)
+                            </td>
+                            <td>
+                                @foreach (var utem in item.Content)
+                                {
+                                    <span>
+                                        @Html.DisplayFor(modelItem => utem)
+                                    </span>
+                                    <br />
+                                }
+                            </td>
+                            
+                            
+                        </tr>
+                    }
+                }
+                
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+<script>
+    var token = '@Html.Raw(ViewBag.Token)';
+    var name = '@ViewBag.Name';
+
+
+    function showDeleteModal() {
+        $('#deleteModal').modal('show');
+        $('#deleteButton').attr('data-id');
+
+    }
+
+
+    $('#deleteButton').click(function () {
+        var id = $(this).attr('data-id');
+
+        $.ajax({
+            url: 'https://localhost:7204/api/searchs/' + name,
+            type: 'DELETE',
+            headers: { Authorization: 'Bearer ' + token },
+            success: function (data) {
+                $('#deleteModal').modal('hide');
+                alert('Xóa thành công');
+                loadPosts();
+
+            },
+            error: function () {
+                alert('Có lỗi xảy ra khi xóa');
+            }
+        });
+    });
+    var LoadPage = window.location;
+    function loadPosts() {
+        LoadPage.reload(true);
+    }
+
+    function cancel() {
+        $('#deleteModal').modal('hide');
+    }
+
+</script>
+

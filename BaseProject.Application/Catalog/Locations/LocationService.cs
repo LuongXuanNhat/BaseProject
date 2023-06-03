@@ -1,61 +1,57 @@
 ﻿using Azure.Core;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Common;
+using BaseProject.Application.System.Users;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
-using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using BaseProject.Application.Catalog.Searchs;
 
-namespace BaseProject.Application.Catalog.Categories
+namespace BaseProject.Application.Catalog.Locations
 {
     public class LocationService : ILocationService
     {
 
         private readonly DataContext _context;
         private readonly IImageService _imageService;
+        private readonly ISearchService _searchService;
+        private readonly IUserService _userService;
         private const string USER_CONTENT_FOLDER_NAME = "Images";
 
-        public LocationService(DataContext context, IImageService imageService)
+        public LocationService(DataContext context, IImageService imageService, ISearchService searchService, IUserService userService )
         {
             _context = context;
             _imageService = imageService;
+            _searchService = searchService;
+            _userService = userService;
         }
 
         public async Task<ApiResult<bool>> CreateOrUpdate(LocationCreateRequest request)
         {
-            Location location = await _context.Locations.FirstOrDefaultAsync(x => x.Address == request.Address);
+            Location location = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == request.LocationId);
 
             if (location != null)
             {
                 if (request.LocationId != 0)
                 {
-                    if (request.Name == location.Name && request.Address == location.Address )
-                    {
+                    location.Name = request.Name;
+                    location.Address = request.Address;
+                    location.Description = request.Description;
 
-                    } else
-                    {
-                    var place = new Location()
-                    {
-                        LocationId = request.LocationId,
-                        Name = request.Name,
-                        Address = request.Address
-
-                    };
-                    _context.Locations.Update(place);
-                    }     
+                    _context.Locations.Update(location);   
                     if (request.GetImage != null && request.GetImage.Count != 0)
                     {
                         var saveImagePlace = await _imageService.UpdateImage(request.GetImage, location);
-                    if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
-                    {
-                        _context.SaveChanges();
-                        return new ApiSuccessResult<bool>();
-                    }
+                        if (saveImagePlace != null && saveImagePlace.IsSuccessed == true)
+                        {
+                            await _context.SaveChangesAsync();
+                            return new ApiSuccessResult<bool>();
+                        }
                     }                   
                     return new ApiSuccessResult<bool>();
                 } 
@@ -73,22 +69,22 @@ namespace BaseProject.Application.Catalog.Categories
                 
                 _context.Locations.Add(Location);
                 _context.SaveChanges();
-                _context.Locations.Add(Location);
 
 
                 // Lưu ảnh
-                Location findID = await _context.Locations.FirstOrDefaultAsync(x => x.Address == request.Address);
-                var saveImage = await _imageService.SaveImage(request.GetImage, findID);
-
-                if (saveImage != null && saveImage.IsSuccessed == true)
+                if (request.GetImage != null)
                 {
-                    return new ApiSuccessResult<bool>();
+                    Location findID = await _context.Locations.FirstOrDefaultAsync(x => x.Address.Equals(location.Address));
+                    var saveImage = await _imageService.SaveImage(request.GetImage, findID);
+                    if (saveImage != null && saveImage.IsSuccessed == true)
+                    {
+                        return new ApiSuccessResult<bool>();
+                    }
+                     else   return new ApiErrorResult<bool>("Lỗi lưu ảnh");
                 }
-                return new ApiErrorResult<bool>("Lỗi lưu ảnh");
+   
             }
-
-
-            return new ApiErrorResult<bool>();
+            return new ApiSuccessResult<bool>();
         }
 
         public async Task<ApiResult<bool>> Update(int id, LocationCreateRequest request)
@@ -98,7 +94,8 @@ namespace BaseProject.Application.Catalog.Categories
                 return new ApiErrorResult<bool>("Lỗi cập nhập");
             }
 
-         //   _context.Locations.Update(request);
+           // Không sử dụng update này
+           // _context.Locations.Update(request);
             _context.SaveChanges();
             return new ApiSuccessResult<bool>();
         }
@@ -112,7 +109,7 @@ namespace BaseProject.Application.Catalog.Categories
             var location = await _context.Locations.FirstOrDefaultAsync(x => x.LocationId == locationId);
 
             _context.Locations.Remove(location);
-            _context.SaveChanges();
+            await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>();
         }
 
@@ -146,17 +143,93 @@ namespace BaseProject.Application.Catalog.Categories
             };
             return new ApiSuccessResult<PagedResult<LocationCreateRequest>>(pagedResult);
         }
-        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByProvince(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request)
         {
+            
+            // get all địa điểm
+            List<string> keys = new List<string>();
             var query = await _context.Locations.ToListAsync();
-            if (!string.IsNullOrEmpty(request.Keyword))
+
+            if (request.number == 1)
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString()) && x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                    if (request.UserName != null)
+                    {
+                        keys.Add(request.Keyword);
+                        keys.Add("Tìm kiếm địa điểm trong tỉnh "+ request.Keyword2);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
+                }
+                else
+                {
+                    query = query.Where(x => x.Address.Contains(request.Keyword2.ToString())).ToList();
+                    
+                    if (request.UserName != null)
+                    {
+                        keys.Add(request.Keyword2);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
+                }
+
             }
-            else
+            // 2: Category Location
+            else if (request.number == 2)
             {
-                query = query.Where(x => x.Address.Contains(request.ProvinceName.ToString())).ToList();
+                var cateId = await _context.Categories.FirstOrDefaultAsync(x=>x.Name.Equals(request.Keyword2));
+                if (!string.IsNullOrEmpty(request.Keyword) && cateId != null)
+                {
+                    // Lấy danh sách địa điểm 
+                    var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
+                    query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
+                    query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+                    if (request.UserName != null)
+                    {
+                        keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
+                        keys.Add(request.Keyword);
+                        Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, keys);
+                    }
+                        
+                }
+                else
+                {
+                    if (cateId != null)
+                    {
+                        // Lấy danh sách địa điểm nằm trong cate đó
+                        var cate_list = await _context.CategoriesLocations.Where(x => x.CategoriesId == cateId.CategoriesId).ToListAsync();
+                        query = query.Where(x => cate_list.Any(p => p.LocationId == x.LocationId)).ToList();
+
+                        if (request.UserName != null)
+                        {
+                            keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
+                            Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                             await _searchService.Add(UserID, keys);
+                        }
+                            
+                    }
+                    else
+                    {
+                        if (!string.IsNullOrEmpty(request.Keyword))
+                        {
+                            query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
+
+                            if (request.UserName != null)
+                            {
+                                keys.Add(request.Keyword);
+                                Guid UserID = await _userService.GetIdByUserName(request.UserName);
+                                await _searchService.Add(UserID, keys);
+                            }
+                                
+                        }
+                    }
+                }
             }
+            
             //3. Paging
             int totalRow =  query.Count();
 
@@ -179,7 +252,7 @@ namespace BaseProject.Application.Catalog.Categories
             {
                 TotalRecords = totalRow,
                 PageIndex = request.PageIndex,
-                PageSize = request.PageSize,
+                PageSize = request.PageSize, 
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<LocationVm>>(pagedResult);
@@ -329,6 +402,38 @@ namespace BaseProject.Application.Catalog.Categories
             };
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
+        }
+
+        public async Task<List<LocationVm>> TakeByQuantity(int quantity)
+        {
+            var location = await _context.Locations.ToListAsync();
+            List<Location> locationVms = new List<Location>();
+            Random random = new Random();
+
+            while (locationVms.Count < 6)
+            {
+                int index = random.Next(0, location.Count);
+                Location randomLocation = location[index];
+
+                if (!locationVms.Contains(randomLocation))
+                {
+                    locationVms.Add(randomLocation);
+                }
+            }
+
+
+            List<LocationVm> getList = new List<LocationVm>();
+            foreach (var item in locationVms)
+            {
+                LocationVm location1 = new LocationVm();
+                location1.LocationId = item.LocationId;
+                location1.Address = item.Address;
+                location1.Name = item.Name;
+                location1.ImageList = await _imageService.GetById(item.LocationId);
+
+                getList.Add(location1);
+            }
+            return getList;
         }
     }
 }

@@ -1,0 +1,178 @@
+﻿@model BaseProject.ViewModels.System.Users.UserVm
+
+@{
+    ViewData["Title"] = "Thông Tin Tài Khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            @if (Model.Image != null)
+                            {
+                                <img src="@Model.Image"
+                                     alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                     style="width: 150px; z-index: 1">
+                            } else {
+                            <img src="~/images/AVATAR.png"
+                                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                 style="width: 150px; z-index: 1">
+                            }
+                            @if (String.Equals(ViewBag.UserName, Model.UserName))
+                            {
+                                <a href="@Url.Action("Edit", new { id = Model.Id })" type="button" class="btn btn-danger" data-mdb-ripple-color="dark"
+                                        style="z-index: 1;">
+                                    Chỉnh sửa
+                                </a>
+                            }
+                            else
+                            {
+                                
+                            }
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h5>@if (Model.Name != null)
+                                {
+                                    @Model.Name;
+                                } else {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+                                
+                            
+                            </h5>
+                            <p style="padding-bottom: 8px;" title="Tên tài khoản">@Model.UserName</p>
+                        </div>
+                        <div class="ThuNhoDienTich">
+
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            @if (!String.Equals(ViewBag.UserName, Model.UserName))
+                            {
+                                <button class="btn text-white btn-primary btn-rounded" type="button">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                    Theo dõi
+                                </button>
+                            } else {
+
+                            }                              
+                        </div>
+                    </div>
+
+                    
+                    <div class="p-3 text-black" style="background-color: #f8f9fa;">
+                        <div class="Compatible d-flex justify-content-end text-center py-1">
+                            <a class="text-black text-decoration-none" title="Xem danh sách bài viết" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">253</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 0px;">Bài viết</p>
+                            </a>
+                            <a class="px-3 text-black text-decoration-none" style="" title="Xem danh sách người theo dõi" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">1026</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 12px;">Người theo dõi</p>
+                            </a>
+                            <a class="text-black text-decoration-none" title="Xem danh sách người đang theo dõi" asp-action="Index" asp-controller="Posts">
+                                <p class="mb-1 h6" style="margin-top: 0px;">478</p>
+                                <p class="small text-muted mb-0" style="margin: 0px 0px;">Đang theo dõi</p>
+                            </a>
+                        </div>
+                    </div>
+                    @*      Xuất thông báo      *@
+                    <div class="row" style="margin: 0 20px;">
+                        @if (ViewBag.SuccessMsg != null)
+                        {
+                            <div id="msgAlert" class="alert alert-success" role="alert">
+                                @ViewBag.SuccessMsg
+                            </div>
+                        }
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1" style="margin-top: 0px;">Thông tin</p>
+                            <div class="p-4" style="background-color: #f8f9fa;min-height: 50px;">
+                                <h6>Giới thiệu</h6>
+                                @if (Model.Description != null)
+                                {
+                                    <span class="limited-lines">@Model.Description</span>
+                                } else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+                                <h6 style="padding-top: 12px;">Giới tính</h6>
+                                @if (Model.Gender != null)
+                                {
+                                    <span>@Model.Gender</span>
+                                }
+                                else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+                                <h6 style="padding-top: 12px;">Ngày sinh</h6>
+                                @if (Model.DateOfBir != null)
+                                {
+                                    <span>@Model.DateOfBir</span>
+                                }
+                                else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+                                <h6 style="padding-top: 12px;">Email</h6>
+                                <span>@Model.Email</span>
+                                <h6 style="padding-top: 12px;">Địa chỉ</h6>
+                                @if (Model.UserAddress != null)
+                                {
+                                    <span>@Model.UserAddress</span>
+                                }
+                                else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Recent photos</p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                            <div class="col mb-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                            <div class="col">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>*@

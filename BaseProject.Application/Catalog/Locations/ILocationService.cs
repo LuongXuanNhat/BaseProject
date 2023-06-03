@@ -9,7 +9,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.Application.Catalog.Categories
+namespace BaseProject.Application.Catalog.Locations
 {
     public interface ILocationService
     {
@@ -20,9 +20,10 @@ namespace BaseProject.Application.Catalog.Categories
         Task<ApiResult<bool>> Delete(int categoryId);
 
         Task<ApiResult<PagedResult<LocationCreateRequest>>> GetLocationPaging(GetUserPagingRequest request);
-        Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByProvince(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<LocationVm>>> GetLocationPagingByKeys(GetUserPagingRequest request);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int locationId);
+        Task<List<LocationVm>> TakeByQuantity(int quantity);
         Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId);
         
 

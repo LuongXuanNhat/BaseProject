@@ -1,4 +1,5 @@
 ﻿using BaseProject.BackendApi.Utilities.Constants;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -86,6 +87,7 @@ namespace BaseProject.ApiIntegration
             return false;
         }
 
+        [Authorize]
         public string GetToken()
         {
             return _httpContextAccessor.HttpContext.Session.GetString("Token");

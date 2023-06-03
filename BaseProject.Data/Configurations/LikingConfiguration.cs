@@ -14,10 +14,7 @@ namespace BaseProject.Data.Configurations
 
 
 
-            // Relationship
-            builder.HasOne(x => x.User).WithMany(x => x.Liking).HasForeignKey(x => x.UserId);
-            builder.HasOne(x => x.Post).WithMany(x => x.Liking).HasForeignKey(x => x.PostId);
-            builder.HasOne(x => x.Comment).WithMany(x => x.Liking).HasForeignKey(x => x.CommentId);
+
         }
 
     }

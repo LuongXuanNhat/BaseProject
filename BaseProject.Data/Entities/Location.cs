@@ -27,9 +27,10 @@ namespace BaseProject.Data.Entities
 
         // relationship
         public List<LocationsDetail>? LocationsDetail{ get; set; }
-        public List<Saved>? Saved{ get; set; }
+     //   public List<Saved>? Saved{ get; set; }
         public List<RatingLocation>? RatingLocation { get; set; }
         public List<Image>? Image { get; set; }
+        public List<CategoriesLocation>? CategoriesLocation { get; set; }
 
         [Required]
         [NotMapped]

@@ -69,7 +69,8 @@ namespace BaseProject.BackendApi.Controllers
 
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
-        public async Task<IActionResult> UpdateUser(Guid id, [FromBody] UserUpdateRequest request)
+        [Consumes("multipart/form-data")]
+        public async Task<IActionResult> UpdateUser(Guid id, [FromForm] UserUpdateRequest request)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -110,6 +111,23 @@ namespace BaseProject.BackendApi.Controllers
             var user = await _userService.GetById(id);
             return Ok(user);
         }
+
+        [AllowAnonymous]
+        [HttpGet("setting/{username}")]
+        public async Task<IActionResult> GetByUserName(string username)
+        {
+            var user = await _userService.GetByUserName(username);
+            return Ok(user);
+        }
+
+        [AllowAnonymous]
+        [HttpGet("show/{quantity}")]
+        public async Task<IActionResult> TakeByQuantity(int quantity)
+        {
+            var user = await _userService.TakeByQuantity(quantity);
+            return Ok(user);
+        }
+
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(Guid id)

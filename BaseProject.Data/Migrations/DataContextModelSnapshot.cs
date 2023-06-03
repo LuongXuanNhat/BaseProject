@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "6b9f11fb-9f9e-4854-854a-91fb2bf2a722",
+                            ConcurrencyStamp = "b301b6ca-1568-410a-a07b-5ec20995b6d6",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +97,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "21cdc038-b63b-4351-bc74-40786e5241ab",
+                            ConcurrencyStamp = "625b6b6b-1383-4bf2-b3c4-b07bb8bd8083",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -198,7 +198,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "419eb390-d780-4e06-8657-8f09e4b5c9a2",
+                            ConcurrencyStamp = "e5b8ac07-7299-4fa5-b335-2ecce23b7fa3",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -208,7 +208,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEOTqBC3Z46wNSTU9SZgjT6oK14oBFWLY/5Efmt14xX9RyoPEDF3Ue9Z5FGILRuKGpQ==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHL0JW4sViEMy864NhPrWkJDWDQ2hVOJiYca9gY0O8Ckcnl0NNJVpIbtGNhsPsYvkA==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -241,6 +241,801 @@ namespace BaseProject.Data.Migrations
                     b.HasIndex("PostId");
 
                     b.ToTable("CategoriesDetails", (string)null);
+                });
+
+            modelBuilder.Entity("BaseProject.Data.Entities.CategoriesLocation", b =>
+                {
+                    b.Property<int>("CategoriesId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(250)
+                        .HasColumnType("nvarchar(250)");
+
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("CategoriesId", "LocationId");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("CategoriesLocations", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            CategoriesId = 18,
+                            LocationId = 24,
+                            Id = 1
+                        },
+                        new
+                        {
+                            CategoriesId = 15,
+                            LocationId = 24,
+                            Id = 2
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 100,
+                            Id = 3
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 100,
+                            Id = 4
+                        },
+                        new
+                        {
+                            CategoriesId = 8,
+                            LocationId = 101,
+                            Id = 5
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 102,
+                            Id = 6
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 102,
+                            Id = 7
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 103,
+                            Id = 8
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 103,
+                            Id = 9
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 103,
+                            Id = 10
+                        },
+                        new
+                        {
+                            CategoriesId = 5,
+                            LocationId = 103,
+                            Id = 11
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 103,
+                            Id = 12
+                        },
+                        new
+                        {
+                            CategoriesId = 18,
+                            LocationId = 104,
+                            Id = 13
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 104,
+                            Id = 14
+                        },
+                        new
+                        {
+                            CategoriesId = 14,
+                            LocationId = 104,
+                            Id = 15
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 105,
+                            Id = 15
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 107,
+                            Id = 16
+                        },
+                        new
+                        {
+                            CategoriesId = 11,
+                            LocationId = 108,
+                            Id = 17
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 109,
+                            Id = 18
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 109,
+                            Id = 19
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 109,
+                            Id = 20
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 110,
+                            Id = 21
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            LocationId = 110,
+                            Id = 22
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 111,
+                            Id = 23
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 111,
+                            Id = 24
+                        },
+                        new
+                        {
+                            CategoriesId = 8,
+                            LocationId = 112,
+                            Id = 25
+                        },
+                        new
+                        {
+                            CategoriesId = 11,
+                            LocationId = 114,
+                            Id = 26
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 115,
+                            Id = 27
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 116,
+                            Id = 28
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 116,
+                            Id = 29
+                        },
+                        new
+                        {
+                            CategoriesId = 17,
+                            LocationId = 117,
+                            Id = 30
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 118,
+                            Id = 31
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 118,
+                            Id = 32
+                        },
+                        new
+                        {
+                            CategoriesId = 16,
+                            LocationId = 118,
+                            Id = 33
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 119,
+                            Id = 34
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 120,
+                            Id = 35
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 120,
+                            Id = 36
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            LocationId = 120,
+                            Id = 37
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 121,
+                            Id = 38
+                        },
+                        new
+                        {
+                            CategoriesId = 12,
+                            LocationId = 122,
+                            Id = 39
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 123,
+                            Id = 40
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 123,
+                            Id = 41
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 124,
+                            Id = 42
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 125,
+                            Id = 43
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 125,
+                            Id = 44
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 126,
+                            Id = 45
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 126,
+                            Id = 46
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 126,
+                            Id = 47
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 127,
+                            Id = 48
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 128,
+                            Id = 49
+                        },
+                        new
+                        {
+                            CategoriesId = 8,
+                            LocationId = 128,
+                            Id = 50
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 129,
+                            Id = 51
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 129,
+                            Id = 52
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            LocationId = 129,
+                            Id = 53
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 130,
+                            Id = 54
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 130,
+                            Id = 55
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 131,
+                            Id = 56
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 131,
+                            Id = 57
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 132,
+                            Id = 58
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 132,
+                            Id = 59
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 132,
+                            Id = 60
+                        },
+                        new
+                        {
+                            CategoriesId = 12,
+                            LocationId = 132,
+                            Id = 61
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 132,
+                            Id = 62
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 133,
+                            Id = 63
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 133,
+                            Id = 64
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 133,
+                            Id = 65
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 133,
+                            Id = 66
+                        },
+                        new
+                        {
+                            CategoriesId = 12,
+                            LocationId = 133,
+                            Id = 67
+                        },
+                        new
+                        {
+                            CategoriesId = 11,
+                            LocationId = 134,
+                            Id = 68
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 135,
+                            Id = 69
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 135,
+                            Id = 70
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 136,
+                            Id = 71
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 136,
+                            Id = 72
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            LocationId = 136,
+                            Id = 73
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 136,
+                            Id = 74
+                        },
+                        new
+                        {
+                            CategoriesId = 8,
+                            LocationId = 137,
+                            Id = 75
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 137,
+                            Id = 76
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 138,
+                            Id = 77
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 138,
+                            Id = 78
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 140,
+                            Id = 79
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 141,
+                            Id = 80
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 141,
+                            Id = 81
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 142,
+                            Id = 82
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 142,
+                            Id = 83
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 142,
+                            Id = 84
+                        },
+                        new
+                        {
+                            CategoriesId = 4,
+                            LocationId = 142,
+                            Id = 85
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 142,
+                            Id = 86
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 143,
+                            Id = 87
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 143,
+                            Id = 88
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 144,
+                            Id = 89
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 144,
+                            Id = 90
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 146,
+                            Id = 91
+                        },
+                        new
+                        {
+                            CategoriesId = 10,
+                            LocationId = 147,
+                            Id = 92
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 147,
+                            Id = 93
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 147,
+                            Id = 94
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 148,
+                            Id = 95
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 148,
+                            Id = 96
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 148,
+                            Id = 97
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 149,
+                            Id = 98
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 149,
+                            Id = 99
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 149,
+                            Id = 100
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 142,
+                            Id = 101
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 136,
+                            Id = 102
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 132,
+                            Id = 103
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 120,
+                            Id = 104
+                        },
+                        new
+                        {
+                            CategoriesId = 9,
+                            LocationId = 118,
+                            Id = 105
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 150,
+                            Id = 106
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 151,
+                            Id = 107
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 151,
+                            Id = 108
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 152,
+                            Id = 109
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 152,
+                            Id = 110
+                        },
+                        new
+                        {
+                            CategoriesId = 19,
+                            LocationId = 152,
+                            Id = 111
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 153,
+                            Id = 112
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 153,
+                            Id = 113
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 153,
+                            Id = 114
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 151,
+                            Id = 115
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 154,
+                            Id = 116
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 154,
+                            Id = 117
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 155,
+                            Id = 118
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 155,
+                            Id = 119
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 156,
+                            Id = 120
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 156,
+                            Id = 121
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 157,
+                            Id = 122
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 157,
+                            Id = 123
+                        },
+                        new
+                        {
+                            CategoriesId = 1,
+                            LocationId = 158,
+                            Id = 124
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 158,
+                            Id = 125
+                        },
+                        new
+                        {
+                            CategoriesId = 2,
+                            LocationId = 168,
+                            Id = 126
+                        },
+                        new
+                        {
+                            CategoriesId = 3,
+                            LocationId = 168,
+                            Id = 127
+                        });
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Category", b =>
@@ -378,6 +1173,9 @@ namespace BaseProject.Data.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<int>("PostId")
                         .HasColumnType("int");
@@ -855,37 +1653,6 @@ namespace BaseProject.Data.Migrations
                             LocationId = 167,
                             Path = "https://drive.google.com/uc?export=view&id=12XYgeFHpABQSfHZ5sd7uN2ERHU066H_l"
                         });
-                });
-
-            modelBuilder.Entity("BaseProject.Data.Entities.Liking", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<int>("CommentId")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("CommentId");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Likings", (string)null);
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Location", b =>
@@ -1406,6 +2173,20 @@ namespace BaseProject.Data.Migrations
                     b.HasKey("NotificationId");
 
                     b.ToTable("Notifications", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            NotificationId = 1,
+                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6001),
+                            Title = "Thông báo hệ thống"
+                        },
+                        new
+                        {
+                            NotificationId = 2,
+                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6014),
+                            Title = "Tương tác"
+                        });
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Post", b =>
@@ -1415,6 +2196,9 @@ namespace BaseProject.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+
+                    b.Property<int>("Like")
+                        .HasColumnType("int");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -1439,35 +2223,6 @@ namespace BaseProject.Data.Migrations
                     b.ToTable("Posts", (string)null);
                 });
 
-            modelBuilder.Entity("BaseProject.Data.Entities.Rating", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("Date")
-                        .HasColumnType("datetime2");
-
-                    b.Property<int>("PostId")
-                        .HasColumnType("int");
-
-                    b.Property<int>("Stars")
-                        .HasColumnType("int");
-
-                    b.Property<Guid>("UserId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PostId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("RatingPost", (string)null);
-                });
-
             modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
                 {
                     b.Property<int>("Id")
@@ -1479,7 +2234,7 @@ namespace BaseProject.Data.Migrations
                     b.Property<int>("Check")
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("Date")
+                    b.Property<DateTime?>("Date")
                         .HasColumnType("datetime2");
 
                     b.Property<int>("LocationDetailId")
@@ -1555,20 +2310,16 @@ namespace BaseProject.Data.Migrations
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("LocationId")
+                    b.Property<int?>("LocationId")
                         .HasColumnType("int");
 
-                    b.Property<int>("PostId")
+                    b.Property<int?>("PostId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("LocationId");
-
-                    b.HasIndex("PostId");
 
                     b.HasIndex("UserId");
 
@@ -1788,6 +2539,25 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("Post");
                 });
 
+            modelBuilder.Entity("BaseProject.Data.Entities.CategoriesLocation", b =>
+                {
+                    b.HasOne("BaseProject.Data.Entities.Category", "Category")
+                        .WithMany("CategoriesLocation")
+                        .HasForeignKey("CategoriesId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
+                        .WithMany("CategoriesLocation")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Category");
+
+                    b.Navigation("Location");
+                });
+
             modelBuilder.Entity("BaseProject.Data.Entities.Comment", b =>
                 {
                     b.HasOne("BaseProject.Data.Entities.Post", "Post")
@@ -1853,33 +2623,6 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("LocationsDetail");
                 });
 
-            modelBuilder.Entity("BaseProject.Data.Entities.Liking", b =>
-                {
-                    b.HasOne("BaseProject.Data.Entities.Comment", "Comment")
-                        .WithMany("Liking")
-                        .HasForeignKey("CommentId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
-                        .WithMany("Liking")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
-                        .WithMany("Liking")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Comment");
-
-                    b.Navigation("Post");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
                 {
                     b.HasOne("BaseProject.Data.Entities.AppUser", null)
@@ -1929,25 +2672,6 @@ namespace BaseProject.Data.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("User");
-                });
-
-            modelBuilder.Entity("BaseProject.Data.Entities.Rating", b =>
-                {
-                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
-                        .WithMany("Rating")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BaseProject.Data.Entities.AppUser", "User")
-                        .WithMany("Rating")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -2008,27 +2732,11 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.Saved", b =>
                 {
-                    b.HasOne("BaseProject.Data.Entities.Location", "Location")
-                        .WithMany("Saved")
-                        .HasForeignKey("LocationId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("BaseProject.Data.Entities.Post", "Post")
-                        .WithMany("Saved")
-                        .HasForeignKey("PostId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Saved")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-
-                    b.Navigation("Location");
-
-                    b.Navigation("Post");
 
                     b.Navigation("User");
                 });
@@ -2135,13 +2843,9 @@ namespace BaseProject.Data.Migrations
 
                     b.Navigation("Follower");
 
-                    b.Navigation("Liking");
-
                     b.Navigation("LocationsDetail");
 
                     b.Navigation("NoticeDetail");
-
-                    b.Navigation("Rating");
 
                     b.Navigation("RatingLocation");
 
@@ -2157,24 +2861,24 @@ namespace BaseProject.Data.Migrations
             modelBuilder.Entity("BaseProject.Data.Entities.Category", b =>
                 {
                     b.Navigation("CategoriesDetail");
+
+                    b.Navigation("CategoriesLocation");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Comment", b =>
                 {
-                    b.Navigation("Liking");
-
                     b.Navigation("Report");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.Location", b =>
                 {
+                    b.Navigation("CategoriesLocation");
+
                     b.Navigation("Image");
 
                     b.Navigation("LocationsDetail");
 
                     b.Navigation("RatingLocation");
-
-                    b.Navigation("Saved");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.LocationsDetail", b =>
@@ -2193,15 +2897,9 @@ namespace BaseProject.Data.Migrations
 
                     b.Navigation("Comment");
 
-                    b.Navigation("Liking");
-
                     b.Navigation("LocationsDetail");
 
-                    b.Navigation("Rating");
-
                     b.Navigation("Report");
-
-                    b.Navigation("Saved");
 
                     b.Navigation("Share");
 

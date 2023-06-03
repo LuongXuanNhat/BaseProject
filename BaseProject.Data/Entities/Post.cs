@@ -10,6 +10,7 @@ namespace BaseProject.Data.Entities
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime UploadDate { get; set; }
         public int View { get; set; }
+        public int Like { get; set; }
         public Guid UserId { get; set; }
 
 
@@ -18,12 +19,11 @@ namespace BaseProject.Data.Entities
         public AppUser User { get; set; }
         public List<CategoriesDetail> CategoriesDetail { get; set; }
         public List<LocationsDetail> LocationsDetail { get; set; }
-        public List<Rating> Rating { get; set; }
-        public List<Liking> Liking { get; set; }
         public List<Comment> Comment { get; set; }
         public List<Report> Report { get; set; }
+
         public List<Share> Share { get; set; }
-        public List<Saved> Saved { get; set; }
+    //    public List<Saved> Saved { get; set; }
         public List<Video> Video { get; set; }
 
         // Constructor

@@ -13,6 +13,7 @@ namespace BaseProject.ApiIntegration.Locations
 
         Task<ApiResult<bool>> Update(LocationCreateRequest request);
         Task<ApiResult<bool>> Delete(int locationId);
+        Task<List<LocationVm>> TakeByQuantity(int quantity);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int id);
         Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int id);

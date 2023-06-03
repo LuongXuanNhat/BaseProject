@@ -4,6 +4,8 @@ using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.RatingStars;
 using BaseProject.ApiIntegration.Role;
+using BaseProject.ApiIntegration.Saves;
+using BaseProject.ApiIntegration.Searchs;
 using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Common;
 using BaseProject.Data.EF;
@@ -24,6 +26,8 @@ builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
 builder.Services.AddTransient<IRatingApiClient, RatingApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+builder.Services.AddTransient<ISearchApiClient, SearchApiClient>();
+builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
 builder.Services.AddTransient<BaseApiClient>();
 
 builder.Services.AddMemoryCache();

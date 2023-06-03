@@ -13,6 +13,9 @@ using BaseProject.ViewModels.Catalog.Location;
 using Microsoft.AspNetCore.Http;
 using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.System.Users;
+using BaseProject.Application.Catalog.Searchs;
+using BaseProject.Application.Catalog.Rating;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -22,21 +25,24 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly IStorageService _storageService;
         private readonly ICategoryService _categoryService;
         private readonly IRatingService _ratingService;
+        private readonly IUserService _userService;
         private readonly IImageService _imageService;
-        private readonly UserManager<AppUser> _userManager;
+        private readonly ISearchService _searchService;
 
 
         public PostService(DataContext context, 
-            UserManager<AppUser> userManager, 
+            ISearchService searchService, 
             ICategoryService categoryService,
             IImageService imageService,
-            IRatingService ratingService)
+            IRatingService ratingService,
+            IUserService userService)
         {
-            _userManager = userManager;
             _context = context;
             _categoryService = categoryService;
             _imageService = imageService;
             _ratingService = ratingService;
+            _userService = userService;
+            _searchService = searchService;
         }
         public async Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request)
         {
@@ -94,17 +100,18 @@ namespace BaseProject.Application.Catalog.Posts
             }
             else
             {
-                
+
                 // Kiểm tra đã đánh giá trong vòng 1 tháng trước chưa
-                Guid USER_ID = await _context.Users.Where(x => x.UserName.Equals(request.UserId)).Select(x => x.Id).FirstOrDefaultAsync();
+                var UserId = await _userService.GetIdByUserName(request.UserId);
                 foreach (var item in request.PostDetail)
                 {
-                    // Lấy danh sách bài viết của User
-                    var list = await _context.Posts.Where(x=>x.UserId == USER_ID).OrderBy(x => x.PostId).ToListAsync();
+                    // Lấy danh sách bài viết của User đó 
+                    var list = await _context.Posts.Where(x=>x.UserId == UserId).OrderBy(x => x.PostId).ToListAsync();
+                    if (list.Any())
                     for (var i = list.Count-1; i >= 0; i--)
                     {
                         // Lấy danh sách bài viết chi tiết của 1 bài viết và so sánh
-                        var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId).OrderBy(x => x.PostId).ToListAsync();
+                        var list2 = await _context.LocationsDetails.Where(x => x.PostId == list[i].PostId ).OrderBy(x => x.PostId).ToListAsync();
                         for (int y = list2.Count - 1; y >= 0; y--)
                         {
                             // Kiếm tra địa chỉ đánh giá này đã được đánh giá chưa
@@ -341,10 +348,23 @@ namespace BaseProject.Application.Catalog.Posts
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
             var query = await _context.Posts.ToListAsync();
-            if (!string.IsNullOrEmpty(request.Keyword))
+            List<String> list = new List<String>();
+            if (request.number == 3)
             {
-                query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+
+                    // Lưu lịch sử tìm kiếm
+                    if (request.UserName != null)
+                    {
+                        list.Add($"Tìm kiếm bài đánh giá: {request.Keyword}");
+                        var UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, list);
+                    }
+                }
             }
+            
 
             //3. Paging
             int totalRow = query.Count();

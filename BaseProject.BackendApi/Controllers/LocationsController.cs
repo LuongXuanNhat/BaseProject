@@ -1,9 +1,11 @@
-﻿using BaseProject.Application.Catalog.Categories;
+﻿using BaseProject.Application.Catalog.Locations;
+using BaseProject.Application.Catalog.Saves;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -11,19 +13,20 @@ namespace BaseProject.BackendApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    
     public class LocationsController : ControllerBase
     {
         private readonly ILocationService _locationService;
+        private readonly ISaveService _saveService;
 
 
         public LocationsController(
-            ILocationService locationService)
+            ILocationService locationService, ISaveService saveService)
         {
             _locationService = locationService;
+            _saveService = saveService;
         }
 
-
+        [Authorize]
         [HttpPost]
         [Consumes("multipart/form-data")]
         public async Task<IActionResult> CreateOrUpdateLocation([FromForm] LocationCreateRequest request)
@@ -40,22 +43,8 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(LocationId);
         }
 
-        //PUT: http://localhost/api/categoriess/id
-        //[HttpPut("{id}")]
-        //public async Task<IActionResult> UpdateLocation(int id, [FromBody] LocationCreateRequest request)
-        //{
-        //    if (!ModelState.IsValid)
-        //        return BadRequest(ModelState);
-
-        //    var result = await _locationService.Update(id, request);
-        //    if (!result.IsSuccessed)
-        //    {
-        //        return BadRequest(result);
-        //    }
-        //    return Ok(result);
-        //}
-
         //Delete: http://localhost/api/categoriess/id
+        [Authorize]
         [HttpDelete("{locationId}")]
         public async Task<IActionResult> DeleteLocation(int locationId)
         {
@@ -63,7 +52,7 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(result);
         }
 
-        //http://localhost/api/categoriess/paging?pageIndex=1&pageSize=10&keyword=
+        //http://localhost/api/location/paging?pageIndex=1&pageSize=10&keyword=
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
@@ -72,11 +61,11 @@ namespace BaseProject.BackendApi.Controllers
         }
 
         // Get Places List by province
-        //http://localhost/api/Location/pagingPlace?pageIndex=1&pageSize=10&keyword=@province=
+        //http://localhost/api/Location/pagingPlace?pageIndex=1&pageSize=10&keyword=...
         [HttpGet("pagingPlace")]
         public async Task<IActionResult> GetPlacesPaging([FromQuery] GetUserPagingRequest request)
         {
-            var products = await _locationService.GetLocationPagingByProvince(request);
+            var products = await _locationService.GetLocationPagingByKeys(request);
             return Ok(products);
         }
 
@@ -85,6 +74,14 @@ namespace BaseProject.BackendApi.Controllers
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _locationService.GetById(id);
+            return Ok(user);
+        }
+
+        
+        [HttpGet("show/{quantity}")]
+        public async Task<IActionResult> TakeByQuantity(int quantity)
+        {
+            var user = await _locationService.TakeByQuantity(quantity);
             return Ok(user);
         }
 

@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Common;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
@@ -20,9 +21,11 @@ namespace BaseProject.ApiIntegration.User
         Task<ApiResult<bool>> UpdateUser(Guid id, UserUpdateRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
+        Task<ApiResult<UserVm>> GetByUserName(string username);
 
         Task<ApiResult<bool>> Delete(Guid id);
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
+        Task<List<UserVm>> TakeByQuantity(int quantity);
     }
 }

@@ -1,7 +1,7 @@
 ﻿@using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationCreateRequest>
 @{
-    ViewData["Title"] = "Danh mục";
+    ViewData["Title"] = "Danh mục địa điểm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -54,10 +54,10 @@
         <table class="table">
             <thead>
                 <tr class="row no-margin">
-                    <th class="col-8">
+                    <th class="col-4">
                         Tên địa điểm
                     </th>
-                    <th class="col-2">
+                    <th class="col-6">
                         Địa chỉ
                     </th>
                     <th class="col-2"></th>
@@ -67,15 +67,15 @@
                 @foreach (var item in Model.Items)
                 {
                     <tr class="row no-margin">
-                        <td class="col-8">
+                        <td class="col-4">
                             @Html.DisplayFor(modelItem => item.Name)
                         </td>
-                        <td class="col-2">
+                        <td class="col-6">
                             @Html.DisplayFor(modelItem => item.Address)
                         </td>
                         <td class="col-2">
-                            @Html.ActionLink("Sửa", "Edit", new { id=item.LocationId })
-                            @Html.ActionLink("Xóa", "Delete", new {  id=item.LocationId })
+                            <a title="Sửa địa điểm" style="background-color: lightskyblue" href="@Url.Action("Edit", new { id=item.LocationId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
+                            <a title="Xóa địa điểm" style="background-color: lightskyblue" href="@Url.Action("Edit", new { id=item.LocationId })"><i class="fa-solid fa-location-pin-lock" style="color: darkblue" ></i></a>
                         </td>
                     </tr>
                 }

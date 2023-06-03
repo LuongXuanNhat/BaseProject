@@ -1,7 +1,9 @@
 ﻿using BaseProject.Data.Enums;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -14,13 +16,19 @@ namespace BaseProject.ViewModels.System.Users
         public Guid Id { get; set; }
 
         [Display(Name = "Họ và Tên")]
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         [Display(Name = "Tên tài khoản")]
         public string UserName { get; set; }
+        
+        [Display(Name = "Mô tả")]
+        public string? Description { get; set; }
 
         [Display(Name = "Ảnh đại diện")]
-        public string Image { get; set; }
+        public string? Image { get; set; }
+        [Display(Name = "Thêm ảnh đại diện")]
+        [NotMapped]
+        public IFormFile? GetImage { get; set; }
 
         [Display(Name = "Giới tính")]
         public Gender? Gender { get; set; }
@@ -33,6 +41,12 @@ namespace BaseProject.ViewModels.System.Users
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        public IList<string> Roles { get; set; }
+        [Display(Name = "Địa chỉ")]
+        public string? UserAddress { get; set; }
+
+        public IList<string>? Roles { get; set; }
+
+        // Thông số 
+        public int? PostNumber { get; set; }
     }
 }

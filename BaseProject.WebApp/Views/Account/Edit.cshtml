@@ -1,0 +1,167 @@
+﻿@model BaseProject.ViewModels.System.Users.UserVm
+
+@{
+    ViewData["Title"] = "Thông Tin Tài Khoản";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+
+<section class="h-100 gradient-custom-2">
+    <div class="container py-5 h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+            <div class="col col-lg-9 col-xl-7">
+                <div class="card">
+                    <div class="rounded-top text-white d-flex flex-row" style="background-color: #000; height:200px;">
+                        <div class="ms-4 mt-5 d-flex flex-column" style="width: 150px;">
+                            @if (Model.Image != null)
+                            {
+                                <img src="@Model.Image"
+                                     alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                     style="width: 150px; z-index: 1">
+                            }
+                            else
+                            {
+                                <img src="~/images/AVATAR.png"
+                                     alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                     style="width: 150px; z-index: 1">
+                            }
+                                <a asp-controller="Account" asp-action="AccountSetting" formmethod="get" class="btn btn-outline-dark"
+                                   style="z-index: 1;">
+                                    Trở về
+                                </a>
+
+                        </div>
+                        <div class="ms-3" style="margin-top: 130px;">
+                            <h5>
+                                @if (Model.Name != null)
+                                {
+                                    @Model.Name
+                                    ;
+                                }
+                                else
+                                {
+                                    <span style="font-style: italic"> Đang cập nhập </span>
+                                }
+
+
+                            </h5>
+                            <p style="padding-bottom: 8px;" title="Tên tài khoản">@Model.UserName</p>
+                        </div>
+                    </div>
+                    <div class="p-3 text-black" style="background-color: #f8f9fa;">
+                        <div class="Compatible d-flex justify-content-end text-center py-1">
+                            <div>
+                                <p class="mb-1 h5" style="margin-top: 0px;">253</p>
+                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Số bài viết</p>
+                            </div>
+                            <div class="px-3">
+                                <p class="mb-1 h5" style="margin-top: 0px;">1026</p>
+                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Số người theo dõi</p>
+                            </div>
+                            <div>
+                                <p class="mb-1 h5" style="margin-top: 0px;">478</p>
+                                <p class="small text-muted mb-0" style="margin: 8px 0px;">Đang theo dõi</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card-body p-4 text-black">
+                        <div class="mb-5">
+                            <p class="lead fw-normal mb-1" style="margin-top: 0px;">Thông tin</p>
+                            <div class="p-4" style="background-color: #f8f9fa;min-height: 50px;">
+                             
+                                <form asp-action="Edit" asp-controller="Account" method="post" enctype="multipart/form-data">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <div class="form-group">
+                                        <input asp-for="Id" class="form-control" readonly hidden/>
+                                        <span asp-validation-for="Id" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <input asp-for="UserName" class="form-control" readonly hidden/>
+                                        <span asp-validation-for="UserName" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6>Họ và tên</h6>
+                                        <input asp-for="Name" class="form-control" />
+                                        <span asp-validation-for="Name" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Giới thiệu</h6>
+                                        <input asp-for="Description" class="form-control"/>
+                                        <span asp-validation-for="Description" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Giới tính</h6>
+                                        @Html.DropDownListFor(model => model.Gender, new SelectList(new[]
+                                        {
+                                        new SelectListItem { Value = "2", Text = "Không" },
+                                        new SelectListItem { Value = "0", Text = "Nam" },
+                                        new SelectListItem { Value = "1", Text = "Nữ" }
+                                        }, "Value", "Text"), "Chọn Danh mục", new { @class = "form-control" })
+                                    
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Ngày sinh</h6>
+                                        <input asp-for="DateOfBir" class="form-control" />
+                                        <span asp-validation-for="DateOfBir" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Email</h6>
+                                        <input asp-for="Email" class="form-control" type="email"/>
+                                        <span asp-validation-for="Email" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Địa chỉ</h6>
+                                        <input asp-for="UserAddress" class="form-control" />
+                                        <span asp-validation-for="UserAddress" class="text-danger"></span>
+                                    </div>
+                                    <div class="form-group">
+                                        <h6 style="padding-top: 12px;">Cập nhập ảnh đại diện</h6>
+                                        <div class="custom-file">
+                                            <input asp-for="GetImage" class="form-control" id="customFile" accept=".jpg,.jpeg,.png" placeholder="0 ảnh">
+                                        </div>
+                                        <span asp-validation-for="GetImage" class="text-danger"></span>
+                                    </div>
+                                    
+                                    <div class="form-group " style="padding-top: 16px; display: flex; justify-content: center;">
+                                        <input type="submit" value="Cập nhập" class="btn btn-success" style="margin-right: 12px;" />
+                                        <button asp-controller="Account" asp-action="AccountSetting" formmethod="get" class="btn btn-danger" >Hủy</button>
+                                    </div>
+                                </form>
+
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mb-4">
+                            <p class="lead fw-normal mb-0">Recent photos</p>
+                            <p class="mb-0"><a href="#!" class="text-muted">Show all</a></p>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col mb-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(112).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                            <div class="col mb-2">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(107).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                        </div>
+                        <div class="row g-2">
+                            <div class="col">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(108).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                            <div class="col">
+                                <img src="https://mdbcdn.b-cdn.net/img/Photos/Lightbox/Original/img%20(114).webp"
+                                     alt="image 1" class="w-100 rounded-3">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@*<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>*@

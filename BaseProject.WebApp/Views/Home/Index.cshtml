@@ -1,5 +1,12 @@
 ﻿
-
+@using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.System.Users;
+@{
+    List<LocationVm> objectList = ViewData["ObjectList"] as List<LocationVm>;
+}
+@{
+    List<UserVm> objectTopList = ViewData["ObjectTopList"] as List<UserVm>;
+}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -14,6 +21,7 @@
     <script src="~/js/nicepage.js"></script>
     <link href="~/css/nicepage.css" rel="stylesheet" />
     <link href="~/css/page-2.css" rel="stylesheet" />
+    <link href="~/css/places_style.css" rel="stylesheet" />
 
 
     <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
@@ -24,20 +32,20 @@
 </head>
 
 
-<body data-home-page="Page-2.html" data-home-page-title="Page 2" class="u-body u-xl-mode" data-lang="en">
+<body data-home-page="Page-2.html" data-home-page-title="Page 2" class="u-body u-xl-mode u-max-hover" data-lang="en">
 
     <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center-md u-container-align-center-sm u-container-align-center-xs u-section-1" src="" id="sec-804d">
         
         <div class="u-clearfix u-sheet u-sheet-1"> 
-            <div class="u-layout-grid u-list u-list-1">
-                <div class="u-repeater u-repeater-1">
-                    <div class="u-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-1" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
-                        <a class="u-container-layout u-similar-container u-container-layout-1" asp-action="index" asp-controller="Place">
-                            <span class="u-align-center u-icon u-text-black u-icon-1">
-                                <svg class="u-svg-link u-flip-horizontal" preserveAspectRatio="xMidYMin slice" viewBox="0 0 55.017 55.017" style=""><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-19b4"></use></svg>
-                                <svg class="u-svg-content" viewBox="0 0 55.017 55.017" x="0px" y="0px" id="svg-19b4" style="enable-background:new 0 0 55.017 55.017;">
-                                    <g>
-                                        <path d="M51.688,23.013H40.789c-0.553,0-1,0.447-1,1s0.447,1,1,1h9.102l2.899,27H2.268l3.403-27h9.118c0.553,0,1-0.447,1-1
+            <div class="u-layout-grid u-list ">
+                <div class="u-repeater u-repeater-1 ">
+                        <div class=" u-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white " data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0">
+                            <a class="u-container-layout u-similar-container u-container-layout-1" href="@Url.Action("Index","Place")">
+                                <span class="u-align-center u-icon u-text-black u-icon-1">
+                                    <i class="fa-solid fa-map-location-dot fa-xl" style="color: #fe3434; line-height: 1.4em"></i>
+                                    <svg class="u-svg-content" viewBox="0 0 55.017 55.017" x="0px" y="0px" id="svg-19b4" style="enable-background:new 0 0 55.017 55.017;">
+                                        <g>
+                                            <path d="M51.688,23.013H40.789c-0.553,0-1,0.447-1,1s0.447,1,1,1h9.102l2.899,27H2.268l3.403-27h9.118c0.553,0,1-0.447,1-1
 		s-0.447-1-1-1H3.907L0,54.013h55.017L51.688,23.013z"></path><path d="M26.654,38.968c-0.147,0.087-0.304,0.164-0.445,0.255c-0.22,0.142-0.435,0.291-0.646,0.445
 		c-0.445,0.327-0.541,0.953-0.215,1.398c0.196,0.267,0.5,0.408,0.808,0.408c0.205,0,0.412-0.063,0.591-0.193
 		c0.178-0.131,0.359-0.257,0.548-0.379c0.321-0.208,0.662-0.403,1.014-0.581c0.468-0.237,0.658-0.791,0.462-1.269
@@ -70,35 +78,38 @@
 		c-0.574,0.063-1.128,0.239-1.646,0.521c-0.485,0.265-0.664,0.871-0.399,1.356C9.504,40.813,9.847,41.001,10.201,41.001z"></path><path d="M9.993,48.842c0.216,0.056,0.436,0.098,0.654,0.124c0.256,0.031,0.512,0.047,0.769,0.047c0.313,0,0.627-0.022,0.94-0.062
 		c0.548-0.069,0.937-0.569,0.867-1.117s-0.567-0.934-1.117-0.867c-0.404,0.052-0.812,0.064-1.216,0.015
 		c-0.132-0.017-0.264-0.042-0.394-0.075c-0.535-0.143-1.08,0.181-1.22,0.716C9.139,48.158,9.459,48.704,9.993,48.842z"></path>
-                                    </g>
-                                </svg>
-                            </span>
-                            <h4 class="u-align-center u-text u-text-1" style="color:black">
+                                        </g>
+                                    </svg>
+                                </span>
+                                <h4 class="u-align-center u-text u-text-1" style="color:black">
                                     Địa điểm
-                            </h4>
-                        </a>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                                </h4>
+                            </a>
+                        </div>
+
+
+                    
+                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-list-item-1 u-radius-24 u-repeater-item u-shape-round u-white u-list-item-2" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0">
                         <a class="u-container-layout u-similar-container u-container-layout-2" asp-controller="Posts" asp-action="IndexAll">
-                            <span class="u-align-center u-file-icon u-icon u-icon-2"><img src="images/3131446.png" alt=""></span>
+                            <span class="u-align-center u-file-icon u-icon u-icon-2"><i class="fa-regular fa-newspaper fa-xl" style="line-height: 1.4em;color: #E82385"></i></span>
                             <h4 class="u-align-center u-text u-text-2" style="color:black">Review</h4>
                         </a>
                     </div>
-                    <div class="u-align-center u-container-style u-custom-item u-list-item u-radius-14 u-repeater-item u-shape-round u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                    <div class="u-align-center u-container-style u-custom-item u-list-item u-radius-14 u-repeater-item u-shape-round u-white u-list-item-3" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0" style="cursor: pointer;">
                         <div class="u-container-layout u-similar-container u-container-layout-3">
-                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-text-black u-icon-3"><img src="images/2560416-1d310499.png" alt=""></span>
+                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-text-black u-icon-3"><i class="fa-solid fa-rss fa-xl" style="color: #FF26FF; line-height: 1.4em; "></i></span>
                             <h4 class="u-align-center u-text u-text-3">Tin tức &amp; sự kiện</h4>
                         </div>
                     </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">
+                    <div class="u-align-center u-container-align-center u-container-style u-custom-item u-list-item u-radius-24 u-repeater-item u-shape-round u-white u-list-item-4" data-animation-name="customAnimationIn" data-animation-duration="500" data-animation-delay="0" style="cursor: pointer;">
                         <div class="u-container-layout u-similar-container u-container-layout-4">
-                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-icon-4"><img src="images/512142.png" alt=""></span>
+                            <span class="u-align-center u-file-icon u-flip-horizontal u-icon u-icon-4"><i class="fa-solid fa-angles-right fa-xl" style="color: #FF6526; line-height: 1.5em;"></i></span>
                             <h4 class="u-align-center u-text u-text-4">Nhiều hơn</h4>
                         </div>
                     </div>
                 </div>
             </div>
-            <img class="u-expanded-width u-image u-image-1" src="images/river-flowing-through-forest-generative-al2-min.jpg" data-image-width="1980" data-image-height="1131">
+            <img class="u-expanded-width u-image u-image-1" src="images/anh-lang-que-viet-nam.jpeg" data-image-width="1980" data-image-height="1131">
             <div class="u-container-style u-group u-shape-rectangle u-group-1">
                 <div class="u-container-layout u-container-layout-5">
                     <form action="#" method="get" class="u-border-1 u-border-grey-30 u-radius-14 u-search u-search-left u-white u-search-1">
@@ -114,71 +125,31 @@
             </div>
         </div>
     </section>
-    <section class="u-align-center u-clearfix u-container-align-center u-white u-section-2" id="sec-3d1c">
+    <section class="u-align-center u-clearfix u-container-align-center u-white u-section-2" id="sec-3d1c" style="height: 740px;">
         <div class="u-clearfix u-sheet u-sheet-1">
-            <h2 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">Đi chơi thôi nào</h2>
+            <h2 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0" style="margin-top: 40px; ">Đi chơi thôi nào</h2>
             <p class="u-align-center u-text u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">Hãy chọn cho mình một địa điểm yêu thích, chúng ta sẽ có thêm những trải nghiệm tuyệt vời</p>
-            <div class="u-expanded-width u-list u-list-1">
-                <div class="u-repeater u-repeater-1">
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="800" data-image-height="533">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-1">
-                            <div class="u-black u-container-align-center u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-1" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-2">
-                                    <h4 class="u-align-center u-text u-text-3" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> Best RV camping</h4>
-                                    <p class="u-align-center u-text u-text-4" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
+            
+            
+            <div class="u-expanded-width u-list u-list-1"> 
+                <div class="">
+
+                    @*Chèn Địa điểm*@
+                    <div class="destination-list">
+                    @foreach (var obj in objectList)
+                    {
+                        <a class="destination-item2" asp-action="Detail" asp-controller="Place" asp-route-ID="@obj.LocationId" title="@obj.Address">
+                            <div style="position: relative; display:flex; justify-content: center;">
+                                <img src="@obj.ImageList" alt="Destination 1" class="fix-img">
+                                <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                                </div>
+                                <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                                    @obj.Name
                                 </div>
                             </div>
-                        </div>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="800" data-image-height="533">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-3">
-                            <div class="u-black u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-2" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-4">
-                                    <h4 class="u-align-center u-text u-text-5" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> Lake camping</h4>
-                                    <p class="u-align-center u-text u-text-6" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-3" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="626" data-image-height="533">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-5">
-                            <div class="u-black u-container-align-center u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-3" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-6">
-                                    <h4 class="u-align-center u-text u-text-7" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> Beach stays</h4>
-                                    <p class="u-align-center u-text u-text-8" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-4" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="740" data-image-height="925">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-7">
-                            <div class="u-black u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-4" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-8">
-                                    <h4 class="u-align-center u-text u-text-9" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> Backyard Camping</h4>
-                                    <p class="u-align-center u-text u-text-10" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-5" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="740" data-image-height="925">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-9">
-                            <div class="u-black u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-5" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-10">
-                                    <h4 class="u-align-center u-text u-text-11" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> car camping</h4>
-                                    <p class="u-align-center u-text u-text-12" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="u-align-center u-container-align-center u-container-style u-image u-list-item u-repeater-item u-shading u-shape-rectangle u-image-6" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="500" data-image-width="740" data-image-height="925">
-                        <div class="u-container-layout u-similar-container u-valign-bottom u-container-layout-11">
-                            <div class="u-black u-container-style u-expanded-width u-group u-opacity u-opacity-50 u-group-6" data-animation-name="pulse" data-animation-duration="1500" data-animation-direction="" data-animation-delay="500">
-                                <div class="u-container-layout u-valign-middle u-container-layout-12">
-                                    <h4 class="u-align-center u-text u-text-13" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500"> Wilderness Camping</h4>
-                                    <p class="u-align-center u-text u-text-14" data-animation-name="customAnimationIn" data-animation-duration="1250" data-animation-delay="500">Sample text. Click to select the Text Element.</p>
-                                </div>
-                            </div>
-                        </div>
+                        </a>
+
+                    }
                     </div>
                 </div>
             </div>
@@ -187,43 +158,59 @@
     <section class="u-align-center u-clearfix u-container-align-center u-section-3" id="sec-c25f">
         <div class="u-container-style u-expanded-width u-group u-image u-shading u-image-1" data-image-width="1620" data-image-height="1080">
             <div class="u-container-layout u-valign-top u-container-layout-1">
-                <h2 class="u-align-center u-text u-text-default u-text-1">Top reviewer</h2>
+                <h2 class="u-align-center u-text u-text-default u-text-1">
+                    <i class="fa-solid fa-ranking-star" style="color:#ffff00 "></i>
+                    Top reviewer</h2>
             </div>
         </div>
         <div class="u-list u-list-1">
             <div class="u-repeater u-repeater-1">
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-white u-list-item-1">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
-                        <img class="u-expanded-width u-image u-image-default u-image-2" src="images/32.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-2">Sport Activities</h4>
-                        <p class="u-hover-feature u-text u-text-3">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.online" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-2">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-3">
-                        <img class="u-expanded-width u-image u-image-default u-image-3" src="images/1.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-4">Internet Access </h4>
-                        <p class="u-hover-feature u-text u-text-5">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/k/birthday-html-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-2">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-3">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-4">
-                        <img class="u-expanded-width u-image u-image-default u-image-4" src="images/777.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-6"> Climbing Instructor</h4>
-                        <p class="u-hover-feature u-text u-text-7">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/c/slider-website-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-3">more</a>
-                    </div>
-                </div>
-                <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-video-cover u-white u-list-item-4">
-                    <div class="u-container-layout u-similar-container u-valign-top u-container-layout-5">
-                        <img class="u-expanded-width u-image u-image-default u-image-5" src="images/dfdf.jpg" alt="" data-image-width="900" data-image-height="600">
-                        <h4 class="u-hover-feature u-text u-text-8"> Mountain Bikes</h4>
-                        <p class="u-hover-feature u-text u-text-9">Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt</p>
-                        <a href="https://nicepage.com/k/astrology-website-templates" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-4">more</a>
-                    </div>
-                </div>
+                @*Chèn Địa điểm*@
+                @{ int dem = 0;}
+                    @foreach (var obj in objectTopList)
+                    {
+                        dem++;
+                    
+                        <div class="u-align-center u-border-1 u-border-palette-2-base u-container-style u-list-item u-repeater-item u-shape-rectangle u-white u-list-item-1">
+                            <div class="u-container-layout u-similar-container u-valign-top u-container-layout-2">
+                                <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@obj.UserName">
+                                @if (obj.Image != null)
+                                {
+                                    <img class="u-expanded-width u-image u-image-default u-image-2" src="@obj.Image" alt="" data-image-width="900" data-image-height="600">
+                                }
+                                else
+                                {
+                                    <img class="u-expanded-width u-image u-image-default u-image-2" src="images/32.jpg" alt="" data-image-width="900" data-image-height="600">
+                                }
+                                <h4 class="u-hover-feature u-text u-text-2">
+                                    @obj.UserName
+                                    @if (dem == 1)
+                                    {
+                                        <img class=" " src="images/707163.png" style="width: 24px;top: -3px; position: absolute; ">
+                                    }
+                                </h4>
+                                <p class="u-hover-feature u-text u-text-3">
+                                    @if (obj.Description != null)
+                                    {
+                                        <span class="limited-lines-2">@obj.Description</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="limited-lines-2" style="font-style: italic; ">Đang cập nhập</span>
+                                    }
+                                </p>
+                                <a href="#" class="u-border-1 u-border-active-black u-border-hover-black u-border-no-left u-border-no-right u-border-no-top u-border-palette-2-base u-bottom-left-radius-0 u-bottom-right-radius-0 u-btn u-button-style u-hover-feature u-none u-radius-0 u-text-active-palette-2-base u-text-hover-palette-2-base u-text-palette-2-base u-top-left-radius-0 u-top-right-radius-0 u-btn-1" style="margin: 0 0;">
+                                    <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
+                                    @obj.PostNumber bài viết
+                                </a>
+                            </a>
+                            </div>
+                        </div>
+
+                        
+                    }
+                
+                
             </div>
         </div>
     </section>
