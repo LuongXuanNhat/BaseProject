@@ -7963,9 +7963,9 @@ section.u-image:not(.u-hover-box),
   flex: 21 0 auto;
 }
 .u-layout-row > .u-size-20 {
-  flex: 0 0 33.33333333%;
-  max-width: 33.33333333%;
-  min-width: 33.33333333%;
+  flex: 0 0 30%;
+  max-width: 30%;
+  min-width: 30%;
 }
 .u-layout-col > .u-size-20 {
   flex: 20 0 auto;
@@ -8292,9 +8292,9 @@ section.u-image:not(.u-hover-box),
     flex: 41 0 auto;
   }
   .u-layout-row > .u-size-40-xl {
-    flex: 0 0 66.66666667%;
-    max-width: 66.66666667%;
-    min-width: 66.66666667%;
+    flex: 0 0 75%;
+    max-width: 75%;
+    min-width: 75%;
   }
   .u-layout-col > .u-size-40-xl {
     flex: 40 0 auto;
@@ -8452,9 +8452,9 @@ section.u-image:not(.u-hover-box),
     flex: 21 0 auto;
   }
   .u-layout-row > .u-size-20-xl {
-    flex: 0 0 33.33333333%;
-    max-width: 33.33333333%;
-    min-width: 33.33333333%;
+    flex: 0 0 25%;
+    max-width: 25%;
+    min-width: 25%;
   }
   .u-layout-col > .u-size-20-xl {
     flex: 20 0 auto;

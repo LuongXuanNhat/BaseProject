@@ -5,78 +5,140 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chi tiết bài viết</h1>
-<div class="end-0">
-    @Html.ActionLink("Sửa", "EditPost", new { id = Model.PostId })
-    <a asp-action="Index" class="btn" style="color: #337ab7">Trở về</a>
-</div>
-<div>
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Book your outdoor adventure, About Us, ​Find your next getaway, Our Services, ​Plan Your Camping Trip, ​How to plan a camping trip, Contact Us">
+    <meta name="description" content="">
+    <title>PostDetail</title>
 
-    <hr />
-    <dl class="row">
-        <div class="row" style="text-align: center">
-            <div>
-                <dt >
-                    @Html.DisplayNameFor(model => model.Title)
-                </dt>
-                <dd class="h4 bg-danger " style="color: yellow">
-                    @Html.DisplayFor(model => model.Title)
-                </dd>
+    <link href="~/css/nicepage.css" rel="stylesheet" />
+    <link href="~/css/postdetail.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/nicepage.js"></script>
+
+    <meta name="generator" content="Nicepage 5.9.10, nicepage.com">
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="PostDetail">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+    <section class="u-clearfix u-section-1" id="sec-4563">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="u-layout-row">
+                        <div class="u-container-style u-layout-cell u-size-40 u-layout-cell-1">
+                            <div class="u-container-layout u-container-layout-1">
+                                <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-1">
+                                    <div class="u-container-layout u-container-layout-2">
+                                        <h4 class="u-text u-text-default u-text-1">@Html.DisplayNameFor(model => model.Title)</h4>
+                                        <p class="u-text u-text-default u-text-2">Ngày đăng: &nbsp;</p>
+                                        <p class="u-text u-text-default u-text-3">Đăng bởi: @Html.DisplayNameFor(model => model.UserId)</p>
+                                    </div>
+                                </div>
+                                <div class="u-container-style u-group u-shape-rectangle u-group-2">
+                                    <div class="u-container-layout u-container-layout-3">
+                                        <p class="u-text u-text-default u-text-4">
+                                            @Html.Raw(Model.PostDetail[0].Content);
+                                        </p>
+                                    </div>
+                                </div>
+                                <div class="u-container-style u-group u-shape-rectangle u-group-3">
+                                    <div class="u-container-layout u-container-layout-4">
+                                        @*like*@
+                                        <a href="https://nicepage.com/k/birthday-html-templates" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1">
+                                            <span class="u-icon u-text-white"><svg class="u-svg-content" viewBox="0 0 512 512" x="0px" y="0px" style="width: 1em; height: 1em;"><path d="M53.333,224C23.936,224,0,247.936,0,277.333V448c0,29.397,23.936,53.333,53.333,53.333h64 c12.011,0,23.061-4.053,32-10.795V224H53.333z"></path><path d="M512,304c0-12.821-5.077-24.768-13.888-33.579c9.963-10.901,15.04-25.515,13.653-40.725    c-2.496-27.115-26.923-48.363-55.637-48.363H324.352c6.528-19.819,16.981-56.149,16.981-85.333c0-46.272-39.317-85.333-64-85.333 c-22.165,0-37.995,12.48-38.677,12.992c-2.517,2.027-3.989,5.099-3.989,8.341v72.341l-61.44,133.099l-2.56,1.301v228.651    C188.032,475.584,210.005,480,224,480h195.819c23.232,0,43.563-15.659,48.341-37.269c2.453-11.115,1.024-22.315-3.861-32.043 c15.765-7.936,26.368-24.171,26.368-42.688c0-7.552-1.728-14.784-5.013-21.333C501.419,338.731,512,322.496,512,304z"></path></svg></span>&nbsp;Like XX
+                                        </a>
+                                        @*share*@
+                                        <a href="https://nicepage.com/c/slider-website-templates" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-2">
+                                            <span class="u-file-icon u-icon u-text-white u-icon-2"><img src="images/3925158-c898ebfb.png" alt=""></span>&nbsp;Chia sẻ
+                                        </a>
+                                        @*star chưa làm*@
+                                    </div>
+                                </div>
+                                @*đăng bình luận*@
+                                <div class="u-container-style u-group u-shape-rectangle u-group-4">
+                                    <div class="u-container-layout u-container-layout-5">
+                                        <p class="u-text u-text-default u-text-5">
+                                            Tên <span style="font-size: 1rem;"></span>user
+                                        </p>
+                                        <div class="u-container-align-center u-container-style u-group u-image u-radius-50 u-shape-rectangle">
+                                            <img class="u-image-1" src="" alt="">
+                                            <div class="u-container-layout u-container-layout-6"></div>
+                                        </div>
+                                        <p class="u-text u-text-default u-text-6"></p>
+                                        <div class="u-text u-text-7">
+                                            <textarea name="" id="" cols="70" rows="2" placeholder="Nhập nội dung bình luận"></textarea>
+                                            <a href="" style="display: inline;margin-bottom: 36px ;" class="btn"> Đăng </a>
+                                        </div>
+                                    </div>
+                                </div>
+                                @*comment ở đây*@
+                                <div class="u-container-style u-group u-shape-rectangle u-group-6">
+                                    <div class="u-container-layout u-container-layout-7">
+                                        <p class="u-text u-text-default u-text-8">
+                                            <span style="font-size: 1rem;"></span>Tên user
+                                        </p>
+                                        <div class="u-container-align-center u-container-style u-group u-image u-radius-50 u-shape-rectangle">
+                                            <img class="u-image-1" width="1200" height="843" src="" alt="">
+                                            <div class="u-container-layout u-container-layout-8"></div>
+                                        </div>
+                                        <p class="u-text u-text-default u-text-9">Ngày ​đăng </p>
+                                        <p class="u-text u-text-10">Nội dung comment</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2">
+                            <div class="u-container-layout u-valign-top u-container-layout-9">
+                                <div class="u-border-2 u-border-palette-5-base u-container-style u-group u-shape-rectangle u-group-8">
+                                    <div class="u-container-layout u-container-layout-10">
+                                        <h5 class="u-text u-text-default u-text-11">
+                                            <span class="u-file-icon u-icon u-icon-3"><img src="~/images/icon/topreview.png" alt=""></span>&nbsp;ĐỌC NHIỀU NHẤT
+                                        </h5>
+                                        @*top bài review*@
+                                        <div class="u-container-style u-group u-shape-rectangle u-group-9">
+                                            <div class="u-container-layout u-container-layout-11">
+                                                <p class="u-text u-text-12">top 5 địa điểm ngắm khinh khí cầu đẹp mắt còn sang chảnh tại</p>
+                                                <p class="u-text u-text-default u-text-palette-1-base u-text-13">
+                                                    <span class="u-file-icon u-icon u-icon-4"><img src="images/3601002.png" alt=""></span>&nbsp;​&nbsp;​&nbsp;
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="u-border-2 u-border-palette-4-light-3 u-container-style u-group u-shape-rectangle u-group-10">
+                                    <div class="u-container-layout u-container-layout-12">
+                                        <h5 class="u-text u-text-default u-text-14">
+                                            <span class="u-file-icon u-icon"><img src="~/images/icon/location.png" alt=""></span>&nbsp;<span style="font-weight: 700;"> Địa điểm hot</span>
+                                        </h5>
+                                        <div class="u-container-style u-group u-shape-rectangle u-group-11">
+                                            @*top địa điểm du lịch*@
+                                            <div class="u-container-layout u-valign-top u-container-layout-13">
+                                                <div class="u-container-align-center u-container-style u-group u-image u-shape-rectangle">
+                                                    <img class="u-image-3" src="" alt="">
+                                                    <div class="u-container-layout u-container-layout-14"></div>
+                                                </div>
+                                                <p class="u-text u-text-15">tên địa điểm</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
-        @for (int i = 0; i < Model.PostDetail.Count; i++)
-        {
-            <div class="col-md-6">
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Title " class="form-control" readonly/>
-                    <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Address " class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].When" class="control-label"></label>
-                    <input asp-for="PostDetail[i].When" type="month" class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Content " class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
-                </div>
+    </section>
 
-            </div>
-            if (i < Model.PostDetail.Count-1)
-            {
-                i++;
-                <div class="col-md-6">
-                    <div class="form-group">
-                    <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Title " class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Address " class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].When" class="control-label"></label>
-                    <input asp-for="PostDetail[i].When" type="month" class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                    <input asp-for="PostDetail[i].Content " class="form-control" readonly />
-                    <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
-                </div>
-
-            </div>}
-            <hr />
-        }
-    </dl>
-</div>
-
+</body>
+</html>

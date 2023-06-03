@@ -32,8 +32,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         public List<Category>? CategoryPostDetail { get; set; }
         public List<string>? ImageList { get; set; }
 
-        
-
+               
 
         // Contrustor
         public PostCreateRequest(int postId, string? userId, string title, List<PostDetailRequest> postDetail)

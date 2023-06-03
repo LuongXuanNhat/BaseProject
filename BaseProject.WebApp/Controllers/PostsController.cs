@@ -174,7 +174,7 @@ namespace BaseProject.WebApp.Controllers
                 request.CategoryPostDetail = firstThreeCategories;
             }
 
-            // Chỉ lấy tối đa 5 ảnh
+            //// Chỉ lấy tối đa 5 ảnh
             foreach (var item in request.PostDetail)
             {
                 if (item.GetImage != null && item.GetImage.Count > 5)
@@ -186,6 +186,7 @@ namespace BaseProject.WebApp.Controllers
 
             //request.CategoryPostDetail = categoryPostDetail;
             request.numberLocation = new TakeNumberLocation();
+
             request.PostId = 0;
             request.UserId = User.Identity.Name;
 
@@ -235,8 +236,8 @@ namespace BaseProject.WebApp.Controllers
             //request.CategoryPostDetail = categoryPostDetail;
             request.numberLocation = new TakeNumberLocation();
 
-            var result = await _postApiClient.CreateOrUpdatePost(request);
 
+            var result = await _postApiClient.CreateOrUpdatePost(request);
             if (result.IsSuccessed)
             {
                 TempData["result"] = "Cập nhật bài viết thành công";
