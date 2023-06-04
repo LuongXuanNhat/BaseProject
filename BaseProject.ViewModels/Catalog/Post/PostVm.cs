@@ -14,10 +14,14 @@ namespace BaseProject.ViewModels.Catalog.Post
         public Guid UserId { get; set; }
 
         public string Title { get; set; }
+        public string? Content { get; set; }
 
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Date { get; set; }
+
         public int View { get; set; }
+        
+
 
     }
 }

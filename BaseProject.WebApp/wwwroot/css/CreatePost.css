@@ -1,4 +1,4 @@
-.u-section-1 .u-sheet-1 {
+﻿.u-section-1 .u-sheet-1 {
   min-height: 266px;
 }
 
@@ -47,7 +47,7 @@
 }
 
 .u-section-1 .u-group-2 {
-  min-height: 250px;
+  min-height: 130px;
   margin-top: 21px;
   margin-bottom: 0;
   height: auto;
@@ -142,4 +142,34 @@
   .u-section-1 .u-group-1 {
     width: 340px;
   }
+}
+
+
+.Title_Post {
+    border-radius: 0px;
+    border-left: 5px #0d6efd solid;
+}
+
+.Address_Name_Post {
+    border-radius: 0px;
+    border-left: 5px #0d6efd solid;
+}
+
+
+
+.Address_Post_Border {
+    max-height: 1.6em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 1; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+    color: #292c9d;
+    margin: 6px 0px 6px 12px;
+    outline: none;
+    font-size: 14px;
+    border-right: 0px;
+    border-top: 0px;
+    border-bottom: 0px;
+    border-radius: 0px;
+    /*border-left: 5px #0d6efd solid;*/
 }

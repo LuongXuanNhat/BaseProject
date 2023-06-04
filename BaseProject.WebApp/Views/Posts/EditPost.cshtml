@@ -1,219 +1,356 @@
 ﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
 
 @{
-    ViewData["Title"] = "EditPost";
+    ViewData["Title"] = "Create";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Chỉnh sửa bài viết</h1>
-
+<link href="~/css/createpost.css" rel="stylesheet" />
 <div>
-    <a asp-action="Index" class="btn btn-outline-info ">Trở về</a>
-</div>
-<hr />
-<div class="row">
-    <div class="row">
-        <form asp-action="EditPost" method="post" enctype="multipart/form-data">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <input asp-for="PostId" class="form-control"  hidden readonly/>
-            <input asp-for="UserId" class="form-control"  hidden readonly/>
-            <div class="row p-3">
-                <div class="col-md-4" style="text-align: end">
-                    <label asp-for="Title" class="control-label" style="align-items: center"></label>
+    <section class="u-clearfix u-section-1" id="sec-2e57">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <h4 class="u-text u-text-default u-text-1">Chỉnh sửa bài viết của bạn</h4>
                 </div>
-                <div class="form-group col-md-4">
-
-                    <input asp-for="Title" class="form-control" type="text"/>
-                    <span asp-validation-for="Title" class="text-danger"></span>
-
-                </div>
-                <div class="col-md-4">
-                    <div class="dropdown">
-                        <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
-                            Danh mục
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="max-height: 200px; overflow-y: auto;">
-                            @for (var i = 0; i < Model.CategoryPostDetail.Count; i++)
-                            {
-                                var category = Model.CategoryPostDetail[i];
-                                <li class="dropdown-item">
-                                    <input type="checkbox" id="@($"checkbox_{i}")" name="SelectedCategories"
-                                           value="@category.Name" style="width:15px; height: 15px" />
-                                    <label>@category.Name</label>
-                                </li>
-                            }
-                        </ul>
-
-                    </div>
-
-
-                </div>
-
             </div>
+            <div class="u-clearfix u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="u-layout-row">
+                        <div class="u-container-style u-layout-cell u-shape-rectangle u-size-60 u-layout-cell-1">
+                            <div class="u-container-layout u-container-layout-2">
+                                <form asp-action="EditPost" method="post" asp-controller="Posts" enctype="multipart/form-data">
+                                    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                    <input asp-for="PostId" class="form-control" hidden readonly />
+                                    <input asp-for="UserId" class="form-control" hidden readonly />
+                                    <div class="col-md-12 row ">
 
-            @for (int i = 0; i < Model.PostDetail.Count; i++)
-            {
-                int diaDiemThu = i + 1;
-                <div class="row" style="background-color:antiquewhite; border-radius: 5px; padding-bottom: 5px; ">
-                    <div class="col-4 row">
-                        <div>Địa điểm  @diaDiemThu</div>
-                        <div class="image-container">
-                            <a target="_blank" asp-action="index" asp-controller="Home">
-                                <img id="showImage_@i" style="max-width: 15rem;" />
-                            </a>
+                                        <div class="col-md-1" style="display: flex; justify-content: center;">
+                                            <span style="display: flex; align-items: center">Tiêu đề</span>
+                                        </div>
+                                        <div class="form-group col-md-7">
+
+                                            <input asp-for="Title" class="form-control Title_Post" placeholder="Nhập tiêu đề bài viết" />
+                                            <span asp-validation-for="Title" class="text-danger"></span>
+
+                                        </div>
+                                        <div class="col-md-4">
+                                            <div class="dropdown" style="display: flex; justify-content: center">
+                                                <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    Chọn Danh mục
+                                                </button>
+                                                <ul class="dropdown-menu" aria-labelledby="categoryDropdown" style="max-height: 200px; overflow-y: auto;">
+                                                    @if (Model != null && Model.CategoryPostDetail != null)
+                                                        for (var i = 0; i < Model.CategoryPostDetail.Count; i++)
+                                                        {
+                                                            var category = Model.CategoryPostDetail[i];
+                                                            <li class="dropdown-item">
+                                                                <input type="checkbox" id="@($"checkbox_{i}")" name="SelectedCategories"
+                                                                       value="@category.Name" style="width:15px; height: 15px" />
+                                                                <label>@category.Name</label>
+                                                            </li>
+                                                        }
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    @if (Model != null && Model.PostDetail != null)
+                                        @for (int i = 0; i < Model.PostDetail.Count; i++)
+                                        {
+                                            <div class="row" style=" border-radius: 5px; padding-bottom: 5px; ">
+
+                                                <div class="col-8">
+                                                    <p class="u-text u-text-default u-text-4"></p>
+                                                    <div class="form-group ">
+                                                        <label class="control-label">Địa điểm bạn nhắc tới:</label>
+                                                        <input asp-for="PostDetail[i].Title " class="form-control Address_Name_Post" type="text"
+                                                               id="searchInput_@i" placeholder="Nhập địa điểm tìm kiếm" />
+                                                        <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
+                                                        <ul id="searchResults_@i" class="makeColor" style="z-index: 2"></ul>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <input asp-for="PostDetail[i].Address " id="searchInput2_@i" placeholder="Địa chỉ" style="background: none;"
+                                                               onchange="handleNameChange()" class="form-control Address_Post_Border" readonly />
+                                                        <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        <label asp-for="PostDetail[i].When" class="control-label"></label>
+                                                        <input asp-for="PostDetail[i].When" type="month" class="form-control Address_Name_Post" value="@Model.PostDetail[i].When.ToString("yyyy-MM")" />
+                                                        <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
+                                                    </div>
+                                                    <div class="form-group">
+                                                        @*<label asp-for="PostDetail[i].Content " class="control-label"></label>
+                                                <div class="row row-editor">
+                                                <div class="editor-container">
+                                                <textarea asp-for="PostDetail[i].Content" class="editor"> </textarea>
+                                                </div>
+                                                </div>
+                                                <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>*@
+                                                        <label asp-for="PostDetail[i].Content " class="control-label"></label>
+                                                        <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
+                                                        <div class="u-container-style u-expanded-width  u-shape-rectangle ">
+                                                            <div class="">
+
+                                                                <textarea asp-for="PostDetail[i].Content" class="editor"></textarea>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-4 row">
+                                                    <div class="image-container " style="margin-top: 12px; ">
+                                                        <a target="_blank" asp-action="index" asp-controller="Home">
+                                                            <img id="showImage_@i" style="max-width: 18rem;" class="fix-img" />
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+
+                                            @*Mã javascript*@
+                                            @*Mã js cho ckeditor*@
+                                            <script>
+                                                class MyUploadAdapter {
+                                                    constructor(loader) {
+                                                        // The file loader instance to use during the upload.
+                                                        this.loader = loader;
+                                                    }
+
+                                                    // Starts the upload process.
+                                                    upload() {
+                                                        return this.loader.file
+                                                            .then(file => new Promise((resolve, reject) => {
+                                                                this._initRequest();
+                                                                this._initListeners(resolve, reject, file);
+                                                                this._sendRequest(file);
+                                                            }));
+                                                    }
+
+                                                    // Aborts the upload process.
+                                                    abort() {
+                                                        if (this.xhr) {
+                                                            this.xhr.abort();
+                                                        }
+                                                    }
+
+                                                    // Initializes the XMLHttpRequest object using the URL passed to the constructor.
+                                                    _initRequest() {
+                                                        const xhr = this.xhr = new XMLHttpRequest();
+
+                                                        // Note that your request may look different. It is up to you and your editor
+                                                        // integration to choose the right communication channel. This example uses
+                                                        // a POST request with JSON as a data structure but your configuration
+                                                        // could be different.
+                                                        xhr.open('POST', '@Url.Action("UploadImage","Default")', true);
+                                                        xhr.responseType = 'json';
+                                                    }
+
+                                                    // Initializes XMLHttpRequest listeners.
+                                                    _initListeners(resolve, reject, file) {
+                                                        const xhr = this.xhr;
+                                                        const loader = this.loader;
+                                                        const genericErrorText = `Couldn't upload file: ${file.name}.`;
+
+                                                        xhr.addEventListener('error', () => reject(genericErrorText));
+                                                        xhr.addEventListener('abort', () => reject());
+                                                        xhr.addEventListener('load', () => {
+                                                            const response = xhr.response;
+
+                                                            // This example assumes the XHR server's "response" object will come with
+                                                            // an "error" which has its own "message" that can be passed to reject()
+                                                            // in the upload promise.
+                                                            //
+                                                            // Your integration may handle upload errors in a different way so make sure
+                                                            // it is done properly. The reject() function must be called when the upload fails.
+                                                            if (!response || response.error) {
+                                                                return reject(response && response.error ? response.error.message : genericErrorText);
+                                                            }
+
+                                                            // If the upload is successful, resolve the upload promise with an object containing
+                                                            // at least the "default" URL, pointing to the image on the server.
+                                                            // This URL will be used to display the image in the content. Learn more in the
+                                                            // UploadAdapter#upload documentation.
+                                                            resolve({
+                                                                default: response.url
+                                                            });
+                                                        });
+
+                                                        // Upload progress when it is supported. The file loader has the #uploadTotal and #uploaded
+                                                        // properties which are used e.g. to display the upload progress bar in the editor
+                                                        // user interface.
+                                                        if (xhr.upload) {
+                                                            xhr.upload.addEventListener('progress', evt => {
+                                                                if (evt.lengthComputable) {
+                                                                    loader.uploadTotal = evt.total;
+                                                                    loader.uploaded = evt.loaded;
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+
+                                                    // Prepares the data and sends the request.
+                                                    _sendRequest(file) {
+                                                        // Prepare the form data.
+                                                        const data = new FormData();
+
+                                                        data.append('upload', file);
+
+                                                        // Important note: This is the right place to implement security mechanisms
+                                                        // like authentication and CSRF protection. For instance, you can use
+                                                        // XMLHttpRequest.setRequestHeader() to set the request headers containing
+                                                        // the CSRF token generated earlier by your application.
+
+                                                        // Send the request.
+                                                        this.xhr.send(data);
+                                                    }
+                                                }
+
+                                                function MyCustomUploadAdapterPlugin(editor) {
+                                                    editor.plugins.get('FileRepository').createUploadAdapter = (loader) => {
+                                                        // Configure the URL to the upload script in your back-end here!
+                                                        return new MyUploadAdapter(loader);
+                                                    };
+                                                }
+
+                                                ClassicEditor
+                                                    .create(document.querySelector('.editor'), {
+                                                        licenseKey: 'Viết bài đánh giá địa điểm của bạn tại đây',
+                                                        extraPlugins: [MyCustomUploadAdapterPlugin],
+                                                        placeholder: 'Chia sẻ trải nghiệm: Bạn làm gì, với ai, ... và những bức ảnh, video tuyệt vời',
+                                                        rows: 10
+                                                    })
+                                                    .then(editor => {
+                                                        window.editor = editor;
+                                                    })
+                                                    .catch(error => {
+                                                        console.error('Oops, something went wrong!');
+                                                        console.error('Please, report the following error on https://github.com/ckeditor/ckeditor5/issues with the build id and the error stack trace:');
+                                                        console.warn('Build id: 3j7b66z6xeu2-33cibiwk5ccg');
+                                                        console.error(error);
+                                                    });
+                                            </script>
+
+                                            @*Mã js cho load danh sách địa điểm*@
+                                            <script>
+                                                (function () {
+
+
+
+                                                    document.getElementById('searchInput_@i').addEventListener('input', function () {
+                                                        var searchText = this.value;
+
+                                                        // Gửi yêu cầu tìm kiếm dữ liệu
+                                                        searchLocations(searchText);
+                                                    });
+
+                                                    var token = '@Html.Raw(ViewBag.Token)';
+
+                                                    function searchLocations(searchText) {
+                                                        // Kiểm tra nếu độ dài của từ khóa tìm kiếm là ít nhất 3 ký tự
+                                                        if (searchText.length >= 3) {
+                                                            $.ajax({
+                                                                url: 'https://localhost:7204/api/post/locations',
+                                                                type: 'GET',
+                                                                headers: { Authorization: 'Bearer ' + token },
+                                                                data: { searchText: searchText },
+                                                                success: function (locations) {
+
+                                                                    // check
+                                                                    console.log(locations);
+                                                                    // Xử lý kết quả tìm kiếm và hiển thị danh sách tên địa điểm
+                                                                    displaySearchResults(locations);
+                                                                },
+                                                                error: function (xhr, status, error) {
+                                                                    // Xử lý lỗi nếu có
+                                                                    console.error(error);
+                                                                }
+                                                            });
+                                                        }
+                                                    }
+
+                                                    var searchInput = document.getElementById('searchInput_@i');
+                                                    var resultList = document.getElementById('searchResults_@i');
+
+
+
+
+                                                    function displaySearchResults(locations) {
+                                                        var resultList = document.getElementById('searchResults_@i');
+                                                        resultList.innerHTML = '';
+
+                                                        // Duyệt qua danh sách kết quả tìm kiếm và tạo các phần tử HTML để hiển thị
+                                                        locations.forEach(function (location) {
+                                                            // Tạo phần tử li và thêm nội dung tên địa điểm
+                                                            var listItem = document.createElement('li');
+                                                            listItem.textContent = location.name + " - " + location.address;
+                                                            listItem.classList.add('highlighted');
+
+                                                            // Thêm sự kiện click để chọn một địa điểm từ danh sách kết quả tìm kiếm
+                                                            listItem.addEventListener('mousedown', function () {
+
+                                                                // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
+                                                                document.getElementById('searchInput_@i').value = location.name;
+                                                                document.getElementById('searchInput2_@i').value = location.address;
+
+                                                                // Hiển thị ảnh
+                                                                document.getElementById('showImage_@i').src = location.placeImage;
+
+                                                                // Xóa danh sách kết quả tìm kiếm
+                                                                resultList.innerHTML = '';
+                                                            });
+
+                                                            searchInput.addEventListener('blur', function () {
+
+                                                                if (!resultList.contains(event.relatedTarget)) {
+                                                                    // Nếu không, xóa nội dung của danh sách kết quả
+                                                                    resultList.innerHTML = '';
+                                                                }
+                                                            });
+
+
+                                                            // Thêm phần tử li vào danh sách kết quả tìm kiếm
+                                                            resultList.appendChild(listItem);
+                                                        });
+                                                    }
+
+
+
+                                                })();
+                                            </script>
+                                            <script>
+                                                var selectedItems = [];
+                                                var selectedItemsInput = document.getElementById('selectedItems_@i');
+
+                                                function handleNameChange() {
+                                                    var addressInput = document.getElementById('searchInput2_@i').value;
+                                                    var titleInput = document.getElementById('searchInput_@i').value;
+
+                                                    var item = titleInput + ' - ' + addressInput;
+
+                                                    if (selectedItems.includes(item)) {
+                                                        selectedItems = selectedItems.filter(function (value) {
+                                                            return value !== item;
+                                                        });
+                                                    } else {
+                                                        selectedItems.push(item);
+                                                    }
+
+                                                    selectedItemsInput.value = selectedItems.join(', ');
+                                                }
+                                            </script>
+                                        }
+                                    <div class="form-group">
+                                        <input type="submit" value="Cập nhập" class="btn btn-primary" />
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-6">
-                        <div class="form-group">
-                            <input asp-for="PostDetail[i].postDetailId" class="form-control" type="text"
-                                    hidden readonly/>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Title " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Title " class="form-control" type="text"
-                                   id="searchInput_@i" placeholder="Nhập địa chỉ tìm kiếm" />
-                            <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
-                            <ul id="searchResults_@i" class="makeColor"></ul>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Address " class="control-label"></label>
-                            <input asp-for="PostDetail[i].Address " id="searchInput2_@i"
-                                   onchange="handleNameChange()" class="form-control" readonly />
-                            <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
-                        </div>
-
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].When" class="control-label"></label>
-                            <input asp-for="PostDetail[i].When" type="month" class="form-control" />
-                            <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
-                        </div>
-                        <div class="form-group">
-                            <label asp-for="PostDetail[i].Content " class="control-label"></label>
-                            <texarea asp-for="PostDetail[i].Content" class="form-control"> </texarea>
-                            @Html.Raw(Model.PostDetail[i].Content);
-                            <span asp-validation-for="PostDetail[i].Content" class="text-danger"></span>
-                        </div>
-                    </div>
-
                 </div>
-
-                <script>
-                    (function () {
-
-
-
-                        document.getElementById('searchInput_@i').addEventListener('input', function () {
-                            var searchText = this.value;
-
-                            // Gửi yêu cầu tìm kiếm dữ liệu
-                            searchLocations(searchText);
-                        });
-
-                        var token = '@Html.Raw(ViewBag.Token)';
-
-                        function searchLocations(searchText) {
-                            // Kiểm tra nếu độ dài của từ khóa tìm kiếm là ít nhất 3 ký tự
-                            if (searchText.length >= 3) {
-                                $.ajax({
-                                    url: 'https://localhost:7204/api/post/locations',
-                                    type: 'GET',
-                                    headers: { Authorization: 'Bearer ' + token },
-                                    data: { searchText: searchText },
-                                    success: function (locations) {
-
-                                        // check
-                                        console.log(locations);
-                                        // Xử lý kết quả tìm kiếm và hiển thị danh sách tên địa điểm
-                                        displaySearchResults(locations);
-                                    },
-                                    error: function (xhr, status, error) {
-                                        // Xử lý lỗi nếu có
-                                        console.error(error);
-                                    }
-                                });
-                            }
-                        }
-
-                        var searchInput = document.getElementById('searchInput_@i');
-                        var resultList = document.getElementById('searchResults_@i');
-
-
-
-
-                        function displaySearchResults(locations) {
-                            var resultList = document.getElementById('searchResults_@i');
-                            resultList.innerHTML = '';
-
-                            // Duyệt qua danh sách kết quả tìm kiếm và tạo các phần tử HTML để hiển thị
-                            locations.forEach(function (location) {
-                                // Tạo phần tử li và thêm nội dung tên địa điểm
-                                var listItem = document.createElement('li');
-                                listItem.textContent = location.name + " - " + location.address;
-                                listItem.classList.add('highlighted');
-
-                                // Thêm sự kiện click để chọn một địa điểm từ danh sách kết quả tìm kiếm
-                                listItem.addEventListener('mousedown', function () {
-
-                                    // Gán giá trị tên địa điểm đã chọn vào ô tìm kiếm
-                                    document.getElementById('searchInput_@i').value = location.name;
-                                    document.getElementById('searchInput2_@i').value = location.address;
-
-                                    // Hiển thị ảnh
-                                    document.getElementById('showImage_@i').src = location.placeImage;
-
-                                    // Xóa danh sách kết quả tìm kiếm
-                                    resultList.innerHTML = '';
-                                });
-
-                                searchInput.addEventListener('blur', function () {
-
-                                    if (!resultList.contains(event.relatedTarget)) {
-                                        // Nếu không, xóa nội dung của danh sách kết quả
-                                        resultList.innerHTML = '';
-                                    }
-                                });
-
-
-                                // Thêm phần tử li vào danh sách kết quả tìm kiếm
-                                resultList.appendChild(listItem);
-                            });
-                        }
-
-
-
-                    })();
-                </script>
-                <script>
-                    var selectedItems = [];
-                    var selectedItemsInput = document.getElementById('selectedItems_@i');
-
-                    function handleNameChange() {
-                        var addressInput = document.getElementById('searchInput2_@i').value;
-                        var titleInput = document.getElementById('searchInput_@i').value;
-
-                        var item = titleInput + ' - ' + addressInput;
-
-                        if (selectedItems.includes(item)) {
-                            selectedItems = selectedItems.filter(function (value) {
-                                return value !== item;
-                            });
-                        } else {
-                            selectedItems.push(item);
-                        }
-
-                        selectedItemsInput.value = selectedItems.join(', ');
-                    }
-                </script>
-                <hr />
-            }
-
-            <div class="form-group">
-                <input type="submit" value="Cập nhập thay đổi" class="btn btn-success" />
             </div>
-        </form>
-    </div>
+        </div>
+    </section>
 </div>
-
-
 

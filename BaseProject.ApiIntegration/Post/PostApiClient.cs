@@ -56,7 +56,14 @@ namespace BaseProject.ApiIntegration.Post
             {
                 requestContent.Add(new StringContent(postDetail.Title), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Title");
                 requestContent.Add(new StringContent(postDetail.Address), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Address");
-                requestContent.Add(new StringContent(postDetail.Content), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
+                if (postDetail.Content != null)
+                {
+                    requestContent.Add(new StringContent(postDetail.Content), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
+                }
+                else
+                {
+                    requestContent.Add(new StringContent(""), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
+                }
                 requestContent.Add(new StringContent(postDetail.postDetailId.ToString()), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].postDetailId");
                 requestContent.Add(new StringContent(postDetail.When.ToString("MM-yyyy")), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].When");
             

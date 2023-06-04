@@ -22,7 +22,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         [MaxLength(100)]
         [Display(Name = "Tiêu đề bài đánh giá")]
         public string Title{ get; set; }
-
+        public DateTime? UploadDate { get; set; }
         public TakeNumberLocation? numberLocation { get; set; }
 
         [Required]

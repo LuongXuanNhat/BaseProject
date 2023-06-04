@@ -36,6 +36,7 @@ namespace BaseProject.BackendApi.Controllers
         
         // Lấy tất cả bài viết
         [HttpGet("pagingall")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetAllPostPaging([FromQuery] GetUserPagingRequest request)
         {
 
@@ -75,6 +76,7 @@ namespace BaseProject.BackendApi.Controllers
         }
 
         [HttpGet("{id}")]
+        [AllowAnonymous]
         public async Task<IActionResult> GetById(int id)
         {
             var user = await _postService.GetById(id);

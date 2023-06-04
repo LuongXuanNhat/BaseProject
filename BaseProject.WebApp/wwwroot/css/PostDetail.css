@@ -1,4 +1,4 @@
-.u-section-1 .u-sheet-1 {
+﻿.u-section-1 .u-sheet-1 {
   min-height: 512px;
 }
 
@@ -539,4 +539,41 @@
   .u-section-1 .u-text-9 {
     margin-left: 88px;
   }
+}
+
+.u-container-layout .parent-content-container {
+    width: 100%; /* Đảm bảo thẻ cha chiếm toàn bộ chiều rộng */
+    max-width: 100%; /* Đảm bảo không vượt quá chiều rộng của thẻ cha */
+    height: auto; /* Cho phép chiều cao thích ứng */
+}
+.u-container-layout .responsive-content-image > img {
+    max-width: 100%; /* Ảnh sẽ không vượt quá chiều rộng của thẻ cha */
+    height: auto; /* Cho phép chiều cao thích ứng */
+}
+
+.rectange-text {
+    width: 5px;
+    height: auto;
+    content: "";
+    background-color: orangered;
+    padding: 8px 4px;
+    margin-right: 12px;
+    display: inline;
+}
+
+.limited-lines-3 {
+    font-size: 14px !important;
+    max-height: 4.8em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
+}
+.limited-lines-3 > p{
+    font-size: 14px !important;
+    max-height: 4.8em; /* Giới hạn chiều cao tối đa */
+    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    display: -webkit-box;
+    -webkit-line-clamp: 3; /* Số dòng tối đa */
+    -webkit-box-orient: vertical;
 }

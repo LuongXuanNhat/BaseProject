@@ -110,9 +110,9 @@
                                                         <span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;
                                                         <span class="u-file-icon u-icon u-icon-5"><img src="~/images/icon/category.png" alt=""></span>&nbsp;category
                                                     </p>
-                                                    <p class="u-text u-text-3">
-                                                        Nội dung giới hạn chữ<br>....
-                                                    </p>
+                                                    <div class="u-text u-text-3 limited-lines-3">
+                                                        @Html.Raw(@item.Content)
+                                                    </div>
                                                 </div>
                                             </div>
                                         }
@@ -122,7 +122,10 @@
                                 @*phân trang chưa làm*@
                                 <div class="u-container-style u-group u-shape-rectangle u-group-4">
                                     <div class="u-container-layout u-container-layout-5">
-                                        <p class="u-text u-text-default u-text-4">Phân trang ở đay</p>
+                                        <p class="u-text u-text-default u-text-4">
+
+                                            @await Component.InvokeAsync("Pager", Model)
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -177,7 +180,7 @@
             </div>
         </div>
     </section>
-
+   
     <section class="u-align-center u-clearfix u-white u-section-2" id="sec-eb08">
         <div class="u-clearfix u-sheet u-sheet-1">
             <h3 class="u-align-center u-text u-text-default u-text-1" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">Địa điểm nổi bật</h3>
@@ -249,7 +252,7 @@
         </div>
     </section>
 
-    @await Component.InvokeAsync("Pager", Model)
+    
 </body>
 </html>
 
