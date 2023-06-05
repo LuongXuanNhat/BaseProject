@@ -17,6 +17,7 @@ using Newtonsoft.Json.Linq;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.Data.Entities;
 using Microsoft.SqlServer.Server;
+using BaseProject.ViewModels.Catalog.Location;
 
 namespace BaseProject.ApiIntegration.Post
 {
@@ -56,14 +57,14 @@ namespace BaseProject.ApiIntegration.Post
             {
                 requestContent.Add(new StringContent(postDetail.Title), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Title");
                 requestContent.Add(new StringContent(postDetail.Address), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Address");
-                if (postDetail.Content != null)
-                {
+                //if (postDetail.Content != null)
+
                     requestContent.Add(new StringContent(postDetail.Content), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
-                }
-                else
-                {
-                    requestContent.Add(new StringContent(""), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
-                }
+
+                //else
+                //{
+                //    requestContent.Add(new StringContent(""), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].Content");
+                //}
                 requestContent.Add(new StringContent(postDetail.postDetailId.ToString()), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].postDetailId");
                 requestContent.Add(new StringContent(postDetail.When.ToString("MM-yyyy")), $"PostDetail[{request.PostDetail.IndexOf(postDetail)}].When");
             
@@ -183,6 +184,21 @@ namespace BaseProject.ApiIntegration.Post
 
             var body = await response.Content.ReadAsStringAsync();
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+            return users;
+        }
+
+        public async Task<List<PostVm>> TakeTopByQuantity(int quantity)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/post/show/{quantity}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<List<PostVm>>(body);
             return users;
         }
 

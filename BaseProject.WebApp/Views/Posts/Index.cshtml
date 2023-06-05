@@ -45,17 +45,17 @@
     <div class="card-header">
         <div class="row">
             <div class="col-md-6 col-xs-12">
-                <a asp-action="Create" class="btn btn-success">Thêm đánh giá</a>
+                <a asp-action="Create" class="btn btn-success">Viết bài</a>
             </div>
             <div class="col-md-6 col-xs-12">
                 <form asp-action="Index" method="get">
                     <div class="row">
-                        <div class="col-md-9">
+                        <div class="col-md-9" style=" padding-right: 0px; margin-left: 2rem;">
                             <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
                         </div>
-                        <div class="cold-md-3">
-                            <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Posts/Index'" class="btn btn-dark">Tải lại danh sách</button>
+                        <div class="cold-md-3" style="width: unset; padding-left:8px; ">
+                            <button type="submit" title="Tìm kiếm bài viết" class="btn btn-primary"><i class="fa-solid fa-magnifying-glass"></i></button>
+                            <button type="button" title="Tải lại danh sách" onclick="window.location.href='/Posts/Index'" class="btn btn-dark"><i class="fa-solid fa-rotate-right"></i></button>
                         </div>
                     </div>
                 </form>

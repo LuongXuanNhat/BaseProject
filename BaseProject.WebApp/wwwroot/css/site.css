@@ -122,12 +122,21 @@ h6::before {
     -webkit-box-orient: vertical;
 }
 .limited-lines-2 {
-    min-height: 6.4em;
-    max-height: 6.4em; /* Giới hạn chiều cao tối đa */
-    overflow: hidden; /* Ẩn nội dung vượt quá chiều cao */
+    max-height: 2.8rem; 
+    overflow: hidden;
     display: -webkit-box;
-    -webkit-line-clamp: 4; /* Số dòng tối đa */
+    -webkit-line-clamp: 4;
     -webkit-box-orient: vertical;
+    -moz-box-orient: vertical;
+    -ms-box-orient: vertical;
+    -o-box-orient: vertical;
+    box-orient: vertical;
+}
+
+.limited-lines-2 > p {
+    padding: 0 0 !important;
+    margin: 0 0 !important;
+    font-size: 14px !important;
 }
 .ThuNhoDienTich {
     width: 20%;

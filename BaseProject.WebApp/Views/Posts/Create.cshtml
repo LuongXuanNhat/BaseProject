@@ -11,7 +11,9 @@
         <div class="u-clearfix u-sheet u-sheet-1">
             <div class="u-container-style u-group u-shape-rectangle u-group-1">
                 <div class="u-container-layout u-container-layout-1">
-                    <h4 class="u-text u-text-default u-text-1">Hãy chia sẻ chuyến đi của bạn</h4>
+                    <h2 class="u-text u-text-default u-text-1 text-gradient-title" style="margin-bottom: 36px;">
+                        Hãy cho chúng tôi biết trải nghiệm của bạn
+                    </h2>
                 </div>
             </div>
             <div class="u-clearfix u-layout-wrap u-layout-wrap-1">
@@ -60,7 +62,7 @@
                                         
                                             <div class="col-8">
                                                 <p class="u-text u-text-default u-text-4"></p>
-                                                <div class="form-group ">
+                                                <div class="form-group " style="padding: 1rem 1rem 0rem 1rem;">
                                                     <label class="control-label">Địa điểm bạn nhắc tới:</label>
                                                         <input asp-for="PostDetail[i].Title " class="form-control Address_Name_Post" type="text"
                                                         id="searchInput_@i" placeholder="Nhập địa điểm tìm kiếm" />
@@ -68,18 +70,18 @@
                                                     <ul id="searchResults_@i" class="makeColor" style="z-index: 2"></ul>
                                                 </div>
 
-                                                <div class="form-group">
+                                                    <div class="form-group ">
                                                         <input asp-for="PostDetail[i].Address " id="searchInput2_@i" placeholder="Địa chỉ" style="background: none;"
                                                                onchange="handleNameChange()" class="form-control Address_Post_Border" readonly />
                                                     <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
                                                 </div>
 
-                                                <div class="form-group">
+                                                    <div class="form-group p-3">
                                                     <label asp-for="PostDetail[i].When" class="control-label"></label>
                                                         <input asp-for="PostDetail[i].When" type="month" class="form-control Address_Name_Post" value="@DateTime.Now.ToString("MM-yyyy")" />
                                                     <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
                                                 </div>
-                                                <div class="form-group">
+                                                    <div class="form-group p-3">
                                                     @*<label asp-for="PostDetail[i].Content " class="control-label"></label>
                                                     <div class="row row-editor">
                                                         <div class="editor-container">
@@ -340,7 +342,7 @@
                                             }
                                         </script>
                                     }
-                                    <div class="form-group">
+                                    <div class="form-group p-3">
                                         <input type="submit" value="Đăng bài" class="btn btn-primary" />
                                     </div>
                                 </form>

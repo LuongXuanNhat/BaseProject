@@ -116,7 +116,7 @@
                                     </div>
 
                                     <h6 class="card-subtitle mb-2 text-muted">@item.Title </h6>
-                                    <p class="card-text limited-lines">@item.Content</p>
+                                    <div class="card-text limited-lines">@Html.Raw(@item.Content)</div>
                                     <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Xem bình luận">10 <i class="fa-solid fa-comment-dots"></i></a>
                                     <a href="#" class="card-link text-black-50 like-link" like-link-id="@item.postDetailId" style="text-decoration: none; padding-right: 8px" title="Thích">2 <i class="fa-regular fa-thumbs-up "></i></a>
                                     <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Lưu bài viết">5 <i class="fa-solid fa-bookmark"></i></a>

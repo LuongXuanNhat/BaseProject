@@ -68,7 +68,7 @@
                 <div class="u-custom-menu u-nav-container">
                     <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1">
                         <li class="u-nav-item">
-                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px;">
+                            <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px; font-size: 16px;font-weight: 500;">
                                 <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
                                 Viết bài
                             </a>
@@ -77,7 +77,7 @@
                         @if (User.Identity.Name != null)
                         {
                             <li class="u-nav-item">
-                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px;">
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px; font-size: 16px;font-weight: 500;">
                                     <i class="fa-solid fa-bell" style="color: #fe9b2a;"></i>
                                     Thông báo</a>
                             </li>
@@ -128,10 +128,10 @@
                         else
                         {
                             <li class="u-nav-item">
-                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Login" style="padding: 10px 0px 10px 10px;">Đăng nhập</a>
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Login" style="padding: 10px 0px 10px 10px;font-size: 16px;font-weight: 500;">Đăng nhập</a>
                             </li>
                             <li class="u-nav-item">
-                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Register" style="padding: 10px 10px 10px 0px;">Đăng ký</a>
+                                <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Account" asp-action="Register" style="padding: 10px 10px 10px 0px;font-size: 16px;font-weight: 500;">Đăng ký</a>
                             </li>
                         }
                         
@@ -144,7 +144,70 @@
                 </a>
             </span>
         </div>
-    </header>   
+    </header>  
+    
+    @*Breadcrumb*@
+    <div class="">
+        <ul class="breadcrumb" style="margin-top: 0px; margin-bottom: 0px; " >
+            <li class="breadcrumb__item breadcrumb__item-firstChild u-list-item-1">
+                <a href="@Url.Action("Index","Place")" class="text-decoration-none text-black">
+                    <span class="breadcrumb__inner">
+                        <span class="breadcrumb__title">Địa điểm
+                            <i class="fa-solid fa-map-location-dot" style="color: #fe3434; margin-left: 12px;"></i>
+                        </span>
+                    </span>
+                    
+                </a>
+                
+            </li>
+            <li class="breadcrumb__item u-list-item-2">
+                <a asp-controller="Posts" asp-action="IndexAll" class="text-decoration-none text-black">
+                    <span class="breadcrumb__inner">
+                        <span class="breadcrumb__title">
+                            Bài viết
+                            <i class="fa-regular fa-newspaper " style="color: #E82385;  margin-left: 12px;"></i>
+                        </span>
+
+                    </span>
+                </a>
+                
+            </li>
+            <li class="breadcrumb__item u-list-item-3">
+                <a class="text-decoration-none text-black">
+                    <span class="breadcrumb__inner">
+                        <span class="breadcrumb__title">
+                            Tin tức & Sự kiện
+                            <i class="fa-solid fa-rss " style="color: #FF26FF;  margin-left: 12px;"></i>
+                        </span>
+                    </span>
+                </a>
+
+                
+            </li>
+            <li class="breadcrumb__item breadcrumb__item-lastChild u-list-item-4">
+                <a class="text-decoration-none text-black">
+                    <span class="breadcrumb__inner">
+                        <span class="breadcrumb__title">
+                            Đang cập nhập
+                            <i class="fa-solid fa-angles-right " style="color: #FF6526;  margin-left: 12px;"></i>
+                        </span>
+                    </span>
+                </a>
+
+               
+            </li>
+            <li class="breadcrumb__item breadcrumb__item-lastChild u-list-item-5">
+                <a>
+
+                </a>
+
+                <span class="breadcrumb__inner">
+                    <span class="breadcrumb__title">ooo</span>
+                </span>
+            </li>
+        </ul>
+    </div>
+    @*Breadcrumb*@
 
     <div class="container">
         <main role="main" class="pb-3">

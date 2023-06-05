@@ -13,7 +13,7 @@ using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration;
 using HtmlAgilityPack;
-
+using BaseProject.ApiIntegration.Locations;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -22,18 +22,20 @@ namespace BaseProject.WebApp.Controllers
     {
         private readonly IConfiguration _configuration;
         private readonly IPostApiClient _postApiClient;
+        private readonly ILocationApiClient _locationApiClient;
         private readonly ICategoryApiClient _cateApiClient;
         private readonly BaseApiClient _baseApiClient;
         //private readonly UserManager<AppUser> _userManager;
 
         public PostsController(IConfiguration configuration, 
             IPostApiClient postApiClient, ICategoryApiClient cateApiClient,
-            BaseApiClient baseApiClient)
+            BaseApiClient baseApiClient, ILocationApiClient locationApiClient)
         {
             _configuration = configuration;
             _postApiClient = postApiClient;
             _cateApiClient = cateApiClient;
             _baseApiClient = baseApiClient;
+            _locationApiClient = locationApiClient;
 
         }
 
@@ -66,6 +68,14 @@ namespace BaseProject.WebApp.Controllers
         [AllowAnonymous]
         public async Task<IActionResult> IndexAll(string keyword, int pageIndex = 1, int pageSize = 10)
         {
+            // Hàm để lấy danh sách địa điểm
+            var LocationList = await _locationApiClient.TakeByQuantity(6);
+            ViewData["ObjectList"] = LocationList;
+
+            // Hàm để lấy danh sách bài đọc nhiều nhất
+            var PostList = await _postApiClient.TakeTopByQuantity(5);
+            ViewData["topList"] = PostList;
+
             // 3: Tìm kiếm bài viết tất cả
             var request = new GetUserPagingRequest()
             {
@@ -197,7 +207,12 @@ namespace BaseProject.WebApp.Controllers
             }
             
             request.CategoryPostDetail =  category1.ResultObj;
-            ModelState.AddModelError("", result.Message);
+            if (result.Message == null)
+            {
+                result.Message = "Nội dung bài viết không được quá dài! Bạn cần viết ngắn lại";
+            }
+            else
+                ModelState.AddModelError("", result.Message);
             return View(request);
         }
 
@@ -238,8 +253,12 @@ namespace BaseProject.WebApp.Controllers
                 TempData["result"] = "Cập nhật bài viết thành công";
                 return RedirectToAction("Index");
             }
-
+            if (result.Message == null)
+            {
+                result.Message = "Nội dung bài viết không được quá dài! Bạn cần viết ngắn lại";
+            }else
             ModelState.AddModelError("", result.Message);
+
             return View(request);
         }
 

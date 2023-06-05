@@ -1,4 +1,5 @@
-﻿using System;
+﻿using BaseProject.Data.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         public DateTime Date { get; set; }
 
         public int View { get; set; }
+        public List<string>? Categories { get; set; }
         
 
 

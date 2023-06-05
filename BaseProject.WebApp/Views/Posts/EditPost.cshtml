@@ -61,7 +61,7 @@
 
                                                 <div class="col-8">
                                                     <p class="u-text u-text-default u-text-4"></p>
-                                                    <div class="form-group ">
+                                                    <div class="form-group " style="padding: 1rem 1rem 0rem 1rem;">
                                                         <label class="control-label">Địa điểm bạn nhắc tới:</label>
                                                         <input asp-for="PostDetail[i].Title " class="form-control Address_Name_Post" type="text"
                                                                id="searchInput_@i" placeholder="Nhập địa điểm tìm kiếm" />
@@ -75,12 +75,12 @@
                                                         <span asp-validation-for="PostDetail[i].Address" class="text-danger"></span>
                                                     </div>
 
-                                                    <div class="form-group">
+                                                    <div class="form-group p-3">
                                                         <label asp-for="PostDetail[i].When" class="control-label"></label>
                                                         <input asp-for="PostDetail[i].When" type="month" class="form-control Address_Name_Post" value="@Model.PostDetail[i].When.ToString("yyyy-MM")" />
                                                         <span asp-validation-for="PostDetail[i].When" class="text-danger"></span>
                                                     </div>
-                                                    <div class="form-group">
+                                                    <div class="form-group p-3">
                                                         @*<label asp-for="PostDetail[i].Content " class="control-label"></label>
                                                 <div class="row row-editor">
                                                 <div class="editor-container">

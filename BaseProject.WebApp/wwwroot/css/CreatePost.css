@@ -173,3 +173,11 @@
     border-radius: 0px;
     /*border-left: 5px #0d6efd solid;*/
 }
+
+.text-gradient-title {
+    background: linear-gradient(90deg, #12C2E9 0%, #c471ed 50%, #f64f59 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    
+    font-family: SVN-Lobster;
+}

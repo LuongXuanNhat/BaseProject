@@ -107,5 +107,13 @@ namespace BaseProject.BackendApi.Controllers
 
             return Ok(results);
         }
+
+        [AllowAnonymous]
+        [HttpGet("show/{quantity}")]
+        public async Task<IActionResult> TakeByQuantity(int quantity)
+        {
+            var user = await _postService.TakeTopByQuantity(quantity);
+            return Ok(user);
+        }
     }
 }

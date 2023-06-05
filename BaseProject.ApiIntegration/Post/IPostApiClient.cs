@@ -21,6 +21,7 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<bool>> DeletePost(int idPost);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
+        Task<List<PostVm>> TakeTopByQuantity(int quantity);
 
         Task<List<Location>> GetAll();
 
