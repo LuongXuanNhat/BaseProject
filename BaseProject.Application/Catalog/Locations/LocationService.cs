@@ -189,8 +189,9 @@ namespace BaseProject.Application.Catalog.Locations
                     query = query.Where(x => x.Name.Contains(request.Keyword, StringComparison.OrdinalIgnoreCase)).ToList();
                     if (request.UserName != null)
                     {
-                        keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
                         keys.Add(request.Keyword);
+                        keys.Add("Tìm kiếm địa điểm trong danh mục " + request.Keyword2);
+                        
                         Guid UserID = await _userService.GetIdByUserName(request.UserName);
                         await _searchService.Add(UserID, keys);
                     }
@@ -258,6 +259,7 @@ namespace BaseProject.Application.Catalog.Locations
             return new ApiSuccessResult<PagedResult<LocationVm>>(pagedResult);
         }
 
+        
         public async Task<ApiResult<LocationCreateRequest>> GetById(int locationId)
         {
             var location = await _context.Locations.Where(x => x.LocationId == locationId).FirstOrDefaultAsync();
@@ -278,6 +280,7 @@ namespace BaseProject.Application.Catalog.Locations
             return new ApiSuccessResult<LocationCreateRequest>(updateLocationRequest);
         }
 
+        // Chi tiết địa điểm
         public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId)
         {
             var location = await _context.Locations.Where(x => x.LocationId == locationId).FirstOrDefaultAsync();
@@ -327,7 +330,6 @@ namespace BaseProject.Application.Catalog.Locations
                 var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
                 
                 // Lấy 1post - 1postDetail
-                if( postDetails != null && postDetails.Count == 1 ) {
                     PostDetailRequest postDetailRequest = new PostDetailRequest();
                     postDetailRequest.PostId = post.PostId;
                     var User = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
@@ -351,41 +353,10 @@ namespace BaseProject.Application.Catalog.Locations
                     postDetailRequest.SaveCount = saveCount;
 
                     list.Add(postDetailRequest);
-                } else
-                {
-                    if (postDetails != null && postDetails.Count > 1)
-                    {
-                        for (int i = 0; i < post.LocationsDetail.Count; i++)
-                        {
-                            PostDetailRequest postDetailRequest = new PostDetailRequest();
-                            postDetailRequest.PostId = post.PostId;
-                            var User = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
-
-                            postDetailRequest.UserName = User.UserName;
-                            postDetailRequest.UserId = User.Id;
-                            postDetailRequest.Title = post.Title;
-                            postDetailRequest.Content = post.LocationsDetail[i].Content;
-                            postDetailRequest.When = post.LocationsDetail[i].When;
-
-                            postDetailRequest.postDetailId = post.LocationsDetail[i].Id;
-
-                            postDetailRequest.ImageList = await _context.Images.Where(x => x.LocationsDetailId == postDetailRequest.postDetailId).Select(x => x.Path).ToListAsync();
-
-                            postDetailRequest.Address = await _context.Locations.Where(x => x.LocationId == post.LocationsDetail[i].LocationId).Select(x => x.Address).FirstOrDefaultAsync();
-
-                            var shareCount = _context.Shares.Where(x => x.PostId == post.PostId).Count();
-                            var saveCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
-
-                            postDetailRequest.ShareCount = shareCount;
-                            postDetailRequest.SaveCount = saveCount;
-
-                            list.Add(postDetailRequest);
-                        }
-                    }
-                }
 
             }
 
+            // Chuyển vào view model - hiển thị ra ngoài
 
             var updateLocationRequest = new LocationDetailRequest()
             {
@@ -393,13 +364,19 @@ namespace BaseProject.Application.Catalog.Locations
                 Name = location.Name,
                 Address = location.Address,
                 Description = "Thông tin mô tả về địa điểm này đang được cập nhập",
-                View = location.View == null ? 0 : location.View,
+                View = location.View + 1,
                 RatingCount = rating_count,
                 RatingScore = rating_score,
                 ReviewCount = review_count != null ? review_count : null,
                 ImageList = img_list.ToList() == null ? null : img_list.ToList(),
                 PostDetailRequest = list == null ? null : list,
             };
+
+            // Cập nhập lượt xem
+            location.View += 1;
+            _context.Update(location);
+            await _context.SaveChangesAsync();
+
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
         }

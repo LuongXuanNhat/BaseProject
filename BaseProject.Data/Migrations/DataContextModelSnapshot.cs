@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "b301b6ca-1568-410a-a07b-5ec20995b6d6",
+                            ConcurrencyStamp = "e85fb222-e158-4830-94d9-4d0a846c497c",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +97,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "625b6b6b-1383-4bf2-b3c4-b07bb8bd8083",
+                            ConcurrencyStamp = "8fb54943-eb43-44b9-bfe7-95be38b5816f",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -198,7 +198,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "e5b8ac07-7299-4fa5-b335-2ecce23b7fa3",
+                            ConcurrencyStamp = "a3d6cd76-f5a5-4c5a-937c-4a6155df29ce",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -208,7 +208,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEHL0JW4sViEMy864NhPrWkJDWDQ2hVOJiYca9gY0O8Ckcnl0NNJVpIbtGNhsPsYvkA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAENWO4zYzE4bap4f4eLzWG4C9mmvVXWLesw2F3cTEr8FYO4sjL+mT9Cqo6GyGoEogqQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2178,13 +2178,13 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             NotificationId = 1,
-                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6001),
+                            Date = new DateTime(2023, 6, 5, 16, 27, 46, 800, DateTimeKind.Local).AddTicks(2942),
                             Title = "Thông báo hệ thống"
                         },
                         new
                         {
                             NotificationId = 2,
-                            Date = new DateTime(2023, 6, 2, 12, 45, 9, 923, DateTimeKind.Local).AddTicks(6014),
+                            Date = new DateTime(2023, 6, 5, 16, 27, 46, 800, DateTimeKind.Local).AddTicks(2953),
                             Title = "Tương tác"
                         });
                 });

@@ -1,16 +1,18 @@
-﻿@using BaseProject.ViewModels.Common;
+﻿@using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.Catalog.Post;
+@using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
 @{
     ViewData["Title"] = "Đánh giá của tôi";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
-
-
-<h1>Tất cả bài đánh giá</h1>
-
-
-
+@{
+    List<LocationVm> objectList = ViewData["ObjectList"] as List<LocationVm>;
+}
+@{
+    List<PostVm> topList = ViewData["topList"] as List<PostVm>;
+}
+<link href="~/css/places_style.css" rel="stylesheet" />
 
 <div class="row">
     @if (ViewBag.SuccessMsg != null)
@@ -42,69 +44,245 @@
     </div>
 </div>*@
 
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Book your outdoor adventure, About Us, ​Find your next getaway, Our Services, ​Plan Your Camping Trip, ​How to plan a camping trip, Contact Us">
+    <meta name="description" content="">
+    <title>ListPost</title>
 
+    <link href="~/css/nicepage.css" rel="stylesheet" />
+    <link href="~/css/listpost.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/nicepage.js"></script>
 
-<div class="card mb-12">
-    <div class="card-header">
-        <div class="row">
-           @* <div class="col-md-6 col-xs-12">
-                <a asp-action="Create" class="btn btn-success">Thêm đánh giá</a>
-            </div>*@
-            <div class="col-md-6 col-xs-12">
-                <form asp-action="IndexAll" method="get">
-                    <div class="row">
-                        <div class="col-md-9">
-                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+    <meta name="generator" content="Nicepage 5.9.10, nicepage.com">
+
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="ListPost">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+
+    <section class="u-clearfix u-section-10" id="sec-9e76">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <form asp-action="IndexAll" method="get" class="u-border-1 u-border-grey-30 u-radius-21 u-search u-search-left u-white u-search-1">
+                        <button class="u-search-button" type="submit">
+                            <span class="u-search-icon u-spacing-10 u-search-icon-1">
+                                <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 56.966 56.966"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-a3b5"></use></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-a3b5" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" class="u-svg-content"><path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"></path></svg>
+                            </span>
+                        </button>
+                        <input class="u-search-input u-search-input-1" type="search" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm bài đánh giá">
+                        <div class="cold-md-3 user-search-btn" style="width: unset; padding-left:8px; ">
+                            <button title="Tìm" type="submit" class="btn btn-primary">
+                                @*<i class="fa-solid fa-magnifying-glass"></i>*@
+                            </button>
+                            
                         </div>
-                        <div class="cold-md-3">
-                            <button type="submit" class="btn btn-primary">Tìm</button>
-                            <button type="button" onclick="window.location.href='/Posts/IndexAll'" class="btn btn-dark">Tải lại danh sách</button>
-                        </div>
-                    </div>
-                </form>
+                        <a asp-controller="Posts" asp-action="IndexAll" title="Tải lại danh sách" class="" style="margin-top: 4px;margin-right: 10px;">
+                            <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </a>
+                    </form>
+                    
+                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2">
+                            Chọn danh mục&nbsp;&nbsp;<span class="u-file-icon u-icon"><img src="images/60781.png" alt=""></span>
+                    </a>
+                    
+                    
+                </div>
             </div>
         </div>
-    </div>
-    <div class="card-body">
-        </td>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th style="width:40em">
-                        Tiêu đề
-                    </th>
-                    <th style="min-width: 5em;">
-                        Thời gian tạo
-                    </th>
-                    <th style="min-width: 5em;">
-                        Số lượt xem
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var item in Model.Items)
-                {
-                    <tr>
-                        <td>
-                            <a title="Xem chi tiết" href="@Url.Action("Details", new { id = item.PostId })" class="text-decoration-none text-black">
-                                @Html.DisplayFor(modelItem => item.Title)
+    </section>
 
+    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center-md u-container-align-center-sm u-container-align-center-xs u-section-1" src="" id="sec-804d">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="u-layout-row">
+                        <div class="u-container-style u-layout-cell u-size-40 u-layout-cell-1">
+                            <div class="u-container-layout u-valign-top u-container-layout-1">
+                                <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                                    <div class="u-container-layout u-container-layout-2">
+                                        @*list post ở đây*@
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
+                                                <div class="u-container-layout u-container-layout-3">
+                                                    <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
+                                                        <div class="u-container-style u-group u-shape-rectangle ">
+                                                            <div class="u-image-1" width="1280" height="853" src="" alt="">
+                                                                <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <div style="text-decoration:none;" >
+                                                            <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                                        </div>
+                                                        <p class="u-text u-text-2">
+                                                            <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
+                                                            @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
+                                                            <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
+                                                            @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
+                                                            <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
+                                                            &nbsp;  @if (item.Categories != null)
+                                                            {
+                                                                <span>@item.Categories.Count</span>
+                                                            }
+                                                                
+                                                        </p>
+                                                        <div class="u-text u-text-3 limited-lines-2">
+                                                            @Html.Raw(@item.Content)
+                                                        </div>
+                                                    </a>
+                                                    
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                                var danhSach = @Html.Raw(Json.Serialize(item.Categories));
+                                                var spanElement = document.getElementById("cate_@item.PostId");
+
+                                                if (spanElement && danhSach !== null) {
+                                                    spanElement.title = danhSach.join("\n");
+                                                }
+                                            </script>
+                                        }
+                                    </div>
+                                </div>
+
+                                @*phân trang chưa làm*@
+                                <div class="u-container-style u-group u-shape-rectangle u-group-4">
+                                        <p class="u-text u-text-default u-text-4">
+
+                                            @await Component.InvokeAsync("Pager", Model)
+                                        </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="u-container-style u-hidden-md u-hidden-sm u-hidden-xs u-layout-cell u-shape-rectangle u-size-20 u-layout-cell-2">
+                            <div class="u-container-layout u-valign-top u-container-layout-6">
+                                <div class="u-border-2 u-border-palette-5-base u-container-style u-group u-shape-rectangle u-group-6" style="margin-bottom: 20px;">
+                                    <div class="u-container-layout u-container-layout-9">
+                                        <h5 class="u-text u-text-default u-text-9">
+                                            <span class="u-file-icon u-icon u-icon-9"><img src="~/images/icon/topreview.png" alt=""></span>&nbsp;ĐỌC NHIỀU NHẤT
+                                        </h5>
+                                        @{
+                                            int i = 0;
+                                        }
+                                        @*top post ở đây*@
+                                        @foreach (var item in topList)
+                                        {
+                                            i++;
+                                            <div class="u-container-style u-group u-shape-rectangle u-group-7">
+                                                <a href="@Url.Action("Details", new { id = item.PostId })" class="text-black" title="Viết ngày: @item.Date" >
+                                                    <div class="u-container-layout u-container-layout-10">
+                                                        <div class="">
+                                                            <p class="u-text u-text-10 ">@item.Title</p>
+                                                            <span class="u-text u-text-p-view"><i class="fa-regular fa-eye fa-sm"></i> @item.View</span>
+                                                        </div>
+                                                        <p class="u-text u-text-default u-text-palette-1-base u-text-11">
+                                                            @if (i == 1)
+                                                            {
+                                                                <span class="u-file-icon u-icon u-icon-10"><img src="~/images/icon/1.png" alt=""></span>
+                                                            } else if (i == 2)
+                                                            {
+                                                                <span class="u-file-icon u-icon u-icon-10"><img src="~/images/icon/2.png" alt=""></span>
+                                                                
+                                                            } else if(i == 3)
+                                                            {
+                                                                <span class="u-file-icon u-icon u-icon-10"><img src="~/images/icon/3.png" alt=""></span>
+                                                            }else if (i == 4)
+                                                            {
+                                                                <span class="u-file-icon u-icon u-icon-10"><img src="~/images/icon/4.png" alt=""></span>
+                                                                
+                                                            } else if(i == 5)
+                                                            {
+                                                                <span class="u-file-icon u-icon u-icon-10"><img src="~/images/icon/5.png" alt=""></span>
+                                                            } 
+                                                        </p>
+                                                        
+                                                    </div>
+                                                </a>
+                                                
+                                            </div>
+                                        }
+                                        
+                                    </div>
+                                </div>
+                                
+                                <div class="u-border-2 u-border-palette-4-dark-2 u-container-style u-group u-shape-rectangle u-group-5">
+                                    <div class="u-container-layout u-container-layout-7">
+                                        <h5 class="u-text u-text-default u-text-5">
+                                            <span class="u-file-icon u-icon u-icon-6"><img src="~/images/icon/topuser.png" alt=""></span>&nbsp;SIÊU SAO REVIEW
+                                        </h5>
+                                        @*top user ở đây*@
+                                        <div class="u-list u-list-1">
+                                            <div class="u-repeater u-repeater-1">
+                                                <div class="u-container-style u-list-item u-repeater-item">
+                                                    <div class="u-container-layout u-similar-container u-container-layout-8">
+                                                        <p class="u-text u-text-default u-text-6">
+                                                            <span class="u-file-icon u-icon"><img src="~/images/icon/1.png" alt=""></span>
+                                                        </p>
+                                                        <p class="u-text u-text-7">
+                                                            <span class="u-icon u-icon-8"></span>
+                                                            <span style="font-family: Montserrat,sans-serif; font-weight: 400; background-color: #ffffff; color: #111111;">Luong Xuan Nhi</span>
+                                                        </p>
+                                                        <p class="u-text u-text-default u-text-8">xxx lượt theo dõi</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+   
+    <section class="u-align-center u-clearfix u-white u-section-2" id="sec-eb08">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <h3 class="u-align-center u-text u-text-default u-text-1" style="margin-top: 0px;" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="0">Địa điểm nổi bật</h3>
+            <p class="u-align-center u-text u-text-2" data-animation-name="customAnimationIn" data-animation-duration="1500" data-animation-delay="250">Sự tuyệt vời của những nơi này sẽ không làm bạn thất vọng, hãy chuẩn bị tâm thái để có một chuyến đi thật vui vẻ</p>
+            <div class="u-list u-list-1">
+                <div class="">
+                    @*Chèn Địa điểm*@
+                    <div class="destination-list">
+                        @foreach (var obj in objectList)
+                        {
+                            <a class="destination-item2" asp-action="Detail" asp-controller="Place" asp-route-ID="@obj.LocationId" title="@obj.Address">
+                                <div style="position: relative; display:flex; justify-content: center;">
+                                    <img src="@obj.ImageList" alt="Destination 1" class="fix-img">
+                                    <div style="position: absolute;bottom: 0px;height: 40px;background-color: black;width: 100%;opacity: 50%">
+                                    </div>
+                                    <div style="position: absolute;bottom: 5px;font-size: 20px;color: white;">
+                                        @obj.Name
+                                    </div>
+                                </div>
                             </a>
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.Date)
-                        </td>
-                        <td>
-                            @Html.DisplayFor(modelItem => item.View)
-                        </td>
-                   
-                    </tr>
-                }
-            </tbody>
-        </table>
-        @await Component.InvokeAsync("Pager", Model)
-    </div>
-</div>
+
+                        }
+                </div>
+            </div>
+        </div>
+    </section>
+
+    
+</body>
+</html>
 
 @section Scripts{
     <script>

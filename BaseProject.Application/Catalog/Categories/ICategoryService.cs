@@ -23,6 +23,7 @@ namespace BaseProject.Application.Catalog.Categories
 
         Task<ApiResult<CategoryRequest>> GetById(int categoryId);
         Task<ApiResult<List<Category>>> GetAll();
+        Task<List<CategoriesDetail>> GetAllCategoryDetail();
         Task<ApiResult<bool>> SaveCatelogyDetail(List<Category> category, int postId);
 
  

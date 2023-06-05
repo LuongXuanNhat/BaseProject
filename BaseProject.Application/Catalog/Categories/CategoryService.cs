@@ -131,6 +131,12 @@ namespace BaseProject.Application.Catalog.Categories
             return new ApiSuccessResult<List<Category>>(cate);
         }
 
+        public async Task<List<CategoriesDetail>> GetAllCategoryDetail()
+        {
+            var cate = await _context.CategoriesDetails.ToListAsync();
+            return cate;
+        }
+
         public async Task<ApiResult<bool>> SaveCatelogyDetail(List<Category> category, int postId)
         {
             List<CategoriesDetail> details = new List<CategoriesDetail>();

@@ -36,9 +36,9 @@ namespace BaseProject.WebApp.Controllers
 
         public async Task<IActionResult> Index()
         {
-            // Hàm để lấy danh sách danh mục
-            var CategoryList = await _locationApiClient.TakeByQuantity(6);
-            ViewData["ObjectList"] = CategoryList;
+            // Hàm để lấy danh sách địa điểm
+            var LocationList = await _locationApiClient.TakeByQuantity(6);
+            ViewData["ObjectList"] = LocationList;
             
             // Hàm để lấy danh sách top writer
             var TopList = await _userApiClient.TakeByQuantity(4);

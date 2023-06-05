@@ -16,6 +16,7 @@ using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.System.Users;
 using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Catalog.Rating;
+using BaseProject.ViewModels.Catalog.Comments;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -55,7 +56,8 @@ namespace BaseProject.Application.Catalog.Posts
                 Post post = new Post()
                 {
                     PostId = request.PostId,
-                    Title = request.Title
+                    Title = request.Title,
+                    UploadDate = DateTime.Now
                 };
 
                 // Gắn vào ngữ cảnh
@@ -71,28 +73,39 @@ namespace BaseProject.Application.Catalog.Posts
 
                 }
 
-                // Lưu chi tiết đánh giá
+                // Lưu chi tiết bài đánh giá
                 for (int i = 0; i < request.PostDetail.Count; i++)
                 {
                     Location location = new Location();
-                    location = await _context.Locations.FirstOrDefaultAsync(str => str.Address.Equals(request.PostDetail[i].Address));
-                    LocationsDetail locationsDetail = new LocationsDetail(
-                        request.PostDetail[i].postDetailId,
-                        location.LocationId,
-                        post.PostId,
-                        request.PostDetail[i].Title,
-                        request.PostDetail[i].When,
-                        request.PostDetail[i].Content
-                    );
-                    _context.LocationsDetails.Update(locationsDetail);
-                    await _context.SaveChangesAsync();
+                    location = await _context.Locations.Where(str => str.Address.Equals(request.PostDetail[i].Address)).FirstOrDefaultAsync();
+                    var  locationDetail = await _context.LocationsDetails.FirstOrDefaultAsync(str => str.LocationId == location.LocationId);
+
+                    locationDetail.LocationId = location.LocationId;
+                    locationDetail.PostId = post.PostId;
+                    locationDetail.Title = request.PostDetail[i].Title;
+                    locationDetail.When = request.PostDetail[i].When;
+                    locationDetail.Content = request.PostDetail[i].Content;
+
+                    _context.LocationsDetails.Update(locationDetail);
+                    
 
                     // Lưu PostDetail Image
                     if (request.PostDetail[i].GetImage != null && request.PostDetail[i].GetImage.Count != 0)
                     {
-                        var saveImage = await _imageService.UpdateImage(request.PostDetail[i].GetImage, locationsDetail.Id);
+                        var saveImage = await _imageService.UpdateImage(request.PostDetail[i].GetImage, locationDetail.Id);
 
                     }
+                }
+                try
+                {
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateException ex)
+                {
+                    // Xử lý lỗi
+                    string errorMessage = ex.Message;
+                    return new ApiErrorResult<bool>(errorMessage);
+                    // Hiển thị thông báo lỗi hoặc ghi nhật ký
                 }
 
 
@@ -306,7 +319,7 @@ namespace BaseProject.Application.Catalog.Posts
 
 
 
-
+        // Chi tiết bài viết
         public async Task<ApiResult<PostCreateRequest>> GetById(int postId)
         {
             var post = await _context.Posts.Where(x => x.PostId == postId).FirstOrDefaultAsync();
@@ -314,21 +327,43 @@ namespace BaseProject.Application.Catalog.Posts
             {
                 return new ApiErrorResult<PostCreateRequest>("Bài viết không tồn tại");
             }
-
+            
             var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
             var location = await _context.Locations.ToListAsync();
+            var username = await _context.Users.Where(x=>x.Id == post.UserId ).Select(x=>x.UserName).FirstOrDefaultAsync();
 
             Location address = new Location();
             List<PostDetailRequest> list = new List<PostDetailRequest>();
+
+            var LOCATION = location.FirstOrDefault(x => x.LocationId == postDetail[0].LocationId);
+            var SAVECOUNT = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
+            var comment = await _context.Comments.Where(x => x.PostId == post.PostId).ToListAsync();
+            List<CommentCreateRequest> list_Comment = new List<CommentCreateRequest>();
+            foreach (var item in comment)
+            {
+                CommentCreateRequest commentCreate = new CommentCreateRequest();
+                commentCreate.Id = item.Id;
+                commentCreate.PreCommentId = item.PreCommentId;
+                commentCreate.UserId = item.UserId;
+                commentCreate.Content = item.Content;
+                commentCreate.Date = item.Date;
+
+                list_Comment.Add(commentCreate);
+            }
             for (int i = 0; i < postDetail.Count; i++)
             {
                 PostDetailRequest item = new PostDetailRequest();
                 item.postDetailId = postDetail[i].Id;
                 item.Title = postDetail[i].Title;
-                address = location.FirstOrDefault(x => x.LocationId == postDetail[i].LocationId);
-                item.Address = address.Address;
+                item.LocationId = LOCATION.LocationId;
+                item.Address = LOCATION.Address;
                 item.Content = postDetail[i].Content;
                 item.When = postDetail[i].When;
+                item.LikeCount = post.Like;
+                item.ViewCount = post.View+1;
+                item.SaveCount = SAVECOUNT;
+                item.ShareCount = 0;
+                item.CommentList = list_Comment;
                 list.Add(item);
             }
 
@@ -336,18 +371,30 @@ namespace BaseProject.Application.Catalog.Posts
             var newPost = new PostCreateRequest()
             {
                 PostId = postId,
-                UserId = post.UserId.ToString(),
+                UserId = username,
                 PostDetail = list,
+                UploadDate = post.UploadDate,
                 Title = post.Title,
                 CategoryPostDetail = cate.ResultObj
 
             };
+
+            // Cập nhập lượt xem
+            post.View += 1;
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+
             return new ApiSuccessResult<PostCreateRequest>(newPost);
         }
 
+        // Lấy tất cả bài viết
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
             var query = await _context.Posts.ToListAsync();
+            var list_content = await _context.LocationsDetails.ToListAsync();
+            var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
+            var list_category = await _categoryService.GetAllCategoryDetail();
+
             List<String> list = new List<String>();
             if (request.number == 3)
             {
@@ -358,7 +405,7 @@ namespace BaseProject.Application.Catalog.Posts
                     // Lưu lịch sử tìm kiếm
                     if (request.UserName != null)
                     {
-                        list.Add($"Tìm kiếm bài đánh giá: {request.Keyword}");
+                        list.Add($"Tìm kiếm bài viết: {request.Keyword}");
                         var UserID = await _userService.GetIdByUserName(request.UserName);
                         await _searchService.Add(UserID, list);
                     }
@@ -374,12 +421,13 @@ namespace BaseProject.Application.Catalog.Posts
                 .Select(x => new PostVm()
                 {
                     PostId = x.PostId,
+                    Content = filteredList.FirstOrDefault(y => y.PostId == x.PostId).Content,
+                    Categories = list_category.Where(y => y.PostId == x.PostId).Select(x=>x.Description).ToList(),
                     Title = x.Title,
                     Date = x.UploadDate,
                     UserId = x.UserId,
-                    View = x.View
+                    View = x.View 
                 }).ToList();
-
             //4. Select and projection
             var pagedResult = new PagedResult<PostVm>()
             {
@@ -433,6 +481,7 @@ namespace BaseProject.Application.Catalog.Posts
             return new ApiSuccessResult<bool>();
         }
 
+        
         public async Task<List<SearchPlaceVm>> GetAll(string searchText)
         {
             var result = await _context.Locations
@@ -452,6 +501,28 @@ namespace BaseProject.Application.Catalog.Posts
             return placeList;
         }
 
+        public async Task<List<PostVm>> TakeTopByQuantity(int quantity)
+        {
+            if ( _context.Posts.ToList().Count < quantity) { quantity = _context.Posts.ToList().Count; }
+            var post = await _context.Posts
+            .OrderByDescending(p => p.View)
+            .Take(quantity)
+            .ToListAsync();
 
+            List<PostVm> postList = new List<PostVm>();
+            foreach (var item in post)
+            {
+                PostVm postVm = new PostVm();
+                postVm.Title = item.Title;
+                postVm.UserId = item.UserId;
+                postVm.PostId = item.PostId;
+                postVm.Date = item.UploadDate;
+                postVm.View = item.View;
+
+                postList.Add(postVm);
+            }
+
+            return postList;
+        }
     }
 }

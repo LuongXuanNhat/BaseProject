@@ -8,6 +8,8 @@
 
   <ItemGroup>
     <PackageReference Include="bootstrap" Version="5.2.3" />
+    <PackageReference Include="CKEditor" Version="3.6.4" />
+    <PackageReference Include="HtmlAgilityPack" Version="1.11.46" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Razor.RuntimeCompilation" Version="6.0.0" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="6.0.13" />
   </ItemGroup>
@@ -20,15 +22,6 @@
     <ProjectReference Include="..\BaseProject.ViewModels\BaseProject.ViewModels.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\flash\dialogs\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\flash\images\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\wsc\dialogs\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\wsc\skins\moono-lisa\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\youtube\images\" />
-    <Folder Include="wwwroot\plugin\ckeditor\plugins\youtube\lang\" />
-    <Folder Include="wwwroot\plugin\ckeditor\samples\old\htmlwriter\assets\outputforflash\" />
-    <Folder Include="wwwroot\plugin\ckeditor\skins\moono-lisa\images\hidpi\" />
-  </ItemGroup>
+  <ProjectExtensions><VisualStudio><UserProperties wwwroot_4plugin_4ckeditor5-38_10_11-4o6fchvo7y8p_4package_1json__JsonSchema="https://json.schemastore.org/npm-badges.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

@@ -29,6 +29,10 @@ namespace BaseProject.Application.Catalog.Rating
 
         public async Task<bool> Create(Guid userID, int LocationID)
         {
+            if (await check( userID,  LocationID) == false)
+            {
+                return false;
+            }
             var CreateRating = new RatingLocation()
             {
                 LocationId = LocationID,
@@ -42,7 +46,29 @@ namespace BaseProject.Application.Catalog.Rating
 
             return true;
         }
-
+        private async Task<bool> check(Guid userID, int LocationID)
+        {
+            var list = await _context.RatingLocations.Where(x=>x.UserId == userID && x.LocationId == LocationID).ToListAsync();
+            if (list.Any()) {
+                return true;
+            } else {
+                DateTime? dateTime = list.Select(x => x.Date).LastOrDefault();
+                if (dateTime.HasValue)
+                {
+                    DateTime date1 = dateTime.Value;
+                    DateTime currentDate = DateTime.Now.Date;
+                    TimeSpan duration = currentDate.Subtract(date1); // Tính khoảng thời gian giữa date1 và ngày hiện tại
+                    if (duration.TotalDays < 30)
+                    {
+                        // Lấy số ngày thiếu
+                        return false;
+                    }
+                    return true;
+                }
+                
+            }
+            return true;
+        }
         public async Task<bool> Rating(int id, int star_number)
         {
             var star = await _context.RatingLocations.Where(x => x.Id == id).FirstOrDefaultAsync();

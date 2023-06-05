@@ -14,6 +14,7 @@ namespace BaseProject.ViewModels.Catalog.Post
     public class PostDetailRequest
     {
         public int? PostId { get; set; }
+        public int? LocationId { get; set; }
         public string? UserName { get; set; }
         public Guid UserId { get; set; }
         public int postDetailId { get; set; }
@@ -28,8 +29,8 @@ namespace BaseProject.ViewModels.Catalog.Post
 
         [Display(Name = "Viết đánh giá")]
         [Required(ErrorMessage = "Nội dung không được để trống")]
-        [StringLength(500) ]
-        public string Content { get; set; }
+        [StringLength(4000) ]
+        public string? Content { get; set; }
 
         [Display(Name = "Bạn đi vào thời gian nào?")]
         [Required(ErrorMessage = "Bạn cần nhập thời gian đến địa chỉ này")]

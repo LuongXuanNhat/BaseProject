@@ -4,6 +4,8 @@
     "@ckeditor/ckeditor5-build-multi-root": "^38.0.1"
   },
   "dependencies": {
-    "@ckeditor/ckeditor5-build-decoupled-document": "^38.0.1"
+    "@ckeditor/ckeditor5-build-decoupled-document": "^38.0.1",
+    "@ckeditor/ckeditor5-html-embed": "^38.0.1",
+    "@ckeditor/ckeditor5-upload": "^38.0.1"
   }
 }
