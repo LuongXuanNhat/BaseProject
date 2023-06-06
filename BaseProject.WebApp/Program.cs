@@ -28,6 +28,7 @@ builder.Services.AddTransient<IRatingApiClient, RatingApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<ISearchApiClient, SearchApiClient>();
 builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
+builder.Services.AddTransient<IPostApiClient, PostApiClient>();
 builder.Services.AddTransient<BaseApiClient>();
 
 builder.Services.AddMemoryCache();
@@ -54,9 +55,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddTransient<IUserApiClient, UserApiClient>();
-builder.Services.AddTransient<IPostApiClient, PostApiClient>();
-builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
 
 
 
