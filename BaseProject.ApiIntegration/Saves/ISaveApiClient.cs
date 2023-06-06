@@ -15,8 +15,8 @@ namespace BaseProject.ApiIntegration.Saves
 {
     public interface ISaveApiClient
     {
-        Task<ApiResult<bool>> AddAddressToArchive(AddAddressSaveVm request);
-        Task<ApiResult<bool>> Check(AddAddressSaveVm request);
+        Task<ApiResult<bool>> AddToArchive(AddSaveVm request);
+        Task<ApiResult<bool>> Check(AddSaveVm request);
         Task<ApiResult<PagedResult<LocationVm>>> GetByUserName(GetUserPagingRequest getRatingListPagingRequest);
 
     }

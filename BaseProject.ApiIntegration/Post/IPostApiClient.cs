@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -25,7 +26,7 @@ namespace BaseProject.ApiIntegration.Post
 
         Task<List<Location>> GetAll();
 
-
+        Task<ApiResult<bool>> Like(AddSaveVm model);
 
     }
 }

@@ -1,6 +1,7 @@
 ﻿using BaseProject.Application.Catalog.Posts;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
@@ -60,6 +61,23 @@ namespace BaseProject.BackendApi.Controllers
             }
             return Ok(result);
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddAddressToArchive(AddSaveVm request)
+        {
+            if (request.number == 1)
+            {
+                var result = await _postService.Like(request);
+                if (!result.IsSuccessed)
+                {
+                    return BadRequest(result);
+                }
+                return Ok(result);
+            }
+
+            return BadRequest();
+        }
+
 
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdatePost(int id, [FromBody] PostCreateRequest request)

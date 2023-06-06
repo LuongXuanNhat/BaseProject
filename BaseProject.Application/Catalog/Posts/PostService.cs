@@ -17,6 +17,7 @@ using BaseProject.Application.System.Users;
 using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Catalog.Rating;
 using BaseProject.ViewModels.Catalog.Comments;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -478,6 +479,22 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<ApiResult<bool>> GetList(int userId)
         {
+            return new ApiSuccessResult<bool>();
+        }
+
+        public async Task<ApiResult<bool>> Like(AddSaveVm request)
+        {
+            var userId = await _userService.GetIdByUserName(request.Username);
+            var post = await _context.Posts.Where(x => x.PostId == request.Id).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                return new ApiErrorResult<bool>("Bài viết không tồn tại");
+            }
+
+            post.Like += 1;
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+
             return new ApiSuccessResult<bool>();
         }
 

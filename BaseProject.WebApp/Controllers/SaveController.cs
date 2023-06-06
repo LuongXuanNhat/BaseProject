@@ -40,13 +40,37 @@ namespace BaseProject.WebApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddAddressToArchive([FromBody] AddAddressSaveVm model)
+        public async Task<IActionResult> AddAddressToArchive([FromBody] AddSaveVm model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var data = await _saveApiClient.AddAddressToArchive(model);
+            // Gắn chỉ định là id địa điểm
+            model.number = 1;
+
+            var data = await _saveApiClient.AddToArchive(model);
+            if (!data.IsSuccessed == true)
+            {
+                return Json(new { successMsg = data.Message});
+            }
+          //  ViewBag.Token = _baseApiClient.GetToken();
+
+            return BadRequest();
+        }
+        
+        
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddPostToArchive([FromBody] AddSaveVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            // Gắn chỉ định là id bài viết
+            model.number = 2;
+            var data = await _saveApiClient.AddToArchive(model);
             if (!data.IsSuccessed == true)
             {
                 return Json(new { successMsg = data.Message});

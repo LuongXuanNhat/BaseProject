@@ -6,10 +6,11 @@ using System.Threading.Tasks;
 
 namespace BaseProject.ViewModels.Catalog.FavoriteSave
 {
-    public class AddAddressSaveVm
+    public class AddSaveVm
     {
         public string Username { get; set; }
-        public int IdPlaces { get; set; }
+        public int Id { get; set; }
+        public int? number { get; set; }
     }
 
 }

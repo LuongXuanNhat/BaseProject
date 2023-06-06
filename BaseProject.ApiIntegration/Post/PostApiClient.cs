@@ -18,6 +18,7 @@ using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.Data.Entities;
 using Microsoft.SqlServer.Server;
 using BaseProject.ViewModels.Catalog.Location;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 
 namespace BaseProject.ApiIntegration.Post
 {
@@ -105,26 +106,21 @@ namespace BaseProject.ApiIntegration.Post
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
-
-
-        // Không dùng
-        public async Task<ApiResult<bool>> DeleteCategory(int idCategory)
+        public async Task<ApiResult<bool>> Like(AddSaveVm request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/categoriess/{idCategory}");
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/post/", httpContent);
             var body = await response.Content.ReadAsStringAsync();
-            if (response.IsSuccessStatusCode)
-                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
-
-            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
-        }
-
-        public Task<ApiResult<bool>> DeletePost(int idCategory)
-        {
-            throw new NotImplementedException();
+            if (!response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
         }
 
         public async Task<List<Location>> GetAll()
@@ -219,6 +215,11 @@ namespace BaseProject.ApiIntegration.Post
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public Task<ApiResult<bool>> DeletePost(int idPost)
+        {
+            throw new NotImplementedException();
         }
     }
 }

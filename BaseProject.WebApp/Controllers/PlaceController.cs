@@ -97,10 +97,11 @@ namespace BaseProject.WebApp.Controllers
             ViewBag.Token = _baseApiClient.GetToken();
             ViewBag.UserName = User.Identity.Name;
 
-            var addAddressSaveVm = new AddAddressSaveVm();
+            var addAddressSaveVm = new AddSaveVm();
 
             addAddressSaveVm.Username = User.Identity.Name;
-            addAddressSaveVm.IdPlaces = ID;
+            addAddressSaveVm.Id = ID;
+            addAddressSaveVm.number = 1;
 
             var checkSave = await _saveApiClient.Check(addAddressSaveVm);
 

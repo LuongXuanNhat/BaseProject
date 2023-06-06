@@ -30,12 +30,20 @@ namespace BaseProject.Application.Catalog.Saves
             _userService = userService;
         }
 
-        public async Task<Saved> Check(string UserName, int PlacesId)
+        public async Task<Saved> Check(string UserName, int Id,int number)
         {
             var UserId = await _userService.GetIdByUserName(UserName);
-            var check = await _context.Saveds.FirstOrDefaultAsync(x => x.LocationId == PlacesId && x.UserId == UserId);
+            var check = await _context.Saveds.FirstOrDefaultAsync(x => x.LocationId == Id && x.UserId == UserId);
+            if (number == 1)
+            {
+                 check = await _context.Saveds.FirstOrDefaultAsync(x => x.LocationId == Id && x.UserId == UserId);
+            } else
+            if (number == 2)
+            {
+                check = await _context.Saveds.FirstOrDefaultAsync(x => x.PostId == Id && x.UserId == UserId);
+            }
 
-            return check == null ? null : check;
+            return check;
         }
 
         // Lưu địa điểm vào danh mục yêu thích
@@ -43,7 +51,7 @@ namespace BaseProject.Application.Catalog.Saves
         public async Task<ApiResult<bool>> AddPlacesOrDelete(string UserName, int PlacesId)
         {
             var UserId = await _userService.GetIdByUserName(UserName);
-            var check = await Check(UserName, PlacesId);
+            var check = await Check(UserName, PlacesId, 1);
             if (check != null)
             {
                 _context.Saveds.Remove(check);
@@ -62,6 +70,32 @@ namespace BaseProject.Application.Catalog.Saves
                 _context.Saveds.Add(item);
                 await _context.SaveChangesAsync();
                 return new ApiErrorResult<bool>("Đã thêm địa điểm vào danh sách yêu thích");
+            }
+        }
+
+
+        public async Task<ApiResult<bool>> AddPostsOrDelete(string UserName, int PostId)
+        {
+            var UserId = await _userService.GetIdByUserName(UserName);
+            var check = await Check(UserName, PostId, 2);
+            if (check != null)
+            {
+                _context.Saveds.Remove(check);
+                await _context.SaveChangesAsync();
+                return new ApiErrorResult<bool> ("Đã xóa bài viết khỏi danh sách yêu thích");
+            }
+            else
+            {
+                var item = new Saved()
+                {
+                    PostId = PostId,
+                    UserId = UserId,
+                    LocationId = null,
+                    Date = DateTime.UtcNow
+                };
+                _context.Saveds.Add(item);
+                await _context.SaveChangesAsync();
+                return new ApiErrorResult<bool>("Đã thêm bài viết vào danh sách yêu thích");
             }
         }
 

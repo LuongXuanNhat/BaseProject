@@ -5,6 +5,8 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+
+
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="en">
 <head>
@@ -14,6 +16,7 @@
     <meta name="description" content="">
     <title>PostDetail</title>
 
+    <link href="~/css/places_style.css" rel="stylesheet" />
     <link href="~/css/nicepage.css" rel="stylesheet" />
     <link href="~/css/postdetail.css" rel="stylesheet" />
     <script src="~/js/jquery.js"></script>
@@ -36,6 +39,8 @@
                 <div class="u-layout">
                     <div class="u-layout-row row">
                         <div class="u-container-style u-layout-cell u-size-40 u-layout-cell-1 col-8">
+
+                            
 
                             <div class="u-container-layout u-container-layout-1">
                                 <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-1">
@@ -65,13 +70,15 @@
                                 </div>
                                 <div class="u-container-style u-group u-shape-rectangle u-group-3">
                                     <div class="u-container-layout row">
+
                                         @*like*@
-                                        <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                        <a href="" a-like-id="@Model.PostId" class="like-color u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
                                             <span class="u-icon u-text-white">
-                                            </span><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
+                                            </span><i class="fa-solid fa-heart text-white" ></i>
                                             &nbsp;Thích @Model.PostDetail[0].LikeCount
                                         </a>
-                                        @*share*@
+
+                                        @*comment*@
                                         <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
                                             <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-comments" style="color: #ffffff;"></i>
                                             &nbsp;Bình luận @if (Model.PostDetail[0].CommentList != null)
@@ -82,17 +89,41 @@
                                                 <span>0</span>
                                             }
                                         </a>
-                                        <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
-                                            <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: #ffffff;"></i>
-                                            &nbsp;Lưu @Model.PostDetail[0].SaveCount 
-                                        </a>
+
+                                        @if (@ViewBag.CheckSave == true)
+                                        {
+                                                <a title="Bỏ lưu bài viết" save-places-id="@Model.PostId" class="save-places-icon saved-color daluu       u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                    <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: yellow"></i>
+                                                &nbsp;Lưu @Model.PostDetail[0].SaveCount
+                                            </a>  
+                                        }
+                                        else
+                                        {
+                                                <a title="Lưu bài viết" save-places-id="@Model.PostId" class="save-places-icon u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: white"></i>
+                                                &nbsp;Lưu @Model.PostDetail[0].SaveCount
+                                            </a>
+                                        }
+                                        
                                         <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
                                             <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-share" style="color: #ffffff;"></i>
                                             &nbsp;Chia sẻ @Model.PostDetail[0].ShareCount 
                                         </a>
                                         @*star chưa làm*@
                                     </div>
+                                    
                                 </div>
+                                @*Thông báo*@
+                                @*<script>
+                                    setTimeout(function () {
+                                        $('#msgAlert2').fadeOut('slow');
+                                    }, 2000);
+
+                                </script>
+                                <div class="row">
+                                    <div id="msgAlert2" class="hidden-class" role="alert">
+                                </div>*@
+                                    @*Thông báo*@
                                 @*đăng bình luận*@
                                 <div class="u-container-style u-group u-shape-rectangle u-group-4">
                                     <div class="u-container-layout u-container-layout-5">
@@ -171,3 +202,106 @@
 
 </body>
 </html>
+
+
+<script>
+    // var token = '@Html.Raw(ViewBag.Token)';
+    var username = '@Html.Raw(ViewBag.UserName)';
+
+    $(document).ready(function () {
+        $('.like-link').click(function (event) {
+            event.preventDefault();
+            var Id = $(this).attr('a-like-id');
+            var likeIconn = $('a.a-like-id i');
+
+            if (likeIconn.hasClass('liked')) {
+                likeIcon.removeClass('text-white').addClass('liked');
+                $.ajax({
+                    url: '/Posts/Like',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id }),
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa lưu bài viết');
+
+                    }
+                });
+
+
+            } else {
+                likeIcon.removeClass('liked').addClass('text-white');
+                $.ajax({
+                    url: '/Posts/Like',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id }),
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert('Vui lòng đăng nhập');
+
+                        // alert('Có lỗi xảy ra khi lưu bài viết');
+                    }
+                });
+
+            }
+            
+        });
+        $('.save-places-icon').click(function (event) {
+            event.preventDefault();
+            var Id = $(this).attr('save-places-id');
+            var likeIconn = $('a.save-places-icon i');
+            var likeYconn = $('a.saved-color');
+
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
+            if (likeIconn.hasClass('saved-color') || likeYconn.length > 0) {
+                $.ajax({
+                    url: '/Save/AddPostToArchive',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {                        
+                        window.location.reload();  
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa lưu bài viết');
+
+                    }
+                });
+
+
+            } else {
+                $.ajax({
+                    url: '/Save/AddPostToArchive',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {                      
+                        window.location.reload();  
+                    },
+                    error: function () {
+                        alert('Vui lòng đăng nhập');
+
+                        // alert('Có lỗi xảy ra khi lưu bài viết');
+                    }
+                });
+
+            }
+        });
+    });
+
+
+</script>

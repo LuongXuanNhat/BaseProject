@@ -33,7 +33,7 @@ namespace BaseProject.ApiIntegration.Saves
         }
 
 
-        public async Task<ApiResult<bool>> AddAddressToArchive(AddAddressSaveVm request)
+        public async Task<ApiResult<bool>> AddToArchive(AddSaveVm request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
@@ -56,14 +56,14 @@ namespace BaseProject.ApiIntegration.Saves
 
         }
 
-        public async Task<ApiResult<bool>> Check(AddAddressSaveVm request)
+        public async Task<ApiResult<bool>> Check(AddSaveVm request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var response = await client.GetAsync($"/api/saves/check?Username={request.Username}&IdPlaces={request.IdPlaces}");
+            var response = await client.GetAsync($"/api/saves/check?Username={request.Username}&Id={request.Id}&number={request.number}");
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
