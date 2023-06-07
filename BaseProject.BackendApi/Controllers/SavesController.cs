@@ -52,8 +52,17 @@ namespace BaseProject.BackendApi.Controllers
         [HttpGet("paging")]
         public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
         {
-            var result = await _saveService.GetLocationPaging(request);
-            return Ok(result);
+            if (request.number == 1)
+            {
+                var result = await _saveService.GetLocationPaging(request);
+                return Ok(result);
+            } else if (request.number == 2)
+            {
+                var result = await _saveService.GetLocationPaging(request);
+                return Ok(result);
+            }
+            
+            return BadRequest();
         }
 
         [HttpPost]

@@ -79,7 +79,7 @@ namespace BaseProject.ApiIntegration.Saves
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
             var response = await client.GetAsync($"/api/saves/paging?pageIndex=" +
-                $"{request.PageIndex}&pageSize={request.PageSize}&UserName={request.UserName}");
+                $"{request.PageIndex}&pageSize={request.PageSize}&UserName={request.UserName}&number={request.number}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);

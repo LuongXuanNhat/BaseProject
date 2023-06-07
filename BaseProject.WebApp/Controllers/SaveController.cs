@@ -29,7 +29,24 @@ namespace BaseProject.WebApp.Controllers
             {
                 UserName = User.Identity.Name,
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                number = 1
+            };
+            var data = await _saveApiClient.GetByUserName(request);
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Token = _baseApiClient.GetToken();
+
+            return View(data.ResultObj);
+        }
+        
+        public async Task<IActionResult> Index2(int pageIndex = 1, int pageSize = 10)
+        {
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                number = 2
             };
             var data = await _saveApiClient.GetByUserName(request);
             ViewBag.UserName = User.Identity.Name;

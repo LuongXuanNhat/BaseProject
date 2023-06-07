@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Catalog.Comments;
+﻿using BaseProject.ApiIntegration.Comment;
+using BaseProject.ViewModels.Catalog.Comments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BaseProject.WebApp.Controllers
@@ -8,42 +9,58 @@ namespace BaseProject.WebApp.Controllers
         // COMMENT
 
         private List<CommentCreateRequest> _comments;
+        private readonly ICommentApiClient _commentApiClient;
 
-        public CommentController()
+        public CommentController(ICommentApiClient commentApiClient)
         { 
+            _commentApiClient = commentApiClient;
             _comments = new List<CommentCreateRequest>();
         }
 
         [HttpPost]
-        public IActionResult AddComment(int postId, string content)
+        public async Task<IActionResult> AddComment(int postId, string content)
         {
+            if (User.Identity.Name == null)
+            {
+                return BadRequest();
+            }
             var newComment = new CommentCreateRequest
             {
-                Id = _comments.Count + 1,
+                //Id = _comments.Count + 1,
                 PostId = postId,
                 UserId = Guid.NewGuid(),
-                UserName = "User3",
+                UserName = User.Identity.Name,
                 PreCommentId = null,
                 Content = content,
                 Date = DateTime.Now
             };
+            var result = await _commentApiClient.AddComment(newComment);
+            // var comments = await _commentApiClient.GetById(postId);
+            if (result.IsSuccessed)
+            {
+                return Ok();
+            }
+            return PartialView();
+        }
 
-            _comments.Add(newComment);
-
-            return PartialView("_Comment", newComment);
+        [HttpGet]
+        public async Task<IActionResult> GetComments(int postId)
+        {
+            var comments = await _commentApiClient.GetById(postId);
+            return PartialView("/Views/Posts/_CommentList.cshtml", comments);
         }
 
         [HttpPost]
-        public IActionResult Delete(int commentId)
+        public async Task<IActionResult> Delete(int commentId)
         {
-            var comment = _comments.Find(c => c.Id == commentId);
-            if (comment != null)
+            var comments = await _commentApiClient.DeleteComment(commentId);
+            if (comments.IsSuccessed)
             {
-                _comments.Remove(comment);
                 return Json(new { success = true });
             }
 
             return Json(new { success = false });
         }
+
     }
 }

@@ -11,14 +11,13 @@ namespace BaseProject.Data.Configurations
             builder.ToTable("Comments");
 
             builder.HasKey(x => x.Id);
-            builder.Property(x => x.Content).IsRequired().HasMaxLength(500);
+            builder.Property(x => x.Content).IsRequired().HasMaxLength(2000);
 
 
 
             // Relationship
             builder.HasOne(x => x.User).WithMany(x => x.Comment).HasForeignKey(x => x.UserId);
             builder.HasOne(x => x.Post).WithMany(x => x.Comment).HasForeignKey(x => x.PostId);
-            builder.HasMany(x => x.Report).WithOne(x => x.Comment).HasForeignKey(x => x.CommentId);
         }
 
     }

@@ -133,6 +133,7 @@ namespace BaseProject.WebApp.Controllers
         {
             var result = await _postApiClient.GetById(id);
 
+
             var addPostSaveVm = new AddSaveVm();
             addPostSaveVm.Username = User.Identity.Name;           
             addPostSaveVm.Id = id;
@@ -151,7 +152,9 @@ namespace BaseProject.WebApp.Controllers
                 ViewBag.CheckLike = true;
             } else { ViewBag.CheckLike = false; }
 
-
+            // Hàm để lấy danh sách bài đọc nhiều nhất
+            var PostList = await _postApiClient.TakeTopByQuantity(10);
+            ViewData["topList"] = PostList;
 
             if (result.IsSuccessed)
             {
@@ -160,6 +163,7 @@ namespace BaseProject.WebApp.Controllers
                 var post = result.ResultObj;
                 var updateRequest = new PostCreateRequest(post);
                 updateRequest.UploadDate = result.ResultObj.UploadDate;
+
                 return View(updateRequest);
             }
             return RedirectToAction("Error", "Index");

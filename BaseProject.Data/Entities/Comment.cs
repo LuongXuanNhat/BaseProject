@@ -16,7 +16,6 @@ namespace BaseProject.Data.Entities
         // Relationship
         public Post Post { get; set; }
         public AppUser User { get; set; }
-        public Comment PreComment { get; set; }
         public List<Report> Report { get; set; }
     }
 }

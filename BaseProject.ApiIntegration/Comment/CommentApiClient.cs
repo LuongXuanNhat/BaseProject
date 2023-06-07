@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Comments;
+using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
@@ -9,6 +10,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -37,7 +39,7 @@ namespace BaseProject.ApiIntegration.Comment
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PostAsync($"/api/comment/", httpContent);
+            var response = await client.PostAsync($"/api/comments/", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
@@ -51,7 +53,7 @@ namespace BaseProject.ApiIntegration.Comment
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.DeleteAsync($"/api/categoriess/{commentId}");
+            var response = await client.DeleteAsync($"/api/comments/{commentId}");
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
@@ -67,12 +69,29 @@ namespace BaseProject.ApiIntegration.Comment
             var json = JsonConvert.SerializeObject(request);
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
-            var response = await client.PutAsync($"/api/comment/{commentId}", httpContent);
+            var response = await client.PutAsync($"/api/comments/{commentId}", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+
+        public async Task<List<CommentCreateRequest>> GetById(int id)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.GetAsync($"/api/comments/{id}");
+            var body = await response.Content.ReadAsStringAsync();
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<List<CommentCreateRequest>>(body);
+                return result;
+            }
+            return JsonConvert.DeserializeObject<List<CommentCreateRequest>>(body);
         }
     }
 }

@@ -577,3 +577,18 @@
     -webkit-line-clamp: 3; /* Số dòng tối đa */
     -webkit-box-orient: vertical;
 }
+
+.btn-send-comment {
+    border-radius: 50%;
+    height: 2rem;
+    width: 2rem;
+    outline: none;
+    border: 1px solid blue;
+}
+
+.comment-actions {
+    display: none;
+}
+.comment-actions:hover {
+    display: block;
+}

@@ -1,4 +1,5 @@
 ﻿using Azure.Core;
+using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Users;
@@ -22,12 +23,14 @@ namespace BaseProject.Application.Catalog.Saves
 
         private readonly DataContext _context;
         private readonly IUserService _userService;
+        private readonly ICategoryService _categoryService;
 
 
-        public SaveService(DataContext context, IUserService userService)
+        public SaveService(DataContext context, IUserService userService, ICategoryService categoryService)
         {
             _context = context;
             _userService = userService;
+            _categoryService = categoryService; 
         }
 
         public async Task<Saved> Check(string UserName, int Id,int number)
@@ -102,6 +105,7 @@ namespace BaseProject.Application.Catalog.Saves
         public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPaging(GetUserPagingRequest request)
         {
             var UserId = await _userService.GetIdByUserName(request.UserName);
+
             var getLocationId = await _context.Saveds.Where(x=>x.UserId == UserId && x.LocationId != 0).Select(x=>x.LocationId).ToListAsync();
             var query = await _context.Locations.Where(x => getLocationId.Contains(x.LocationId)).ToListAsync();
 
@@ -137,7 +141,38 @@ namespace BaseProject.Application.Catalog.Saves
 
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
-            throw new NotImplementedException();
+            var UserId = await _userService.GetIdByUserName(request.UserName);
+
+            var getPostId = await _context.Saveds.Where(x => x.UserId == UserId && x.PostId != 0).Select(x => x.PostId).ToListAsync();
+            var query = await _context.Posts.Where(x => getPostId.Contains(x.PostId)).ToListAsync();
+            var list_content = await _context.LocationsDetails.ToListAsync();
+            var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
+            var list_category = await _categoryService.GetAllCategoryDetail();
+
+            //3. Paging
+            int totalRow = query.Count();
+
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new PostVm()
+                {
+                    PostId = x.PostId,
+                    Content = filteredList.FirstOrDefault(y => y.PostId == x.PostId).Content,
+                    Categories = list_category.Where(y => y.PostId == x.PostId).Select(x => x.Description).ToList(),
+                    Title = x.Title,
+                    Date = x.UploadDate,
+                    UserId = x.UserId,
+                    View = x.View
+                }).ToList();
+            //4. Select and projection
+            var pagedResult = new PagedResult<PostVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<PostVm>>(pagedResult);
         }
 
         public async Task<ApiResult<LocationCreateRequest>> GetById(int locationId)
