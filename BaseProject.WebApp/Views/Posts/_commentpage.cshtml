@@ -1,0 +1,14 @@
+﻿@using BaseProject.ViewModels.Catalog.Comments
+@model CommentCreateRequest
+
+<div class="comment">
+    <div class="comment-header">
+        <span class="comment-username">@Model.UserName</span>
+        <span class="comment-date">@Model.Date.ToString("dd/MM/yyyy")</span>
+    </div>
+    <div class="comment-content">@Model.Content</div>
+    <div class="comment-actions">
+        <a href="#" class="edit-comment" data-comment-id="@Model.Id">Edit</a> |
+        <a href="#" class="delete-comment" data-comment-id="@Model.Id">Delete</a>
+    </div>
+</div>

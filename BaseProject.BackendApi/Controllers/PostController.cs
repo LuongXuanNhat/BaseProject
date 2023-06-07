@@ -45,6 +45,19 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(products);
         }
 
+        [HttpGet("check")]
+        public async Task<IActionResult> Check([FromQuery] AddSaveVm request)
+        {
+            var result = await _postService.Check(request.Username, request.Id);
+            if (result != null)
+            {
+                return Ok();
+            }
+          
+            return BadRequest();
+
+        }
+
         // https://localhost:7202/posts/create
         [HttpPost]
         [Consumes("multipart/form-data")]

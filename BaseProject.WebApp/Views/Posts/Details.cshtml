@@ -71,12 +71,25 @@
                                 <div class="u-container-style u-group u-shape-rectangle u-group-3">
                                     <div class="u-container-layout row">
 
-                                        @*like*@
-                                        <a href="" a-like-id="@Model.PostId" class="like-color u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
-                                            <span class="u-icon u-text-white">
-                                            </span><i class="fa-solid fa-heart text-white" ></i>
-                                            &nbsp;Thích @Model.PostDetail[0].LikeCount
-                                        </a>
+                                        @*like #73BBFF*@
+                                        @if (@ViewBag.CheckLike == true)
+                                        {
+                                            <a title="Bỏ thích" a-like-id="@Model.PostId" class="like-post u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-icon u-text-white"></span>
+                                                <i class="fa-solid fa-heart liked" style="color: yellow"></i>
+                                                    &nbsp;Thích @Model.PostDetail[0].LikeCount
+
+                                            </a>
+                                        } else
+                                        {
+                                            <a title="Thích"  a-like-id="@Model.PostId" class="like-post u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-icon u-text-white">
+                                                </span><i class="fa-solid fa-heart text-white"></i>
+                                                    &nbsp;Thích @Model.PostDetail[0].LikeCount
+
+                                            </a>
+                                        }
+
 
                                         @*comment*@
                                         <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
@@ -141,6 +154,7 @@
                                         </div>
                                     </div>
                                 </div>
+
                                 @*comment ở đây*@
                                 <div class="u-container-style u-group u-shape-rectangle u-group-6">
                                     <div class="u-container-layout u-container-layout-7">
@@ -155,6 +169,30 @@
                                         <p class="u-text u-text-10">Nội dung comment</p>
                                     </div>
                                 </div>
+
+                                <div class="">
+                                    <h4>
+                                        <span class="rectange-text"></span>
+                                        Bình luận
+                                    </h4>
+
+                                    <div id="comments-list">
+                                        @foreach (var comment in Model.PostDetail[0].CommentList)
+                                        {
+                                            <partial name="_commentpage" model="comment" />
+                                        }
+                                    </div>
+
+                                    <hr />
+
+                                    <form id="add-comment-form" asp-page-handler="AddComment">
+                                        <input type="hidden" name="postId" value="@Model.PostId" />
+                                        <input type="text" name="content" placeholder="Enter your comment" required />
+                                        <button type="submit">Add Comment</button>
+                                    </form>
+                                </div>
+                                @*comment ở đây*@
+
                             </div>
                         </div>
                         <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2 col-4">
@@ -207,43 +245,82 @@
 <script>
     // var token = '@Html.Raw(ViewBag.Token)';
     var username = '@Html.Raw(ViewBag.UserName)';
-
     $(document).ready(function () {
-        $('.like-link').click(function (event) {
+        // BÌNH LUẬN
+        $('#add-comment-form').submit(function (event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: '@Url.Action("AddComment", "Comment")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function (result) {
+                    $('#comments-list').append(result);
+                    form[0].reset();
+                }
+            });
+        });
+
+        // Xóa comment
+        $(document).on('click', '.delete-comment', function (event) {
+            event.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var commentElement = $(this).closest('.comment');
+            $.ajax({
+                url: '@Url.Action("Delete", "Comment")',
+                type: 'POST',
+                data: { commentId: commentId },
+                success: function (result) {
+                    if (result.success) {
+                        commentElement.remove();
+                    } else {
+                        alert('Failed to delete comment.');
+                    }
+                }
+            });
+        });
+
+        // Sửa comment
+        $(document).on('click', '.edit-comment', function (event) {
+            event.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var commentElement = $(this).closest('.comment');
+            // TODO: Hiển thị form sửa comment và gửi request Ajax để cập nhật comment
+        });
+
+        // LIKE
+        $('.like-post').click(function (event) {
             event.preventDefault();
             var Id = $(this).attr('a-like-id');
-            var likeIconn = $('a.a-like-id i');
+            var likeIcon = $('a.like-post i');
 
-            if (likeIconn.hasClass('liked')) {
-                likeIcon.removeClass('text-white').addClass('liked');
+            if (likeIcon.hasClass('liked')) {
+                
                 $.ajax({
                     url: '/Posts/Like',
                     type: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    data: JSON.stringify({ Id: Id }),
+                    data: JSON.stringify({ Id: Id, username: username }),
                     success: function (response) {
                         window.location.reload();
                     },
                     error: function () {
-                        alert('Có lỗi xảy ra khi xóa lưu bài viết');
+                        alert('Có lỗi xảy ra khi xóa thích bài viết');
 
                     }
                 });
-
-
             } else {
-                likeIcon.removeClass('liked').addClass('text-white');
                 $.ajax({
                     url: '/Posts/Like',
                     type: 'POST',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    data: JSON.stringify({ Id: Id }),
+                    data: JSON.stringify({ Id: Id, username: username }),
                     success: function (response) {
-                        window.location.reload();
+                         window.location.reload();
                     },
                     error: function () {
                         alert('Vui lòng đăng nhập');
@@ -251,7 +328,6 @@
                         // alert('Có lỗi xảy ra khi lưu bài viết');
                     }
                 });
-
             }
             
         });
@@ -302,6 +378,8 @@
             }
         });
     });
+
+
 
 
 </script>

@@ -16,6 +16,7 @@ namespace BaseProject.Application.Catalog.Posts
 {
     public interface IPostService
     {
+        Task<Like> Check(string UserName, int Id);
         Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request);
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);

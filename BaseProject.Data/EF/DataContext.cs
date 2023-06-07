@@ -42,8 +42,8 @@ namespace BaseProject.Data.EF
             modelBuilder.ApplyConfiguration(new NotificationConfiguration());
             modelBuilder.ApplyConfiguration(new NoticeDetailConfiguration());
 
-        //    modelBuilder.ApplyConfiguration(new RatingConfiguration());
-        //    modelBuilder.ApplyConfiguration(new LikingConfiguration());
+            //    modelBuilder.ApplyConfiguration(new RatingConfiguration());
+            modelBuilder.ApplyConfiguration(new LikeConfiguration());
 
             modelBuilder.ApplyConfiguration(new CommentConfiguration());
             modelBuilder.ApplyConfiguration(new ReportConfiguration());
@@ -78,7 +78,7 @@ namespace BaseProject.Data.EF
         public DbSet<Post> Posts { set; get; }
 
         //public DbSet<Rating> Ratings { set; get; }
-        //public DbSet<Liking> Likings { set; get; }
+        public DbSet<Like> Likes { set; get; }
 
         public DbSet<Comment> Comments { set; get; }
         public DbSet<Report> Reports { set; get; }

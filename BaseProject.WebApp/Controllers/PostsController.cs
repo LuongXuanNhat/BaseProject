@@ -17,6 +17,7 @@ using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Saves;
 using BaseProject.ViewModels.Catalog.FavoriteSave;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BaseProject.ViewModels.Catalog.Comments;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -43,6 +44,7 @@ namespace BaseProject.WebApp.Controllers
             _locationApiClient = locationApiClient;
             _saveApiClient = saveApiClient;
 
+            
         }
 
         [Authorize]
@@ -132,22 +134,25 @@ namespace BaseProject.WebApp.Controllers
             var result = await _postApiClient.GetById(id);
 
             var addPostSaveVm = new AddSaveVm();
-            addPostSaveVm.Username = User.Identity.Name;
-           
+            addPostSaveVm.Username = User.Identity.Name;           
             addPostSaveVm.Id = id;
             addPostSaveVm.number = 2;
             var checkSave = await _saveApiClient.Check(addPostSaveVm);
-
+            var checkLike = await _postApiClient.Check(addPostSaveVm);
             if (checkSave.IsSuccessed == true)
             {
                 //  ViewBag.SuccessMsg = "Đã thêm địa điểm vào danh sách yêu thích";
                 ViewBag.CheckSave = true;
             }
-            else
+            else {  // ViewBag.SuccessMsg = "Đã xóa địa điểm khỏi danh sách yêu thích";
+                ViewBag.CheckSave = false; }
+            if (checkLike.IsSuccessed == true)
             {
-                // ViewBag.SuccessMsg = "Đã xóa địa điểm khỏi danh sách yêu thích";
-                ViewBag.CheckSave = false;
-            }
+                ViewBag.CheckLike = true;
+            } else { ViewBag.CheckLike = false; }
+
+
+
             if (result.IsSuccessed)
             {
                 ViewBag.Token = _baseApiClient.GetToken();
@@ -377,11 +382,6 @@ namespace BaseProject.WebApp.Controllers
                 RemoveUnwantedTags(childNode);
             }
         }
-
-
-
-
-
 
     }
 }
