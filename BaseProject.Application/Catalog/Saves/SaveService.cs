@@ -195,14 +195,19 @@ namespace BaseProject.Application.Catalog.Saves
             return new ApiSuccessResult<LocationCreateRequest>(updateLocationRequest);
         }
 
-        public async Task<ApiResult<bool>> Delete(string usename)
+        public async Task<ApiResult<bool>> Delete(string usename, int number)
         {
             var UserId = await _userService.GetIdByUserName(usename);
 
-            var query = await _context.Saveds.Where(x => x.UserId == UserId && x.LocationId != 0).ToListAsync();
-
-
-            _context.Saveds.RemoveRange(query);
+            if (number == 1)
+            {
+                var query = await _context.Saveds.Where(x => x.UserId == UserId && x.LocationId != null).ToListAsync();
+                _context.Saveds.RemoveRange(query);
+            } else if(number == 2){
+                var query = await _context.Saveds.Where(x => x.UserId == UserId && x.PostId != null).ToListAsync();
+                _context.Saveds.RemoveRange(query);
+            }
+            
             await _context.SaveChangesAsync();
             return new ApiSuccessResult<bool>();
         }

@@ -14,7 +14,7 @@ namespace BaseProject.Application.Catalog.Saves
         Task<Saved> Check(string UserName, int PlacesId, int number);
         Task<ApiResult<bool>> AddPlacesOrDelete(string UserName, int PlacesId);
         Task<ApiResult<bool>> AddPostsOrDelete(string UserName, int PostId);
-        Task<ApiResult<bool>> Delete(string usename);
+        Task<ApiResult<bool>> Delete(string usename, int number);
 
         Task<ApiResult<PagedResult<LocationVm>>> GetLocationPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);

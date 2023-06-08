@@ -22,7 +22,7 @@ namespace BaseProject.WebApp.Controllers
             _baseApiClient = baseApiClient;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
             var request = new GetUserPagingRequest()
@@ -32,13 +32,14 @@ namespace BaseProject.WebApp.Controllers
                 PageSize = pageSize,
                 number = 1
             };
-            var data = await _saveApiClient.GetByUserName(request);
+            var data = await _saveApiClient.GetLocationByUserName(request);
             ViewBag.UserName = User.Identity.Name;
             ViewBag.Token = _baseApiClient.GetToken();
 
             return View(data.ResultObj);
         }
-        
+
+        [Authorize] 
         public async Task<IActionResult> Index2(int pageIndex = 1, int pageSize = 10)
         {
             var request = new GetUserPagingRequest()
@@ -48,7 +49,7 @@ namespace BaseProject.WebApp.Controllers
                 PageSize = pageSize,
                 number = 2
             };
-            var data = await _saveApiClient.GetByUserName(request);
+            var data = await _saveApiClient.GetPostByUserName(request);
             ViewBag.UserName = User.Identity.Name;
             ViewBag.Token = _baseApiClient.GetToken();
 

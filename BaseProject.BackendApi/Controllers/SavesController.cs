@@ -58,7 +58,7 @@ namespace BaseProject.BackendApi.Controllers
                 return Ok(result);
             } else if (request.number == 2)
             {
-                var result = await _saveService.GetLocationPaging(request);
+                var result = await _saveService.GetPostPaging(request);
                 return Ok(result);
             }
             
@@ -87,10 +87,10 @@ namespace BaseProject.BackendApi.Controllers
             return BadRequest(request);
         }
 
-        [HttpDelete("{name}")]
-        public async Task<IActionResult> Delete(string name)
+        [HttpDelete("{name}/{number}")]
+        public async Task<IActionResult> Delete(string name, int number)
         {
-            var username = await _saveService.Delete(name);
+            var username = await _saveService.Delete(name,number);
 
             if (username == null)
             {

@@ -14,6 +14,7 @@ using BaseProject.ViewModels.Catalog.RatingStar;
 using BaseProject.ViewModels.System.Users;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.FavoriteSave;
+using BaseProject.ViewModels.Catalog.Post;
 
 namespace BaseProject.ApiIntegration.Saves
 {
@@ -71,7 +72,7 @@ namespace BaseProject.ApiIntegration.Saves
             return new ApiErrorResult<bool>();
         }
 
-        public async Task<ApiResult<PagedResult<LocationVm>>> GetByUserName(GetUserPagingRequest request)
+        public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationByUserName(GetUserPagingRequest request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
@@ -85,6 +86,21 @@ namespace BaseProject.ApiIntegration.Saves
                 return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<LocationVm>>>(body);
 
             return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<LocationVm>>>(body);
+        }
+        public async Task<ApiResult<PagedResult<PostVm>>> GetPostByUserName(GetUserPagingRequest request)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/saves/paging?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&UserName={request.UserName}&number={request.number}");
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<PagedResult<PostVm>>>(body);
         }
     }
 }

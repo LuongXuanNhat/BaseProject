@@ -229,8 +229,35 @@ namespace BaseProject.Application.Catalog.Locations
                         }
                     }
                 }
+            } else if (request.number == 3)
+            {
+                //Sắp xếp theo view cao đến thấp
+                query =  query.OrderByDescending(item => item.View).ToList();
+
+            } else if (request.number == 4)
+            {
+                var getRatings = await _context.RatingLocations.ToListAsync();
+
+                query = query.OrderByDescending(location =>
+                    getRatings.Count(rating => rating.LocationId == location.LocationId)
+                ).ToList();
+
+            } else if (request.number == 5)
+            {
+                var getPosts = await _context.LocationsDetails.ToListAsync();
+
+                query = query.OrderByDescending(location =>
+                    getPosts.Count(rating => rating.LocationId == location.LocationId)
+                ).ToList();
+            } else if (request.number == 6)
+            {
+                var getLocationSaves = await _context.Saveds.ToListAsync();
+
+                query = query.OrderByDescending(location =>
+                    getLocationSaves.Count(rating => rating.LocationId == location.LocationId)
+                ).ToList();
             }
-            
+
             //3. Paging
             int totalRow =  query.Count();
 
@@ -269,6 +296,8 @@ namespace BaseProject.Application.Catalog.Locations
             }
             var query = await _context.Images.Where(x => x.LocationId.Equals(location.LocationId)).Select(x=> x.Path).ToListAsync();
 
+            
+
             var updateLocationRequest = new LocationCreateRequest()
             {
                 LocationId = location.LocationId,
@@ -276,6 +305,8 @@ namespace BaseProject.Application.Catalog.Locations
                 Address = location.Address,
                 ImageList = query.ToList()
             };
+            
+            await _context.SaveChangesAsync();
 
             return new ApiSuccessResult<LocationCreateRequest>(updateLocationRequest);
         }
@@ -288,6 +319,16 @@ namespace BaseProject.Application.Catalog.Locations
             {
                 return new ApiErrorResult<LocationDetailRequest>("Địa điểm không tồn tại");
             }
+
+            if (location.View == null)
+            {
+                location.View = 1;
+            }
+            else location.View += 1;
+
+            _context.Update(location);
+            await _context.SaveChangesAsync();
+
             // Lấy ảnh
             var img_list = await _context.Images.Where(x => x.LocationId.Equals(location.LocationId)).Select(x => x.Path).ToListAsync();
 
@@ -364,7 +405,7 @@ namespace BaseProject.Application.Catalog.Locations
                 Name = location.Name,
                 Address = location.Address,
                 Description = "Thông tin mô tả về địa điểm này đang được cập nhập",
-                View = location.View + 1,
+                View = location.View,
                 RatingCount = rating_count,
                 RatingScore = rating_score,
                 ReviewCount = review_count != null ? review_count : null,
@@ -372,10 +413,7 @@ namespace BaseProject.Application.Catalog.Locations
                 PostDetailRequest = list == null ? null : list,
             };
 
-            // Cập nhập lượt xem
-            location.View += 1;
-            _context.Update(location);
-            await _context.SaveChangesAsync();
+
 
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);

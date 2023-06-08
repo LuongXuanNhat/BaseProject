@@ -91,6 +91,28 @@ namespace BaseProject.WebApp.Controllers
             return View(data.ResultObj);
         }
 
+        public async Task<IActionResult> RecommendedPlace(int number, int pageIndex = 1, int pageSize = 20 )
+        {
+
+            // number 2 là tìm kiếm vs danh mục
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                number = number
+            };
+            var data = await _locationApiClient.GetPlacesPagings(request);
+            ViewBag.ReponseCount = data.ResultObj.TotalRecords;
+            if (data.ResultObj != null && data.IsSuccessed == true)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+                ViewBag.number = number;
+            }
+            return View(data.ResultObj);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> Detail(int ID, string provinceName)
         {

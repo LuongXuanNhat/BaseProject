@@ -17,7 +17,8 @@ namespace BaseProject.ApiIntegration.Saves
     {
         Task<ApiResult<bool>> AddToArchive(AddSaveVm request);
         Task<ApiResult<bool>> Check(AddSaveVm request);
-        Task<ApiResult<PagedResult<LocationVm>>> GetByUserName(GetUserPagingRequest getRatingListPagingRequest);
+        Task<ApiResult<PagedResult<LocationVm>>> GetLocationByUserName(GetUserPagingRequest getRatingListPagingRequest);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostByUserName(GetUserPagingRequest request);
 
     }
 }
