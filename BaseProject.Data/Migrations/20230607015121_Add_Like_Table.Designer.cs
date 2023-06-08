@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230607015121_Add_Like_Table")]
+    partial class Add_Like_Table
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "c8ba6b68-14ba-4e4a-b7ed-22390b296a62",
+                            ConcurrencyStamp = "f645daa2-3a2e-4e0f-bb5a-334ae1c0cc02",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "dcd1503c-ae64-4a1f-8b0a-43ae6556b58a",
+                            ConcurrencyStamp = "711d31fa-d9b1-493a-9a94-429ddd8db9b9",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -198,7 +201,7 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "32fa3e77-23aa-4af4-b3b8-3895201c2e4b",
+                            ConcurrencyStamp = "28255b1f-98ec-4902-bd7b-d8724a233c32",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -208,7 +211,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEL5F0tL+7a7cbZFZZIdCGeYl2jqttJuwTtUEbrJ4PVBu8WbdYy63r6PwoYbbfnpAaA==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEAXDZ9BD6Ot90Iy4JsAphGDOmgRAmvYaUsjU3fPybW9aquorR5aSrruJHM2IBzRt2Q==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -1168,8 +1171,8 @@ namespace BaseProject.Data.Migrations
 
                     b.Property<string>("Content")
                         .IsRequired()
-                        .HasMaxLength(2000)
-                        .HasColumnType("nvarchar(2000)");
+                        .HasMaxLength(500)
+                        .HasColumnType("nvarchar(500)");
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
@@ -1189,6 +1192,8 @@ namespace BaseProject.Data.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PostId");
+
+                    b.HasIndex("PreCommentId");
 
                     b.HasIndex("UserId");
 
@@ -2204,13 +2209,13 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             NotificationId = 1,
-                            Date = new DateTime(2023, 6, 7, 13, 23, 36, 511, DateTimeKind.Local).AddTicks(3659),
+                            Date = new DateTime(2023, 6, 7, 8, 51, 21, 531, DateTimeKind.Local).AddTicks(6232),
                             Title = "Thông báo hệ thống"
                         },
                         new
                         {
                             NotificationId = 2,
-                            Date = new DateTime(2023, 6, 7, 13, 23, 36, 511, DateTimeKind.Local).AddTicks(3671),
+                            Date = new DateTime(2023, 6, 7, 8, 51, 21, 531, DateTimeKind.Local).AddTicks(6242),
                             Title = "Tương tác"
                         });
                 });
@@ -2592,6 +2597,12 @@ namespace BaseProject.Data.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.HasOne("BaseProject.Data.Entities.Comment", "PreComment")
+                        .WithMany()
+                        .HasForeignKey("PreCommentId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.HasOne("BaseProject.Data.Entities.AppUser", "User")
                         .WithMany("Comment")
                         .HasForeignKey("UserId")
@@ -2599,6 +2610,8 @@ namespace BaseProject.Data.Migrations
                         .IsRequired();
 
                     b.Navigation("Post");
+
+                    b.Navigation("PreComment");
 
                     b.Navigation("User");
                 });

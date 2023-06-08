@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
@@ -16,7 +17,7 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetAllPostPagings(GetUserPagingRequest request);
         Task<ApiResult<bool>> CreateOrUpdatePost(PostCreateRequest request);
-
+        Task<ApiResult<bool>> Check(AddSaveVm request);
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);
         Task<ApiResult<bool>> DeletePost(int idPost);
 
@@ -25,7 +26,7 @@ namespace BaseProject.ApiIntegration.Post
 
         Task<List<Location>> GetAll();
 
-
+        Task<ApiResult<bool>> Like(AddSaveVm model);
 
     }
 }

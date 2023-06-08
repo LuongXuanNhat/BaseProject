@@ -1,5 +1,6 @@
 ﻿using BaseProject.ApiIntegration;
 using BaseProject.ApiIntegration.Category;
+using BaseProject.ApiIntegration.Comment;
 using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.RatingStars;
@@ -28,6 +29,9 @@ builder.Services.AddTransient<IRatingApiClient, RatingApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<ISearchApiClient, SearchApiClient>();
 builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
+builder.Services.AddTransient<IPostApiClient, PostApiClient>();
+builder.Services.AddTransient<ICommentApiClient, CommentApiClient>();
+
 builder.Services.AddTransient<BaseApiClient>();
 
 builder.Services.AddMemoryCache();
@@ -54,9 +58,7 @@ builder.Services.AddSession(options =>
 });
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
-builder.Services.AddTransient<IUserApiClient, UserApiClient>();
-builder.Services.AddTransient<IPostApiClient, PostApiClient>();
-builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
+
 
 
 

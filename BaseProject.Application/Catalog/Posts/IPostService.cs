@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
@@ -15,12 +16,14 @@ namespace BaseProject.Application.Catalog.Posts
 {
     public interface IPostService
     {
+        Task<Like> Check(string UserName, int Id);
         Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request);
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);
 
         Task<string> Delete(int postId);
         Task<ApiResult<bool>> GetList(int userId);
+        Task<ApiResult<bool>> Like(AddSaveVm request);
 
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);

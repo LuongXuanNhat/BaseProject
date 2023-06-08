@@ -40,6 +40,7 @@ namespace BaseProject.Data.Entities
         public List<Following> Follower { get; set; }
         public List<Following> Followee { get; set; }
         public List<RatingLocation> RatingLocation { get; set; }
+        public List<Like> Like { get; set; }
         
 
     }

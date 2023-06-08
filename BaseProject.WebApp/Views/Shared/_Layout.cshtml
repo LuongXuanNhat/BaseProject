@@ -12,6 +12,7 @@
     <script src="~/js/jquery.js"></script>
     <script src="~/js/nicepage.js"></script>
 
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/BaseProject.WebApp.styles.css" asp-append-version="true" />
@@ -86,7 +87,7 @@
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">
                                         Chào @User.Identity.Name
                                     </button>
-                                    <ul class="dropdown-menu">
+                                    <ul class="dropdown-menu" style="z-index: 10;">
                                         <li class="dropdown-item">
                                             <a class="btn btn-success" asp-controller="Posts" asp-action="Index">
                                                 Bài viết của tôi
@@ -150,7 +151,7 @@
     <div class="">
         <ul class="breadcrumb" style="margin-top: 0px; margin-bottom: 0px; " >
             <li class="breadcrumb__item breadcrumb__item-firstChild u-list-item-1">
-                <a href="@Url.Action("Index","Place")" class="text-decoration-none text-black">
+                <a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="3" class="text-decoration-none text-black">
                     <span class="breadcrumb__inner">
                         <span class="breadcrumb__title">Địa điểm
                             <i class="fa-solid fa-map-location-dot" style="color: #fe3434; margin-left: 12px;"></i>

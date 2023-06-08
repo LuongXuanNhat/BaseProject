@@ -91,16 +91,39 @@ namespace BaseProject.WebApp.Controllers
             return View(data.ResultObj);
         }
 
+        public async Task<IActionResult> RecommendedPlace(int number, int pageIndex = 1, int pageSize = 20 )
+        {
+
+            // number 2 là tìm kiếm vs danh mục
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                number = number
+            };
+            var data = await _locationApiClient.GetPlacesPagings(request);
+            ViewBag.ReponseCount = data.ResultObj.TotalRecords;
+            if (data.ResultObj != null && data.IsSuccessed == true)
+            {
+                ViewBag.SuccessMsg = TempData["result"];
+                ViewBag.number = number;
+            }
+            return View(data.ResultObj);
+        }
+
+
         [HttpGet]
         public async Task<IActionResult> Detail(int ID, string provinceName)
         {
             ViewBag.Token = _baseApiClient.GetToken();
             ViewBag.UserName = User.Identity.Name;
 
-            var addAddressSaveVm = new AddAddressSaveVm();
+            var addAddressSaveVm = new AddSaveVm();
 
             addAddressSaveVm.Username = User.Identity.Name;
-            addAddressSaveVm.IdPlaces = ID;
+            addAddressSaveVm.Id = ID;
+            addAddressSaveVm.number = 1;
 
             var checkSave = await _saveApiClient.Check(addAddressSaveVm);
 

@@ -14,6 +14,10 @@ using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration;
 using HtmlAgilityPack;
 using BaseProject.ApiIntegration.Locations;
+using BaseProject.ApiIntegration.Saves;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using BaseProject.ViewModels.Catalog.Comments;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -25,18 +29,22 @@ namespace BaseProject.WebApp.Controllers
         private readonly ILocationApiClient _locationApiClient;
         private readonly ICategoryApiClient _cateApiClient;
         private readonly BaseApiClient _baseApiClient;
+        private readonly ISaveApiClient _saveApiClient;
         //private readonly UserManager<AppUser> _userManager;
 
         public PostsController(IConfiguration configuration, 
             IPostApiClient postApiClient, ICategoryApiClient cateApiClient,
-            BaseApiClient baseApiClient, ILocationApiClient locationApiClient)
+            BaseApiClient baseApiClient, ILocationApiClient locationApiClient,
+            ISaveApiClient saveApiClient )
         {
             _configuration = configuration;
             _postApiClient = postApiClient;
             _cateApiClient = cateApiClient;
             _baseApiClient = baseApiClient;
             _locationApiClient = locationApiClient;
+            _saveApiClient = saveApiClient;
 
+            
         }
 
         [Authorize]
@@ -124,11 +132,38 @@ namespace BaseProject.WebApp.Controllers
         public async Task<IActionResult> Details(int id)
         {
             var result = await _postApiClient.GetById(id);
+
+
+            var addPostSaveVm = new AddSaveVm();
+            addPostSaveVm.Username = User.Identity.Name;           
+            addPostSaveVm.Id = id;
+            addPostSaveVm.number = 2;
+            var checkSave = await _saveApiClient.Check(addPostSaveVm);
+            var checkLike = await _postApiClient.Check(addPostSaveVm);
+            if (checkSave.IsSuccessed == true)
+            {
+                //  ViewBag.SuccessMsg = "Đã thêm địa điểm vào danh sách yêu thích";
+                ViewBag.CheckSave = true;
+            }
+            else {  // ViewBag.SuccessMsg = "Đã xóa địa điểm khỏi danh sách yêu thích";
+                ViewBag.CheckSave = false; }
+            if (checkLike.IsSuccessed == true)
+            {
+                ViewBag.CheckLike = true;
+            } else { ViewBag.CheckLike = false; }
+
+            // Hàm để lấy danh sách bài đọc nhiều nhất
+            var PostList = await _postApiClient.TakeTopByQuantity(10);
+            ViewData["topList"] = PostList;
+
             if (result.IsSuccessed)
             {
+                ViewBag.Token = _baseApiClient.GetToken();
+                ViewBag.UserName = User.Identity.Name;
                 var post = result.ResultObj;
                 var updateRequest = new PostCreateRequest(post);
                 updateRequest.UploadDate = result.ResultObj.UploadDate;
+
                 return View(updateRequest);
             }
             return RedirectToAction("Error", "Index");
@@ -281,6 +316,20 @@ namespace BaseProject.WebApp.Controllers
             return RedirectToAction("Create", numberLocation);
         }
 
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> Like([FromBody] AddSaveVm model)
+        {
+            model.number = 1;
+            var data = await _postApiClient.Like(model);
+            if (data.IsSuccessed)
+            {
+                return Ok();
+            }
+
+            return BadRequest();
+        }
+
 
         public async Task<IActionResult> SearchData()
         {
@@ -337,11 +386,6 @@ namespace BaseProject.WebApp.Controllers
                 RemoveUnwantedTags(childNode);
             }
         }
-
-
-
-
-
 
     }
 }

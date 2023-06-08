@@ -21,9 +21,8 @@ namespace BaseProject.Data.Entities
         public List<LocationsDetail> LocationsDetail { get; set; }
         public List<Comment> Comment { get; set; }
         public List<Report> Report { get; set; }
-
         public List<Share> Share { get; set; }
-    //    public List<Saved> Saved { get; set; }
+        public List<Like> Likess { get; set; }
         public List<Video> Video { get; set; }
 
         // Constructor

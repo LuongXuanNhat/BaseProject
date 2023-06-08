@@ -22,6 +22,10 @@
     <ProjectReference Include="..\BaseProject.ViewModels\BaseProject.ViewModels.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Views\Comment\" />
+  </ItemGroup>
+
   <ProjectExtensions><VisualStudio><UserProperties wwwroot_4plugin_4ckeditor5-38_10_11-4o6fchvo7y8p_4package_1json__JsonSchema="https://json.schemastore.org/npm-badges.json" /></VisualStudio></ProjectExtensions>
 
 </Project>

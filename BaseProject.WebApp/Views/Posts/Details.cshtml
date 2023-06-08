@@ -1,9 +1,15 @@
-﻿@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
+﻿@using BaseProject.ViewModels.Catalog.Comments;
+@using BaseProject.ViewModels.Catalog.Post;
+@model BaseProject.ViewModels.Catalog.Post.PostCreateRequest
 
 @{
     ViewData["Title"] = "Xem bài viết";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@{
+    List<PostVm> topList = ViewData["topList"] as List<PostVm>;
+}
+
 
 <!DOCTYPE html>
 <html style="font-size: 16px;" lang="en">
@@ -14,6 +20,7 @@
     <meta name="description" content="">
     <title>PostDetail</title>
 
+    <link href="~/css/places_style.css" rel="stylesheet" />
     <link href="~/css/nicepage.css" rel="stylesheet" />
     <link href="~/css/postdetail.css" rel="stylesheet" />
     <script src="~/js/jquery.js"></script>
@@ -37,12 +44,14 @@
                     <div class="u-layout-row row">
                         <div class="u-container-style u-layout-cell u-size-40 u-layout-cell-1 col-8">
 
+                            
+
                             <div class="u-container-layout u-container-layout-1">
                                 <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-1">
                                     <div class="u-container-layout u-container-layout-2">
                                         <h4 class="u-text u-text-default u-text-1 ">
                                             <span class="rectange-text"></span>
-                                                @Model.PostDetail[0].Title
+                                                @Model.Title
                                         </h4>
                                         <p class="u-text u-text-default u-text-2 text-black-50" title="Ngày đăng bài"><i class="fa-regular fa-calendar-check"></i> 
                                             @Model.UploadDate</p>
@@ -65,13 +74,28 @@
                                 </div>
                                 <div class="u-container-style u-group u-shape-rectangle u-group-3">
                                     <div class="u-container-layout row">
-                                        @*like*@
-                                        <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
-                                            <span class="u-icon u-text-white">
-                                            </span><i class="fa-solid fa-heart" style="color: #ffffff;"></i>
-                                            &nbsp;Thích @Model.PostDetail[0].LikeCount
-                                        </a>
-                                        @*share*@
+
+                                        @*like #73BBFF*@
+                                        @if (@ViewBag.CheckLike == true)
+                                        {
+                                            <a title="Bỏ thích" a-like-id="@Model.PostId" class="like-post u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-icon u-text-white"></span>
+                                                <i class="fa-solid fa-heart liked" style="color: yellow"></i>
+                                                    &nbsp;Thích @Model.PostDetail[0].LikeCount
+
+                                            </a>
+                                        } else
+                                        {
+                                            <a title="Thích"  a-like-id="@Model.PostId" class="like-post u-border-none u-btn u-btn-round u-button-style u-custom-color-4 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-icon u-text-white">
+                                                </span><i class="fa-solid fa-heart text-white"></i>
+                                                    &nbsp;Thích @Model.PostDetail[0].LikeCount
+
+                                            </a>
+                                        }
+
+
+                                        @*comment*@
                                         <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
                                             <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-comments" style="color: #ffffff;"></i>
                                             &nbsp;Bình luận @if (Model.PostDetail[0].CommentList != null)
@@ -82,85 +106,93 @@
                                                 <span>0</span>
                                             }
                                         </a>
-                                        <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
-                                            <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: #ffffff;"></i>
-                                            &nbsp;Lưu @Model.PostDetail[0].SaveCount 
-                                        </a>
+
+                                        @if (@ViewBag.CheckSave == true)
+                                        {
+                                                <a title="Bỏ lưu bài viết" save-places-id="@Model.PostId" class="save-places-icon saved-color daluu       u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                    <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: yellow"></i>
+                                                &nbsp;Lưu @Model.PostDetail[0].SaveCount
+                                            </a>  
+                                        }
+                                        else
+                                        {
+                                                <a title="Lưu bài viết" save-places-id="@Model.PostId" class="save-places-icon u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
+                                                <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-bookmark" style="color: white"></i>
+                                                &nbsp;Lưu @Model.PostDetail[0].SaveCount
+                                            </a>
+                                        }
+                                        
                                         <a href="" class="u-border-none u-btn u-btn-round u-button-style u-custom-color-3 u-radius-4 u-text-body-alt-color u-btn-1 col-2">
                                             <span class="u-file-icon u-icon u-text-white u-icon-2"></span> <i class="fa-solid fa-share" style="color: #ffffff;"></i>
                                             &nbsp;Chia sẻ @Model.PostDetail[0].ShareCount 
                                         </a>
                                         @*star chưa làm*@
                                     </div>
+                                    
                                 </div>
-                                @*đăng bình luận*@
-                                <div class="u-container-style u-group u-shape-rectangle u-group-4">
-                                    <div class="u-container-layout u-container-layout-5">
-                                        <p class="u-text u-text-default u-text-5">
-                                            Tên <span style="font-size: 1rem;"></span>user
-                                        </p>
-                                        <div class="u-container-align-center u-container-style u-group u-image u-radius-50 u-shape-rectangle">
-                                            <img class="u-image-1" src="" alt="">
-                                            <div class="u-container-layout u-container-layout-6"></div>
-                                        </div>
-                                        <p class="u-text u-text-default u-text-6"></p>
-                                        <div class="u-text u-text-7">
-                                            <textarea name="" id="" cols="70" rows="2" placeholder="Nhập nội dung bình luận"></textarea>
-                                            <a href="" style="display: inline;margin-bottom: 36px ;" class="btn"> Đăng </a>
+                                @*Thông báo*@
+                                
+                               
+
+                                <div class="">
+                                    <h4>
+                                        <span class="rectange-text"></span>
+                                        Bình luận
+                                    </h4>
+                                    
+                                    <div class="row">
+                                        <div id="msgAlert2" class="hidden-class" role="alert">
+                                    </div>
+                                    <div class="form-group" style="margin-bottom: 20px;">
+                                        <form id="add-comment-form" asp-page-handler="AddComment" class="row" style="justify-content: center;align-items: center;">
+                                            <input type="hidden" name="postId" value="@Model.PostId" />
+                                            <textarea title="Vui lòng điền nội dung vào đây ạ" type="text" class="col-10" name="content" placeholder="Enter your comment" required rows="2"></textarea>
+                                                <button type="submit" style="margin-left: 12px;align-items: center; display: flex;justify-content: center;    background: none;" class="col-1  btn-send-comment">
+                                                    <i class="fa-regular fa-paper-plane" style="color: #5ba0fb;"></i>
+                                                </button>
+                                        </form>
+                                    </div>
+                                    
+                                    <div id="comments-container">
+                                        <div id="comments-list">
+                                            @await Html.PartialAsync("_CommentList", Model.PostDetail[0].CommentList)
                                         </div>
                                     </div>
+
+                                    
+
+                                    
                                 </div>
                                 @*comment ở đây*@
-                                <div class="u-container-style u-group u-shape-rectangle u-group-6">
-                                    <div class="u-container-layout u-container-layout-7">
-                                        <p class="u-text u-text-default u-text-8">
-                                            <span style="font-size: 1rem;"></span>Tên user
-                                        </p>
-                                        <div class="u-container-align-center u-container-style u-group u-image u-radius-50 u-shape-rectangle">
-                                            <img class="u-image-1" width="1200" height="843" src="" alt="">
-                                            <div class="u-container-layout u-container-layout-8"></div>
-                                        </div>
-                                        <p class="u-text u-text-default u-text-9">Ngày ​đăng </p>
-                                        <p class="u-text u-text-10">Nội dung comment</p>
-                                    </div>
-                                </div>
+
                             </div>
                         </div>
-                        <div class="u-container-style u-layout-cell u-size-20 u-layout-cell-2 col-4">
+                        <div class="u-container-style u-layout-cell " style="margin-left: 12px;">
                             <div class="u-container-layout u-valign-top u-container-layout-9">
                                 <div class="u-border-2 u-border-palette-5-base u-container-style u-group u-shape-rectangle u-group-8">
                                     <div class="u-container-layout u-container-layout-10">
                                         <h5 class="u-text u-text-default u-text-11">
-                                            <span class="u-file-icon u-icon u-icon-3"><img src="~/images/icon/topreview.png" alt=""></span>&nbsp;ĐỌC NHIỀU NHẤT
+                                            <span class="u-file-icon u-icon u-icon-3"><img src="~/images/icon/topreview.png" alt=""></span>&nbsp;Bài viết liên quan
                                         </h5>
                                         @*top bài review*@
-                                        <div class="u-container-style u-group u-shape-rectangle u-group-9">
-                                            <div class="u-container-layout u-container-layout-11">
-                                                <p class="u-text u-text-12">top 5 địa điểm ngắm khinh khí cầu đẹp mắt còn sang chảnh tại</p>
-                                                <p class="u-text u-text-default u-text-palette-1-base u-text-13">
-                                                    <span class="u-file-icon u-icon u-icon-4"><img src="images/3601002.png" alt=""></span>&nbsp;​&nbsp;​&nbsp;
-                                                </p>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="u-border-2 u-border-palette-4-light-3 u-container-style u-group u-shape-rectangle u-group-10">
-                                    <div class="u-container-layout u-container-layout-12">
-                                        <h5 class="u-text u-text-default u-text-14">
-                                            <span class="u-file-icon u-icon"><img src="~/images/icon/location.png" alt=""></span>&nbsp;<span style="font-weight: 700;"> Địa điểm hot</span>
-                                        </h5>
-                                        <div class="u-container-style u-group u-shape-rectangle u-group-11">
-                                            @*top địa điểm du lịch*@
-                                            <div class="u-container-layout u-valign-top u-container-layout-13">
-                                                <div class="u-container-align-center u-container-style u-group u-image u-shape-rectangle">
-                                                    <img class="u-image-3" src="" alt="">
-                                                    <div class="u-container-layout u-container-layout-14"></div>
+                                            @foreach (var item in topList)
+                                            {
+                                                <div class="">
+                                                    <a href="@Url.Action("Details", new { id = item.PostId })" class="" title="Viết ngày: @item.Date">
+                                                        <div class=" u-container-layout-10" style="padding: 0 8px;">
+                                                            <div class="">
+                                                                <p class="u-text u-text-6 " style="margin: 0px;">@item.Title</p>
+                                                                <hr style="position: relative; top: -16px; padding: 0px;">
+                                                            </div>
+
+                                                        </div>
+                                                    </a>
+
                                                 </div>
-                                                <p class="u-text u-text-15">tên địa điểm</p>
-                                            </div>
-                                        </div>
+                                            }
                                     </div>
                                 </div>
+                                
                             </div>
                         </div>
                     </div>
@@ -171,3 +203,167 @@
 
 </body>
 </html>
+<script src="~/comment/getcomments"></script>
+<script>
+    
+    // var token = '@Html.Raw(ViewBag.Token)';
+    var username = '@Html.Raw(ViewBag.UserName)';
+    $(document).ready(function () {
+        // BÌNH LUẬN
+        // Thêm comment
+        $('#add-comment-form').submit(function (event) {
+            event.preventDefault();
+            var form = $(this);
+            $.ajax({
+                url: '@Url.Action("AddComment", "Comment")',
+                type: 'POST',
+                data: form.serialize(),
+                success: function () {
+                    loadComments(); 
+                    var successMsg = "Đã bình luận";
+                    $('#msgAlert2').removeClass('hidden-class').addClass('alert alert-success');
+                    $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
+                        $(this).addClass('hidden-class');
+                    });
+                },
+                error: function () {
+                    alert('Vui lòng đăng nhập');
+                }
+            });
+        });
+
+        // Xóa comment
+        $(document).on('click', '.delete-comment', function (event) {
+            event.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var commentElement = $(this).closest('.comment');
+            $.ajax({
+                url: '@Url.Action("Delete", "Comment")',
+                type: 'POST',
+                data: { commentId: commentId },
+                success: function (result) {
+                    if (result.success) {
+                        commentElement.remove();
+                    } else {
+                        alert('Failed to delete comment.');
+                    }
+                }
+            });
+        });
+
+        // Sửa comment
+        $(document).on('click', '.edit-comment', function (event) {
+            event.preventDefault();
+            var commentId = $(this).data('comment-id');
+            var commentElement = $(this).closest('.comment');
+            // TODO: Hiển thị form sửa comment và gửi request Ajax để cập nhật comment
+        });
+        function loadComments() {
+            $.ajax({
+                url: '@Url.Action("GetComments", "Comment")',
+                type: 'GET',
+                data: { postId: '@Model.PostId' },
+                success: function (result) {
+                    $('#comments-list').html(result);
+                }
+            });
+        }
+
+        
+
+        // LIKE
+        $('.like-post').click(function (event) {
+            event.preventDefault();
+            var Id = $(this).attr('a-like-id');
+            var likeIcon = $('a.like-post i');
+
+            if (likeIcon.hasClass('liked')) {
+                
+                $.ajax({
+                    url: '/Posts/Like',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {
+                        window.location.reload();
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa thích bài viết');
+
+                    }
+                });
+            } else {
+                $.ajax({
+                    url: '/Posts/Like',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {
+                         window.location.reload();
+                    },
+                    error: function () {
+                        alert('Vui lòng đăng nhập');
+
+                        // alert('Có lỗi xảy ra khi lưu bài viết');
+                    }
+                });
+            }
+            
+        });
+        $('.save-places-icon').click(function (event) {
+            event.preventDefault();
+            var Id = $(this).attr('save-places-id');
+            var likeIconn = $('a.save-places-icon i');
+            var likeYconn = $('a.saved-color');
+
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
+            if (likeIconn.hasClass('saved-color') || likeYconn.length > 0) {
+                $.ajax({
+                    url: '/Save/AddPostToArchive',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {                        
+                        window.location.reload();  
+                    },
+                    error: function () {
+                        alert('Có lỗi xảy ra khi xóa lưu bài viết');
+
+                    }
+                });
+
+
+            } else {
+                $.ajax({
+                    url: '/Save/AddPostToArchive',
+                    type: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    data: JSON.stringify({ Id: Id, username: username }),
+                    success: function (response) {                      
+                        window.location.reload();  
+                    },
+                    error: function () {
+                        alert('Vui lòng đăng nhập');
+
+                        // alert('Có lỗi xảy ra khi lưu bài viết');
+                    }
+                });
+
+            }
+        });
+    });
+</script>
+<script>
+    setTimeout(function () {
+        $('#msgAlert2').fadeOut('slow');
+    }, 2000);
+</script>

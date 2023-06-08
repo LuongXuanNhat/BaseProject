@@ -1,0 +1,67 @@
+﻿@using BaseProject.Data.Entities;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
+
+<div class="dropdown " style="margin-right: 23px;margin-bottom: 16px; display: flex;align-items: center;justify-content: flex-end;">
+    <span>
+        Sắp xếp
+    </span>
+    <a class="" style="border-radius: 50%; width:1.5rem; height:1.5rem;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+        <i class="fa-solid fa-ellipsis" style="color: black;left: 17px;margin-left: 16px; top: 7px;"></i>
+    </a>
+    <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+        @if (ViewBag.number == 3)
+        {
+            <li><a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="3" method="get" style="font-size:14px; background-color: #32D97A" class="edit-comment dropdown-item">  Theo lượt xem       </a> </li>
+        } else
+        {
+            <li><a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="3" method="get" style="font-size:14px;" class="edit-comment dropdown-item">  Theo lượt xem       </a> </li>
+
+        }
+        @if (ViewBag.number == 4)
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="4" method="get" style="font-size:14px; background-color: #FAF5A2" class="delete-comment dropdown-item">Theo lượt đánh giá</a> </li>
+
+        } else
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="4" method="get" style="font-size:14px;" class="delete-comment dropdown-item">Theo lượt đánh giá</a> </li>
+
+        }
+        @if (ViewBag.number == 5)
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="5" method="get" style="font-size:14px; background-color: #FC9D3A" class="delete-comment dropdown-item">Theo số bài viết</a> </li>
+
+        } else
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="5" method="get" style="font-size:14px;" class="delete-comment dropdown-item">Theo số bài viết</a> </li>
+
+        }
+        @if (ViewBag.number == 6)
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="6" method="get" style="font-size:14px; background-color: #4369F0" class="delete-comment dropdown-item">Theo lượt lưu trữ </a> </li>
+
+        } else
+        {
+            <li><a a asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="6" method="get" style="font-size:14px;" class="delete-comment dropdown-item">Theo lượt lưu trữ </a> </li>
+
+        }
+
+            <li><a class="dropdown-item" style="font-size:14px;" href="#">Chức năng khác</a></li>
+
+    </ul>
+</div>
+<div class="destination-list">
+    @*          Danh sách địa điểm          *@
+    <div class="">
+        <div class="">
+            <div class="destination-list">
+                @foreach (var place in Model.Items)
+                {
+                    <partial name="/Views/Place/_Place.cshtml" model="place" />
+                }
+            </div>
+        </div>
+            @await Component.InvokeAsync("Pager", Model)
+        </div>
+</div>
+

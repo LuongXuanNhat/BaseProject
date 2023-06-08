@@ -1,0 +1,43 @@
+﻿@using BaseProject.Data.Entities;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationVm>
+
+@{
+    ViewData["Title"] = "Danh mục địa điểm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/places_style.css" rel="stylesheet" />
+
+<div>
+    <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link  text-black" aria-current="page" href="@Url.Action("Index","Place")"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link  text-black" href="@Url.Action("LocationsByCategory","Place", new { keyword = "" , CategoryName = ""})"><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link active text-black" href="#" ><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
+            
+        </li>
+        <li class="nav-item" style="flex-grow: 1; margin-top: 4px;">
+                
+        </li>
+
+        
+    </ul>
+
+    @await Html.PartialAsync("_Places", Model)
+    
+</div>
+
+
+
+
+
+
+
+
+
+

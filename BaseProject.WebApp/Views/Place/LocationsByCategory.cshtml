@@ -15,13 +15,13 @@
 <div >
     <ul class="nav nav-tabs">
         <li class="nav-item">
-            <a class="nav-link  text-black" style="font-weight:;" aria-current="page" href="@Url.Action("Index","Place")"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
+            <a class="nav-link  text-black"  aria-current="page" href="@Url.Action("Index","Place")"><i class="fa-solid fa-city" style="color: #3d5cd6;"></i> Tỉnh thành</a>
         </li>
         <li class="nav-item">
             <a class="nav-link active text-black" href="#" style="font-weight:;"><i class="fa-solid fa-table-list" style="color: #3d5cd6;"></i> Danh mục</a>
         </li>
         <li class="nav-item">
-            <a class="nav-link text-black" href="#" style="font-weight:;"><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
+            <a class="nav-link text-black" asp-action="RecommendedPlace" asp-controller="Place" asp-route-number="3" ><i class="fa-solid fa-wand-magic-sparkles" style="color: #3d5cd6;"></i> Đề xuất</a>
         </li>
         <li class="nav-item" style="flex-grow: 1; margin-top: 4px;">
             <div class="row col-xs-12">
@@ -70,7 +70,7 @@
                         <a class="destination-item" asp-action="Detail" asp-route-ID="@Model.Items[0].LocationId" asp-controller="Place" style="padding-bottom: 5px;text-decoration: none;color:black; width: 95% !important;">
                             <img src="@Model.Items[0].ImageList" alt="Điểm đến @Model.Items[0].Name">
                             <h3 style="display: block; text-align: center; color: darkblue">@Model.Items[0].Name</h3>
-                            <p style="font-size: 14px;max-height:3em">@Model.Items[0].Address : @Model.Items[0].View</p>
+                            <p style="font-size: 14px;max-height:3em">@Model.Items[0].Address </p>
                         </a>
                     } else {
                     @foreach (var item in Model.Items)

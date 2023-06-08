@@ -255,7 +255,36 @@ h2 .saved-color {
 .hidden-class{
     display: none;
 }
-/*                                */
+/*                  COMMENT              */
+.comment-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
 
+.comment-item {
+    margin-bottom: 10px;
+    border: 1px solid #ddd;
+    padding: 10px;
+    background-color: #f9f9f9;
+}
+
+.comment-content {
+    margin-bottom: 5px;
+}
+
+.comment-date {
+    color: #888;
+    font-size: 12px;
+}
+
+.add-comment-form {
+    margin-top: 20px;
+}
+
+.comment-input {
+    width: 100%;
+    padding: 5px;
+}
 
 /*                                */

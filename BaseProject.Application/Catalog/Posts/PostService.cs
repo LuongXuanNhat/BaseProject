@@ -17,6 +17,9 @@ using BaseProject.Application.System.Users;
 using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Catalog.Rating;
 using BaseProject.ViewModels.Catalog.Comments;
+using BaseProject.ViewModels.Catalog.FavoriteSave;
+using BaseProject.Application.Catalog.Comments;
+using System.ComponentModel.Design;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -29,6 +32,7 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly IUserService _userService;
         private readonly IImageService _imageService;
         private readonly ISearchService _searchService;
+        private readonly ICommentService _commentService;
 
 
         public PostService(DataContext context, 
@@ -36,7 +40,8 @@ namespace BaseProject.Application.Catalog.Posts
             ICategoryService categoryService,
             IImageService imageService,
             IRatingService ratingService,
-            IUserService userService)
+            IUserService userService,
+            ICommentService commentService)
         {
             _context = context;
             _categoryService = categoryService;
@@ -44,7 +49,16 @@ namespace BaseProject.Application.Catalog.Posts
             _ratingService = ratingService;
             _userService = userService;
             _searchService = searchService;
+            _commentService = commentService;
         }
+
+        public async Task<Like> Check(string UserName, int Id)
+        {
+            var UserId = await _userService.GetIdByUserName(UserName);
+            var check = await _context.Likes.FirstOrDefaultAsync(x => x.PostId == Id && x.UserId == UserId);
+            return check;
+        }
+
         public async Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request)
         {
             if (request == null)
@@ -337,33 +351,40 @@ namespace BaseProject.Application.Catalog.Posts
 
             var LOCATION = location.FirstOrDefault(x => x.LocationId == postDetail[0].LocationId);
             var SAVECOUNT = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
-            var comment = await _context.Comments.Where(x => x.PostId == post.PostId).ToListAsync();
-            List<CommentCreateRequest> list_Comment = new List<CommentCreateRequest>();
-            foreach (var item in comment)
-            {
-                CommentCreateRequest commentCreate = new CommentCreateRequest();
-                commentCreate.Id = item.Id;
-                commentCreate.PreCommentId = item.PreCommentId;
-                commentCreate.UserId = item.UserId;
-                commentCreate.Content = item.Content;
-                commentCreate.Date = item.Date;
 
-                list_Comment.Add(commentCreate);
+            List<Comment> list_Comment = new List<Comment>();
+            list_Comment = await _commentService.GetById(postId);
+            List<CommentCreateRequest> comments = new List<CommentCreateRequest>();
+            foreach (var item in list_Comment)
+            {
+                CommentCreateRequest comment = new CommentCreateRequest();
+                comment.Id = item.Id;
+                comment.PostId = item.PostId;
+                comment.UserId = item.UserId;
+                comment.UserName = await _userService.GetUserNameById(comment.UserId);
+                comment.PreCommentId = item.PreCommentId;
+                comment.Content = item.Content;
+                comment.Date = item.Date;
+
+                comments.Add(comment);
             }
+          
             for (int i = 0; i < postDetail.Count; i++)
             {
                 PostDetailRequest item = new PostDetailRequest();
+
                 item.postDetailId = postDetail[i].Id;
                 item.Title = postDetail[i].Title;
                 item.LocationId = LOCATION.LocationId;
                 item.Address = LOCATION.Address;
                 item.Content = postDetail[i].Content;
                 item.When = postDetail[i].When;
-                item.LikeCount = post.Like;
+                item.LikeCount = await CountLikes(postId);
                 item.ViewCount = post.View+1;
                 item.SaveCount = SAVECOUNT;
                 item.ShareCount = 0;
-                item.CommentList = list_Comment;
+                item.CommentList = comments;
+
                 list.Add(item);
             }
 
@@ -481,6 +502,33 @@ namespace BaseProject.Application.Catalog.Posts
             return new ApiSuccessResult<bool>();
         }
 
+        public async Task<ApiResult<bool>> Like(AddSaveVm request)
+        {
+            Guid userId = await _userService.GetIdByUserName(request.Username);
+            var post = await _context.Likes.Where(x => x.PostId == request.Id && x.UserId == userId).FirstOrDefaultAsync();
+            if (post != null)
+            {
+                _context.Likes.Remove(post);
+                await _context.SaveChangesAsync();
+
+                return new ApiSuccessResult<bool>();
+            } else
+            {
+                var addLikes = new Like();
+                addLikes.UserId = userId;
+                addLikes.PostId = request.Id;
+                addLikes.Date = DateTime.Now;
+
+                _context.Likes.Add(addLikes);
+                await _context.SaveChangesAsync();
+            }
+
+            return new ApiSuccessResult<bool>();
+        }
+        private async Task<int> CountLikes (int postId)
+        {
+            return await _context.Likes.Where(x=>x.PostId == postId).CountAsync();
+        }
         
         public async Task<List<SearchPlaceVm>> GetAll(string searchText)
         {

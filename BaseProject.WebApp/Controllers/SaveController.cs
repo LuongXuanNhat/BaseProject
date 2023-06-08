@@ -22,16 +22,34 @@ namespace BaseProject.WebApp.Controllers
             _baseApiClient = baseApiClient;
         }
 
-
+        [Authorize]
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
             var request = new GetUserPagingRequest()
             {
                 UserName = User.Identity.Name,
                 PageIndex = pageIndex,
-                PageSize = pageSize
+                PageSize = pageSize,
+                number = 1
             };
-            var data = await _saveApiClient.GetByUserName(request);
+            var data = await _saveApiClient.GetLocationByUserName(request);
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.Token = _baseApiClient.GetToken();
+
+            return View(data.ResultObj);
+        }
+
+        [Authorize] 
+        public async Task<IActionResult> Index2(int pageIndex = 1, int pageSize = 10)
+        {
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize,
+                number = 2
+            };
+            var data = await _saveApiClient.GetPostByUserName(request);
             ViewBag.UserName = User.Identity.Name;
             ViewBag.Token = _baseApiClient.GetToken();
 
@@ -40,13 +58,37 @@ namespace BaseProject.WebApp.Controllers
 
         [Authorize]
         [HttpPost]
-        public async Task<IActionResult> AddAddressToArchive([FromBody] AddAddressSaveVm model)
+        public async Task<IActionResult> AddAddressToArchive([FromBody] AddSaveVm model)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest();
             }
-            var data = await _saveApiClient.AddAddressToArchive(model);
+            // Gắn chỉ định là id địa điểm
+            model.number = 1;
+
+            var data = await _saveApiClient.AddToArchive(model);
+            if (!data.IsSuccessed == true)
+            {
+                return Json(new { successMsg = data.Message});
+            }
+          //  ViewBag.Token = _baseApiClient.GetToken();
+
+            return BadRequest();
+        }
+        
+        
+        [Authorize]
+        [HttpPost]
+        public async Task<IActionResult> AddPostToArchive([FromBody] AddSaveVm model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return BadRequest();
+            }
+            // Gắn chỉ định là id bài viết
+            model.number = 2;
+            var data = await _saveApiClient.AddToArchive(model);
             if (!data.IsSuccessed == true)
             {
                 return Json(new { successMsg = data.Message});
