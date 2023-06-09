@@ -326,7 +326,7 @@ namespace BaseProject.Application.Catalog.Rating
                 return new ApiErrorResult<PagedResult<RatingLocationDetailVm>>();
             }
 
-            var list = await _context.RatingLocations.Where(x => x.UserId == userID).ToListAsync();
+            var list = await _context.RatingLocations.OrderByDescending(x=>x.Id).Where(x => x.UserId == userID).ToListAsync();
             if (list == null)
             {
                 return new ApiSuccessResult<PagedResult<RatingLocationDetailVm>>();

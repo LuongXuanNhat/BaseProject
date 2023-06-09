@@ -365,7 +365,7 @@ namespace BaseProject.Application.Catalog.Locations
                 posts.Add(reponse);
                 
             }
-
+            posts = posts.OrderByDescending(x => x.PostId).ToList();
             // Lấy postDetail
             PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
             list.Items = new List<PostDetailRequest>();
@@ -386,22 +386,24 @@ namespace BaseProject.Application.Catalog.Locations
                     postDetailRequest.ImageList = await _context.Images.Where(x => x.LocationsDetailId == postDetailRequest.postDetailId).Select(x => x.Path).ToListAsync();
                     postDetailRequest.Address = await _context.Locations.Where(x => x.LocationId == post.LocationsDetail[0].LocationId).Select(x => x.Address).FirstOrDefaultAsync();
 
-                    var shareCount = _context.Shares.Where(x => x.PostId == post.PostId).Count();
-                    var saveCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
-                    var commentCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
+                    var shareCount = await _context.Shares.Where(x => x.PostId == post.PostId).CountAsync();
+                    var saveCount = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
+                    var commentCount = await _context.Comments.Where(x => x.PostId == post.PostId).CountAsync();
+             //       var ratingStar = await _context.RatingLocations.ToListAsync();
 
                     postDetailRequest.ShareCount = shareCount;
                     postDetailRequest.SaveCount = saveCount;
+                    postDetailRequest.CommentCount = commentCount;
 
-                try
-                {
-                    list.Items.Add(postDetailRequest);
-                }
-                catch (Exception ex)
-                {
+                    try
+                    {
+                        list.Items.Add(postDetailRequest);
+                    }
+                    catch (Exception ex)
+                    {
 
-                    Console.WriteLine("Đã xảy ra lỗi khi thêm postDetailRequest vào danh sách: " + ex.Message);
-                }
+                        Console.WriteLine("Đã xảy ra lỗi khi thêm postDetailRequest vào danh sách: " + ex.Message);
+                    }
                     
             }
             // phân trang

@@ -92,7 +92,7 @@ namespace BaseProject.Application.Catalog.Posts
                 {
                     Location location = new Location();
                     location = await _context.Locations.Where(str => str.Address.Equals(request.PostDetail[i].Address)).FirstOrDefaultAsync();
-                    var  locationDetail = await _context.LocationsDetails.FirstOrDefaultAsync(str => str.LocationId == location.LocationId);
+                    var  locationDetail = await _context.LocationsDetails.FirstOrDefaultAsync(str => str.Id == request.PostDetail[i].postDetailId );
 
                     locationDetail.LocationId = location.LocationId;
                     locationDetail.PostId = post.PostId;
@@ -391,6 +391,7 @@ namespace BaseProject.Application.Catalog.Posts
             var cate = await _categoryService.GetAll();
             var newPost = new PostCreateRequest()
             {
+       
                 PostId = postId,
                 UserId = username,
                 PostDetail = list,
@@ -411,7 +412,8 @@ namespace BaseProject.Application.Catalog.Posts
         // Lấy tất cả bài viết
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
-            var query = await _context.Posts.ToListAsync();
+            var query = await _context.Posts.OrderByDescending(p => p.PostId).ToListAsync();
+
             var list_content = await _context.LocationsDetails.ToListAsync();
             var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
             var list_category = await _categoryService.GetAllCategoryDetail();
@@ -466,7 +468,7 @@ namespace BaseProject.Application.Catalog.Posts
         {
             var User = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            var query = _context.Posts.Where(x => x.UserId.ToString() == User.Id.ToString()).ToList();
+            var query = _context.Posts.OrderByDescending(p => p.PostId).Where(x => x.UserId.ToString() == User.Id.ToString()).ToList();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();

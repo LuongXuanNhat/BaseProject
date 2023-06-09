@@ -58,7 +58,7 @@ namespace BaseProject.Application.Catalog.Comments
 
         public async Task<List<CommentCreateRequest>> GetById2(int id)
         {
-            var comments = await _context.Comments.Where(x => x.PostId == id).ToListAsync();
+            var comments = await _context.Comments.OrderByDescending(x => x.Date).Where(x => x.PostId == id).ToListAsync();
             List<CommentCreateRequest> comment = new List<CommentCreateRequest>();
 
             foreach (var item in comments)

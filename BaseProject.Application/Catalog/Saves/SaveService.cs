@@ -15,6 +15,7 @@ using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using System.Linq;
 
 namespace BaseProject.Application.Catalog.Saves
 {
@@ -106,7 +107,7 @@ namespace BaseProject.Application.Catalog.Saves
         {
             var UserId = await _userService.GetIdByUserName(request.UserName);
 
-            var getLocationId = await _context.Saveds.Where(x=>x.UserId == UserId && x.LocationId != 0).Select(x=>x.LocationId).ToListAsync();
+            var getLocationId = await _context.Saveds.OrderByDescending(x => x.Date).Where(x=>x.UserId == UserId && x.LocationId != 0).Select(x=>x.LocationId).ToListAsync();
             var query = await _context.Locations.Where(x => getLocationId.Contains(x.LocationId)).ToListAsync();
 
             //3. Paging
@@ -143,7 +144,7 @@ namespace BaseProject.Application.Catalog.Saves
         {
             var UserId = await _userService.GetIdByUserName(request.UserName);
 
-            var getPostId = await _context.Saveds.Where(x => x.UserId == UserId && x.PostId != 0).Select(x => x.PostId).ToListAsync();
+            var getPostId = await _context.Saveds.OrderByDescending(x => x.Date).Where(x => x.UserId == UserId && x.PostId != 0).Select(x => x.PostId).ToListAsync();
             var query = await _context.Posts.Where(x => getPostId.Contains(x.PostId)).ToListAsync();
             var list_content = await _context.LocationsDetails.ToListAsync();
             var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();

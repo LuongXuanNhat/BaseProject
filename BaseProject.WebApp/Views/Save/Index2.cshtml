@@ -96,7 +96,7 @@
             {
 
 
-                <a href="@Url.Action("Details", new { id = item.PostId })" class="card text-decoration-none" style="width: 22%;padding: 4px 4px; margin: 0 8px;">
+                <a href="@Url.Action("Details","Posts", new { id = item.PostId })" class="card text-decoration-none" style="width: 22%;padding: 4px 4px; margin: 0 8px;">
                     <div title="Xóa địa điểm yêu thích" style="position: relative ; left: -50px;" class="save-places-icon" save-places-id="@item.PostId">
                         <i class="fa-solid fa-trash delete-item-save" style="color: #ff3300; "></i>
                     </div>
