@@ -114,7 +114,7 @@ namespace BaseProject.WebApp.Controllers
 
 
         [HttpGet]
-        public async Task<IActionResult> Detail(int ID, string provinceName)
+        public async Task<IActionResult> Detail(int ID, string provinceName, int pageIndex = 1, int pageSize = 5)
         {
             ViewBag.Token = _baseApiClient.GetToken();
             ViewBag.UserName = User.Identity.Name;
@@ -139,7 +139,15 @@ namespace BaseProject.WebApp.Controllers
             }
 
             ViewBag.ProvinceName = provinceName;
-            var result = await _locationApiClient.GetByIdDetail(ID);
+
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _locationApiClient.GetByIdDetail(ID,request);
             return View(result.ResultObj);
         }
 

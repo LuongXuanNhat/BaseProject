@@ -85,10 +85,10 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("detai/{idDetail}")]
-        public async Task<IActionResult> GetByIdDetail(int idDetail)
+        [HttpPost("detai/{idDetail}")]
+        public async Task<IActionResult> GetByIdDetail(int idDetail, [FromBody] GetUserPagingRequest request)
         {
-            var user = await _locationService.GetByIdDetail(idDetail);
+            var user = await _locationService.GetByIdDetail(idDetail, request);
             return Ok(user);
         }
     }

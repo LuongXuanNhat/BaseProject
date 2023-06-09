@@ -11,6 +11,7 @@ using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using BaseProject.Application.Catalog.Searchs;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace BaseProject.Application.Catalog.Locations
 {
@@ -312,7 +313,7 @@ namespace BaseProject.Application.Catalog.Locations
         }
 
         // Chi tiết địa điểm
-        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId)
+        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId, GetUserPagingRequest request)
         {
             var location = await _context.Locations.Where(x => x.LocationId == locationId).FirstOrDefaultAsync();
             if (location == null)
@@ -336,7 +337,7 @@ namespace BaseProject.Application.Catalog.Locations
             int rating_count;
             double rating_score;
             int review_count = await _context.LocationsDetails.Where(x=>x.LocationId == location.LocationId).CountAsync();
-            var rating_list = await _context.RatingLocations.Where(x => x.LocationId.Equals(location.LocationId) && x.Stars != null).ToListAsync();
+            var rating_list = await _context.RatingLocations.Where(x => x.LocationId.Equals(location.LocationId) && ((int)x.Check) == 1).ToListAsync();
             if (!rating_list.Any()) {
                 rating_count = 0;
                 rating_score = 0;
@@ -347,6 +348,7 @@ namespace BaseProject.Application.Catalog.Locations
                 int rating_sum = rating_list.Sum(x => x.Stars.HasValue ? x.Stars.Value : 0);
                 rating_score = Math.Ceiling((rating_sum * 1.0 / rating_count) * 10) / 10;
             }
+            var savecount = await _context.Saveds.Where(x=>x.LocationId == location.LocationId).CountAsync();
 
             // Lấy danh sách bài đánh giá - 11 thuộc tính
             // Lấy chỉ số postID
@@ -363,10 +365,11 @@ namespace BaseProject.Application.Catalog.Locations
                 posts.Add(reponse);
                 
             }
-
+            posts = posts.OrderByDescending(x => x.PostId).ToList();
             // Lấy postDetail
-            List<PostDetailRequest> list = new List<PostDetailRequest>();
-            foreach(Post post in posts)
+            PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
+            list.Items = new List<PostDetailRequest>();
+            foreach (Post post in posts)
             {
                 var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
                 
@@ -374,28 +377,49 @@ namespace BaseProject.Application.Catalog.Locations
                     PostDetailRequest postDetailRequest = new PostDetailRequest();
                     postDetailRequest.PostId = post.PostId;
                     var User = await _context.Users.Where(x => x.Id == post.UserId).FirstOrDefaultAsync();
-
                     postDetailRequest.UserName = User.UserName;
                     postDetailRequest.UserId = User.Id;
                     postDetailRequest.Title = post.Title;
                     postDetailRequest.Content = post.LocationsDetail[0].Content;
-                    postDetailRequest.When = post.LocationsDetail[0].When;
-
+                    postDetailRequest.When = post.LocationsDetail[0].When; 
                     postDetailRequest.postDetailId = post.LocationsDetail[0].Id;
-
                     postDetailRequest.ImageList = await _context.Images.Where(x => x.LocationsDetailId == postDetailRequest.postDetailId).Select(x => x.Path).ToListAsync();
-
                     postDetailRequest.Address = await _context.Locations.Where(x => x.LocationId == post.LocationsDetail[0].LocationId).Select(x => x.Address).FirstOrDefaultAsync();
 
-                    var shareCount = _context.Shares.Where(x => x.PostId == post.PostId).Count();
-                    var saveCount = _context.Saveds.Where(x => x.PostId == post.PostId).Count();
+                    var shareCount = await _context.Shares.Where(x => x.PostId == post.PostId).CountAsync();
+                    var saveCount = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
+                    var commentCount = await _context.Comments.Where(x => x.PostId == post.PostId).CountAsync();
+             //       var ratingStar = await _context.RatingLocations.ToListAsync();
 
                     postDetailRequest.ShareCount = shareCount;
                     postDetailRequest.SaveCount = saveCount;
+                    postDetailRequest.CommentCount = commentCount;
 
-                    list.Add(postDetailRequest);
+                    try
+                    {
+                        list.Items.Add(postDetailRequest);
+                    }
+                    catch (Exception ex)
+                    {
 
+                        Console.WriteLine("Đã xảy ra lỗi khi thêm postDetailRequest vào danh sách: " + ex.Message);
+                    }
+                    
             }
+            // phân trang
+            int totalRow = list.Items.Count();
+            var data = list.Items.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<PostDetailRequest>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
 
             // Chuyển vào view model - hiển thị ra ngoài
 
@@ -408,9 +432,10 @@ namespace BaseProject.Application.Catalog.Locations
                 View = location.View,
                 RatingCount = rating_count,
                 RatingScore = rating_score,
-                ReviewCount = review_count != null ? review_count : null,
-                ImageList = img_list.ToList() == null ? null : img_list.ToList(),
-                PostDetailRequest = list == null ? null : list,
+                ReviewPostCount = review_count,
+                SaveCount = savecount,
+                ImageList = img_list.ToList() ?? null ,
+                PagedPostResult = pagedResult,
             };
 
 

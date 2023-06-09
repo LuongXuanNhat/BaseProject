@@ -59,5 +59,6 @@
                 <a class="page-link" href="@urlTemplate.Replace("{0}", Model.PageCount.ToString())">Cuối</a>
             </li>
         }
+        <Button class="btn btn-outline-primary btn-sm " style="border-radius: 0px 4px 4px 0px; margin-left: 4px;" >@Model.PageIndex/@Model.PageCount</Button>
     </ul>
 }

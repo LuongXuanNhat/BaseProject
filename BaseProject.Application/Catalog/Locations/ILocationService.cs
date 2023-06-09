@@ -3,6 +3,7 @@ using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -24,7 +25,7 @@ namespace BaseProject.Application.Catalog.Locations
 
         Task<ApiResult<LocationCreateRequest>> GetById(int locationId);
         Task<List<LocationVm>> TakeByQuantity(int quantity);
-        Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId);
+        Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId, GetUserPagingRequest request);
         
 
 

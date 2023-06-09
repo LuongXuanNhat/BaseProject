@@ -23,40 +23,47 @@
 <div class="container-fluid">
     @if (Model != null)
     {
-        <h2 style="display: flex; justify-content: space-between;"  >
-            @Model.Name
-            @if (@ViewBag.CheckSave == true)
-            {
-                <a title="Xóa khỏi địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon saved-color daluu" style=" margin: 20px 20px 0px 0px;">
-                    <i class="fa-solid fa-bookmark fa-xl "></i>
-                </a>
-            } else
-            {
-                <a title="Lưu vào địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon " style=" margin: 20px 20px 0px 0px;">
-                    <i class="fa-solid fa-bookmark fa-xl "></i>
-                </a>
-            }
-
-        </h2>
+        <div class="row" style="display: flex; align-items: center;">
+            <h2 style="display: flex; justify-content: center; font-family: SVN-Lobster" class="col-md-11">
+                @Model.Name
+            </h2>
+            <div class="col-md-1">
+                @if (@ViewBag.CheckSave == true)
+                {
+                    <a title="Xóa khỏi địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon saved-color daluu">
+                        <i class="fa-solid fa-bookmark fa-xl saved-color"></i>
+                    </a>
+                }
+                else
+                {
+                    <a title="Lưu vào địa điểm yêu thích" save-places-id="@Model.LocationId" class="save-places-icon " style=" margin: 20px 20px 0px 0px;">
+                        <i class="fa-solid fa-bookmark fa-xl "></i>
+                    </a>
+                }
+            </div>
+        </div>
         <div style="display:inline-flex; font-size: 16px;">
-            <div>
-                @Model.ReviewCount bài đánh giá  | 
+            <div title="Số bài viết nhắc đến " style="margin-right: 12px;">
+                <button type="button" class="btn btn-success btn-sm"><i class="fa-solid fa-feather-pointed" style="color: white;"></i> @Model.ReviewPostCount</button>
             </div>
-            <div>
-                |  @Model.RatingCount người chấm điểm  |
+            <div title="Số người chấm điểm" style="margin-right: 12px;">
+                <button type="button" class="btn btn-success btn-sm"><i class="fa-regular fa-star" style="color: white;"></i> @Model.RatingCount </button>
             </div>
-            <div>
-                |  #@Model.ReviewCount *  |
+            <div title="@Model.RatingScore/5" style="margin-right: 12px;">
+                <button type="button" class="btn btn-success btn-sm">
+                    <span class="icon rating-outer">
+                    <span class="icon rating-inner" style="width: @(Model.RatingScore * 20)%"></span>
+                </span>  </button>
             </div>
-            <div>
-                |  #2 trong 100 top địa điểm được yêu thích nhất ở TP. Hồ Chí Minh 
+            <div title="Số lượt lưu địa điểm" style="margin-right: 12px;">
+                <button type="button" class="btn btn-success btn-sm">@Model.SaveCount</button>
             </div>
         </div>
         <hr/>
         <div class="row" style="height: 550px; ">
             <div class="col-4">
                 <div class="card text-dark bg-light" style="max-width: 25rem;">
-                    <div class="card-header">Giới thiệu</div>
+                    <h5 class="card-header" style="min-height: 3rem;">Giới thiệu</h5>
                     <div class="card-body">
                         <p class="" style="font-size: 16px;margin-top: 8px !important;">@Model.Description</p>
                         <span href="https://www.google.com/maps/place/@Model.Address">
@@ -76,57 +83,14 @@
                 </div>
             </div>           
         </div>
+        <hr />
         <div>
             <ul class="row">
-                @if (Model.PostDetailRequest != null)
+                @if (Model.PagedPostResult != null)
                 {
-                    foreach (var item in Model.PostDetailRequest)
-                    {
-                        <li class="col-6" style="list-style: none;margin-bottom: 8px;">
-                            <div class="card" style="width: 95%;">
-                                <div class="card-body">
-                                    <div style="display: flex; justify-content: space-between;">
-                                        <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" style="text-decoration: none;">
-                                            <h5 class="card-title"><i class="fa-regular fa-circle-user"></i> @item.UserName</h5>
-                                        </a>
-                                        <div style="display: flex">
-                                            <div style="margin-right: 8px">
-                                                <i class="fa-solid fa-pen-fancy"></i> 123  
-                                            </div>
-                                            <div>
-                                                <div class="text-black-50" style="margin-right: 12px">
-                                                    <span class="icon rating-outer">
-                                                        <span class="icon rating-inner" style="width: 50%"></span>
-                                                    </span>
-                                                    69
-                                                </div>
-                                            </div>
-                                            <div class="dropdown">
-                                                <a class="btn btn-secondary dropdown-toggle" style="border-radius: 50%;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
-                                                    
-                                                </a>
-
-                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
-                                                    <li><a class="dropdown-item" href="#">Báo cáo bài đánh giá</a></li>
-                                                    <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
-                                                    <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <h6 class="card-subtitle mb-2 text-muted">@item.Title </h6>
-                                    <div class="card-text limited-lines">@Html.Raw(@item.Content)</div>
-                                    <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Xem bình luận">10 <i class="fa-solid fa-comment-dots"></i></a>
-                                    <a href="#" class="card-link text-black-50 like-link" like-link-id="@item.postDetailId" style="text-decoration: none; padding-right: 8px" title="Thích">2 <i class="fa-regular fa-thumbs-up "></i></a>
-                                    <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Lưu bài viết">5 <i class="fa-solid fa-bookmark"></i></a>
-                                    <a href="#" class="card-link text-black-50" style="text-decoration: none;" title="Chia sẻ">3 <i class="fa-solid fa-share"></i></a>
-                                </div>
-                            </div>
-                        </li>
-                    }
+                    @await Html.PartialAsync("_PagedPostResult", Model.PagedPostResult)
                 }
-               
+                
             </ul>
             
         </div>
@@ -212,4 +176,22 @@
     });
 
 
+</script>
+
+@*Tải lại trang và quay lại ở vị trí cũ*@
+<script>
+    // Lưu vị trí cuộn hiện tại vào sessionStorage khi trang bị tải lại
+    window.onload = function () {
+        var scrollPosition = sessionStorage.getItem("scrollPosition");
+        if (scrollPosition !== null) {
+            window.scrollTo(0, scrollPosition);
+            sessionStorage.removeItem("scrollPosition");
+        }
+    };
+
+    // Lưu vị trí cuộn hiện tại vào sessionStorage khi người dùng cuộn trang
+    window.onscroll = function () {
+        var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
+        sessionStorage.setItem("scrollPosition", scrollPosition);
+    };
 </script>

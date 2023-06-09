@@ -23,6 +23,7 @@
                                     <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                     <input asp-for="PostId" class="form-control" hidden readonly />
                                     <input asp-for="UserId" class="form-control" hidden readonly />
+                                    <input asp-for="PostDetail[0].postDetailId" class="form-control" hidden readonly />
                                     <div class="col-md-12 row ">
 
                                         <div class="col-md-1" style="display: flex; justify-content: center;">
@@ -64,7 +65,7 @@
                                                     <div class="form-group " style="padding: 1rem 1rem 0rem 1rem;">
                                                         <label class="control-label">Địa điểm bạn nhắc tới:</label>
                                                         <input asp-for="PostDetail[i].Title " class="form-control Address_Name_Post" type="text"
-                                                               id="searchInput_@i" placeholder="Nhập địa điểm tìm kiếm" />
+                                                               id="searchInput_@i" placeholder="Nhập địa điểm tìm kiếm" readonly/>
                                                         <span asp-validation-for="PostDetail[i].Title" class="text-danger"></span>
                                                         <ul id="searchResults_@i" class="makeColor" style="z-index: 2"></ul>
                                                     </div>

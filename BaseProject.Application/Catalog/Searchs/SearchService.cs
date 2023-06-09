@@ -76,7 +76,7 @@ namespace BaseProject.Application.Catalog.Searchs
             var getUser = await _context.Users.FirstOrDefaultAsync(x=>x.UserName.Equals(request.Keyword));
             
             // Lấy danh sách lịch sử tìm kiếm của user
-            var query = await _context.Searches.Where(x=>x.UserId == getUser.Id).ToListAsync();
+            var query = await _context.Searches.OrderByDescending(x => x.Date).Where(x=>x.UserId == getUser.Id).ToListAsync();
 
             // Gộp nhóm user theo ngày:
                 // Lấy số ngày khác nhau:

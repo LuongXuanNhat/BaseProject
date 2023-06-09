@@ -77,13 +77,13 @@ namespace BaseProject.ApiIntegration.Comment
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
 
-        public async Task<List<CommentCreateRequest>> GetById(int id)
+        public async Task<List<CommentCreateRequest>> GetById(int Id)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/comments/{id}");
+            var response = await client.GetAsync($"/api/comments/add/{Id}");
             var body = await response.Content.ReadAsStringAsync();
             
             if (response.IsSuccessStatusCode)

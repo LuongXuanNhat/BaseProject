@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Location;
 using Azure.Core;
+using System.Net.Http.Json;
 
 namespace BaseProject.ApiIntegration.Locations
 {
@@ -58,13 +59,13 @@ namespace BaseProject.ApiIntegration.Locations
 
             return JsonConvert.DeserializeObject<ApiErrorResult<LocationCreateRequest>>(body);
         }
-        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId)
+        public async Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int locationId, GetUserPagingRequest request)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
             client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
-            var response = await client.GetAsync($"/api/locations/detai/{locationId}");
+            var response = await client.PostAsJsonAsync($"/api/locations/detai/{locationId}", request);
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
                 return JsonConvert.DeserializeObject<ApiSuccessResult<LocationDetailRequest>>(body);

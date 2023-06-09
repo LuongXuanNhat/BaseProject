@@ -38,9 +38,11 @@ namespace BaseProject.ViewModels.Catalog.Post
         public DateTime When { get; set; }
 
         public int? ViewCount { get; set; }
+        public int? RatingStar { get; set; }
 
         public int? LikeCount { get; set; }
         public int? ShareCount { get; set; }
+        public int? CommentCount { get; set; }
         public int? SaveCount { get; set; }
      
 

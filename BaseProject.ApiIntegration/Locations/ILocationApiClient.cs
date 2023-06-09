@@ -16,7 +16,7 @@ namespace BaseProject.ApiIntegration.Locations
         Task<List<LocationVm>> TakeByQuantity(int quantity);
 
         Task<ApiResult<LocationCreateRequest>> GetById(int id);
-        Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int id);
+        Task<ApiResult<LocationDetailRequest>> GetByIdDetail(int id, GetUserPagingRequest request);
 
 
 
