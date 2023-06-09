@@ -1,4 +1,5 @@
 ﻿using BaseProject.ViewModels.Catalog.Post;
+using BaseProject.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
@@ -17,8 +18,12 @@ namespace BaseProject.ViewModels.Catalog.Location
         public int? View { get; set; }
         public int? RatingCount { get; set; }
         public double? RatingScore { get; set; }
-        public int? ReviewCount { get; set; }
+        public int? ReviewPostCount { get; set; }
+        public int? SaveCount { get; set; }
         public List<string> ImageList { get; set; }
-        public List<PostDetailRequest>? PostDetailRequest { get; set; }
+
+        public PagedResult<PostDetailRequest> PagedPostResult { get; set; }
+
+        
     }
 }

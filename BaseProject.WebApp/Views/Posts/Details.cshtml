@@ -225,6 +225,8 @@
                     $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
                         $(this).addClass('hidden-class');
                     });
+
+                    form.find('textarea[name="content"]').val('');
                 },
                 error: function () {
                     alert('Vui lòng đăng nhập');

@@ -41,6 +41,7 @@ namespace BaseProject.ViewModels.Catalog.Post
 
         public int? LikeCount { get; set; }
         public int? ShareCount { get; set; }
+        public int? CommentCount { get; set; }
         public int? SaveCount { get; set; }
      
 

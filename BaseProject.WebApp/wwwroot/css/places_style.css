@@ -95,8 +95,8 @@ h1 {
     color: #7F7F7F ;
 }
 
-h2 .saved-color {
-    color: yellow ;
+a .saved-color {
+    color: yellow !important;
 }
 
 .limited-lines {
@@ -126,7 +126,7 @@ h2 .saved-color {
 
 .rating-outer {
     position: relative;
-    color: red;
+    color: white;
     display: inline-block;
 }
 

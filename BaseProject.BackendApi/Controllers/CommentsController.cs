@@ -30,6 +30,14 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(comments);
         }
 
+
+        [HttpGet("add/{Id}")]
+        public async Task<IActionResult> GetById2(int Id)
+        {
+            var comments = await _commentService.GetById2(Id);
+            return Ok(comments);
+        }
+
         [HttpPost]
         public async Task<IActionResult> Create(CommentCreateRequest request)
         {

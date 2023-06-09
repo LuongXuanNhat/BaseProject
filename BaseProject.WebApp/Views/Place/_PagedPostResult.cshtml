@@ -1,0 +1,53 @@
+﻿@using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.Catalog.Post;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Post.PostDetailRequest>
+
+
+<h4>Bài viết đánh giá</h4>
+@await Component.InvokeAsync("Pager", Model) 
+@foreach (var item in Model.Items)
+{
+    <li class="" style="list-style: none;margin-bottom: 8px;">
+        <div class="card" style="width: 95%;">
+            <div class="card-body">
+                <div style="display: flex; justify-content: space-between;">
+                    <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" style="text-decoration: none;">
+                        <h5 class="card-title"><i class="fa-regular fa-circle-user"></i> @item.UserName</h5>
+                    </a>
+                    <div style="display: flex">
+                        <div style="margin-right: 8px">
+                            <i class="fa-solid fa-pen-fancy"></i> 123
+                        </div>
+                        <div>
+                            <div class="text-black-50" style="margin-right: 12px">
+                                <span class="icon rating-outer">
+                                    <span class="icon rating-inner" style="width: 50%"></span>
+                                </span>
+                                69
+                            </div>
+                        </div>
+                        <div class="dropdown">
+                            <a class="btn btn-secondary dropdown-toggle" style="border-radius: 50%;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+
+                            </a>
+
+                            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                <li><a class="dropdown-item" href="#">Báo cáo bài đánh giá</a></li>
+                                <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
+                                <li><a class="dropdown-item" href="#">Chức năng khác</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+
+                <h6 class="card-subtitle mb-2 text-muted">@item.Title </h6>
+                <div class="card-text ">@Html.Raw(@item.Content)</div>
+                <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Xem bình luận"> <i class="fa-solid fa-comment-dots"></i></a>
+                <a href="#" class="card-link text-black-50 like-link" like-link-id="@item.postDetailId" style="text-decoration: none; padding-right: 8px" title="Thích">2 <i class="fa-regular fa-thumbs-up "></i></a>
+                <a href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Lưu bài viết">5 <i class="fa-solid fa-bookmark"></i></a>
+                <a href="#" class="card-link text-black-50" style="text-decoration: none;" title="Chia sẻ">3 <i class="fa-solid fa-share"></i></a>
+            </div>
+        </div>
+    </li>
+}

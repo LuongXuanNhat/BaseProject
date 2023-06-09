@@ -235,7 +235,7 @@ namespace BaseProject.Application.Catalog.Rating
             }
 
             // Lấy postDetail
-            List<PostDetailRequest> list = new List<PostDetailRequest>();
+            PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
             foreach(Post post in posts)
             {
                 var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
@@ -264,7 +264,7 @@ namespace BaseProject.Application.Catalog.Rating
                     postDetailRequest.ShareCount = shareCount;
                     postDetailRequest.SaveCount = saveCount;
 
-                    list.Add(postDetailRequest);
+                    list.Items.Add(postDetailRequest);
                 } else
                 {
                     if (postDetails != null && postDetails.Count > 1)
@@ -293,7 +293,7 @@ namespace BaseProject.Application.Catalog.Rating
                             postDetailRequest.ShareCount = shareCount;
                             postDetailRequest.SaveCount = saveCount;
 
-                            list.Add(postDetailRequest);
+                            list.Items.Add(postDetailRequest);
                         }
                     }
                 }
@@ -310,9 +310,9 @@ namespace BaseProject.Application.Catalog.Rating
                 View = location.View == null ? 0 : location.View,
                 RatingCount = rating_count,
                 RatingScore = rating_score,
-                ReviewCount = review_count != null ? review_count : null,
+                ReviewPostCount = review_count != null ? review_count : null,
                 ImageList = img_list.ToList() == null ? null : img_list.ToList(),
-                PostDetailRequest = list == null ? null : list,
+                PagedPostResult = list,
             };
 
             return new ApiSuccessResult<LocationDetailRequest>(updateLocationRequest);
