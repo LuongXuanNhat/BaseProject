@@ -110,7 +110,17 @@ a .saved-color {
     -o-box-orient: vertical;
     box-orient: vertical;
 }
-
+.css-baivietlienquan {
+    margin: 0px;
+    font-family: Mulish;
+    font-size: 16px;
+    background-color: #f4f4f4;
+    padding: 4px 4px ;
+    border-radius: 4px;
+    margin-top: 8px;
+    margin-bottom: 0px;
+}
+}
 .rating-outer {
     position: relative;
     color: red;
@@ -126,7 +136,7 @@ a .saved-color {
 
 .rating-outer {
     position: relative;
-    color: white;
+    color: yellow;
     display: inline-block;
 }
 

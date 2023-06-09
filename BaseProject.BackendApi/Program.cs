@@ -2,8 +2,10 @@
 using BaseProject.Application.Catalog.Comments;
 using BaseProject.Application.Catalog.Images;
 using BaseProject.Application.Catalog.Locations;
+using BaseProject.Application.Catalog.Notifications;
 using BaseProject.Application.Catalog.Posts;
 using BaseProject.Application.Catalog.Rating;
+using BaseProject.Application.Catalog.Reports;
 using BaseProject.Application.Catalog.Saves;
 using BaseProject.Application.Catalog.Searchs;
 using BaseProject.Application.Common;
@@ -63,6 +65,8 @@ builder.Services.AddTransient<IRatingService, RatingService>();
 builder.Services.AddTransient<ISearchService, SearchService>();
 builder.Services.AddTransient<ISaveService, SaveService>();
 builder.Services.AddTransient<ICommentService, CommentService>();
+builder.Services.AddTransient<IReportService, ReportService>();
+builder.Services.AddTransient<INotificationService, NotificationService>();
 
 
 

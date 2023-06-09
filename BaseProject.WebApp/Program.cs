@@ -4,6 +4,7 @@ using BaseProject.ApiIntegration.Comment;
 using BaseProject.ApiIntegration.Locations;
 using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.RatingStars;
+using BaseProject.ApiIntegration.Reports;
 using BaseProject.ApiIntegration.Role;
 using BaseProject.ApiIntegration.Saves;
 using BaseProject.ApiIntegration.Searchs;
@@ -22,6 +23,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddHttpClient();
 builder.Services.AddHttpContextAccessor();
+
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
 builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
@@ -31,6 +33,7 @@ builder.Services.AddTransient<ISearchApiClient, SearchApiClient>();
 builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
 builder.Services.AddTransient<IPostApiClient, PostApiClient>();
 builder.Services.AddTransient<ICommentApiClient, CommentApiClient>();
+builder.Services.AddTransient<IReportApiClient, ReportApiClient>();
 
 builder.Services.AddTransient<BaseApiClient>();
 
