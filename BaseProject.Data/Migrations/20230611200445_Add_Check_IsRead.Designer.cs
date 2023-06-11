@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230611200445_Add_Check_IsRead")]
+    partial class Add_Check_IsRead
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "1a1ea4d5-1ae0-40b3-bc99-d18795c65f0f",
+                            ConcurrencyStamp = "a28f8d2f-52e5-421c-b50d-f862d0dcf31c",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "c6b9c36b-f776-4718-b540-a8e9fba249eb",
+                            ConcurrencyStamp = "6dc70b8c-88b2-4331-977f-33b6ac6198c8",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -204,7 +207,7 @@ namespace BaseProject.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
                             Check = 0,
-                            ConcurrencyStamp = "9db0e7e6-e491-46bd-b9c9-c817a2d98241",
+                            ConcurrencyStamp = "ccc35209-0513-46a8-8aea-cf764003f89a",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -214,7 +217,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIhXeosTVZO4AQlEIYByydMfEjqKXPhah4VnalQG8VL2FwgiqSFP1WL202V4/rZp6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEMPqdcLaqkx23rCg5eR7WVKTsAVqedOa1wH3ZmvBEdmXU8wiJG7iNYNt3t3hxJfHfQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2166,30 +2169,25 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.NoticeDetail", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
-
-                    b.Property<int>("IsRead")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasDefaultValue(0);
-
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.HasKey("Id");
+                    b.Property<string>("Content")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
 
-                    b.HasIndex("NotificationId");
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.HasKey("NotificationId", "UserId");
 
                     b.HasIndex("UserId");
 

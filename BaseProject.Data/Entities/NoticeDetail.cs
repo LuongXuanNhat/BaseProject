@@ -1,4 +1,5 @@
 ﻿using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 
 namespace BaseProject.Data.Entities
 {
@@ -8,6 +9,7 @@ namespace BaseProject.Data.Entities
         public int NotificationId { get; set; }
         public Guid UserId { get; set; }
         public string Content { get; set; }
+        public YesNo IsRead { get; set; }
 
 
         // Relationship

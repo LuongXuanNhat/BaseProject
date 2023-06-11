@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230611214532_Update_NotiDetail_2")]
+    partial class Update_NotiDetail_2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "1a1ea4d5-1ae0-40b3-bc99-d18795c65f0f",
+                            ConcurrencyStamp = "a18d1079-3173-4d36-8508-d36d4069c0c7",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "c6b9c36b-f776-4718-b540-a8e9fba249eb",
+                            ConcurrencyStamp = "19e16e9c-34a1-46c1-9265-7d884ddd8dcc",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -204,7 +207,7 @@ namespace BaseProject.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
                             Check = 0,
-                            ConcurrencyStamp = "9db0e7e6-e491-46bd-b9c9-c817a2d98241",
+                            ConcurrencyStamp = "1228f547-485b-4019-aa04-2b6a10451d99",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -214,7 +217,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEIhXeosTVZO4AQlEIYByydMfEjqKXPhah4VnalQG8VL2FwgiqSFP1WL202V4/rZp6A==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEFk6sqISqwGG57Q4iHBhKZqCBncU/2pjzB+6X8M7nKik2Belskv7c3MuTsaZS4iEHQ==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,

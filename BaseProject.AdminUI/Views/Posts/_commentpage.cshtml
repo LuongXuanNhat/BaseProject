@@ -1,0 +1,30 @@
+﻿@using BaseProject.ViewModels.Catalog.Comments
+@model CommentCreateRequest
+
+<div class="comment row">
+    <div class="col-11">
+        <div class="comment-header">
+            <a class="comment-username" asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@Model.UserName">
+                <i class="fa-solid fa-circle-user" style="color: #5ba0fb;"></i>
+                    <strong>@Model.UserName</strong>
+            </a>
+            <span class="comment-date">@Model.Date.ToString("dd/MM/yyyy")</span>
+        </div>
+        <div class="comment-content">@Model.Content</div>
+    </div>
+    @if (string.Equals(ViewBag.UserName, "admin") || string.Equals(ViewBag.UserName, Model.UserName))
+    {
+        <div class="dropdown col-1">
+            <a class="" style="border-radius: 50%; width:1.5rem; height:1.5rem;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                <i class="fa-solid fa-ellipsis" style="color: black;left: 17px; position: absolute; top: 7px;"></i>
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                <li><a href="#" style="font-size:14px;" class="edit-comment dropdown-item" data-comment-id="@Model.Id">Sửa</a> </li>
+                <li><a href="#" style="font-size:14px;" class="delete-comment dropdown-item" data-comment-id="@Model.Id">Xóa</a> </li>
+                <li><a class="dropdown-item" style="font-size:14px;" href="#">Chức năng khác</a></li>
+            </ul>
+        </div>
+    }
+    
+
+</div>

@@ -1,0 +1,7 @@
+﻿@using BaseProject.ViewModels.Catalog.Comments
+@model List<CommentCreateRequest>
+
+@foreach (var comment in Model)
+{
+    <partial name="/Views/Posts/_commentpage.cshtml" model="comment" />
+}

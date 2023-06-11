@@ -125,8 +125,8 @@
                             } 
                         </td>
                         <td class="col-1" style="padding: 8px 4px;">
-                            <a title="Sửa địa điểm" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Edit", new { id=item.PostId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
-                            <a title="Xóa địa điểm" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Delete", new { id=item.PostId })"><i class="fa-solid fa-location-pin-lock" style="color: darkblue"></i></a>
+                            <a title="Đọc bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Details", new { id=item.PostId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
+                            <a title="Khóa bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Delete", new { id=item.PostId })"><i class="fa-solid fa-unlock-keyhole" style="color: darkblue"></i></a>
                         </td>
                     </tr>
                 }

@@ -6,6 +6,7 @@ using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,6 +21,7 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request);
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);
+        Task<ApiResult<bool>> Lock(Guid UserId,int idPost,string Message);
 
         Task<string> Delete(int postId);
         Task<ApiResult<bool>> GetList(int userId);

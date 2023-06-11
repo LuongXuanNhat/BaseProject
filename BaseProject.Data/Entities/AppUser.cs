@@ -17,6 +17,7 @@ namespace BaseProject.Data.Entities
         [DisplayFormat(DataFormatString = "{0:dd-MM-yyyy}", ApplyFormatInEditMode = true)]
         public DateTime? DateOfBir { get; set; }
         public string? Address { get; set; }
+        public YesNo Check { get; set; }
 
 
 

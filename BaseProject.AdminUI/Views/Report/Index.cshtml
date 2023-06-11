@@ -80,8 +80,8 @@
                             @item.Date
                         </td>
                         <td class="col-5 row" style="">
-                            <a title="Sửa" href="@($"https://localhost:7202/Posts/Details/{item.PostId}")" style="height: 40px"><i class="fa fa-edit"></i></a>
-                            <a title="Xóa" href="@Url.Action("Delete", new { idCategory=item.Id })" style="height: 40px"><i class="fa-solid fa-trash-can" ></i></a>
+                            <a title="Sửa" href="@Url.Action("Details","Posts", new { id = item.PostId })" style="height: 40px"><i class="fa fa-edit"></i></a>
+                            <a title="Xóa" href="@Url.Action("Lock", new {  id = item.PostId })" style="height: 40px"><i class="fa-solid fa-trash-can"></i></a>
                         </td>
                     </tr>
                 }

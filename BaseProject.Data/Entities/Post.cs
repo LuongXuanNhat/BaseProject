@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BaseProject.Data.Enums;
+using System.ComponentModel.DataAnnotations;
 
 namespace BaseProject.Data.Entities
 {
@@ -12,6 +13,7 @@ namespace BaseProject.Data.Entities
         public int View { get; set; }
         public int Like { get; set; }
         public Guid UserId { get; set; }
+        public YesNo Check { get; set; }
 
 
 

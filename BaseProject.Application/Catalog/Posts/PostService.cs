@@ -297,6 +297,37 @@ namespace BaseProject.Application.Catalog.Posts
 
             return new ApiSuccessResult<bool>();
         }
+        
+        public async Task<ApiResult<bool>> Lock(Guid UserId, int idPost, string Message)
+        {
+            //  Khóa bài viết
+            var post = await _context.Posts.Where(x=>x.PostId == idPost).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                return new ApiErrorResult<bool>("Không tìm thấy bài viết");
+            }
+
+            post.Check = Data.Enums.YesNo.yes;
+            _context.Posts.Update(post);
+            await _context.SaveChangesAsync();
+
+            // Tạo thông báo ( TB Hệ thống = 1 ) 
+            var noficationDetail = new NoticeDetail();
+            noficationDetail.Notification = await _context.Notifications.Where(x => x.NotificationId == 1).FirstOrDefaultAsync();
+            noficationDetail.Content = Message;
+            noficationDetail.UserId = UserId;
+
+            _context.NoticeDetails.Add(noficationDetail);
+            await _context.SaveChangesAsync();
+
+            _context.Entry(noficationDetail).Reload();
+            var Id = noficationDetail.Id;
+            // Gửi thông báo tới người báo cáo
+          //  var feedback = _context.NoticeDetails.Where(x=>x.UserId == noficationDetail.UserId && x. )
+
+
+            return new ApiSuccessResult<bool>();
+        }
 
         public async Task<string> Delete(int postId)
         {
@@ -345,7 +376,7 @@ namespace BaseProject.Application.Catalog.Posts
         // Chi tiết bài viết
         public async Task<ApiResult<PostCreateRequest>> GetById(int postId)
         {
-            var post = await _context.Posts.Where(x => x.PostId == postId).FirstOrDefaultAsync();
+            var post = await _context.Posts.Where(x => x.PostId == postId && x.Check == Data.Enums.YesNo.no).FirstOrDefaultAsync();
             if (post == null)
             {
                 return new ApiErrorResult<PostCreateRequest>("Bài viết không tồn tại");
@@ -421,7 +452,7 @@ namespace BaseProject.Application.Catalog.Posts
         // Lấy tất cả bài viết
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
-            var query = await _context.Posts.OrderByDescending(p => p.PostId).ToListAsync();
+            var query = await _context.Posts.OrderByDescending(p => p.PostId).Where(x=>x.Check == Data.Enums.YesNo.no).ToListAsync();
 
             var list_content = await _context.LocationsDetails.ToListAsync();
             var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
@@ -481,7 +512,7 @@ namespace BaseProject.Application.Catalog.Posts
         {
             var User = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            var query = _context.Posts.OrderByDescending(p => p.PostId).Where(x => x.UserId.ToString() == User.Id.ToString()).ToList();
+            var query = _context.Posts.OrderByDescending(p => p.PostId).Where(x => x.UserId.ToString() == User.Id.ToString() && x.Check == Data.Enums.YesNo.no).ToList();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
@@ -566,7 +597,7 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<List<PostVm>> TakeTopByQuantity(int quantity)
         {
-            if ( _context.Posts.ToList().Count < quantity) { quantity = _context.Posts.ToList().Count; }
+            if ( _context.Posts.Where(x=> x.Check == Data.Enums.YesNo.no).ToList().Count < quantity) { quantity = _context.Posts.ToList().Count; }
             var post = await _context.Posts
             .OrderByDescending(p => p.View)
             .Take(quantity)

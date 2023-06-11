@@ -146,5 +146,12 @@ namespace BaseProject.BackendApi.Controllers
             var user = await _postService.TakeTopByQuantity(quantity);
             return Ok(user);
         }
+
+        [HttpGet("lock/{UserId}/{idPost}/{Message}")]
+        public async Task<IActionResult> Lock(Guid UserId, int idPost, string Message)
+        {
+            var user = await _postService.Lock(UserId,idPost,Message);
+            return Ok(user);
+        }
     }
 }
