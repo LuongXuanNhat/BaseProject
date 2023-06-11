@@ -13,6 +13,10 @@ namespace BaseProject.ViewModels.Catalog.Post
         public int PostId { get; set; }
 
         public Guid UserId { get; set; }
+        public string? UserName { get; set; }
+        public int? CountComment { get; set; }
+        public int? CountSave { get; set; }
+        public int? CountLike { get; set; }
 
         public string Title { get; set; }
         public string? Content { get; set; }

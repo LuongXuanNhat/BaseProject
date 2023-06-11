@@ -1,11 +1,11 @@
 ﻿@using BaseProject.ViewModels.Common;
-@model PagedResult<BaseProject.ViewModels.Catalog.Location.LocationCreateRequest>
+@model PagedResult<BaseProject.Data.Entities.Report>
 @{
-    ViewData["Title"] = "Danh mục địa điểm";
+    ViewData["Title"] = "Danh mục";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Danh sách địa điểm</h1>
+<h1>Danh sách báo cáo</h1>
 
 @section Scripts{
     <script>
@@ -22,15 +22,11 @@
         </div>
     }
 </div>
-<ol class="breadcrumb mb-4">
-    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
-    <li class="breadcrumb-item active">Danh sách địa điểm</li>
-</ol>
 <div class="card mb-12">
     <div class="card-header">
         <div class="row">
             <div class="col-md-6 col-xs-12">
-                <a class="btn btn-success" asp-action="Create" asp-controller="Location">Tạo mới</a>
+                <a asp-action="Create" class="btn btn-success">Thêm danh mục</a>
             </div>
             <div class="col-md-6 col-xs-12">
                 <form asp-action="Index" method="get">
@@ -39,12 +35,11 @@
                             <button type="submit" class="btn btn-primary">
                                 Tìm
                             </button>
-                            <button style="padding: 10px 24px; font-size: 15px;" type="button" onclick="window.location.href='/Location/Index'" class="btn btn-dark"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                            <button style="padding: 10px 24px; font-size: 15px;" type="button" onclick="window.location.href='/Categories/Index'" class="btn btn-dark"><i class="fa-solid fa-arrow-rotate-right"></i></button>
                         </div>
                         <div class="col-md-9" style="flex: 1;">
                             <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
                         </div>
-                        
                     </div>
                 </form>
             </div>
@@ -54,28 +49,39 @@
         <table class="table">
             <thead>
                 <tr class="row no-margin">
+                    <th class="col-1">
+                        STT
+                    </th>
                     <th class="col-4">
-                        Tên địa điểm
+                        Nội dung
                     </th>
-                    <th class="col-6">
-                        Địa chỉ
+                    <th class="col-2">
+                        Ngày
                     </th>
-                    <th class="col-2"></th>
+
+                    <th class="col-5"></th>
                 </tr>
             </thead>
             <tbody>
+                @{
+                    int a = 0;
+                }
                 @foreach (var item in Model.Items)
                 {
+                    a++;
                     <tr class="row no-margin">
-                        <td class="col-4">
-                            @Html.DisplayFor(modelItem => item.Name)
+                        <td class="col-1">
+                            @a
                         </td>
-                        <td class="col-6">
-                            @Html.DisplayFor(modelItem => item.Address)
+                        <td class="col-4">
+                            @item.Content
                         </td>
                         <td class="col-2">
-                            <a title="Sửa địa điểm" style="background-color: lightskyblue" href="@Url.Action("Edit", new { id=item.LocationId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
-                            <a title="Xóa địa điểm" style="background-color: lightskyblue" href="@Url.Action("Delete", new { id=item.LocationId })"><i class="fa-solid fa-location-pin-lock" style="color: darkblue" ></i></a>
+                            @item.Date
+                        </td>
+                        <td class="col-5 row" style="">
+                            <a title="Sửa" href="@($"https://localhost:7202/Posts/Details/{item.PostId}")" style="height: 40px"><i class="fa fa-edit"></i></a>
+                            <a title="Xóa" href="@Url.Action("Delete", new { idCategory=item.Id })" style="height: 40px"><i class="fa-solid fa-trash-can" ></i></a>
                         </td>
                     </tr>
                 }

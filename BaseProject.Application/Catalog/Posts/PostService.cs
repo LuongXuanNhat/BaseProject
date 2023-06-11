@@ -20,6 +20,8 @@ using BaseProject.ViewModels.Catalog.Comments;
 using BaseProject.ViewModels.Catalog.FavoriteSave;
 using BaseProject.Application.Catalog.Comments;
 using System.ComponentModel.Design;
+using BaseProject.Application.Catalog.Likes;
+using BaseProject.Application.Catalog.Saves;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -30,7 +32,9 @@ namespace BaseProject.Application.Catalog.Posts
         private readonly ICategoryService _categoryService;
         private readonly IRatingService _ratingService;
         private readonly IUserService _userService;
+        private readonly ISaveService _saveService;
         private readonly IImageService _imageService;
+        private readonly ILikeService _likeService;
         private readonly ISearchService _searchService;
         private readonly ICommentService _commentService;
 
@@ -41,7 +45,9 @@ namespace BaseProject.Application.Catalog.Posts
             IImageService imageService,
             IRatingService ratingService,
             IUserService userService,
-            ICommentService commentService)
+            ICommentService commentService,
+            ILikeService likeService,
+            ISaveService saveService )
         {
             _context = context;
             _categoryService = categoryService;
@@ -50,6 +56,9 @@ namespace BaseProject.Application.Catalog.Posts
             _userService = userService;
             _searchService = searchService;
             _commentService = commentService;
+            _likeService = likeService;
+            _saveService = saveService;
+
         }
 
         public async Task<Like> Check(string UserName, int Id)
@@ -361,7 +370,7 @@ namespace BaseProject.Application.Catalog.Posts
                 comment.Id = item.Id;
                 comment.PostId = item.PostId;
                 comment.UserId = item.UserId;
-                comment.UserName = await _userService.GetUserNameById(comment.UserId);
+                comment.UserName = await _userService.GetUserNameByIdAsync(comment.UserId);
                 comment.PreCommentId = item.PreCommentId;
                 comment.Content = item.Content;
                 comment.Date = item.Date;
@@ -449,6 +458,10 @@ namespace BaseProject.Application.Catalog.Posts
                     Title = x.Title,
                     Date = x.UploadDate,
                     UserId = x.UserId,
+                    CountComment = _commentService.CountById(x.PostId),
+                    CountSave = _saveService.CountById(x.UserId,x.PostId),
+                    CountLike = _likeService.CountById(x.PostId),
+                    UserName = _userService.GetUserNameById(x.UserId),
                     View = x.View 
                 }).ToList();
             //4. Select and projection

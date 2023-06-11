@@ -44,26 +44,26 @@
         </div>
         <div style="display:inline-flex; font-size: 16px;">
             <div title="Số bài viết nhắc đến " style="margin-right: 12px;">
-                <button type="button" class="btn btn-success btn-sm"><i class="fa-solid fa-feather-pointed" style="color: white;"></i> @Model.ReviewPostCount</button>
+                <button type="button" class="btn btn-success btn-sm"> <i class="fa-solid fa-feather-pointed" style="color: white;"></i> @Model.ReviewPostCount bài viết</button>
             </div>
             <div title="Số người chấm điểm" style="margin-right: 12px;">
-                <button type="button" class="btn btn-success btn-sm"><i class="fa-regular fa-star" style="color: white;"></i> @Model.RatingCount </button>
+                <button type="button" class="btn btn-success btn-sm"><i class="fa-regular fa-star" style="color: white;"></i> @Model.RatingCount lượt đánh giá</button>
             </div>
             <div title="@Model.RatingScore/5" style="margin-right: 12px;">
                 <button type="button" class="btn btn-success btn-sm">
                     <span class="icon rating-outer">
-                    <span class="icon rating-inner" style="width: @(Model.RatingScore * 20)%"></span>
+                    <span class="icon rating-inner" style="width: @(Model.RatingScore * 20)%; "></span>
                 </span>  </button>
             </div>
             <div title="Số lượt lưu địa điểm" style="margin-right: 12px;">
-                <button type="button" class="btn btn-success btn-sm">@Model.SaveCount</button>
+                <button type="button" class="btn btn-success btn-sm"><i class="fa-solid fa-bookmark" style="color: white;"></i> @Model.SaveCount lượt lưu</button>
             </div>
         </div>
         <hr/>
         <div class="row" style="height: 550px; ">
             <div class="col-4">
                 <div class="card text-dark bg-light" style="max-width: 25rem;">
-                    <h5 class="card-header" style="min-height: 3rem;">Giới thiệu</h5>
+                    <h5 class="card-header" style="min-height: 3rem; display: flex; align-items: center; justify-content: center;">Giới thiệu</h5>
                     <div class="card-body">
                         <p class="" style="font-size: 16px;margin-top: 8px !important;">@Model.Description</p>
                         <span href="https://www.google.com/maps/place/@Model.Address">

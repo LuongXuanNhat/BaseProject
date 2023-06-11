@@ -403,9 +403,13 @@ namespace BaseProject.Application.System.Users
 
         }
 
-        public async Task<string> GetUserNameById(Guid Id)
+        public async Task<string> GetUserNameByIdAsync(Guid Id)
         {
             return await _dataContext.Users.Where(x => x.Id == Id).Select(x => x.UserName).FirstOrDefaultAsync();
+        }
+        public string GetUserNameById(Guid Id)
+        {
+            return _dataContext.Users.Where(x => x.Id == Id).Select(x => x.UserName).FirstOrDefault();
         }
     }
 }

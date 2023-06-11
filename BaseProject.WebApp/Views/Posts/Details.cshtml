@@ -177,12 +177,11 @@
                                         @*top bài review*@
                                             @foreach (var item in topList)
                                             {
-                                                <div class="">
+                                                <div class="" >
                                                     <a href="@Url.Action("Details", new { id = item.PostId })" class="" title="Viết ngày: @item.Date">
-                                                        <div class=" u-container-layout-10" style="padding: 0 8px;">
+                                                        <div class=" u-container-layout-10 text-black" style="padding: 0 8px;">
                                                             <div class="">
-                                                                <p class="u-text u-text-6 " style="margin: 0px;">@item.Title</p>
-                                                                <hr style="position: relative; top: -16px; padding: 0px;">
+                                                                <p class="css-baivietlienquan">@item.Title</p>
                                                             </div>
 
                                                         </div>
