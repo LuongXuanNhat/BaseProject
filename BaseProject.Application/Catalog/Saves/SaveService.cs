@@ -102,6 +102,10 @@ namespace BaseProject.Application.Catalog.Saves
                 return new ApiErrorResult<bool>("Đã thêm bài viết vào danh sách yêu thích");
             }
         }
+        public int CountById(Guid Id, int PostId)
+        {
+            return _context.Saveds.Where(x=>x.UserId == Id && x.PostId == PostId).Count();
+        }
 
         public async Task<ApiResult<PagedResult<LocationVm>>> GetLocationPaging(GetUserPagingRequest request)
         {

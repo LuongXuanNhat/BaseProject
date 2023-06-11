@@ -8,12 +8,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace BaseProject.ApiIntegration.Reports
+namespace BaseProject.ApiIntegration.Nofications
 {
-    public interface IReportApiClient
+    public class NoficationApiClient : INoficationApiClient
     {
-        Task<ApiResult<PagedResult<Report>>> GetAll(GetUserPagingRequest request);
-        Task<ApiResult<bool>> SendReport(Report request);
-        Task<ApiResult<bool>> DeleteReport(int Id);
+      //  Task<ApiResult<PagedResult<NoticeDetail>>> GetUsersPagings(GetUserPagingRequest request);
     }
 }

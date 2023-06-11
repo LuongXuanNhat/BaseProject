@@ -18,6 +18,8 @@ namespace BaseProject.Application.Catalog.Comments
 
         Task<ApiResult<bool>> Delete(int id);
         Task<List<Comment>> GetById(int id);
+        Task<int> CountAsyncById(int id);
+        int CountById(int id);
         Task<List<CommentCreateRequest>> GetById2(int id);
     }
 }

@@ -29,15 +29,15 @@ namespace BaseProject.WebApp.Controllers
             report.UserName = User.Identity.Name;
             if (request.comment != null && request.option != null)
             {
-                string title = $"{User.Identity.Name} đã báo cáo 1 viết với nội dung: ";
+                string title = $"{User.Identity.Name} đã báo cáo 1 bài viết với nội dung: ";
                 report.Content = title + request.option + " -" +" Chi tiết: " + request.comment;
             } else if (request.comment != null)
             {
-                string title = $"{User.Identity.Name} đã báo cáo 1 viết với nội dung";
+                string title = $"{User.Identity.Name} đã báo cáo 1 bài  viết với nội dung";
                 report.Content = title + " Chi tiết: " + request.comment;
             } else if (!string.IsNullOrEmpty(request.option))
             {
-                string title = $"{User.Identity.Name} đã báo cáo 1 viết với nội dung: ";
+                string title = $"{User.Identity.Name} đã báo cáo 1 bài  viết với nội dung: ";
                 report.Content = title + request.option;
             } else
             {

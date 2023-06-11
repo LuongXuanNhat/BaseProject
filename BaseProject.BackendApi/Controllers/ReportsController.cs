@@ -2,6 +2,7 @@
 using BaseProject.Application.Catalog.Reports;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
@@ -13,7 +14,12 @@ namespace BaseProject.BackendApi.Controllers
     {
         private readonly IReportService _reportService;
 
-
+        [HttpGet("paging")]
+        public async Task<IActionResult> GetAllPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var products = await _reportService.GetAll(request);
+            return Ok(products);
+        }
         public ReportsController(
             IReportService reportService)
         {

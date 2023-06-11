@@ -1,0 +1,140 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
+@{
+    ViewData["Title"] = "Danh mục địa điểm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Danh sách bài viết</h1>
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+}
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<ol class="breadcrumb mb-4">
+    <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
+    <li class="breadcrumb-item active">Danh sách địa điểm</li>
+</ol>
+<div class="card mb-12">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-6 col-xs-12">
+                <a class="btn btn-success" asp-action="Create" asp-controller="Location">Tạo mới</a>
+            </div>
+            <div class="col-md-6 col-xs-12">
+                <form asp-action="Index" method="get">
+                    <div class="row">
+                        <div class="cold-md-3 user-search-btn" style="width: unset;">
+                            <button type="submit" class="btn btn-primary">
+                                Tìm
+                            </button>
+                            <button style="padding: 10px 24px; font-size: 15px;" type="button" onclick="window.location.href='/Location/Index'" class="btn btn-dark"><i class="fa-solid fa-arrow-rotate-right"></i></button>
+                        </div>
+                        <div class="col-md-9" style="flex: 1;">
+                            <input type="text" value="@ViewBag.Keyword" name="keyword" class="form-control" />
+                        </div>
+
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="card-body">
+        <table class="table">
+            <thead>
+                <tr class="row no-margin ">
+                    <th class="col-auto " style="padding: 8px 0px; width: 40px; justify-content: center;display: flex;">
+                        <i class="fa-solid fa-sort-down"></i>
+                    </th>
+                    <th class="col-3">
+                        Tiêu đề bài viết
+                    </th>
+                    <th class="col-1">
+                        Người viết
+                    </th>
+                    <th class="col-1">
+                        Ngày viết
+                    </th>
+                    <th class="col-1">
+                        xem
+                    </th>
+                    <th class="col-1">
+                        like
+                    </th>
+                    <th class="col-1">
+                        cmt
+                    </th>
+                    <th class="col-1">
+                        save
+                    </th>
+                    <th class="col-1">
+                        Danh mục
+                    </th>
+                    <th class="col-1"></th>
+                </tr>
+            </thead>
+            <tbody>
+                @{ int a = 0;}
+                @foreach (var item in Model.Items)
+                {
+                    a++;
+                    <tr class="row no-margin">
+                        <td class="col-auto " style="padding: 8px 0px; width: 40px; justify-content: center;display: flex;">
+                            @a
+                        </td>
+                        <td class="col-3">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </td>
+                        <td class="col-1">
+                            @Html.DisplayFor(modelItem => item.UserName)
+                        </td>
+                        <td class="col-1" style="padding: 4px;">
+                            @Html.DisplayFor(modelItem => item.Date)
+                        </td>
+                        <td class="col-1">
+                            @Html.DisplayFor(modelItem => item.View)
+                        </td>
+                        <td class="col-1">
+                            @Html.DisplayFor(modelItem => item.CountLike)
+                        </td>
+                        <td class="col-1">
+                            @Html.DisplayFor(modelItem => item.CountComment)
+                        </td>
+                        <td class="col-1">
+                            @Html.DisplayFor(modelItem => item.CountSave)
+                        </td>
+                        <td class="col-1">
+                            @if (item.Categories.Count != null && item.Categories.Count > 1)
+                            {
+                                foreach (var i in item.Categories)
+                                {
+                                    <span>@i</span>
+                                    <br />
+                                }
+                            } 
+                        </td>
+                        <td class="col-1" style="padding: 8px 4px;">
+                            <a title="Sửa địa điểm" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Edit", new { id=item.PostId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
+                            <a title="Xóa địa điểm" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Delete", new { id=item.PostId })"><i class="fa-solid fa-location-pin-lock" style="color: darkblue"></i></a>
+                        </td>
+                    </tr>
+                }
+            <td style="border-bottom: 2px solid #e9ecef; position: relative; top: -18px;"></td>
+
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+

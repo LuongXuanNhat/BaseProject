@@ -1,6 +1,10 @@
-﻿using BaseProject.ApiIntegration.Category;
+﻿using BaseProject.ApiIntegration;
+using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration.Locations;
+using BaseProject.ApiIntegration.Post;
+using BaseProject.ApiIntegration.Reports;
 using BaseProject.ApiIntegration.Role;
+using BaseProject.ApiIntegration.Saves;
 using BaseProject.ApiIntegration.User;
 using BaseProject.Application.Catalog;
 using BaseProject.ViewModels.System.Users;
@@ -33,9 +37,14 @@ builder.Services.AddSession(options =>
 builder.Services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
 
 builder.Services.AddTransient<IUserApiClient, UserApiClient>();
+builder.Services.AddTransient<IPostApiClient, PostApiClient>();
+builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
 builder.Services.AddTransient<IRoleApiClient, RoleApiClient>();
+builder.Services.AddTransient<IReportApiClient, ReportApiClient>();
 builder.Services.AddTransient<ICategoryApiClient, CategoryApiClient>();
 builder.Services.AddTransient<ILocationApiClient, LocationApiClient>();
+
+builder.Services.AddTransient<BaseApiClient>();
 
 
 builder.Services.AddRazorPages()

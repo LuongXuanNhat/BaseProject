@@ -30,7 +30,8 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
         Task<Guid> GetIdByUserName(string username);
-        Task<string> GetUserNameById(Guid Id);
+        Task<string> GetUserNameByIdAsync(Guid Id);
+        string GetUserNameById(Guid Id);
 
         Task<ApiResult<bool>> Delete(Guid id);
 

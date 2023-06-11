@@ -55,6 +55,14 @@ namespace BaseProject.Application.Catalog.Comments
         {
             return await _context.Comments.Where(x => x.PostId == id).ToListAsync();
         }
+        public async Task<int> CountAsyncById(int id)
+        {
+            return await _context.Comments.Where(x => x.PostId == id).CountAsync();
+        }
+        public  int CountById(int id)
+        {
+            return  _context.Comments.Where(x => x.PostId == id).Count();
+        }
 
         public async Task<List<CommentCreateRequest>> GetById2(int id)
         {
@@ -67,7 +75,7 @@ namespace BaseProject.Application.Catalog.Comments
                 obj.PostId = item.PostId;
                 obj.Id = item.Id;
                 obj.UserId = item.UserId;
-                obj.UserName = await _userService.GetUserNameById(item.UserId);
+                obj.UserName = await _userService.GetUserNameByIdAsync(item.UserId);
                 obj.Date = item.Date;
                 obj.Content = item.Content;
                 obj.PreCommentId = item.PreCommentId;
