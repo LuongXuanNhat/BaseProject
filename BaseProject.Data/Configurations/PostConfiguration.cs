@@ -1,4 +1,5 @@
 ﻿using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -13,6 +14,7 @@ namespace BaseProject.Data.Configurations
             builder.HasKey(x => x.PostId);
             builder.Property(x => x.Title).IsRequired().HasMaxLength(250);
             builder.Property(x => x.View).HasDefaultValue(0);
+            builder.Property(x => x.Check).HasDefaultValue(YesNo.no);
 
 
             // Relationship 1-n

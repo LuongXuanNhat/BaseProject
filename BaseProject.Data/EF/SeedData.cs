@@ -1678,13 +1678,13 @@ namespace BaseProject.Data.EF
                 {
                    NotificationId = 1,
                    Title = "Thông báo hệ thống",
-                   Date = DateTime.Now
+                   Date = new DateTime(2023, 6, 12, 3, 4, 44, 986, DateTimeKind.Local).AddTicks(7867)
                 },
                 new Notification
                 {
                    NotificationId = 2,
                    Title = "Tương tác",
-                   Date = DateTime.Now
+                   Date = new DateTime(2023, 6, 12, 3, 4, 44, 986, DateTimeKind.Local).AddTicks(7879)
                 }
 
             );

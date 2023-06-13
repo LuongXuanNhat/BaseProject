@@ -15,5 +15,6 @@ namespace BaseProject.ApiIntegration.Reports
         Task<ApiResult<PagedResult<Report>>> GetAll(GetUserPagingRequest request);
         Task<ApiResult<bool>> SendReport(Report request);
         Task<ApiResult<bool>> DeleteReport(int Id);
+        Task<ApiResult<bool>> Reponse(Guid UserId, int idPost, string Message, int ReportId);
     }
 }

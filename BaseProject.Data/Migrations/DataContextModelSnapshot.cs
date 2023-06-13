@@ -89,7 +89,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "cae02778-3f96-4eab-b09d-68d8a3d6209f",
+                            ConcurrencyStamp = "1a1ea4d5-1ae0-40b3-bc99-d18795c65f0f",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +97,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "f6410dde-766d-44ec-b6af-923b672652a0",
+                            ConcurrencyStamp = "c6b9c36b-f776-4718-b540-a8e9fba249eb",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -116,6 +116,11 @@ namespace BaseProject.Data.Migrations
                     b.Property<string>("Address")
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
+
+                    b.Property<int>("Check")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
@@ -198,7 +203,8 @@ namespace BaseProject.Data.Migrations
                             Id = new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
-                            ConcurrencyStamp = "fea656c0-f5b7-4fa7-bca3-e1da49ce6100",
+                            Check = 0,
+                            ConcurrencyStamp = "9db0e7e6-e491-46bd-b9c9-c817a2d98241",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -208,7 +214,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEFHAMjgb4frnrI5ULY/oy5iFufzpYCYpeezlx+bWmV8QyKpzEYZoZF05cHftvUIXNw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEIhXeosTVZO4AQlEIYByydMfEjqKXPhah4VnalQG8VL2FwgiqSFP1WL202V4/rZp6A==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2160,20 +2166,30 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.NoticeDetail", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Content")
+                        .HasMaxLength(1000)
+                        .HasColumnType("nvarchar(1000)");
+
+                    b.Property<int>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
                     b.Property<int>("NotificationId")
                         .HasColumnType("int");
 
                     b.Property<Guid>("UserId")
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("Content")
-                        .HasMaxLength(1000)
-                        .HasColumnType("nvarchar(1000)");
+                    b.HasKey("Id");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
-
-                    b.HasKey("NotificationId", "UserId");
+                    b.HasIndex("NotificationId");
 
                     b.HasIndex("UserId");
 
@@ -2204,13 +2220,13 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             NotificationId = 1,
-                            Date = new DateTime(2023, 6, 9, 21, 26, 43, 961, DateTimeKind.Local).AddTicks(974),
+                            Date = new DateTime(2023, 6, 12, 3, 4, 44, 986, DateTimeKind.Local).AddTicks(7867),
                             Title = "Thông báo hệ thống"
                         },
                         new
                         {
                             NotificationId = 2,
-                            Date = new DateTime(2023, 6, 9, 21, 26, 43, 961, DateTimeKind.Local).AddTicks(985),
+                            Date = new DateTime(2023, 6, 12, 3, 4, 44, 986, DateTimeKind.Local).AddTicks(7879),
                             Title = "Tương tác"
                         });
                 });
@@ -2222,6 +2238,11 @@ namespace BaseProject.Data.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("PostId"));
+
+                    b.Property<int>("Check")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int>("Like")
                         .HasColumnType("int");
@@ -2305,6 +2326,11 @@ namespace BaseProject.Data.Migrations
 
                     b.Property<DateTime>("Date")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("IsRead")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
 
                     b.Property<int?>("PostId")
                         .HasColumnType("int");

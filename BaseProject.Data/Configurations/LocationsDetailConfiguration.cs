@@ -1,4 +1,5 @@
 ﻿using BaseProject.Data.Entities;
+using BaseProject.Data.Enums;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -15,6 +16,7 @@ namespace BaseProject.Data.Configurations
             builder.HasKey(x =>x.Id);
             builder.Property(x => x.Title).IsRequired(false).HasMaxLength(250);
             builder.Property(x => x.Content).IsRequired(false).HasMaxLength(1000);
+            
 
 
             // RelationShip 1 -n

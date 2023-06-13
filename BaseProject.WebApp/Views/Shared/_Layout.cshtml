@@ -1,4 +1,10 @@
-﻿<!DOCTYPE html>
+﻿@using BaseProject.Data.Entities;
+@{
+    List<NoticeDetail> objectList = ViewData["ObjectListNoti"] as List<NoticeDetail>;
+}
+
+
+<!DOCTYPE html>
 <html style="font-size: 16px;" lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -67,7 +73,7 @@
                     </a>
                 </div>
                 <div class="u-custom-menu u-nav-container">
-                    <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1">
+                    <ul class="u-custom-font u-nav u-spacing-20 u-text-font u-unstyled u-nav-1 header__navbar-list">
                         <li class="u-nav-item">
                             <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" asp-controller="Posts" asp-action="Create" style="padding: 10px; font-size: 16px;font-weight: 500;">
                                 <i class="fa-solid fa-feather" style="color: #fe9b2a;"></i>
@@ -77,11 +83,74 @@
                         
                         @if (User.Identity.Name != null)
                         {
-                            <li class="u-nav-item">
+                            @*<li class="u-nav-item">
                                 <a class="u-border-active-palette-1-base u-border-hover-palette-1-base u-button-style u-nav-link u-text-active-palette-1-base u-text-grey-90 u-text-hover-palette-2-base" href="#" style="padding: 10px; font-size: 16px;font-weight: 500;">
                                     <i class="fa-solid fa-bell" style="color: #fe9b2a;"></i>
                                     Thông báo</a>
-                            </li>
+                            </li>*@
+
+                            <li class="header__navbar-item header__navbar-item--has-notify">
+                                <a href="" class="header__navbar-item-link">
+                                    <i class="header_navbar-icon fa-solid fa-bell"></i>
+                                    Thông báo 
+                                    <span>
+                                        @if (objectList != null)
+                                        {
+                                            <span>(@objectList.Where(x => x.IsRead == 0).Count())</span>
+                                        }
+                                    </span>
+                                </a>
+                                <!-- Toolip Thông báo -->
+                                <div class="header__notify">
+                                    <header class="header__notify-header">
+                                        <h3>Thông báo mới nhận</h3>
+                                    </header>
+                                    <ul class="header__notify-list">
+                                        @if (objectList != null)
+                                        {
+                                            @foreach (var item in objectList)
+                                            {
+                                                @if (item.IsRead == BaseProject.Data.Enums.YesNo.no)
+                                                {
+                                                    <li class="header__notify-item header__notify-item--viewed">
+                                                        <a asp-controller="Notification" asp-action="Index" class="header__notify-link">
+                                                            <div class="header__notify-info">
+                                                                <span class="header__notify-descriotion ">@item.Notification.Title</span>
+                                                                <span class="header__notify-name" style="font-size: 16px;">@item.Content</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                } else
+                                                {
+                                                    <li class="header__notify-item  ">
+                                                        <a asp-controller="Notification" asp-action="Index" class="header__notify-link">
+                                                            <div class="header__notify-info">
+                                                                <span class="header__notify-descriotion ">@item.Notification.Title</span>
+                                                                <span class="header__notify-name" style="font-size: 16px;">@item.Content</span>
+                                                            </div>
+                                                        </a>
+                                                    </li>
+                                                }
+
+                                    }
+                                        }
+                                        <footer class="header__notify-footer">
+                                            <a asp-controller="Notification" asp-action="Index" class="header__notify-footer-btn">Xem tất cả</a>
+                                        </footer>
+                                        <li class="header__navbar-item">
+                                            <a href="" class="header__navbar-item-link">
+                                                <i class="header_navbar-icon fa-sharp fa-solid fa-circle-question"></i>
+                                                Trợ giúp
+                                            </a>
+
+                                        </li>
+                                        <!-- <li class="header__navbar-item header__navbar-item--strong header__navbar-item--sepatate">Đăng ký</li>
+                                        <li class="header__navbar-item header__navbar-item--strong">Đăng nhập</li>                                   -->
+
+                                    </ul>
+                                </li>
+                               
+
                             <li style="display: inline-block">
                                 <div class="dropdown">
                                     <button class="btn btn-primary dropdown-toggle" type="button" id="categoryDropdown" data-bs-toggle="dropdown" aria-expanded="false">

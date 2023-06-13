@@ -35,5 +35,12 @@ namespace BaseProject.BackendApi.Controllers
 
             return Ok(result);
         }
+
+        [HttpGet("lock/{UserId}/{idPost}/{Message}/{ReportId}")]
+        public async Task<IActionResult> Lock(Guid UserId, int idPost, string Message, int ReportId)
+        {
+            var user = await _reportService.Lock(UserId, idPost, Message,ReportId);
+            return Ok(user);
+        }
     }
 }

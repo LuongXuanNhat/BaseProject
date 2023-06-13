@@ -70,7 +70,10 @@ builder.Services.AddTransient<ICommentService, CommentService>();
 builder.Services.AddTransient<IReportService, ReportService>();
 builder.Services.AddTransient<INotificationService, NotificationService>();
 
-
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 builder.Services.AddControllersWithViews()
         .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());

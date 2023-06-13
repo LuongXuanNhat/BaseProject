@@ -1,4 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Diagnostics.CodeAnalysis;
+using System.Text.Json.Serialization;
 
 namespace BaseProject.Data.Entities
 {
@@ -10,7 +13,9 @@ namespace BaseProject.Data.Entities
 
 
         // relationship
-        public List<NoticeDetail> NoticeDetail { get; set; }
+        [NotMapped]
+        [AllowNull]
+        public List<NoticeDetail>? NoticeDetail { get; set; }
 
     }
 }

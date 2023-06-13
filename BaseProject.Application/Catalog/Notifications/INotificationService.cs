@@ -1,4 +1,7 @@
-﻿using System;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +11,7 @@ namespace BaseProject.Application.Catalog.Notifications
 {
     public interface INotificationService
     {
-
+        Task<ApiResult<List<NoticeDetail>>> GetAll(string userName);
+        Task<ApiResult<PagedResult<NoticeDetail>>> GetNotificationPaging(GetUserPagingRequest request);
     }
 }

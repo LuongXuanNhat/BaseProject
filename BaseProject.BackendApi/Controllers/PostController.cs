@@ -114,6 +114,13 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
+        [HttpGet("admin/{id}")]
+        public async Task<IActionResult> GetByIdAdmin(int id)
+        {
+            var user = await _postService.GetByIdAdmin(id);
+            return Ok(user);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -146,5 +153,7 @@ namespace BaseProject.BackendApi.Controllers
             var user = await _postService.TakeTopByQuantity(quantity);
             return Ok(user);
         }
+
+        
     }
 }

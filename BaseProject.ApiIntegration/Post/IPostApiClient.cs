@@ -7,6 +7,7 @@ using BaseProject.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -22,6 +23,7 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<bool>> DeletePost(int idPost);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
+        Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int id);
         Task<List<PostVm>> TakeTopByQuantity(int quantity);
 
         Task<List<Location>> GetAll();

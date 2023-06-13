@@ -1,5 +1,6 @@
 ﻿using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration.Locations;
+using BaseProject.ApiIntegration.Nofications;
 using BaseProject.ApiIntegration.User;
 using BaseProject.Data.Entities;
 using BaseProject.WebApp.Models;
@@ -19,19 +20,22 @@ namespace BaseProject.WebApp.Controllers
         private readonly IHttpContextAccessor _httpContextAccessor;
         private readonly IUserApiClient _userApiClient;
         private readonly ICategoryApiClient _cateApiClient;
+        private readonly INoficationApiClient _notiApiClient;
         private readonly ILocationApiClient _locationApiClient;
 
         public HomeController(ILogger<HomeController> logger,
                     IHttpContextAccessor httpContextAccessor,
                     IUserApiClient userApiClient,
                     ICategoryApiClient cateApiClient,
-                    ILocationApiClient locationApiClient)
+                    ILocationApiClient locationApiClient,
+                    INoficationApiClient notiApiClient)
         {
             _httpContextAccessor = httpContextAccessor;
             _logger = logger;
             _userApiClient = userApiClient;
             _cateApiClient = cateApiClient;
             _locationApiClient = locationApiClient;
+            _notiApiClient = notiApiClient;
         }
 
         public async Task<IActionResult> Index()
@@ -46,13 +50,21 @@ namespace BaseProject.WebApp.Controllers
 
             var user = User.Identity.Name;
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
             if (user != null && sessions == null )
             {
                 await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
                 HttpContext.Session.Remove("Token");
+                
                 return RedirectToAction("Index", "Home");
             }
-
+            if (User.Identity.Name != null)
+            {
+                var username = User.Identity.Name;
+                var Notification = await _notiApiClient.GetNofiUser(username);
+                ViewData["ObjectListNoti"] = Notification.ResultObj;
+            }
+            
 
             return View();
         }

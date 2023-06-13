@@ -6,6 +6,7 @@ using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -28,6 +29,7 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
+        Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int postId);
         Task<ApiResult<PostCreateRequest>> GetById(int postId);
 
         Task<List<PostVm>> TakeTopByQuantity(int quantity);
