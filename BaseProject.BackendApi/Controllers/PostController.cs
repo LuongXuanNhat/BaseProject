@@ -114,6 +114,13 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
+        [HttpGet("admin/{id}")]
+        public async Task<IActionResult> GetByIdAdmin(int id)
+        {
+            var user = await _postService.GetByIdAdmin(id);
+            return Ok(user);
+        }
+
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
@@ -147,11 +154,6 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(user);
         }
 
-        [HttpGet("lock/{UserId}/{idPost}/{Message}")]
-        public async Task<IActionResult> Lock(Guid UserId, int idPost, string Message)
-        {
-            var user = await _postService.Lock(UserId,idPost,Message);
-            return Ok(user);
-        }
+        
     }
 }

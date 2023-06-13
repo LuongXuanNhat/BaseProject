@@ -11,5 +11,7 @@ namespace BaseProject.ViewModels.Catalog.Reports
         public int id { get; set; }
         public string option { get; set; }
         public string comment { get; set; }
+
+        public int ReportId { get; set; }
     }
 }

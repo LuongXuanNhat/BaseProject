@@ -298,36 +298,7 @@ namespace BaseProject.Application.Catalog.Posts
             return new ApiSuccessResult<bool>();
         }
         
-        public async Task<ApiResult<bool>> Lock(Guid UserId, int idPost, string Message)
-        {
-            //  Khóa bài viết
-            var post = await _context.Posts.Where(x=>x.PostId == idPost).FirstOrDefaultAsync();
-            if (post == null)
-            {
-                return new ApiErrorResult<bool>("Không tìm thấy bài viết");
-            }
-
-            post.Check = Data.Enums.YesNo.yes;
-            _context.Posts.Update(post);
-            await _context.SaveChangesAsync();
-
-            // Tạo thông báo ( TB Hệ thống = 1 ) 
-            var noficationDetail = new NoticeDetail();
-            noficationDetail.Notification = await _context.Notifications.Where(x => x.NotificationId == 1).FirstOrDefaultAsync();
-            noficationDetail.Content = Message;
-            noficationDetail.UserId = UserId;
-
-            _context.NoticeDetails.Add(noficationDetail);
-            await _context.SaveChangesAsync();
-
-            _context.Entry(noficationDetail).Reload();
-            var Id = noficationDetail.Id;
-            // Gửi thông báo tới người báo cáo
-          //  var feedback = _context.NoticeDetails.Where(x=>x.UserId == noficationDetail.UserId && x. )
-
-
-            return new ApiSuccessResult<bool>();
-        }
+        
 
         public async Task<string> Delete(int postId)
         {
@@ -376,7 +347,84 @@ namespace BaseProject.Application.Catalog.Posts
         // Chi tiết bài viết
         public async Task<ApiResult<PostCreateRequest>> GetById(int postId)
         {
-            var post = await _context.Posts.Where(x => x.PostId == postId && x.Check == Data.Enums.YesNo.no).FirstOrDefaultAsync();
+            var post = await _context.Posts.Where(x => x.PostId == postId && x.Check == 0).FirstOrDefaultAsync();
+            if (post == null)
+            {
+                return new ApiErrorResult<PostCreateRequest>("Bài viết không tồn tại");
+            }
+            
+            var postDetail = await _context.LocationsDetails.Where(x => x.PostId == postId).ToListAsync();
+            var location = await _context.Locations.ToListAsync();
+            var username = await _context.Users.Where(x=>x.Id == post.UserId ).Select(x=>x.UserName).FirstOrDefaultAsync();
+
+            Location address = new Location();
+            List<PostDetailRequest> list = new List<PostDetailRequest>();
+
+            var LOCATION = location.FirstOrDefault(x => x.LocationId == postDetail[0].LocationId);
+            var SAVECOUNT = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
+
+            List<Comment> list_Comment = new List<Comment>();
+            list_Comment = await _commentService.GetById(postId);
+            List<CommentCreateRequest> comments = new List<CommentCreateRequest>();
+            foreach (var item in list_Comment)
+            {
+                CommentCreateRequest comment = new CommentCreateRequest();
+                comment.Id = item.Id;
+                comment.PostId = item.PostId;
+                comment.UserId = item.UserId;
+                comment.UserName = await _userService.GetUserNameByIdAsync(comment.UserId);
+                comment.PreCommentId = item.PreCommentId;
+                comment.Content = item.Content;
+                comment.Date = item.Date;
+
+                comments.Add(comment);
+            }
+          
+            for (int i = 0; i < postDetail.Count; i++)
+            {
+                PostDetailRequest item = new PostDetailRequest();
+
+                item.postDetailId = postDetail[i].Id;
+                item.Title = postDetail[i].Title;
+                item.LocationId = LOCATION.LocationId;
+                item.Address = LOCATION.Address;
+                item.Content = postDetail[i].Content;
+                item.When = postDetail[i].When;
+                item.LikeCount = await CountLikes(postId);
+                item.ViewCount = post.View+1;
+                item.SaveCount = SAVECOUNT;
+                item.ShareCount = 0;
+                item.CommentList = comments;
+
+                list.Add(item);
+            }
+
+            var cate = await _categoryService.GetAll();
+            var newPost = new PostCreateRequest()
+            {
+       
+                PostId = postId,
+                UserId = username,
+                PostDetail = list,
+                UploadDate = post.UploadDate,
+                Title = post.Title,
+                CategoryPostDetail = cate.ResultObj
+
+            };
+
+            // Cập nhập lượt xem
+            post.View += 1;
+            _context.Update(post);
+            await _context.SaveChangesAsync();
+
+            return new ApiSuccessResult<PostCreateRequest>(newPost);
+        }
+        
+        
+        // Chi tiết bài viết - ADMIN
+        public async Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int postId)
+        {
+            var post = await _context.Posts.Where(x => x.PostId == postId ).FirstOrDefaultAsync();
             if (post == null)
             {
                 return new ApiErrorResult<PostCreateRequest>("Bài viết không tồn tại");
@@ -452,7 +500,7 @@ namespace BaseProject.Application.Catalog.Posts
         // Lấy tất cả bài viết
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
-            var query = await _context.Posts.OrderByDescending(p => p.PostId).Where(x=>x.Check == Data.Enums.YesNo.no).ToListAsync();
+            var query = await _context.Posts.OrderByDescending(p => p.PostId).Where(x=>x.Check == 0).ToListAsync();
 
             var list_content = await _context.LocationsDetails.ToListAsync();
             var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
@@ -512,7 +560,7 @@ namespace BaseProject.Application.Catalog.Posts
         {
             var User = await _context.Users.FirstOrDefaultAsync(x => x.UserName == request.UserName);
 
-            var query = _context.Posts.OrderByDescending(p => p.PostId).Where(x => x.UserId.ToString() == User.Id.ToString() && x.Check == Data.Enums.YesNo.no).ToList();
+            var query = _context.Posts.OrderByDescending(p => p.PostId).Where(x => x.UserId.ToString() == User.Id.ToString() && x.Check == 0).ToList();
             if (!string.IsNullOrEmpty(request.Keyword))
             {
                 query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();

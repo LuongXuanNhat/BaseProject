@@ -21,9 +21,9 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<bool>> Check(AddSaveVm request);
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);
         Task<ApiResult<bool>> DeletePost(int idPost);
-        Task<ApiResult<bool>> Lock(Guid UserId ,int idPost, string Message);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
+        Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int id);
         Task<List<PostVm>> TakeTopByQuantity(int quantity);
 
         Task<List<Location>> GetAll();

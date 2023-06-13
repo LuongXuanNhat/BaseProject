@@ -69,5 +69,69 @@ namespace BaseProject.Application.Catalog.Reports
             };
             return new ApiSuccessResult<PagedResult<Report>>(pagedResult);
         }
+
+        // Trường hợp chấp nhập khóa bài viết
+        public async Task<ApiResult<bool>> Lock(Guid UserId, int idPost, string Message, int ReportId)
+        {
+            //  Khóa bài viết
+            if (idPost == null || idPost == 0)
+            {
+                // Tạo thông báo ( TB Hệ thống = 1 ) -> Gửi người báo cáo
+                var noficationDetail = new NoticeDetail();
+                noficationDetail.Notification = await _context.Notifications.Where(x => x.NotificationId == 1).FirstOrDefaultAsync();
+                noficationDetail.Content = Message;
+                noficationDetail.UserId = UserId;
+                _context.NoticeDetails.Add(noficationDetail);
+
+                var report = await _context.Reports.FirstOrDefaultAsync(x=>x.Id == ReportId);
+                report.IsRead = Data.Enums.YesNo.yes;
+                _context.Reports.Update(report);
+
+                await _context.SaveChangesAsync();
+
+            } else
+            {
+                var post = await _context.Posts.Where(x => x.PostId == idPost).FirstOrDefaultAsync();
+                var report = await _context.Reports.FirstOrDefaultAsync(x => x.Id == ReportId);
+                report.IsRead = Data.Enums.YesNo.yes;
+                _context.Reports.Update(report);
+
+                if (post == null)
+                {
+                    return new ApiErrorResult<bool>("Không tìm thấy bài viết");
+                }
+
+                post.Check = Data.Enums.YesNo.yes;
+                _context.Posts.Update(post);
+                
+
+                // Tạo thông báo ( TB Hệ thống = 1 ) -> Gửi người báo cáo
+                var noficationDetail = new NoticeDetail();
+                noficationDetail.Notification = await _context.Notifications.Where(x => x.NotificationId == 1).FirstOrDefaultAsync();
+                noficationDetail.Content = Message;
+                noficationDetail.UserId = UserId;
+                _context.NoticeDetails.Add(noficationDetail);
+
+                // Tạo thông báo 2                     -> Gửi người bị báo cáo
+                var noficationDetail_2 = new NoticeDetail();
+                var userId = await _context.Posts.Where(x => x.PostId == idPost).Select(x => x.UserId).FirstOrDefaultAsync();
+                if (userId != null)
+                {
+                    var post_lock = await _context.Posts.FirstOrDefaultAsync(x => x.PostId == idPost);
+
+                    noficationDetail_2.Notification = await _context.Notifications.Where(x => x.NotificationId == 1).FirstOrDefaultAsync();
+                    noficationDetail_2.UserId = userId;
+                    noficationDetail_2.Content = "Bài viết có tiêu đề: " + post_lock.Title + " đã bị khóa do vi phạm nội dung ngăn cấm của chúng tôi! Nếu bạn có bất kỳ thắc mắc hay khiếu nại hãy gửi phản hồi qua hòm thư";
+                    _context.NoticeDetails.Add(noficationDetail_2);
+                }
+
+                await _context.SaveChangesAsync();
+            }
+            
+
+
+            return new ApiSuccessResult<bool>();
+        }
     }
+
 }

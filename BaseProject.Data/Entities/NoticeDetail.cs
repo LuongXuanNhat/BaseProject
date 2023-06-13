@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.Data.Enums;
+using System.Text.Json.Serialization;
 
 namespace BaseProject.Data.Entities
 {
@@ -13,7 +14,7 @@ namespace BaseProject.Data.Entities
 
 
         // Relationship
-        public Notification Notification { get; set; }
-        public AppUser User { get; set; }
+        public Notification? Notification { get; set; }
+        public AppUser? User { get; set; }
     }
 }

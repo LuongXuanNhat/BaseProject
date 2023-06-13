@@ -2,6 +2,7 @@
 using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration.Comment;
 using BaseProject.ApiIntegration.Locations;
+using BaseProject.ApiIntegration.Nofications;
 using BaseProject.ApiIntegration.Post;
 using BaseProject.ApiIntegration.RatingStars;
 using BaseProject.ApiIntegration.Reports;
@@ -34,6 +35,7 @@ builder.Services.AddTransient<ISaveApiClient, SaveApiClient>();
 builder.Services.AddTransient<IPostApiClient, PostApiClient>();
 builder.Services.AddTransient<ICommentApiClient, CommentApiClient>();
 builder.Services.AddTransient<IReportApiClient, ReportApiClient>();
+builder.Services.AddTransient<INoficationApiClient, NoficationApiClient>();
 
 builder.Services.AddTransient<BaseApiClient>();
 
@@ -43,7 +45,10 @@ builder.Services.AddTransient<ICacheService, MemoryCacheService>();
 builder.Services.AddControllersWithViews()
     .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginRequestValidator>());
 
-
+builder.Services.AddControllersWithViews()
+    .AddNewtonsoftJson(options =>
+    options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+);
 
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
  .AddCookie(options =>

@@ -35,7 +35,7 @@ namespace BaseProject.AdminUI.Controllers
 
 
         }
-        [Authorize]
+
         [HttpGet]
         public async Task<IActionResult> Index(string keyword, int pageIndex = 1, int pageSize = 10)
         {
@@ -59,28 +59,28 @@ namespace BaseProject.AdminUI.Controllers
             return View(data.ResultObj);
         }
 
-        [Authorize]
-        [HttpGet]
-        public async Task<IActionResult> Lock(int PostId, Guid UserId, string Message)
-        {
-            var result = await _postApiClient.Lock(UserId, PostId, Message);
-            if (result.IsSuccessed)
-            {
-                TempData["result"] = "Xóa địa điểm thành công";
-                return RedirectToAction("Index");
-            }
 
-            ModelState.AddModelError("", result.Message);
-            return View();
+        //[HttpGet]
+        //public async Task<IActionResult> Reponse(int PostId, Guid UserId, string Message)
+        //{
+        //    var result = await _postApiClient.Lock(UserId, PostId, Message);
+        //    if (result.IsSuccessed)
+        //    {
+        //        TempData["result"] = "Xóa địa điểm thành công";
+        //        return RedirectToAction("Index");
+        //    }
 
-        }
+        //    ModelState.AddModelError("", result.Message);
+        //    return View();
+
+        //}
 
 
 
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            var result = await _postApiClient.GetById(id);
+            var result = await _postApiClient.GetByIdAdmin(id);
 
 
             var addPostSaveVm = new AddSaveVm();
@@ -104,9 +104,6 @@ namespace BaseProject.AdminUI.Controllers
             }
             else { ViewBag.CheckLike = false; }
 
-            // Hàm để lấy danh sách bài đọc nhiều nhất
-            var PostList = await _postApiClient.TakeTopByQuantity(10);
-            ViewData["topList"] = PostList;
 
             if (result.IsSuccessed)
             {

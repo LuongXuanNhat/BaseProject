@@ -1,0 +1,187 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.Data.Entities.NoticeDetail>
+@{
+    ViewData["Title"] = "Thông báo";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    setTimeout(function () {
+        $('#msgAlert').fadeOut('slow');
+    }, 2000);
+</script>
+
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+
+<div class="card mb-12">
+   
+
+    <div class="card-body" style="min-height: 500px">
+        <table class="table">
+            <thead>
+                <tr class="no-margin">
+                    <th>
+                        STT
+                    </th>
+                    <th>
+                        Nội dung
+                    </th>
+                    <th class="col-2"></th>
+                </tr>
+            </thead>
+            @{
+                int a = 1;
+            }
+            <tbody>
+                @foreach (var item in Model.Items)
+                {
+                    <tr class="no-margin">
+                        <td>
+                            @(a++)
+                        </td>
+                        <td>
+                            <div  style="cursor: pointer">
+                                <span style="color: mediumseagreen">@item.Notification.Title</span>
+                                @Html.DisplayFor(modelItem => item.Content)
+                            </div>
+                        </td>
+                        <td>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+        @await Component.InvokeAsync("Pager", Model)
+    </div>
+</div>
+<script>
+
+
+    // Lấy tất cả các nút "Đánh giá" và gắn sự kiện click
+    var ratingButtons = document.querySelectorAll('button[data-toggle="modal"][data-target="#ratingModal"]');
+    ratingButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetModalId = button.getAttribute('data-target');
+            var modal = document.querySelector(targetModalId);
+
+            // Lấy giá trị data-name từ button
+            var locationName = button.getAttribute('data-name');
+            // Lấy giá trị data-adress từ button
+            var locationAddress = button.getAttribute('data-address');
+            // Lấy giá trị data-id từ button
+            var id = button.getAttribute('data-id');
+
+            // Hiển thị giá trị data-name trong modal
+            modalContent.textContent = locationName;
+            modalAddressContent.textContent = locationAddress;
+
+            // Lưu giá trị data-id vào nút Submit trong modal
+            submitButton.setAttribute('data-id', id);
+
+            $(modal).modal('show');
+        });
+    });
+
+    // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
+    var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+    closeModalButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var modal = button.closest('.modal');
+            $(modal).modal('hide');
+        });
+    });
+
+    // Lấy tất cả các ngôi sao trong modal
+    var starSpans = document.querySelectorAll('#ratingModal .star');
+    var ratingValue = 0; // Biến lưu giá trị rating
+
+    // Gắn sự kiện click vào mỗi ngôi sao
+    starSpans.forEach(function (star) {
+        star.addEventListener('click', function () {
+            // Đặt lại trạng thái của tất cả ngôi sao
+            starSpans.forEach(function (s) {
+                s.classList.remove('active'); // Loại bỏ lớp active
+                s.classList.remove('getValue'); // Loại bỏ lớp active
+            });
+
+            // Đặt lại giá trị rating
+            ratingValue = parseInt(star.getAttribute('data-value'));
+
+            // Đặt trạng thái cho các ngôi sao được chọn
+            for (var i = 0; i < ratingValue; i++) {
+                starSpans[i].classList.add('active'); // Thêm lớp active
+                if (i == ratingValue - 1) {
+                    starSpans[i].classList.add('getValue');
+                    console.log(i);
+                }
+            }
+
+
+        });
+    });
+
+    // Sự kiện click nút Submit
+    var submitButton = document.querySelector('#ratingSubmit');
+    var selectedRating = null;
+
+    submitButton.addEventListener('click', function () {
+        // Lấy giá trị số sao rating
+        var selectedRating = document.querySelector('#ratingModal .star.active.getValue:last-child');
+        var ratingValue = selectedRating ? parseInt(selectedRating.getAttribute('data-value')) : 0;
+
+        // Lấy giá trị data-id từ button
+        var id = parseInt(this.getAttribute('data-id'));
+
+        // Tạo object chứa dữ liệu để gửi đi
+        var data = {
+            rating: ratingValue,
+            id: id
+        };
+
+
+
+        var token = '@Html.Raw(ViewBag.Token)';
+        // Thực hiện AJAX request
+        // Thay đổi đường dẫn '/your-controller/action' thành đường dẫn tương ứng của controller và action trong ứng dụng của bạn
+
+        $.ajax({
+            url: 'https://localhost:7204/api/rating?rating=' + ratingValue + '&id=' + id,
+            type: 'POST', // Thay đổi phương thức POST thành phương thức tương ứng với yêu cầu của bạn
+            headers: { Authorization: 'Bearer ' + token },
+            data: data,
+            success: function (response) {
+                // Xử lý thành công
+                var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+                closeModalButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var modal = button.closest('.modal');
+                        $(modal).modal('hide');
+                    });
+                });
+                //alert('Đánh giá thành công');
+                loadPosts();
+            },
+            error: function () {
+                // Xử lý lỗi
+                alert('Có lỗi xảy ra khi đánh giá');
+            }
+        });
+
+        var LoadPage = window.location;
+        function loadPosts() {
+            LoadPage.reload(true);
+        }
+
+
+    });
+
+</script>

@@ -14,6 +14,6 @@ namespace BaseProject.Application.Catalog.Reports
     {
         Task<ApiResult<bool>> Create(Report request);
         Task<ApiResult<PagedResult<Report>>> GetAll(GetUserPagingRequest request);
-
+        Task<ApiResult<bool>> Lock(Guid UserId, int idPost, string Message, int ReportId);
     }
 }

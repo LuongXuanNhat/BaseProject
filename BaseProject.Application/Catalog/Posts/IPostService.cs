@@ -21,7 +21,6 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<bool>> CreateOrUpdate(PostCreateRequest request);
 
         Task<ApiResult<bool>> Update(int id, PostCreateRequest request);
-        Task<ApiResult<bool>> Lock(Guid UserId,int idPost,string Message);
 
         Task<string> Delete(int postId);
         Task<ApiResult<bool>> GetList(int userId);
@@ -30,6 +29,7 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
+        Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int postId);
         Task<ApiResult<PostCreateRequest>> GetById(int postId);
 
         Task<List<PostVm>> TakeTopByQuantity(int quantity);

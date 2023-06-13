@@ -14,6 +14,7 @@ using Newtonsoft.Json.Linq;
 using BaseProject.ApiIntegration.User;
 using FluentValidation.Results;
 using Azure.Core;
+using BaseProject.ApiIntegration.Nofications;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -21,15 +22,18 @@ namespace BaseProject.WebApp.Controllers
     {
         private readonly IUserApiClient _userApiClient;
         private readonly IConfiguration _configuration;
+        private readonly INoficationApiClient _notiApiClient;
         private readonly IDistributedCache _cache;
 
         public AccountController(IUserApiClient userApiClient,
             IConfiguration configuration,
-            IDistributedCache cache)
+            IDistributedCache cache,
+            INoficationApiClient notiApiClient)
         {
             _userApiClient = userApiClient;
             _configuration = configuration;
             _cache = cache;
+            _notiApiClient = notiApiClient;
         }
 
         [HttpGet]
@@ -76,6 +80,8 @@ namespace BaseProject.WebApp.Controllers
                 AbsoluteExpirationRelativeToNow = TimeSpan.FromHours(1)
             };
             await _cache.SetStringAsync("my_token_key", SystemConstants.AppSettings.Token, cacheOptions);
+
+            
 
             return RedirectToAction("Index", "Home");
         }

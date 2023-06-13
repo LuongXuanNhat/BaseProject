@@ -1,5 +1,8 @@
 ﻿using BaseProject.ApiIntegration.Category;
 using BaseProject.ApiIntegration.Reports;
+using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Post;
+using BaseProject.ViewModels.Catalog.Reports;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
 
@@ -32,6 +35,20 @@ namespace BaseProject.AdminUI.Controllers
                 ViewBag.SuccessMsg = TempData["result"];
             }
             return View(data.ResultObj);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> ReponseReport([FromBody] ReportViewModel request)
+        {
+         
+            var reponse = new NoticeDetail();
+            reponse.Content = request.comment;
+            reponse.UserId = Guid.Parse(request.option);
+            reponse.Id = request.id;
+            reponse.NotificationId = request.ReportId;
+            var result = await _reportApiClient.Reponse(reponse.UserId, reponse.Id, reponse.Content, reponse.NotificationId);
+
+            return Ok();
         }
     }
 }
