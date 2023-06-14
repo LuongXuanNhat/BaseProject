@@ -1,7 +1,7 @@
 # Website Reviews - DestinationReview
 BaseProject - Using .NET 6 Web API Client/Server Application 
 <ul>
-  <strong>Some Technologies used in the project</strong>
+  <h3>Some Technologies used in the project</h3>
   <li>EF Code First</li>
   <li>Jquery</li>
   <li>Html, css, boostrap</li>
@@ -16,7 +16,7 @@ Cộng đồng du khách đam mê của chúng tôi là nơi mà bạn có thể
 Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích ẩn giấu của Việt Nam và khởi đầu những hành trình đáng nhớ. Chúng tôi tin rằng mỗi điểm đến đều mang trong mình một vẻ đẹp độc đáo và một câu chuyện riêng. Với thông tin chi tiết và đáng tin cậy từ chúng tôi, bạn sẽ có được cái nhìn tổng quan về những địa điểm tuyệt vời và có thể lựa chọn một cách thông minh những nơi bạn muốn khám phá...
 
 
-<h3> ERD Diagram </h3>
+<h3>Entity relationship diagram (ERD) </h3>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/946ec110-8a50-472e-84bd-ad88cc30b423" />
 
 <h3> Demo </h3>
@@ -28,6 +28,12 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <div style="display:flex;  text-align: center; " class="row">Giao diện viết bài</div>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c4d831f7-633d-4e7a-a630-734de37bc167"/>
 <div style="display:flex;  text-align: center; " class="row">Giao diện địa điểm</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/ed23bdac-c40d-4a82-9ed1-a8608258c4e2"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện chi tiết địa điểm</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/5c02dc46-5226-4a2f-a79a-43f3fdb8fcb1"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện danh sách bài đánh giá</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/7d473e77-a365-4eae-a63e-504fc1bd2604"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện Quản lý Admin</div>
 
 <h3>View report details: https://docs.google.com/document/d/1GnSec4266HshZOPOFIUO4bhxJTQx-boA/edit?usp=sharing&ouid=118267159340052640855&rtpof=true&sd=true</h3>
 <h6> Development Team </h6>: Lương Xuân Nhất - Mai Chí Vỹ
