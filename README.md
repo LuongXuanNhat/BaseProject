@@ -1,4 +1,4 @@
-# Website Reviews
+# Website Reviews - DestinationReview
 BaseProject - Using .NET 6 Web API Client/Server Application 
 <ul>
   <strong>Some Technologies used in the project</strong>
@@ -7,7 +7,6 @@ BaseProject - Using .NET 6 Web API Client/Server Application
   <li>Html, css, boostrap</li>
   <li>Jquery</li>
   <li>Linq</li>
-  <li>...</li>
 </ul>
 
 ...
@@ -30,6 +29,7 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c4d831f7-633d-4e7a-a630-734de37bc167"/>
 <div style="display:flex;  text-align: center; " class="row">Giao diện địa điểm</div>
 
+<h3>View report details: https://docs.google.com/document/d/1GnSec4266HshZOPOFIUO4bhxJTQx-boA/edit?usp=sharing&ouid=118267159340052640855&rtpof=true&sd=true</h3>
 <h6> Development Team </h6>: Lương Xuân Nhất - Mai Chí Vỹ
 
 
