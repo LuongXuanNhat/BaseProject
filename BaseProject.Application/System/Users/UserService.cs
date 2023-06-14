@@ -54,11 +54,12 @@ namespace BaseProject.Application.System.Users
         public async Task<ApiResult<string>> Authenticate(LoginRequest request)
         {
             var user = await _userManager.FindByNameAsync(request.UserName);
+            if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
             if (user.Check == Data.Enums.YesNo.yes)
             {
                 return new ApiErrorResult<string>("Tài khoản bị khóa");
             }
-            if (user == null) return new ApiErrorResult<string>("Tài khoản không tồn tại");
+            
 
             var result = await _signInManager.PasswordSignInAsync(user, request.Password, request.RememberMe, true);
             if (!result.Succeeded)
