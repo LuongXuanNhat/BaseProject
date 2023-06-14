@@ -1,9 +1,35 @@
 # Website Reviews
-BaseProject - .NET 6 , Code first , Web API Client/Server Application and bla bla...
-<h6> Development Team </h6>: Lương Xuân Nhất - Mai Chí Vỹ
+BaseProject - Using .NET 6 Web API Client/Server Application 
+<ul>
+  <strong>Some Technologies used in the project</strong>
+  <li>EF Code First</li>
+  <li>Jquery</li>
+  <li>Html, css, boostrap</li>
+  <li>Jquery</li>
+  <li>Linq</li>
+  <li>...</li>
+</ul>
+
 ...
-<h3> Use Case General Diagram </h3>
-<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/77084881-83da-4915-a840-3dfba48178a7" />
+<h3> System Description </h3>
+DestinationReview là một trang web chính thức và đáng tin cậy cho những người muốn khám phá và đánh giá những điểm đến tuyệt vời tại Việt Nam. Với sự đa dạng của các địa điểm hấp dẫn, từ cảnh quan thiên nhiên tuyệt đẹp cho đến những thành phố sôi động, chúng tôi mang đến cho bạn những thông tin hữu ích và chân thực nhất để bạn có thể lựa chọn một cách thông thái cho chuyến du lịch tiếp theo của mình.
+Cộng đồng du khách đam mê của chúng tôi là nơi mà bạn có thể tìm thấy những trải nghiệm trực tiếp từ những người đã từng đặt chân đến những điểm đến đặc biệt của Việt Nam. Chúng tôi tập hợp và chia sẻ những gợi ý, đánh giá chân thật và thông tin cần thiết để giúp bạn có được một chuyến du lịch tuyệt vời. Với sự chia sẻ từ cộng đồng của chúng tôi, bạn sẽ nhận được những góc nhìn đa dạng và những lời khuyên quý giá từ những người đã trải qua những hành trình đáng nhớ.
+Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích ẩn giấu của Việt Nam và khởi đầu những hành trình đáng nhớ. Chúng tôi tin rằng mỗi điểm đến đều mang trong mình một vẻ đẹp độc đáo và một câu chuyện riêng. Với thông tin chi tiết và đáng tin cậy từ chúng tôi, bạn sẽ có được cái nhìn tổng quan về những địa điểm tuyệt vời và có thể lựa chọn một cách thông minh những nơi bạn muốn khám phá...
+
 
 <h3> ERD Diagram </h3>
-<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/9daba312-212e-4931-babc-41938926d81e" />
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/946ec110-8a50-472e-84bd-ad88cc30b423" />
+
+<h3> Demo </h3>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/89d9957c-eea6-4579-b2a2-d55f00d87096" />
+<div style="display:flex;  text-align: center; " class="row">Giao diện đăng nhập</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c8702aa0-4a83-4b79-8759-b35ba136767c"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện trang chủ</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/4ff1e19f-6846-4408-a85f-8a5028a131c5"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện viết bài</div>
+<img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c4d831f7-633d-4e7a-a630-734de37bc167"/>
+<div style="display:flex;  text-align: center; " class="row">Giao diện địa điểm</div>
+
+<h6> Development Team </h6>: Lương Xuân Nhất - Mai Chí Vỹ
+
+
