@@ -20,6 +20,7 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/946ec110-8a50-472e-84bd-ad88cc30b423" />
 
 <h3> Demo </h3>
+<h5> Video: https://youtu.be/edt_SxAKSFY</h5>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/89d9957c-eea6-4579-b2a2-d55f00d87096" />
 <div style="display:flex;justify-content: center;" class="row">Giao diện đăng nhập</div>
 <br/>
