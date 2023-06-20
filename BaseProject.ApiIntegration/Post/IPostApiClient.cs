@@ -21,6 +21,7 @@ namespace BaseProject.ApiIntegration.Post
         Task<ApiResult<bool>> Check(AddSaveVm request);
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);
         Task<ApiResult<bool>> DeletePost(int idPost);
+        Task<ApiResult<bool>> StatusChange(PostEnable postEnable);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
         Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int id);

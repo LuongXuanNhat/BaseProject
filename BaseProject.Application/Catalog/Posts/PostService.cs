@@ -22,6 +22,7 @@ using BaseProject.Application.Catalog.Comments;
 using System.ComponentModel.Design;
 using BaseProject.Application.Catalog.Likes;
 using BaseProject.Application.Catalog.Saves;
+using BaseProject.Data.Enums;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -453,7 +454,6 @@ namespace BaseProject.Application.Catalog.Posts
                 comment.PreCommentId = item.PreCommentId;
                 comment.Content = item.Content;
                 comment.Date = item.Date;
-
                 comments.Add(comment);
             }
           
@@ -472,7 +472,7 @@ namespace BaseProject.Application.Catalog.Posts
                 item.SaveCount = SAVECOUNT;
                 item.ShareCount = 0;
                 item.CommentList = comments;
-
+                item.checkLock = (int)post.Check;
                 list.Add(item);
             }
 
@@ -666,6 +666,23 @@ namespace BaseProject.Application.Catalog.Posts
             }
 
             return postList;
+        }
+
+        public async Task<ApiResult<bool>> Enable(PostEnable request)
+        {
+            var query = await _context.Posts.Where(x => x.PostId == request.Id).FirstOrDefaultAsync();
+            if (request.number == 0 && query.Check == YesNo.yes)
+            {
+                query.Check = YesNo.no;
+            }
+            else if (request.number == 1 && query.Check == YesNo.no)
+            {
+                query.Check = YesNo.yes;
+            }
+
+            _context.Update(query);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>();
         }
     }
 }

@@ -250,6 +250,21 @@ namespace BaseProject.ApiIntegration.Post
             throw new NotImplementedException();
         }
 
-        
+        public async Task<ApiResult<bool>> StatusChange(PostEnable postEnable)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var json = JsonConvert.SerializeObject(postEnable);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/post/enable", httpContent);
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+        }
     }
 }

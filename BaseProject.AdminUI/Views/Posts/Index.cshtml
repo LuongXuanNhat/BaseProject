@@ -26,6 +26,10 @@
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Danh sách địa điểm</li>
 </ol>
+
+
+
+
 <div class="card mb-12">
     <div class="card-header">
         <div class="row">
@@ -126,9 +130,66 @@
                         </td>
                         <td class="col-1" style="padding: 8px 4px;">
                             <a title="Đọc bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Details", new { id=item.PostId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
-                            <a title="Khóa bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Delete", new { id=item.PostId })"><i class="fa-solid fa-unlock-keyhole" style="color: darkblue"></i></a>
+                            <a title="Kiểm tra trạng thái" style="background-color: lightskyblue; height: 40px;" data-target="@item.PostId" data-post-id="@item.PostId" data-check-id="@item.checkLock"><i class="fa-solid fa-unlock-keyhole" style="color: darkblue"></i></a>
                         </td>
+
+                        @*Modal Enable*@
+                        
+
                     </tr>
+                    <div class="modal fade" id="@item.PostId" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ratingModalLabel" style="text-align:center;">Trạng thái bài viết</h5>
+
+                                    <button type="button" class="close" style="background: none;color: red; border-radius: 50%; border: 1px solid red; width: 30px;" data-dismiss="modal" aria-label="Đóng">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div style="font-size: 12px; text-align: center; padding-top: 8px;">
+                                    <span id="modalAddressContent"></span>
+                                </div>
+                                <div class="modal-body" style="font-size: 16px;">
+                                    @if (item.checkLock == 1)
+                                    {
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1" value="1" checked>
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Đang khóa
+                                            </label>
+                                        </div>
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="0">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Mở khóa
+                                            </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1" value="1">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Đang khóa
+                                            </label>
+                                        </div>
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="0" checked>
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Mở khóa
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="Submit" data-post-id="" data-lock-id="">Lưu thay đổi</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             <td style="border-bottom: 2px solid #e9ecef; position: relative; top: -18px;"></td>
 
@@ -138,3 +199,86 @@
     </div>
 </div>
 
+<script>
+    var targetModalId = button.getAttribute('data-target');
+    var ratingButtons = document.querySelectorAll('button[data-toggle="modal"][data-target="data-target"]');
+    ratingButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var targetModalId = button.getAttribute('data-target');
+            var modal = document.querySelector(targetModalId);
+            
+            // Lấy giá trị data-id từ button
+            var id = button.getAttribute('data-post-id');
+            var idLock = button.getAttribute('data-check-id');
+
+
+            var submitButton = modal.querySelector('#Submit');
+
+            // Lưu giá trị data-id vào nút Submit trong modal
+            submitButton.setAttribute('data-post-id', id);
+            submitButton.setAttribute('data-lock-id', idLock);
+
+            submitButton.setAttribute('data-is-locked', isLocked);
+
+            $(modal).modal('show');
+        });
+    });
+
+    // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
+    var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+    closeModalButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var modal = button.closest('.modal');
+            $(modal).modal('hide');
+        });
+    });
+</script>
+<script>
+    $(document).ready(function () {
+        $('#Submit').click(function () {
+            // Lấy nội dung của phần tử radio đã được chọn
+            var selectedOption = $('input[name="exampleRadios"]:checked').next('label').value().trim();
+            var selectedOptionId = $('input[name="exampleRadios"]:checked').attr('id');
+
+
+            
+            var radios = document.getElementsByName("exampleRadios");
+
+            for (var i = 0; i < radios.length; i++) {
+                if (radios[i].checked) {
+                    var selectedValue = radios[i].value;
+                    console.log(selectedValue);
+                    break;
+                }
+            }
+            var Id = $(this).attr('data-post-id');
+            // Tạo object chứa dữ liệu
+            var dataToSend;
+            dataToSend = {
+                Id = Id,
+                number = selectedValue
+            }
+
+
+            // Gửi dữ liệu lên server bằng AJAX
+            $.ajax({
+                type: 'POST',
+                url: '/Posts/StatusChange',
+                data: JSON.stringify(dataToSend),
+                contentType: 'application/json',
+                success: function (response) {
+                    // Xử lý phản hồi từ server (nếu cần)
+                    alert("Gửi phản hồi thành công");
+                    // Đóng modal
+                    $('#ratingModal').modal('hide');
+                    window.location.reload(true);
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    // Xử lý lỗi (nếu có)
+                    alert("Gửi phản hồi thất bại");
+                    console.log(errorThrown);
+                }
+            });
+        });
+    });
+</script>

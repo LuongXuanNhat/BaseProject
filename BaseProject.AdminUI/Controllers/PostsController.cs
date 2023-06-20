@@ -59,6 +59,17 @@ namespace BaseProject.AdminUI.Controllers
             return View(data.ResultObj);
         }
 
+        [HttpPost]
+        public async Task<IActionResult> StatusChange (PostEnable post)
+        {
+            var data = await _postApiClient.StatusChange(post);
+            if (data.IsSuccessed)
+            {
+
+                return Ok();
+            }
+            return BadRequest();
+        }
 
         //[HttpGet]
         //public async Task<IActionResult> Reponse(int PostId, Guid UserId, string Message)
