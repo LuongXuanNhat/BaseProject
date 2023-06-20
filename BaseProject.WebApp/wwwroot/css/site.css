@@ -134,8 +134,11 @@ h6::before {
     -webkit-line-clamp: 4; /* Số dòng tối đa */
     -webkit-box-orient: vertical;
 }
+.index-menu-item:hover {
+    background: #ffdcbc !important;
+}
 .limited-lines-2 {
-    max-height: 2.8rem; 
+    max-height: 5.8rem;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;

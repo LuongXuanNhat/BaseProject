@@ -541,7 +541,8 @@ namespace BaseProject.Application.Catalog.Posts
                     CountSave = _saveService.CountById(x.UserId,x.PostId),
                     CountLike = _likeService.CountById(x.PostId),
                     UserName = _userService.GetUserNameById(x.UserId),
-                    View = x.View 
+                    View = x.View,
+                    checkLock = (int)x.Check
                 }).ToList();
             //4. Select and projection
             var pagedResult = new PagedResult<PostVm>()

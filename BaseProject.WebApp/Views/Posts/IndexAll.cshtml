@@ -96,37 +96,40 @@
                                         @*list post ở đây*@
                                         @foreach (var item in Model.Items)
                                         {
-                                            <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
-                                                <div class="u-container-layout u-container-layout-3">
-                                                    <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
-                                                        <div class="u-container-style u-group u-shape-rectangle ">
-                                                            <div class="u-image-1" width="1280" height="853" src="" alt="">
-                                                                <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
-                                                            </div>
+                                            if (item.checkLock == 0)
+                                            {
+                                                <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
+                                                    <div class="u-container-layout u-container-layout-3">
+                                                        <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
+                                                            <div class="u-container-style u-group u-shape-rectangle ">
+                                                                <div class="u-image-1" width="1280" height="853" src="" alt="">
+                                                                    <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
+                                                                </div>
 
-                                                        </div>
-                                                        <div style="text-decoration:none;" >
-                                                            <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
-                                                        </div>
-                                                        <p class="u-text u-text-2">
-                                                            <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
-                                                            @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
-                                                            <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
-                                                            @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
-                                                            <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
-                                                            &nbsp;  @if (item.Categories != null)
-                                                            {
-                                                                <span>@item.Categories.Count</span>
-                                                            }
-                                                                
-                                                        </p>
-                                                        <div class="u-text u-text-3 limited-lines-2">
-                                                            @Html.Raw(@item.Content)
-                                                        </div>
-                                                    </a>
-                                                    
+                                                            </div>
+                                                            <div style="text-decoration:none;">
+                                                                <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                                            </div>
+                                                            <p class="u-text u-text-2">
+                                                                <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
+                                                                @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
+                                                                <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
+                                                                @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
+                                                                <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
+                                                                &nbsp;  @if (item.Categories != null)
+                                                                {
+                                                                    <span>@item.Categories.Count</span>
+                                                                }
+
+                                                            </p>
+                                                            <div class="u-text u-text-3 limited-lines-2">
+                                                                @Html.Raw(@item.Content)
+                                                            </div>
+                                                        </a>
+
+                                                    </div>
                                                 </div>
-                                            </div>
+                                            }
 
                                             <script>
                                                 var danhSach = @Html.Raw(Json.Serialize(item.Categories));

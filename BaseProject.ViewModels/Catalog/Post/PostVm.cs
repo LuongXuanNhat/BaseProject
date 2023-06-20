@@ -17,7 +17,7 @@ namespace BaseProject.ViewModels.Catalog.Post
         public int? CountComment { get; set; }
         public int? CountSave { get; set; }
         public int? CountLike { get; set; }
-
+        public int checkLock { get; set; }
         public string Title { get; set; }
         public string? Content { get; set; }
 

@@ -12,7 +12,9 @@
     <meta name="keywords" content="​Nơi review địa điểm tốt nhất, mang lại trại nghiệm thực tế nhất">
     <meta name="description" content="">
     <title>Web Review</title>
-    <link rel="shortcut icon" type="image/png" href="" />
+   
+    <link rel="shortcut icon" href="~/images/icon/destination.png" type="image/x-icon" />
+
     <link rel="stylesheet" href="_Layout.cshtml.css" media="screen">
     <link href="~/css/nicepage.css" rel="stylesheet" />
     <script src="~/js/jquery.js"></script>
@@ -89,8 +91,8 @@
                                     Thông báo</a>
                             </li>*@
 
-                            <li class="header__navbar-item header__navbar-item--has-notify">
-                                <a href="" class="header__navbar-item-link">
+                            <li class="header__navbar-item header__navbar-item--has-notify" >
+                                <a href="" class="header__navbar-item-link" style="display: flex; align-items: center;">
                                     <i class="header_navbar-icon fa-solid fa-bell"></i>
                                     Thông báo 
                                     <span>
@@ -106,7 +108,7 @@
                                         <h3>Thông báo mới nhận</h3>
                                     </header>
                                     <ul class="header__notify-list">
-                                        @if (objectList != null)
+                                        @if (objectList != null  )
                                         {
                                             @foreach (var item in objectList)
                                             {
@@ -157,28 +159,28 @@
                                         Chào @User.Identity.Name
                                     </button>
                                     <ul class="dropdown-menu" style="z-index: 10;">
-                                        <li class="dropdown-item">
-                                            <a class="btn btn-success" asp-controller="Posts" asp-action="Index">
+                                        <li class="dropdown-item index-menu-item">
+                                            <a class="btn " asp-controller="Posts" asp-action="Index">
                                                 Bài viết của tôi
                                             </a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a asp-controller="Ratings" asp-action="Index" class="btn btn-success">
+                                        <li class="dropdown-item index-menu-item">
+                                            <a asp-controller="Ratings" asp-action="Index" class="btn ">
                                                 Địa điểm đánh giá
                                             </a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a asp-controller="Save" asp-action="Index" class="btn btn-success">
+                                        <li class="dropdown-item index-menu-item">
+                                            <a asp-controller="Save" asp-action="Index" class="btn ">
                                                 Danh sách yêu thích
                                             </a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a asp-controller="Search" asp-action="Index" class="btn btn-success">
+                                        <li class="dropdown-item index-menu-item">
+                                            <a asp-controller="Search" asp-action="Index" class="btn ">
                                                 Lịch sử tìm kiếm
                                             </a>
                                         </li>
-                                        <li class="dropdown-item">
-                                            <a asp-controller="Account" asp-action="AccountSetting" class="btn btn-warning">
+                                        <li class="dropdown-item index-menu-item">
+                                            <a asp-controller="Account" asp-action="AccountSetting" class="btn ">
                                                 Cài đặt tài khoản
                                             </a>
                                         </li>

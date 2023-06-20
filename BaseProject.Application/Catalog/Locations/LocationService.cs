@@ -365,13 +365,13 @@ namespace BaseProject.Application.Catalog.Locations
                 posts.Add(reponse);
                 
             }
-            posts = posts.OrderByDescending(x => x.PostId).ToList();
+            posts = posts.OrderByDescending(x => x.PostId).Where(x=> x.Check == 0).ToList();
             // Lấy postDetail
             PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
             list.Items = new List<PostDetailRequest>();
             foreach (Post post in posts)
             {
-                var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
+                var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId ).ToListAsync();
                 
                 // Lấy 1post - 1postDetail
                     PostDetailRequest postDetailRequest = new PostDetailRequest();
