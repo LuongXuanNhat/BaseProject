@@ -49,7 +49,7 @@ namespace BaseProject.AdminUI.Controllers
                 number = 4,
                 Keyword2 = keyword
             };
-            var data = await _postApiClient.GetAllPostPagings(request);
+            var data = await _postApiClient.GetAllPostPagingsAdmin(request);
             ViewBag.Keyword = keyword;
             ViewBag.Token = _baseApiClient.GetToken();
             if (TempData["result"] != null)
@@ -62,6 +62,11 @@ namespace BaseProject.AdminUI.Controllers
         [HttpPost]
         public async Task<IActionResult> StatusChange (PostEnable post)
         {
+            
+            if (post.Id == 0 || post.Number == null)
+            {
+                return BadRequest();
+            }
             var data = await _postApiClient.StatusChange(post);
             if (data.IsSuccessed)
             {

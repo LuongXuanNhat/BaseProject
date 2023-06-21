@@ -28,6 +28,7 @@ namespace BaseProject.Application.Catalog.Posts
         Task<ApiResult<bool>> Enable(PostEnable request);
 
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostPagingAdmin(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
         Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int postId);

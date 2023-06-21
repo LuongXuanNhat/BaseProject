@@ -9,6 +9,6 @@ namespace BaseProject.ViewModels.Catalog.Post
     public class PostEnable
     {
         public int Id { get; set; }
-        public int number { get; set; }   
+        public int Number { get; set; }   
     }
 }
