@@ -49,10 +49,149 @@
                             <div class="u-container-layout u-container-layout-1">
                                 <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-1">
                                     <div class="u-container-layout u-container-layout-2">
-                                        <h4 class="u-text u-text-default u-text-1 ">
-                                            <span class="rectange-text"></span>
+                                        <div>
+                                            <h4 class="u-text u-text-default u-text-1 ">
+                                                <span class="rectange-text"></span>
                                                 @Model.Title
-                                        </h4>
+                                            </h4>
+                                            <div class="dropdown col-1">
+                                                <a class="" style="border-radius: 50%; width:1.5rem; height:1.5rem;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                                    <i class="fa-solid fa-ellipsis" style="color: black;"></i>
+                                                </a>
+                                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                                    @if (!Model.UserId.Equals(@ViewBag.UserName))
+                                                    {
+                                                        <li><button style="font-size:14px;" class="edit-comment dropdown-item" data-toggle="modal" data-target="#ratingModal" data-id="@Model.PostId" data-comment-id="@Model.PostId">Báo cáo bài viết</button> </li>
+                                                    }
+                                                    
+                                                    <li><a href="#" style="font-size:14px;" class="delete-comment dropdown-item" data-comment-id="@Model.PostId">Chức năng khác</a> </li>
+                                                    <li><a class="dropdown-item" style="font-size:14px;" href="#">Chức năng khác</a></li>
+                                                </ul>
+                                            </div>
+                                            <div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h5 class="modal-title" id="ratingModalLabel" style="text-align:center;">Báo cáo bài viết</h5>
+
+                                                            <button type="button" class="close" style="background: none;color: red; border-radius: 50%; border: 1px solid red; width: 30px;" data-dismiss="modal" aria-label="Đóng">
+                                                                <span aria-hidden="true">&times;</span>
+                                                            </button>
+                                                        </div>
+                                                        <div style="font-size: 12px; text-align: center; padding-top: 8px;">
+                                                            <span style="font-size: 16px; font-style:italic;"> Cảm ơn sự đóng góp của bạn</span>
+                                                            <span id="modalAddressContent"></span>
+                                                        </div>
+                                                        <div class="modal-body" style="font-size: 16px;">
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                                                                <label class="form-check-label" for="exampleRadios1">
+                                                                    Nội dung tục tĩu, khiêu dâm hoặc chứa ngôn từ kích động thù địch
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                                                                <label class="form-check-label" for="exampleRadios2">
+                                                                    Nội dung mô tả hoặc khuyến khích tham gia vào các hoạt động bất hợp pháp
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                                                                <label class="form-check-label" for="exampleRadios3">
+                                                                    Địa điểm này đã đóng cửa hoặc không tồn tại
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4">
+                                                                <label class="form-check-label" for="exampleRadios4">
+                                                                    Bài viết là một bản sao của một thành viên khác trong nhóm
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="option5">
+                                                                <label class="form-check-label" for="exampleRadios5">
+                                                                    Nội dung chứa thông tin sai lệch hoặc gây hiểu lầm
+                                                                </label>
+                                                            </div>
+                                                            <div class="form-check" style="margin: 4px 0px;">
+                                                                <span style="font-style: italic; font-weight:600;">Ý kiến của bạn về bài viết</span>
+                                                                <textarea class="form-control" style="width: 95%;" id="exampleRadios6" rows="2"></textarea>
+                                                            </div>
+
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-primary" id="Submit" data-id="">Gửi</button>
+                                                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+
+                                        </div>
+                                        <script>
+                                            var ratingButtons = document.querySelectorAll('button[data-toggle="modal"][data-target="#ratingModal"]');
+                                            ratingButtons.forEach(function (button) {
+                                                button.addEventListener('click', function () {
+                                                    var targetModalId = button.getAttribute('data-target');
+                                                    var modal = document.querySelector(targetModalId);
+
+                                                    // Lấy giá trị data-id từ button
+                                                    var id = button.getAttribute('data-id');
+                                                    var submitButton = modal.querySelector('#Submit');
+
+                                                    // Lưu giá trị data-id vào nút Submit trong modal
+                                                    submitButton.setAttribute('data-id', id);
+
+                                                    $(modal).modal('show');
+                                                });
+                                            });
+
+                                            // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
+                                            var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+                                            closeModalButtons.forEach(function (button) {
+                                                button.addEventListener('click', function () {
+                                                    var modal = button.closest('.modal');
+                                                    $(modal).modal('hide');
+                                                });
+                                            });
+                                        </script>
+                                        <script>
+                                            $(document).ready(function () {
+                                                $('#Submit').click(function () {
+                                                    // Lấy nội dung của phần tử radio đã được chọn
+                                                    var selectedOption = $('input[name="exampleRadios"]:checked').next('label').text().trim();
+                                                    var additionalComment = $('#exampleRadios6').val();
+                                                    var id = $(this).attr('data-id');
+                                                    // Tạo object chứa dữ liệu
+                                                    var dataToSend = {
+                                                        option: selectedOption,
+                                                        comment: additionalComment,
+                                                        id: id,
+                                                        ReportId: 1
+                                                    };
+
+                                                    // Gửi dữ liệu lên server bằng AJAX
+                                                    $.ajax({
+                                                        type: 'POST',
+                                                        url: '/Report/SendReport',
+                                                        data: JSON.stringify(dataToSend),
+                                                        contentType: 'application/json',
+                                                        success: function (response) {
+                                                            // Xử lý phản hồi từ server (nếu cần)
+                                                            alert("Gửi báo cáo thành công");
+                                                            // Đóng modal
+                                                            $('#ratingModal').modal('hide');
+                                                        },
+                                                        error: function (xhr, textStatus, errorThrown) {
+                                                            // Xử lý lỗi (nếu có)
+                                                            alert("Gửi báo cáo thất bại");
+                                                            console.log(errorThrown);
+                                                        }
+                                                    });
+                                                });
+                                            });
+                                        </script>
                                         <p class="u-text u-text-default u-text-2 text-black-50" title="Ngày đăng bài"><i class="fa-regular fa-calendar-check"></i> 
                                             @Model.UploadDate</p>
                                         <a class="u-text u-text-default u-text-3 text-black-50" asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@Model.UserId" title="Xem trang cá nhân">

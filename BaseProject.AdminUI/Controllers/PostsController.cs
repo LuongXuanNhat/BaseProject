@@ -60,10 +60,10 @@ namespace BaseProject.AdminUI.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> StatusChange (PostEnable post)
+        public async Task<IActionResult> StatusChange ([FromBody] PostEnable post)
         {
             
-            if (post.Id == 0 || post.Number == null)
+            if (post.IdPost == 0 || post.Number == null)
             {
                 return BadRequest();
             }

@@ -3,7 +3,7 @@
 @using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
 @{
-    ViewData["Title"] = "Đánh giá của tôi";
+    ViewData["Title"] = "Bài viết";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -96,8 +96,6 @@
                                         @*list post ở đây*@
                                         @foreach (var item in Model.Items)
                                         {
-                                            if (item.checkLock == 0)
-                                            {
                                                 <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
                                                     <div class="u-container-layout u-container-layout-3">
                                                         <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
@@ -129,7 +127,6 @@
 
                                                     </div>
                                                 </div>
-                                            }
 
                                             <script>
                                                 var danhSach = @Html.Raw(Json.Serialize(item.Categories));

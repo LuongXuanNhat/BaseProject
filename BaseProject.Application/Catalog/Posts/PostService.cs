@@ -729,12 +729,13 @@ namespace BaseProject.Application.Catalog.Posts
 
         public async Task<ApiResult<bool>> Enable(PostEnable request)
         {
-            var query = await _context.Posts.Where(x => x.PostId == request.Id).FirstOrDefaultAsync();
-            if (request.Number == 0 && query.Check == YesNo.yes)
+            int check = int.Parse(request.Number);
+            var query = await _context.Posts.Where(x => x.PostId == request.IdPost).FirstOrDefaultAsync();
+            if (check == 0 && query.Check == YesNo.yes)
             {
                 query.Check = YesNo.no;
             }
-            else if (request.Number == 1 && query.Check == YesNo.no)
+            else if (check == 1 && query.Check == YesNo.no)
             {
                 query.Check = YesNo.yes;
             }

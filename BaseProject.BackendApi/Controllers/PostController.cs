@@ -100,7 +100,7 @@ namespace BaseProject.BackendApi.Controllers
             return BadRequest();
         }
         [HttpPost("enable")]
-        public async Task<IActionResult> enable(PostEnable request)
+        public async Task<IActionResult> Enable(PostEnable request)
         {
             var result = await _postService.Enable(request);
             if (!result.IsSuccessed)

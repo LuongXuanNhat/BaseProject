@@ -185,7 +185,7 @@
                                 </div>
                                 <div class="modal-footer">
                                     <button type="button" class="btn btn-primary" id="Submit" data-post-id="" data-lock-id="">Lưu thay đổi</button>
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Hủy</button>
                                 </div>
                             </div>
                         </div>
@@ -202,26 +202,32 @@
                         var lockId = $(this).data('lock-id');
 
 
-                        var dataToSend = {
-                            Id: postId,
+                        if ($(this).hasClass('btn-secondary')) {
+                            // Nút "Hủy" được nhấn, không gửi dữ liệu
+                            $('#modal-' + postId).modal('hide');
+                        } else {
+                        var sendData;
+                        sendData = {
+                            IdPost: postId,
                             Number: selectedValue
                         };
-                        console.log(dataToSend);
+                        console.log(sendData);
                         $.ajax({
                             type: 'POST',
                             url: '/Posts/StatusChange',
-                            data: JSON.stringify(dataToSend),
+                            data: JSON.stringify(sendData),
                             contentType: 'application/json',
                             success: function (response) {
-                                alert("Gửi phản hồi thành công");
+                                alert("Cập nhập thành công");
                                 $('#modal-' + postId).modal('hide');
                                 window.location.reload(true);
                             },
                             error: function (xhr, textStatus, errorThrown) {
-                                alert("Gửi phản hồi thất bại");
+                                alert("Cập nhập thất bại");
                                 console.log(errorThrown);
                             }
                         });
+                        }
                     });
                 });
                 

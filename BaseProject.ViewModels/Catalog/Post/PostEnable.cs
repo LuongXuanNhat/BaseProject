@@ -8,7 +8,7 @@ namespace BaseProject.ViewModels.Catalog.Post
 {
     public class PostEnable
     {
-        public int Id { get; set; }
-        public int Number { get; set; }   
+        public int IdPost { get; set; }
+        public string Number { get; set; }   
     }
 }
