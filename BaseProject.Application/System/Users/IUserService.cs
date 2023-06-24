@@ -26,7 +26,6 @@ namespace BaseProject.Application.System.Users
         
         Task<List<UserVm>> TakeByQuantity(int quantity);
 
-
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
         Task<Guid> GetIdByUserName(string username);
@@ -38,6 +37,7 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
 
 
-
+        Task<ApiResult<bool>> AddFollow(Following request);
+        Task<ApiResult<bool>> UnFollow(Following request);
     }
 }

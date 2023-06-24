@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.System.Users;
+using BaseProject.Data.Entities;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -60,6 +61,21 @@ namespace BaseProject.BackendApi.Controllers
                 return BadRequest(ModelState);
 
             var result = await _userService.NewRegister(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("follow")]
+        [AllowAnonymous]
+        public async Task<IActionResult> Follow([FromBody] Following request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.AddFollow(request);
             if (!result.IsSuccessed)
             {
                 return BadRequest(result);

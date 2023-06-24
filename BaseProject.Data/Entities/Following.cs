@@ -2,9 +2,12 @@
 {
     public class Following
     {
+        //Người được theo dõi
         public Guid FollowerId { get; set; }
+
+        //Người theo dõi
         public Guid FolloweeId { get; set; }
-        public DateTime Date { get; set; }
+        public DateTime? Date { get; set; }
 
 
 

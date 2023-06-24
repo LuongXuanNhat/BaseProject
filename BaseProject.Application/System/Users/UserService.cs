@@ -295,6 +295,31 @@ namespace BaseProject.Application.System.Users
             return new ApiErrorResult<bool>("Đăng ký không thành công : Mật khẩu không hợp lệ, yêu cầu gồm có ít 6 ký tự bao gồm ký tự: Hoa, thường, số, ký tự đặc biệt ");
         }
 
+        public async Task<ApiResult<bool>> AddFollow(Following request)
+        {
+            try
+            {
+                _dataContext.Followings.Add(request);
+                await _dataContext.SaveChangesAsync();
+
+                return new ApiSuccessResult<bool>();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Lỗi theo dõi: " + ex.ToString());
+            }
+            return new ApiErrorResult<bool>("Lỗi khi theo dõi người dùng");
+        }
+
+        public async Task<ApiResult<bool>> UnFollow(Following request)
+        {
+            var getUser = await _dataContext.Followings.Where(x => x.FolloweeId == request.FolloweeId && x.FollowerId == request.FollowerId).FirstOrDefaultAsync();
+            _dataContext.Followings.Remove(request);
+            await _dataContext.SaveChangesAsync();
+
+            return new ApiSuccessResult<bool>();
+        }
+
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
         {
             var user = await _userManager.FindByIdAsync(id.ToString());
