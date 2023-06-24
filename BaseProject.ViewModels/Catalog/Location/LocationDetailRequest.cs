@@ -23,6 +23,7 @@ namespace BaseProject.ViewModels.Catalog.Location
         public List<string> ImageList { get; set; }
 
         public PagedResult<PostDetailRequest> PagedPostResult { get; set; }
+     //   public PagedResult<Comments.CommentPageViewModel> PagedCommentResult { get; set; }
 
         
     }

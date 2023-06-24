@@ -193,7 +193,10 @@ namespace BaseProject.ApiIntegration.User
                 ByteArrayContent bytes = new ByteArrayContent(data);
                 requestContent.Add(bytes, "GetImage", request.GetImage.FileName);
             }
-            requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+            if (request.Name != null)
+            {
+                requestContent.Add(new StringContent(request.Name.ToString()), "Name");
+            }
             requestContent.Add(new StringContent(request.Id.ToString()), "Id");
 
             string dateOfBirth = request.DateOfBir?.ToString("dd-MM-yyyy") ?? string.Empty;

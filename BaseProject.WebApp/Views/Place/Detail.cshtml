@@ -85,10 +85,13 @@
         </div>
         <hr />
         <div>
+
             <ul class="row">
+                
                 @if (Model.PagedPostResult != null)
                 {
                     @await Html.PartialAsync("_PagedPostResult", Model.PagedPostResult)
+
                 }
                 
             </ul>

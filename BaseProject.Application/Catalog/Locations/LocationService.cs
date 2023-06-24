@@ -389,11 +389,13 @@ namespace BaseProject.Application.Catalog.Locations
                     var shareCount = await _context.Shares.Where(x => x.PostId == post.PostId).CountAsync();
                     var saveCount = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
                     var commentCount = await _context.Comments.Where(x => x.PostId == post.PostId).CountAsync();
+                    var likeCount = await _context.Likes.Where(x => x.PostId == post.PostId).CountAsync();
              //       var ratingStar = await _context.RatingLocations.ToListAsync();
 
                     postDetailRequest.ShareCount = shareCount;
                     postDetailRequest.SaveCount = saveCount;
                     postDetailRequest.CommentCount = commentCount;
+                    postDetailRequest.LikeCount = likeCount;
 
                     try
                     {

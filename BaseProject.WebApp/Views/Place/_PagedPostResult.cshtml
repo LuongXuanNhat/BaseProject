@@ -63,8 +63,19 @@
     </div>
 </div>
 
+<ul class="nav nav-tabs" style="background-color: #e3f2fd;    border-radius: 6px 6px 0; width: 95%;">
+    
+    <li class="nav-item " style="display: flex; align-items: center;">
+        <a class="nav-link active text-decoration-none text-black" style="font-family: Mulish; padding-left: 12px;"><i class="fa-solid fa-feather-pointed" style="color: #3d5cd6;"></i> Bài viết đánh giá</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link  text-black" aria-current="page" href="">
+            <i class="fa fa-comments" style="color: #3d5cd6;"></i> Hỏi - đáp
+        </a>
+    </li>
+    
+</ul>
 
-<h4>Bài viết đánh giá</h4>
 @await Component.InvokeAsync("Pager", Model) 
 @foreach (var item in Model.Items)
 {
@@ -97,15 +108,18 @@
                     </div>
                 </div>
 
-                <h6 title ="XEM BÀI VIẾT" class="card-subtitle mb-2 text-muted" >
-                    <a href="@Url.Action("Details","Posts", new { id = item.PostId })" class="text-decoration-none" style="color: #E82385 !important;">
+                <h6 title ="XEM BÀI VIẾT" class="card-subtitle mb-2 text-muted row" >
+                    <a href="@Url.Action("Details","Posts", new { id = item.PostId })" class="col-9 text-decoration-none" style="color: #E82385 !important;">
                         @item.Title
                     </a>
+                    <span class="col-2">
+                        Tháng @item.When.ToString("MM/yyyy")
+                    </span>
                 </h6>
                 <div class="card-text " style="max-height: 700px; overflow: auto;overflow-x: hidden; padding-right:20px;">@Html.Raw(@item.Content)</div>
                 <a href="@Url.Action("Details","Posts", new { id = item.PostId })" title="XEM BÀI VIẾT" class="text-decoration-none">
                     <span href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Xem bình luận">@item.CommentCount <i class="fa-solid fa-comment-dots"></i></span>
-                    <span href="#" class="card-link text-black-50 like-link" like-link-id="@item.LikeCount" style="text-decoration: none; padding-right: 8px" title="Thích">2 <i class="fa-regular fa-thumbs-up "></i></span>
+                    <span href="#" class="card-link text-black-50 like-link" style="text-decoration: none; padding-right: 8px" title="Thích"> @item.LikeCount<i class="fa-regular fa-thumbs-up "></i></span>
                     <span href="#" class="card-link text-black-50" style="text-decoration: none; padding-right: 8px" title="Lưu bài viết">@item.SaveCount <i class="fa-solid fa-bookmark"></i></span>
                     <span href="#" class="card-link text-black-50" style="text-decoration: none;" title="Chia sẻ">@item.ShareCount <i class="fa-solid fa-share"></i></span>
                 </a>
