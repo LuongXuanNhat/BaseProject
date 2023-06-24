@@ -14,6 +14,7 @@ namespace BaseProject.ApiIntegration.User
         Task<ApiResult<string>> Authenticate(LoginRequest request);
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPagings(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<FollowerVm>>> GetFollowersPagings(GetUserPagingRequest request);
 
         Task<ApiResult<bool>> Register(RegisterRequestOfUser registerRequest);
         Task<ApiResult<bool>> RegisterUser(RegisterRequest registerRequest);
@@ -27,5 +28,11 @@ namespace BaseProject.ApiIntegration.User
 
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
         Task<List<UserVm>> TakeByQuantity(int quantity);
+
+
+
+        Task<ApiResult<bool>> AddFollow(FollowViewModel request);
+        Task<ApiResult<bool>> UnFollow(FollowViewModel request);
+        Task<ApiResult<bool>> CheckFollow(FollowViewModel request);
     }
 }

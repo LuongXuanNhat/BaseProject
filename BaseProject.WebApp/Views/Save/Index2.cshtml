@@ -2,7 +2,7 @@
 @model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
 
 @{
-    ViewData["Title"] = "Danh mục";
+    ViewData["Title"] = "Bài viết yêu thích";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -136,7 +136,13 @@
             headers: { Authorization: 'Bearer ' + token },
             success: function (data) {
                 $('#deleteModal').modal('hide');
-                window.location.reload(true);
+                Swal.fire({
+                    title: 'Đã bỏ theo dõi!',
+                    icon: 'success'
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
 
             },
             error: function () {
@@ -154,3 +160,4 @@
     }
 
 </script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -34,7 +34,7 @@ namespace BaseProject.BackendApi.Controllers
             var products = await _postService.GetPostPagingUser(request);
             return Ok(products);
         }
-        
+
         // Lấy tất cả bài viết
         [HttpGet("pagingall")]
         [AllowAnonymous]
@@ -42,6 +42,24 @@ namespace BaseProject.BackendApi.Controllers
         {
 
             var products = await _postService.GetPostPaging(request);
+            return Ok(products);
+        }
+        
+        // Lấy tất cả bài viết
+        [HttpGet("pagingallfollow")]
+        public async Task<IActionResult> GetAllFollowPostPaging([FromQuery] GetUserPagingRequest request)
+        {
+
+            var products = await _postService.GetPostFollowPaging(request);
+            return Ok(products);
+        }
+        // Lấy tất cả bài viết - Admin
+        [HttpGet("pagingalladmin")]
+        [AllowAnonymous]
+        public async Task<IActionResult> GetAllPostPagingAdmin([FromQuery] GetUserPagingRequest request)
+        {
+
+            var products = await _postService.GetPostPagingAdmin(request);
             return Ok(products);
         }
 
@@ -53,7 +71,7 @@ namespace BaseProject.BackendApi.Controllers
             {
                 return Ok();
             }
-          
+
             return BadRequest();
 
         }
@@ -66,7 +84,7 @@ namespace BaseProject.BackendApi.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            
+
             var result = await _postService.CreateOrUpdate(request);
             if (!result.IsSuccessed)
             {
@@ -89,6 +107,17 @@ namespace BaseProject.BackendApi.Controllers
             }
 
             return BadRequest();
+        }
+        [HttpPost("enable")]
+        public async Task<IActionResult> Enable(PostEnable request)
+        {
+            var result = await _postService.Enable(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+
         }
 
 

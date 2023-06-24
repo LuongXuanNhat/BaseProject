@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.System.Users;
+using BaseProject.Data.Entities;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -67,6 +68,49 @@ namespace BaseProject.BackendApi.Controllers
             return Ok(result);
         }
 
+        [HttpPost("follow")]
+        public async Task<IActionResult> Follow([FromBody] FollowViewModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.AddFollow(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("unfollow")]
+        public async Task<IActionResult> UnFollow([FromBody] FollowViewModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.UnFollow(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
+        [HttpPost("checkfollow")]
+        [AllowAnonymous]
+        public async Task<IActionResult> CheckFollow([FromBody] FollowViewModel request)
+        {
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await _userService.CheckFollow(request);
+            if (!result.IsSuccessed)
+            {
+                return BadRequest(result);
+            }
+            return Ok(result);
+        }
+
         //PUT: http://localhost/api/users/id
         [HttpPut("{id}")]
         [Consumes("multipart/form-data")]
@@ -104,6 +148,14 @@ namespace BaseProject.BackendApi.Controllers
             var products = await _userService.GetUsersPaging(request);
             return Ok(products);
         }
+
+        [HttpGet("pagingFollowers")]
+        public async Task<IActionResult> GetAllFollowersPaging([FromQuery] GetUserPagingRequest request)
+        {
+            var products = await _userService.GetFollowersPaging(request);
+            return Ok(products);
+        }
+
 
         [HttpGet("{id}")]
         public async Task<IActionResult> GetById(Guid id)

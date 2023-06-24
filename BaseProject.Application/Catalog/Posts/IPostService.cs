@@ -25,8 +25,11 @@ namespace BaseProject.Application.Catalog.Posts
         Task<string> Delete(int postId);
         Task<ApiResult<bool>> GetList(int userId);
         Task<ApiResult<bool>> Like(AddSaveVm request);
+        Task<ApiResult<bool>> Enable(PostEnable request);
 
         Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostFollowPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetPostPagingAdmin(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetPostPagingUser(GetUserPagingRequest request);
 
         Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int postId);

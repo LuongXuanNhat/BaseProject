@@ -210,6 +210,37 @@ namespace BaseProject.ApiIntegration.Post
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
             return users;
         }
+        
+        public async Task<ApiResult<PagedResult<PostVm>>> GetAllFollowPostPagings(GetUserPagingRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/post/pagingallfollow?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}&UserName={request.UserName}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+            return users;
+        }
+        public async Task<ApiResult<PagedResult<PostVm>>> GetAllPostPagingsAdmin(GetUserPagingRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/post/pagingalladmin?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}&UserName={request.UserName}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+            return users;
+        }
 
         public async Task<List<PostVm>> TakeTopByQuantity(int quantity)
         {
@@ -250,6 +281,21 @@ namespace BaseProject.ApiIntegration.Post
             throw new NotImplementedException();
         }
 
-        
+        public async Task<ApiResult<bool>> StatusChange(PostEnable postEnable)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var json = JsonConvert.SerializeObject(postEnable);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+            var response = await client.PostAsync($"/api/post/enable", httpContent);
+            var body = await response.Content.ReadAsStringAsync();
+            if (!response.IsSuccessStatusCode)
+            {
+                return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+            }
+            return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+        }
     }
 }

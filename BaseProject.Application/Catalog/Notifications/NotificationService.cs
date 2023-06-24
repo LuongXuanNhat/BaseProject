@@ -4,6 +4,7 @@ using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -16,18 +17,56 @@ namespace BaseProject.Application.Catalog.Notifications
     public class NotificationService : INotificationService
     {
         private readonly DataContext _context;
-        private readonly IUserService _userService;
 
 
-        public NotificationService(DataContext context, IUserService userService)
+        public NotificationService(DataContext context)
         {
             _context = context;
-            _userService = userService;
         }
 
+        public async Task<bool> AddNotificationDetail(Guid User, int Id, string content)
+        {
+            // Kiểm tra trùng lặp trong 1 ngày của user nhận thông báo
+            var check = await _context.NoticeDetails
+                .Where(x=>x.UserId == User && x.Content.Equals(content) && x.Date.Date == DateTime.Now.Date)
+                .FirstOrDefaultAsync();
+            if (check == null)
+            {
+                // Thêm thông báo
+                var Noti = await _context.Notifications.Where(x => x.NotificationId == Id).FirstOrDefaultAsync();
+                NoticeDetail noticeDetail = new NoticeDetail()
+                {
+                    UserId = User,
+                    Date = DateTime.Now,
+                    Content = content,
+                    NotificationId = Id,
+                    Notification = Noti
+                };
+
+                _context.NoticeDetails.Add(noticeDetail);
+                await _context.SaveChangesAsync();
+
+                
+                return true;
+            }
+            return false;
+
+            
+        }
+        public async Task<ApiResult<bool>> DeleteNotification(string usename)
+        {
+            var UserId = await GetIdByUserName(usename);
+
+            var query = await _context.NoticeDetails.Where(x => x.UserId == UserId).ToListAsync();
+
+
+            _context.NoticeDetails.RemoveRange(query);
+            await _context.SaveChangesAsync();
+            return new ApiSuccessResult<bool>();
+        }
         public async Task<ApiResult<List<NoticeDetail>>> GetAll(string userName)
         {
-            var userId = await _userService.GetIdByUserName(userName);
+            var userId = await GetIdByUserName(userName);
             var cate = await _context.NoticeDetails.OrderByDescending(x=>x.Id).Where(x=>x.UserId == userId).ToListAsync();
             foreach (var notice in cate)
             {
@@ -41,7 +80,7 @@ namespace BaseProject.Application.Catalog.Notifications
         // Thông báo của User
         public async Task<ApiResult<PagedResult<NoticeDetail>>> GetNotificationPaging(GetUserPagingRequest request)
         {
-            var userId = await _userService.GetIdByUserName(request.Keyword);
+            var userId = await GetIdByUserName(request.Keyword);
             var query = await _context.NoticeDetails.OrderByDescending(x => x.Id).Where(x=>x.UserId == userId).ToListAsync();
             foreach (var notice in query)
             {
@@ -67,6 +106,13 @@ namespace BaseProject.Application.Catalog.Notifications
                 Items = data
             };
             return new ApiSuccessResult<PagedResult<NoticeDetail>>(pagedResult);
+        }
+
+        // Lấy ID từ UserName
+        public async Task<Guid> GetIdByUserName(string username)
+        {
+            var user = await _context.Users.Where(x=>x.UserName == username).FirstOrDefaultAsync();
+            return user.Id;
         }
     }
 }

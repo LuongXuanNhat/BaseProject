@@ -17,10 +17,13 @@ namespace BaseProject.ApiIntegration.Post
     {
         Task<ApiResult<PagedResult<PostVm>>> GetUsersPagings(GetUserPagingRequest request);
         Task<ApiResult<PagedResult<PostVm>>> GetAllPostPagings(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetAllFollowPostPagings(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<PostVm>>> GetAllPostPagingsAdmin(GetUserPagingRequest request);
         Task<ApiResult<bool>> CreateOrUpdatePost(PostCreateRequest request);
         Task<ApiResult<bool>> Check(AddSaveVm request);
         Task<ApiResult<bool>> UpdatePost(int idPost, PostCreateRequest request);
         Task<ApiResult<bool>> DeletePost(int idPost);
+        Task<ApiResult<bool>> StatusChange(PostEnable postEnable);
 
         Task<ApiResult<PostCreateRequest>> GetById(int id);
         Task<ApiResult<PostCreateRequest>> GetByIdAdmin(int id);

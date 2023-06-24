@@ -1,7 +1,7 @@
 ﻿@model BaseProject.ViewModels.Catalog.Location.LocationDetailRequest
 
 @{
-    ViewData["Title"] = "Detail";
+    ViewData["Title"] = "Xem địa điểm";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 <link href="~/css/places_style.css" rel="stylesheet" />
@@ -85,10 +85,13 @@
         </div>
         <hr />
         <div>
+
             <ul class="row">
+                
                 @if (Model.PagedPostResult != null)
                 {
                     @await Html.PartialAsync("_PagedPostResult", Model.PagedPostResult)
+
                 }
                 
             </ul>

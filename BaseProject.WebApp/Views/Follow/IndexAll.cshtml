@@ -1,0 +1,213 @@
+﻿@using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.Catalog.Post;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
+@{
+    ViewData["Title"] = "Bài viết theo dõi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link href="~/css/places_style.css" rel="stylesheet" />
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+
+
+<!DOCTYPE html>
+<html style="font-size: 16px;" lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8">
+    <meta name="keywords" content="​Book your outdoor adventure, About Us, ​Find your next getaway, Our Services, ​Plan Your Camping Trip, ​How to plan a camping trip, Contact Us">
+    <meta name="description" content="">
+    <title>ListPost</title>
+
+    <link href="~/css/nicepage.css" rel="stylesheet" />
+    <link href="~/css/listpost.css" rel="stylesheet" />
+    <script src="~/js/jquery.js"></script>
+    <script src="~/js/nicepage.js"></script>
+
+    <meta name="generator" content="Nicepage 5.9.10, nicepage.com">
+
+    <meta name="referrer" content="origin">
+    <link id="u-theme-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i|Open+Sans:300,300i,400,400i,500,500i,600,600i,700,700i,800,800i">
+    <link id="u-page-google-font" rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i">
+
+    <meta name="theme-color" content="#478ac9">
+    <meta property="og:title" content="ListPost">
+    <meta property="og:type" content="website">
+    <meta data-intl-tel-input-cdn-path="intlTelInput/">
+</head>
+<body class="u-body u-xl-mode" data-lang="en">
+
+    <section class="u-clearfix u-section-10" id="sec-9e76">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                <div class="u-container-layout u-container-layout-1">
+                    <form asp-action="IndexAll" method="get" class="u-border-1 u-border-grey-30 u-radius-21 u-search u-search-left u-white u-search-1">
+                        <button class="u-search-button" type="submit">
+                            <span class="u-search-icon u-spacing-10 u-search-icon-1">
+                                <svg class="u-svg-link" preserveAspectRatio="xMidYMin slice" viewBox="0 0 56.966 56.966"><use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#svg-a3b5"></use></svg>
+                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="svg-a3b5" x="0px" y="0px" viewBox="0 0 56.966 56.966" style="enable-background:new 0 0 56.966 56.966;" xml:space="preserve" class="u-svg-content"><path d="M55.146,51.887L41.588,37.786c3.486-4.144,5.396-9.358,5.396-14.786c0-12.682-10.318-23-23-23s-23,10.318-23,23  s10.318,23,23,23c4.761,0,9.298-1.436,13.177-4.162l13.661,14.208c0.571,0.593,1.339,0.92,2.162,0.92  c0.779,0,1.518-0.297,2.079-0.837C56.255,54.982,56.293,53.08,55.146,51.887z M23.984,6c9.374,0,17,7.626,17,17s-7.626,17-17,17  s-17-7.626-17-17S14.61,6,23.984,6z"></path></svg>
+                            </span>
+                        </button>
+                        <input class="u-search-input u-search-input-1" type="search" value="@ViewBag.Keyword" name="keyword" placeholder="Tìm kiếm bài đánh giá">
+                        <div class="cold-md-3 user-search-btn" style="width: unset; padding-left:8px; ">
+                            <button title="Tìm" type="submit" class="btn btn-primary">
+                                @*<i class="fa-solid fa-magnifying-glass"></i>*@
+                            </button>
+
+                        </div>
+                        <a asp-controller="Follow" asp-action="IndexAll" title="Tải lại danh sách" class="" style="margin-top: 4px;margin-right: 10px;">
+                            <i class="fa-solid fa-arrow-rotate-right"></i>
+                        </a>
+                    </form>
+
+                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2 hidden-category">
+                        Chọn danh mục&nbsp;&nbsp;<span class="u-file-icon u-icon"><img src="images/60781.png" alt=""></span>
+                    </a>
+
+
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="skrollable skrollable-between u-align-center u-clearfix u-container-align-center-md u-container-align-center-sm u-container-align-center-xs u-section-1" src="" id="sec-804d">
+        <div class="u-clearfix u-sheet u-sheet-1">
+            <div class="u-clearfix u-expanded-width u-layout-wrap u-layout-wrap-1">
+                <div class="u-layout">
+                    <div class="">
+                        <div class="u-container-style u-layout-cell u-size-40 u-layout-cell-1">
+                            <div class="u-container-layout u-valign-top u-container-layout-1">
+                                <div class="u-container-style u-group u-shape-rectangle u-group-1">
+                                    <div class="u-container-layout u-container-layout-2">
+                                        @*list post ở đây*@
+                                        @foreach (var item in Model.Items)
+                                        {
+                                            <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
+                                                <div class="u-container-layout u-container-layout-3">
+                                                    <a href="@Url.Action("Details","Posts", new { id = item.PostId })" style="color: #1B78B3">
+                                                        <div class="u-container-style u-group u-shape-rectangle ">
+                                                            <div class="u-image-1" width="1280" height="853" src="" alt="">
+                                                                <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
+                                                            </div>
+
+                                                        </div>
+                                                        <div style="text-decoration:none;" class="title-min">
+                                                            <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                                        </div>
+                                                        <p class="u-text u-text-2">
+                                                            <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
+                                                            @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
+                                                            <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
+                                                            @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
+                                                            <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
+                                                            &nbsp;  @if (item.Categories != null)
+                                                            {
+                                                                <span>@item.Categories.Count</span>
+                                                            }
+                                                            @if (item.UserName != null)
+                                                            {
+                                                                <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" title="Xem trang cá nhân" style="float: right;">Viết bởi <strong>@item.UserName</strong></a>
+                                                            }
+
+                                                        </p>
+                                                        <div class="u-text u-text-3 limited-lines-2">
+                                                            @Html.Raw(@item.Content)
+                                                        </div>
+                                                    </a>
+
+                                                </div>
+                                            </div>
+
+                                            <script>
+                                                var danhSach = @Html.Raw(Json.Serialize(item.Categories));
+                                                var spanElement = document.getElementById("cate_@item.PostId");
+
+                                                if (spanElement && danhSach !== null) {
+                                                    spanElement.title = danhSach.join("\n");
+                                                }
+                                            </script>
+                                        }
+                                    </div>
+                                </div>
+
+                                <div class="u-container-style u-group u-shape-rectangle u-group-4">
+                                    <p class="u-text u-text-default u-text-4">
+
+                                        @await Component.InvokeAsync("Pager", Model)
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+
+
+
+</body>
+</html>
+
+@section Scripts{
+    <script>
+        setTimeout(function () {
+            $('#msgAlert').fadeOut('slow');
+        }, 2000);
+    </script>
+
+    <!-- Gọi mã javascript để hiển thị modal và xóa bài đăng -->
+    <script>
+        var token = '@Html.Raw(ViewBag.Token)';
+        var a = @Model.Items.Count;
+
+
+        function showDeleteModal(id) {
+            $('#deleteModal').modal('show');
+            $('#deleteButton').attr('data-id', id);
+
+        }
+
+
+        $('#deleteButton').click(function () {
+            var id = $(this).attr('data-id');
+
+            $.ajax({
+                url: 'https://localhost:7204/api/post/' + id,
+                type: 'DELETE',
+                headers: { Authorization: 'Bearer ' + token },
+                success: function (data) {
+                    $('#deleteModal').modal('hide');
+                    alert('Xóa thành công');
+                    loadPosts();
+
+                },
+                error: function () {
+                    alert('Có lỗi xảy ra khi xóa');
+                }
+            });
+        });
+        var LoadPage = window.location;
+        function loadPosts() {
+            LoadPage.reload(true);
+        }
+
+        function cancel() {
+            $('#deleteModal').modal('hide');
+        }
+    </script>
+
+
+}
+

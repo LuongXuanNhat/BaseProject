@@ -1683,7 +1683,7 @@ namespace BaseProject.Data.EF
                 new Notification
                 {
                    NotificationId = 2,
-                   Title = "Tương tác",
+                   Title = "Thông báo tương tác",
                    Date = new DateTime(2023, 6, 12, 3, 4, 44, 986, DateTimeKind.Local).AddTicks(7879)
                 }
 

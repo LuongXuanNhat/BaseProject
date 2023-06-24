@@ -3,7 +3,7 @@
 @using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
 @{
-    ViewData["Title"] = "Đánh giá của tôi";
+    ViewData["Title"] = "Bài viết";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 @{
@@ -74,7 +74,7 @@
                         </a>
                     </form>
                     
-                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2">
+                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2 hidden-category">
                             Chọn danh mục&nbsp;&nbsp;<span class="u-file-icon u-icon"><img src="images/60781.png" alt=""></span>
                     </a>
                     
@@ -96,37 +96,39 @@
                                         @*list post ở đây*@
                                         @foreach (var item in Model.Items)
                                         {
-                                            <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
-                                                <div class="u-container-layout u-container-layout-3">
-                                                    <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
-                                                        <div class="u-container-style u-group u-shape-rectangle ">
-                                                            <div class="u-image-1" width="1280" height="853" src="" alt="">
-                                                                <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
-                                                            </div>
+                                                <div class="u-container-style u-expanded-width u-group u-shape-rectangle u-group-2">
+                                                    <div class="u-container-layout u-container-layout-3">
+                                                        <a href="@Url.Action("Details", new { id = item.PostId })" style="color: #1B78B3">
+                                                            <div class="u-container-style u-group u-shape-rectangle ">
+                                                                <div class="u-image-1" width="1280" height="853" src="" alt="">
+                                                                    <i class="fa-solid fa-blog fa-2xl" style="color: #E82385;"></i>
+                                                                </div>
 
-                                                        </div>
-                                                        <div style="text-decoration:none;" >
-                                                            <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
-                                                        </div>
-                                                        <p class="u-text u-text-2">
-                                                            <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
-                                                            @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
-                                                            <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
-                                                            @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
-                                                            <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
-                                                            &nbsp;  @if (item.Categories != null)
-                                                            {
-                                                                <span>@item.Categories.Count</span>
-                                                            }
-                                                                
-                                                        </p>
-                                                        <div class="u-text u-text-3 limited-lines-2">
-                                                            @Html.Raw(@item.Content)
-                                                        </div>
-                                                    </a>
-                                                    
+                                                            </div>
+                                                            <div style="text-decoration:none;" class="title-min">
+                                                                <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
+                                                            </div>
+                                                            <p class="u-text u-text-2">
+                                                                <span class="u-file-icon u-icon u-icon-1"><img src="~/images/icon/date.png" alt=""></span>&nbsp;@Html.DisplayFor(modelItem => item.Date)&nbsp;
+                                                                @*<span class="u-file-icon u-icon u-icon-2"><img src="~/images/icon/like.png" alt=""></span>&nbsp;like &nbsp;*@
+                                                                <span class="u-file-icon u-icon u-icon-3" title="Lượt xem"><i class="fa-regular fa-eye"></i></span>&nbsp;@Html.DisplayFor(modelItem => item.View) &nbsp;
+                                                                @*<span class="u-file-icon u-icon u-icon-4"><img src="~/images/icon/comment.png" alt=""></span>&nbsp;comment &nbsp;*@
+                                                                <span class="u-file-icon u-icon u-icon-5" id="cate_@item.PostId" title=""><i class="fa-solid fa-tags"></i></span>
+                                                                &nbsp;  @if (item.Categories != null)
+                                                                {
+                                                                    <span>@item.Categories.Count</span>
+                                                                }
+
+                                                                <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" title="Xem trang cá nhân" style="float: right;">Viết bởi <strong>@item.UserName</strong></a>
+
+                                                            </p>
+                                                            <div class="u-text u-text-3 limited-lines-2">
+                                                                @Html.Raw(@item.Content)
+                                                            </div>
+                                                        </a>
+
+                                                    </div>
                                                 </div>
-                                            </div>
 
                                             <script>
                                                 var danhSach = @Html.Raw(Json.Serialize(item.Categories));

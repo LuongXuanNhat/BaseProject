@@ -9,7 +9,16 @@
     --header-heigh: 120px;
     --header-with-search-height: calc(var(--header-heigh) - var(--navbar-heigh) );
 }
-
+.icon-notification {
+    position: relative;
+    top: -8px;
+    font-size: 12px;
+    font-family: Mulish;
+    color: white;
+    background-color: orangered;
+    border-radius: 50%;
+    padding: 0px 4px;
+}
 
 html {
   font-size: 14px;
@@ -134,8 +143,11 @@ h6::before {
     -webkit-line-clamp: 4; /* Số dòng tối đa */
     -webkit-box-orient: vertical;
 }
+.index-menu-item:hover {
+    background: #ffdcbc !important;
+}
 .limited-lines-2 {
-    max-height: 2.8rem; 
+    max-height: 5.8rem;
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 4;
@@ -207,6 +219,8 @@ h6::before {
     margin: 0 4px;
 }
 .header__notify {
+    max-height: 400px;
+    overflow: auto;
     z-index: 4;
     position: absolute;
     border-radius: 3px;

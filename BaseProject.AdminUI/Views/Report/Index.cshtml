@@ -232,14 +232,14 @@
                 contentType: 'application/json',
                 success: function (response) {
                     // Xử lý phản hồi từ server (nếu cần)
-                    alert("Gửi báo cáo thành công");
+                    alert("Gửi phản hồi thành công");
                     // Đóng modal
                     $('#ratingModal').modal('hide');
                     window.location.reload(true);
                 },
                 error: function (xhr, textStatus, errorThrown) {
                     // Xử lý lỗi (nếu có)
-                    alert("Gửi báo cáo thất bại");
+                    alert("Gửi phản hồi thất bại");
                     console.log(errorThrown);
                 }
             });

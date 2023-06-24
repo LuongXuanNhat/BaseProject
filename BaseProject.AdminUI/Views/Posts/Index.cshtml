@@ -1,7 +1,7 @@
 ﻿@using BaseProject.ViewModels.Common;
 @model PagedResult<BaseProject.ViewModels.Catalog.Post.PostVm>
 @{
-    ViewData["Title"] = "Danh mục địa điểm";
+    ViewData["Title"] = "Danh mục bài viết";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
@@ -26,6 +26,10 @@
     <li class="breadcrumb-item"><a href="/">Trang chủ</a></li>
     <li class="breadcrumb-item active">Danh sách địa điểm</li>
 </ol>
+
+
+
+
 <div class="card mb-12">
     <div class="card-header">
         <div class="row">
@@ -126,15 +130,142 @@
                         </td>
                         <td class="col-1" style="padding: 8px 4px;">
                             <a title="Đọc bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Details", new { id=item.PostId })"><i class="fa-solid fa-wand-magic-sparkles" style="color: darkblue"></i></a>
-                            <a title="Khóa bài viết" style="background-color: lightskyblue; height: 40px;" href="@Url.Action("Delete", new { id=item.PostId })"><i class="fa-solid fa-unlock-keyhole" style="color: darkblue"></i></a>
+                            <button class="modal-button" title="Kiểm tra trạng thái" style="background-color: lightskyblue; height: 40px;" data-target="#modal-@item.PostId" data-id="@item.PostId" data-check-id="@item.checkLock"><i class="fa-solid fa-unlock-keyhole" style="color: darkblue"></i></button>
                         </td>
+
+                        @*Modal Enable*@
+                        
+
                     </tr>
+                    <div class="modal fade" id="modal-@item.PostId" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="ratingModalLabel" style="text-align:center;">Trạng thái bài viết : </h5>
+
+                                    <button type="button" class="close" style="background: none;color: red; border-radius: 50%; border: 1px solid red; width: 30px;" data-dismiss="modal" aria-label="Đóng">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div style="font-size: 12px; text-align: center; padding-top: 8px;">
+                                    <span id="modalAddressContent"></span>
+                                </div>
+                                <div class="modal-body" style="font-size: 16px;">
+                                    @if ((int)item.checkLock == 1)
+                                    {
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1" value="1" disabled >
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Khóa
+                                            </label>
+                                        </div>
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="0">
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Mở khóa
+                                            </label>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input " type="radio" name="exampleRadios" id="exampleRadios1" value="1">
+                                            <label class="form-check-label" for="exampleRadios1">
+                                                Khóa
+                                            </label>
+                                        </div>
+                                        <div class="form-check" style="margin: 4px 0px;">
+                                            <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="0"  disabled>
+                                            <label class="form-check-label" for="exampleRadios2">
+                                                Mở khóa
+                                            </label>
+                                        </div>
+                                    }
+
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-primary" id="Submit" data-post-id="" data-lock-id="">Lưu thay đổi</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal" >Hủy</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 }
             <td style="border-bottom: 2px solid #e9ecef; position: relative; top: -18px;"></td>
 
             </tbody>
+            <script>
+                $(document).ready(function () {
+                    $('.modal-footer button').click(function () {
+                        var selectedValue = $('input[name="exampleRadios"]:checked').val();
+                        var postId = $(this).data('post-id');
+                        var lockId = $(this).data('lock-id');
+
+
+                        if ($(this).hasClass('btn-secondary')) {
+                            // Nút "Hủy" được nhấn, không gửi dữ liệu
+                            $('#modal-' + postId).modal('hide');
+                        } else {
+                        var sendData;
+                        sendData = {
+                            IdPost: postId,
+                            Number: selectedValue
+                        };
+                        console.log(sendData);
+                        $.ajax({
+                            type: 'POST',
+                            url: '/Posts/StatusChange',
+                            data: JSON.stringify(sendData),
+                            contentType: 'application/json',
+                            success: function (response) {
+                                alert("Cập nhập thành công");
+                                $('#modal-' + postId).modal('hide');
+                                window.location.reload(true);
+                            },
+                            error: function (xhr, textStatus, errorThrown) {
+                                alert("Cập nhập thất bại");
+                                console.log(errorThrown);
+                            }
+                        });
+                        }
+                    });
+                });
+                
+            </script>
+            <script>
+                var ratingButtons = document.querySelectorAll('button.modal-button');
+                ratingButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var targetModalId = button.getAttribute('data-target');
+                        var modal = document.querySelector(targetModalId);
+
+                        // Lấy giá trị data-id từ button
+                        var id = button.getAttribute('data-id');
+                        var idLock = button.getAttribute('data-check-id');
+
+                        var submitButton = modal.querySelector('#Submit');
+
+                        // Lưu giá trị data-id vào nút Submit trong modal
+                        submitButton.setAttribute('data-post-id', id);
+                        submitButton.setAttribute('data-lock-id', idLock);
+
+                        $(modal).modal('show');
+                    });
+                });
+
+                // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
+                var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
+                closeModalButtons.forEach(function (button) {
+                    button.addEventListener('click', function () {
+                        var modal = button.closest('.modal');
+                        $(modal).modal('hide');
+                    });
+                });
+            </script>
+            
         </table>
         @await Component.InvokeAsync("Pager", Model)
     </div>
 </div>
+
 

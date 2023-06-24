@@ -365,13 +365,13 @@ namespace BaseProject.Application.Catalog.Locations
                 posts.Add(reponse);
                 
             }
-            posts = posts.OrderByDescending(x => x.PostId).ToList();
+            posts = posts.OrderByDescending(x => x.PostId).Where(x=> x.Check == 0).ToList();
             // Lấy postDetail
             PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
             list.Items = new List<PostDetailRequest>();
             foreach (Post post in posts)
             {
-                var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId).ToListAsync();
+                var postDetails = await _context.LocationsDetails.Where(x=>x.PostId == post.PostId ).ToListAsync();
                 
                 // Lấy 1post - 1postDetail
                     PostDetailRequest postDetailRequest = new PostDetailRequest();
@@ -389,11 +389,13 @@ namespace BaseProject.Application.Catalog.Locations
                     var shareCount = await _context.Shares.Where(x => x.PostId == post.PostId).CountAsync();
                     var saveCount = await _context.Saveds.Where(x => x.PostId == post.PostId).CountAsync();
                     var commentCount = await _context.Comments.Where(x => x.PostId == post.PostId).CountAsync();
+                    var likeCount = await _context.Likes.Where(x => x.PostId == post.PostId).CountAsync();
              //       var ratingStar = await _context.RatingLocations.ToListAsync();
 
                     postDetailRequest.ShareCount = shareCount;
                     postDetailRequest.SaveCount = saveCount;
                     postDetailRequest.CommentCount = commentCount;
+                    postDetailRequest.LikeCount = likeCount;
 
                     try
                     {

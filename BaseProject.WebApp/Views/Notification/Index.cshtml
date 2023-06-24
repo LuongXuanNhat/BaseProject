@@ -5,12 +5,13 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
     setTimeout(function () {
         $('#msgAlert').fadeOut('slow');
     }, 2000);
 </script>
-
 
 <div class="row">
     @if (ViewBag.SuccessMsg != null)
@@ -20,7 +21,23 @@
         </div>
     }
 </div>
-
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="post-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="post-modal-label">Xóa lịch sử thông báo</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn xóa tất cả thông báo không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancel()">Hủy</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
 <div class="card mb-12">
    
 
@@ -34,7 +51,15 @@
                     <th>
                         Nội dung
                     </th>
-                    <th class="col-2"></th>
+                    <th class="col-2">
+                        Thời gian
+                    </th>
+                        @if (Model != null && Model.Items.Count != 0)
+                        {
+                            <div style="display: inline">
+                            <button class="btn btn-danger" onclick="showDeleteModal()" title="Xóa tất cả thông báo" style="position: absolute; right: 14px;"> <i class="fa-solid fa-trash-can"></i> </button>
+                            </div>
+                        }
                 </tr>
             </thead>
             @{
@@ -49,12 +74,19 @@
                         </td>
                         <td>
                             <div  style="cursor: pointer">
-                                <span style="color: mediumseagreen">@item.Notification.Title</span>
+                                @if (@item.NotificationId == 2)
+                                {
+                                    <span style="color: #9e21b8;">@item.Notification.Title</span>
+                                } else
+                                {
+                                    <span style="color: mediumseagreen">@item.Notification.Title</span>
+                                }
+                                
                                 @Html.DisplayFor(modelItem => item.Content)
                             </div>
                         </td>
                         <td>
-
+                            @item.Date.ToString("HH:mm , dd/MM/yyyy")
                         </td>
                     </tr>
                 }
@@ -63,125 +95,45 @@
         @await Component.InvokeAsync("Pager", Model)
     </div>
 </div>
+
+
 <script>
+    var token = '@Html.Raw(ViewBag.Token)';
+    var name = '@ViewBag.Name';
 
 
-    // Lấy tất cả các nút "Đánh giá" và gắn sự kiện click
-    var ratingButtons = document.querySelectorAll('button[data-toggle="modal"][data-target="#ratingModal"]');
-    ratingButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var targetModalId = button.getAttribute('data-target');
-            var modal = document.querySelector(targetModalId);
+    function showDeleteModal() {
+        $('#deleteModal').modal('show');
+        $('#deleteButton').attr('data-id');
 
-            // Lấy giá trị data-name từ button
-            var locationName = button.getAttribute('data-name');
-            // Lấy giá trị data-adress từ button
-            var locationAddress = button.getAttribute('data-address');
-            // Lấy giá trị data-id từ button
-            var id = button.getAttribute('data-id');
-
-            // Hiển thị giá trị data-name trong modal
-            modalContent.textContent = locationName;
-            modalAddressContent.textContent = locationAddress;
-
-            // Lưu giá trị data-id vào nút Submit trong modal
-            submitButton.setAttribute('data-id', id);
-
-            $(modal).modal('show');
-        });
-    });
-
-    // Ẩn modal khi nhấp vào nút "Close" hoặc click bên ngoài modal
-    var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
-    closeModalButtons.forEach(function (button) {
-        button.addEventListener('click', function () {
-            var modal = button.closest('.modal');
-            $(modal).modal('hide');
-        });
-    });
-
-    // Lấy tất cả các ngôi sao trong modal
-    var starSpans = document.querySelectorAll('#ratingModal .star');
-    var ratingValue = 0; // Biến lưu giá trị rating
-
-    // Gắn sự kiện click vào mỗi ngôi sao
-    starSpans.forEach(function (star) {
-        star.addEventListener('click', function () {
-            // Đặt lại trạng thái của tất cả ngôi sao
-            starSpans.forEach(function (s) {
-                s.classList.remove('active'); // Loại bỏ lớp active
-                s.classList.remove('getValue'); // Loại bỏ lớp active
-            });
-
-            // Đặt lại giá trị rating
-            ratingValue = parseInt(star.getAttribute('data-value'));
-
-            // Đặt trạng thái cho các ngôi sao được chọn
-            for (var i = 0; i < ratingValue; i++) {
-                starSpans[i].classList.add('active'); // Thêm lớp active
-                if (i == ratingValue - 1) {
-                    starSpans[i].classList.add('getValue');
-                    console.log(i);
-                }
-            }
+    }
 
 
-        });
-    });
-
-    // Sự kiện click nút Submit
-    var submitButton = document.querySelector('#ratingSubmit');
-    var selectedRating = null;
-
-    submitButton.addEventListener('click', function () {
-        // Lấy giá trị số sao rating
-        var selectedRating = document.querySelector('#ratingModal .star.active.getValue:last-child');
-        var ratingValue = selectedRating ? parseInt(selectedRating.getAttribute('data-value')) : 0;
-
-        // Lấy giá trị data-id từ button
-        var id = parseInt(this.getAttribute('data-id'));
-
-        // Tạo object chứa dữ liệu để gửi đi
-        var data = {
-            rating: ratingValue,
-            id: id
-        };
-
-
-
-        var token = '@Html.Raw(ViewBag.Token)';
-        // Thực hiện AJAX request
-        // Thay đổi đường dẫn '/your-controller/action' thành đường dẫn tương ứng của controller và action trong ứng dụng của bạn
-
+    $('#deleteButton').click(function () {
         $.ajax({
-            url: 'https://localhost:7204/api/rating?rating=' + ratingValue + '&id=' + id,
-            type: 'POST', // Thay đổi phương thức POST thành phương thức tương ứng với yêu cầu của bạn
+            url: 'https://localhost:7204/api/notifications/' + name,
+            type: 'DELETE',
             headers: { Authorization: 'Bearer ' + token },
-            data: data,
-            success: function (response) {
-                // Xử lý thành công
-                var closeModalButtons = document.querySelectorAll('[data-dismiss="modal"]');
-                closeModalButtons.forEach(function (button) {
-                    button.addEventListener('click', function () {
-                        var modal = button.closest('.modal');
-                        $(modal).modal('hide');
-                    });
-                });
-                //alert('Đánh giá thành công');
+            success: function (data) {
+                $('#deleteModal').modal('hide');
                 loadPosts();
+
             },
             error: function () {
-                // Xử lý lỗi
-                alert('Có lỗi xảy ra khi đánh giá');
+                Swal.fire({
+                    title: 'Xảy ra lỗi khi xóa!',
+                    icon: 'error'
+                });
             }
         });
-
-        var LoadPage = window.location;
-        function loadPosts() {
-            LoadPage.reload(true);
-        }
-
-
     });
+    var LoadPage = window.location;
+    function loadPosts() {
+        LoadPage.reload(true);
+    }
+
+    function cancel() {
+        $('#deleteModal').modal('hide');
+    }
 
 </script>

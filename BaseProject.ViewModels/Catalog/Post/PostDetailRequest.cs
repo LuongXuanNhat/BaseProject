@@ -19,6 +19,8 @@ namespace BaseProject.ViewModels.Catalog.Post
         public Guid UserId { get; set; }
         public int postDetailId { get; set; }
 
+        public int checkLock { get; set; }
+
         [Required(ErrorMessage = "Tên địa điểm không được để trống")]
         [Display(Name = "Tên địa điểm")]
         public string Title { get; set; }

@@ -159,6 +159,23 @@ namespace BaseProject.WebApp.Controllers
         {
             if (UserName != null)
             {
+                if (User.Identity.Name != null)
+                {
+                    if (!UserName.Equals(User.Identity.Name))
+                    {
+                        FollowViewModel followViewModel = new FollowViewModel()
+                        {
+                            FolloweeName = User.Identity.Name,
+                            FollowerName = UserName
+                        };
+                        var resultt = await _userApiClient.CheckFollow(followViewModel);
+
+                        if (resultt.IsSuccessed)
+                        {
+                            ViewBag.Follow = 1;
+                        } else ViewBag.Follow = 0;
+                    }
+                }
                 var result = await _userApiClient.GetByUserName(UserName);
                 if (TempData["result"] != null)
                 {

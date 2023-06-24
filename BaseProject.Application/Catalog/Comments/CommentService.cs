@@ -1,4 +1,5 @@
-﻿using BaseProject.Application.Common;
+﻿using BaseProject.Application.Catalog.Notifications;
+using BaseProject.Application.Common;
 using BaseProject.Application.System.Users;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
@@ -19,11 +20,13 @@ namespace BaseProject.Application.Catalog.Comments
         private readonly DataContext _context;
         private readonly IStorageService _storageService;
         private readonly IUserService _userService;
+        private readonly INotificationService _notificationService;
 
-        public CommentService(DataContext context, IUserService userService)
+        public CommentService(DataContext context, IUserService userService, INotificationService notificationService)
         {
             _context = context;
             _userService = userService;
+            _notificationService = notificationService;
         }
         public async Task<ApiResult<bool>> Create(CommentCreateRequest request)
         {
@@ -38,6 +41,10 @@ namespace BaseProject.Application.Catalog.Comments
 
             _context.Comments.Add(comment);
             await _context.SaveChangesAsync();
+
+            var post = await _context.Posts.Where(x=>x.PostId == request.PostId).FirstOrDefaultAsync();
+            var content = request.UserName + " vừa bình luận bài viết '" + post.Title + "' của bạn lúc " + DateTime.Now.ToString("HH:mm, dd/MM/yyyy");
+            await _notificationService.AddNotificationDetail(post.UserId, 2, content);
 
             return new ApiSuccessResult<bool>();
         }

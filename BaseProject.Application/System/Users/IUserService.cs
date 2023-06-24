@@ -21,11 +21,11 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<bool>> Update(Guid id, UserUpdateRequest request);
 
         Task<ApiResult<PagedResult<UserVm>>> GetUsersPaging(GetUserPagingRequest request);
+        Task<ApiResult<PagedResult<FollowerVm>>> GetFollowersPaging(GetUserPagingRequest request);
 
         Task<ApiResult<UserVm>> GetById(Guid id);
         
         Task<List<UserVm>> TakeByQuantity(int quantity);
-
 
         Task<ApiResult<UserVm>> GetByUserName(string username);
 
@@ -38,6 +38,8 @@ namespace BaseProject.Application.System.Users
         Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request);
 
 
-
+        Task<ApiResult<bool>> AddFollow(FollowViewModel request);
+        Task<ApiResult<bool>> CheckFollow(FollowViewModel request);
+        Task<ApiResult<bool>> UnFollow(FollowViewModel request);
     }
 }
