@@ -21,6 +21,8 @@ namespace BaseProject.WebApp.Controllers
 
         public async Task<IActionResult> Index(int pageIndex = 1, int pageSize = 10)
         {
+            ViewBag.Token = _baseApiClient.GetToken();
+            ViewBag.Name = User.Identity.Name;
             var request = new GetUserPagingRequest()
             {
                 Keyword = User.Identity.Name,

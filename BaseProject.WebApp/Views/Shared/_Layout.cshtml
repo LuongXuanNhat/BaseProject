@@ -96,9 +96,9 @@
                                     <i class="header_navbar-icon fa-solid fa-bell"></i>
                                     Thông báo 
                                     <span>
-                                        @if (objectList != null)
+                                        @if (objectList != null && objectList.Where(x=> (int)x.IsRead == 0).ToList().Count != 0)
                                         {
-                                            <span>(@objectList.Where(x => x.IsRead == 0).Count())</span>
+                                            <span class="icon-notification">@objectList.Where(x => x.IsRead == 0).Count()</span>
                                         }
                                     </span>
                                 </a>
@@ -172,6 +172,11 @@
                                         <li class="dropdown-item index-menu-item">
                                             <a asp-controller="Save" asp-action="Index" class="btn ">
                                                 Danh sách yêu thích
+                                            </a>
+                                        </li>
+                                        <li class="dropdown-item index-menu-item">
+                                            <a asp-controller="Follow" asp-action="Index" class="btn ">
+                                                Danh sách theo dõi
                                             </a>
                                         </li>
                                         <li class="dropdown-item index-menu-item">
@@ -257,10 +262,10 @@
                 
             </li>
             <li class="breadcrumb__item breadcrumb__item-lastChild u-list-item-4">
-                <a class="text-decoration-none text-black">
+                <a asp-controller="Follow" asp-action="IndexAll" class="text-decoration-none text-black">
                     <span class="breadcrumb__inner">
                         <span class="breadcrumb__title">
-                            Đang cập nhập
+                            Theo dõi
                             <i class="fa-solid fa-angles-right " style="color: #FF6526;  margin-left: 12px;"></i>
                         </span>
                     </span>

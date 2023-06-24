@@ -44,6 +44,15 @@ namespace BaseProject.BackendApi.Controllers
             var products = await _postService.GetPostPaging(request);
             return Ok(products);
         }
+        
+        // Lấy tất cả bài viết
+        [HttpGet("pagingallfollow")]
+        public async Task<IActionResult> GetAllFollowPostPaging([FromQuery] GetUserPagingRequest request)
+        {
+
+            var products = await _postService.GetPostFollowPaging(request);
+            return Ok(products);
+        }
         // Lấy tất cả bài viết - Admin
         [HttpGet("pagingalladmin")]
         [AllowAnonymous]

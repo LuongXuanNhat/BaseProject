@@ -41,5 +41,18 @@ namespace BaseProject.BackendApi.Controllers
             var products = await _notificationService.GetNotificationPaging(request);
             return Ok(products);
         }
+
+        [HttpDelete("{name}")]
+        public async Task<IActionResult> Delete(string name)
+        {
+            var username = await _notificationService.DeleteNotification(name);
+
+            if (username == null)
+            {
+                return BadRequest();
+            }
+            return Ok();
+
+        }
     }
 }

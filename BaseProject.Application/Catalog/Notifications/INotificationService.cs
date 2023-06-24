@@ -12,6 +12,8 @@ namespace BaseProject.Application.Catalog.Notifications
     public interface INotificationService
     {
         Task<ApiResult<List<NoticeDetail>>> GetAll(string userName);
+        Task<bool> AddNotificationDetail(Guid User ,int Id,string content);
+        Task<ApiResult<bool>> DeleteNotification(string usename);
         Task<ApiResult<PagedResult<NoticeDetail>>> GetNotificationPaging(GetUserPagingRequest request);
     }
 }

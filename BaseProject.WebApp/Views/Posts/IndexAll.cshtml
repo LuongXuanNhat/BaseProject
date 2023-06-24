@@ -74,7 +74,7 @@
                         </a>
                     </form>
                     
-                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2">
+                    <a href="" class="u-btn u-button-style u-palette-1-light-3 u-btn-2 hidden-category">
                             Chọn danh mục&nbsp;&nbsp;<span class="u-file-icon u-icon"><img src="images/60781.png" alt=""></span>
                     </a>
                     
@@ -105,7 +105,7 @@
                                                                 </div>
 
                                                             </div>
-                                                            <div style="text-decoration:none;">
+                                                            <div style="text-decoration:none;" class="title-min">
                                                                 <h5 class="u-text u-text-default u-text-1" style=" font-weight: 700;">@Html.DisplayFor(modelItem => item.Title)</h5>
                                                             </div>
                                                             <p class="u-text u-text-2">
@@ -118,6 +118,8 @@
                                                                 {
                                                                     <span>@item.Categories.Count</span>
                                                                 }
+
+                                                                <a asp-action="AccountSetting" asp-controller="Account" asp-route-UserName="@item.UserName" title="Xem trang cá nhân" style="float: right;">Viết bởi <strong>@item.UserName</strong></a>
 
                                                             </p>
                                                             <div class="u-text u-text-3 limited-lines-2">

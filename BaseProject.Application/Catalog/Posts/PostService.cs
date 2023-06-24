@@ -23,6 +23,7 @@ using System.ComponentModel.Design;
 using BaseProject.Application.Catalog.Likes;
 using BaseProject.Application.Catalog.Saves;
 using BaseProject.Data.Enums;
+using Microsoft.Extensions.Hosting;
 
 namespace BaseProject.Application.Catalog.Posts
 {
@@ -501,6 +502,71 @@ namespace BaseProject.Application.Catalog.Posts
         public async Task<ApiResult<PagedResult<PostVm>>> GetPostPaging(GetUserPagingRequest request)
         {
             var query = await _context.Posts.OrderByDescending(p => p.PostId).Where(x=>x.Check == 0).ToListAsync();
+
+            var list_content = await _context.LocationsDetails.ToListAsync();
+            var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();
+            var list_category = await _categoryService.GetAllCategoryDetail();
+
+            List<String> list = new List<String>();
+            if (request.number == 3)
+            {
+                if (!string.IsNullOrEmpty(request.Keyword))
+                {
+                    query = query.Where(x => x.Title.Contains(request.Keyword)).ToList();
+
+                    // Lưu lịch sử tìm kiếm
+                    if (request.UserName != null)
+                    {
+                        list.Add($"Tìm kiếm bài viết: {request.Keyword}");
+                        var UserID = await _userService.GetIdByUserName(request.UserName);
+                        await _searchService.Add(UserID, list);
+                    }
+                }
+            }
+            
+
+            //3. Paging
+            int totalRow = query.Count();
+
+            var data = query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new PostVm()
+                {
+                    PostId = x.PostId,
+                    Content = filteredList.FirstOrDefault(y => y.PostId == x.PostId).Content,
+                    Categories = list_category.Where(y => y.PostId == x.PostId).Select(x=>x.Description).ToList(),
+                    Title = x.Title,
+                    Date = x.UploadDate,
+                    UserId = x.UserId,
+                    CountComment = _commentService.CountById(x.PostId),
+                    CountSave = _saveService.CountById(x.UserId,x.PostId),
+                    CountLike = _likeService.CountById(x.PostId),
+                    UserName = _userService.GetUserNameById(x.UserId),
+                    View = x.View
+                }).ToList();
+            //4. Select and projection
+            var pagedResult = new PagedResult<PostVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<PostVm>>(pagedResult);
+        }
+        
+        // Lấy tất cả bài viết của những người theo dõi
+        public async Task<ApiResult<PagedResult<PostVm>>> GetPostFollowPaging(GetUserPagingRequest request)
+        {
+            var userId = await _userService.GetIdByUserName(request.UserName);
+            var listUser = await _context.Followings.Where(x => x.FolloweeId == userId).ToListAsync();
+
+            // danh sách lọc danh sách
+            var posts = await _context.Posts.ToListAsync();
+                var query = posts
+                .OrderByDescending(p => p.PostId)
+                .Where(post => listUser.Any(user => user.FollowerId == post.UserId) && post.Check == 0)
+                .ToList();
 
             var list_content = await _context.LocationsDetails.ToListAsync();
             var filteredList = list_content.Where(content => query.Any(post => post.PostId == content.PostId)).ToList();

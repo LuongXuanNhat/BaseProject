@@ -7,6 +7,11 @@
 /*@*Breadcrumb*@ */
 @import url('https://fonts.googleapis.com/css?family=Oswald:300,400,500|PT+Sans+Narrow:400,700|Play:400,700|Ubuntu+Condensed&display=swap&subset=cyrillic');
 
+@media all and (max-width: 1200px) {
+    .menu-posts-hidden {
+        display: none !important;
+    }
+}
 .u-list-item-1:hover {
     background-image: none !important;
     --animation-custom_in-translate_x: 0px !important;

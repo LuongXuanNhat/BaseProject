@@ -1,0 +1,199 @@
+﻿@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.ViewModels.System.Users.FollowerVm>
+@{
+    ViewData["Title"] = "Danh sách theo dõi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<script>
+    setTimeout(function () {
+        $('#msgAlert').fadeOut('slow');
+    }, 2000);
+</script>
+
+
+<div class="row">
+    @if (ViewBag.SuccessMsg != null)
+    {
+        <div id="msgAlert" class="alert alert-success" role="alert">
+            @ViewBag.SuccessMsg
+        </div>
+    }
+</div>
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="post-modal-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="post-modal-label">Hủy theo dõi tất cả</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Bạn có chắc chắn muốn hủy tất cả những người theo dõi không?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal" onclick="cancel()">Hủy</button>
+                <button type="button" class="btn btn-danger" id="deleteButton">Xóa</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card mb-12">
+    <h4 class="p-3" style="text-align: center;">Danh sách theo dõi của tôi</h4>
+    @if (Model.Items.Count != 0)
+    {
+        <div style="display: inline">
+            <button class="btn btn-danger" style="position: absolute; right: 11px;top: 10px;" onclick="showDeleteModal()" title="Xóa tất cả lịch sử tìm kiếm">
+                <i class="fa-solid fa-trash-can"></i>
+            </button>
+        </div>
+    }
+    <div class="card-body" style="min-height: 500px">
+        @if (Model != null && Model.Items.Count != 0)
+        {
+            @for (int i = 0; i < Model.Items.Count; i++)
+            {
+                <div class="row">
+                    <div class="col-md-6 row" style="display: flex; align-items: center;">
+                        <div class="col-md-2">
+                            @if (Model.Items[i].Image == null)
+                            {
+                                <img src="~/images/AVATAR.png"
+                                     alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                     style="border-radius: 50%;width: 75px;height:75px; z-index: 1">
+                            } else {
+                            <img src="@Model.Items[i].Image"
+                                 alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                 style="border-radius: 50%;width: 75px;height:75px; z-index: 1;    object-fit: cover; "> 
+                            }
+                        </div>
+                        <div class="col-md-7" style="font-size: 1em;">
+                            @Model.Items[i].UserName
+                        </div>
+                        <div class="col-md-3">
+                            <button class="btn btn-light btn-sm btn-delete" id="@Model.Items[i].UserName">Hủy theo dõi</button>
+                        </div>
+                    </div>
+                    @if (i+1 < Model.Items.Count)
+                    {
+                        i += 1;
+                        <div class="col-md-6 row" style="display: flex; align-items: center;">
+                            <div class="col-md-2">
+                                @if (Model.Items[i].Image == null)
+                                {
+                                    <img src="~/images/AVATAR.png"
+                                         alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                         style="border-radius: 50%;width: 75px;height:75px; z-index: 1">
+                                }
+                                else
+                                {
+                                    <img src="@Model.Items[i].Image"
+                                         alt="Generic placeholder image" class="img-fluid img-thumbnail mt-4 mb-2"
+                                         style="border-radius: 50%;width: 75px;height:75px; z-index: 1;    object-fit: cover; ">
+                                }
+                            </div>
+                            <div class="col-md-7" style="font-size: 1em;">
+                                @Model.Items[i].UserName
+                            </div>
+                            <div class="col-md-3">
+                                <button class="btn btn-light btn-sm btn-delete" id="@Model.Items[i].UserName">Hủy theo dõi</button>
+                            </div>
+                        </div>
+                    }
+                    
+
+                </div>
+            }
+            @await Component.InvokeAsync("Pager", Model)
+        }
+        
+    </div>
+</div>
+<script>
+    var token = '@Html.Raw(ViewBag.Token)';
+    var name = '@ViewBag.Name';
+
+
+    function showDeleteModal() {
+        $('#deleteModal').modal('show');
+        $('#deleteButton').attr('data-id');
+
+    }
+
+    $(document).on('click', 'button.btn-delete', function () {
+        var followerId = $(this).attr('id');
+        var followeeId = name;
+
+        var data = {
+            FollowerName: followerId,
+            FolloweeName: followeeId,
+        };
+        $.ajax({
+            url: '/Follow/UnFollow',
+            type: 'POST',
+            data: data,
+            success: function () {
+
+                Swal.fire({
+                    title: 'Đã bỏ theo dõi!',
+                    icon: 'success'
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Lỗi bỏ theo dõi!',
+                    text: 'Bạn có thể kiểm tra xem đã đăng nhập tài khoản chưa? Hoặc báo cáo vấn đề lỗi với chúng tôi! Xin cảm ơn',
+                    icon: 'error'
+                });
+            }
+        });
+    });
+
+    $('#deleteButton').click(function () {
+        var followeeId = name;
+
+        var data = {
+            FollowerName: followeeId,
+            FolloweeName: followeeId,
+        };
+        $.ajax({
+            url: '/Follow/UnFollow',
+            type: 'POST',
+            data: data,
+            success: function () {
+
+                Swal.fire({
+                    title: 'Đã bỏ theo dõi!',
+                    icon: 'success'
+                });
+                setTimeout(function () {
+                    location.reload();
+                }, 1500);
+
+            },
+            error: function (xhr, status, error) {
+                Swal.fire({
+                    title: 'Lỗi bỏ theo dõi!',
+                    text: 'Bạn có thể kiểm tra xem đã đăng nhập tài khoản chưa? Hoặc báo cáo vấn đề lỗi với chúng tôi! Xin cảm ơn',
+                    icon: 'error'
+                });
+            }
+        });
+    });
+    var LoadPage = window.location;
+    function loadPosts() {
+        LoadPage.reload(true);
+    }
+
+    function cancel() {
+        $('#deleteModal').modal('hide');
+    }
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

@@ -210,6 +210,22 @@ namespace BaseProject.ApiIntegration.Post
             var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
             return users;
         }
+        
+        public async Task<ApiResult<PagedResult<PostVm>>> GetAllFollowPostPagings(GetUserPagingRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/post/pagingallfollow?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&Keyword2={request.Keyword2}&number={request.number}&UserName={request.UserName}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<PostVm>>>(body);
+            return users;
+        }
         public async Task<ApiResult<PagedResult<PostVm>>> GetAllPostPagingsAdmin(GetUserPagingRequest request)
         {
             var client = _httpClientFactory.CreateClient();

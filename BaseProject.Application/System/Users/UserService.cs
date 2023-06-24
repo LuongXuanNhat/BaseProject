@@ -1,4 +1,5 @@
 ﻿using BaseProject.Application.Catalog.Images;
+using BaseProject.Application.Catalog.Notifications;
 using BaseProject.Application.Common;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
@@ -6,6 +7,7 @@ using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Configuration;
@@ -27,12 +29,14 @@ namespace BaseProject.Application.System.Users
         private readonly SignInManager<AppUser> _signInManager;
         private readonly RoleManager<AppRole> _roleManager;
         private readonly IStorageService _storageService;
+        private readonly INotificationService _notificationService;
         private readonly IImageService _imageService;
         private readonly DataContext _dataContext;
         private readonly IConfiguration _config;
         private readonly IMemoryCache _cache;
 
         public UserService(UserManager<AppUser> userManager,
+            INotificationService notificationService,
             SignInManager<AppUser> signInManager,
             RoleManager<AppRole> roleManager,
             IStorageService storageService,
@@ -41,6 +45,7 @@ namespace BaseProject.Application.System.Users
             IConfiguration config,
             IMemoryCache cache)
         {
+            _notificationService = notificationService;
             _storageService = storageService;
             _signInManager = signInManager;
             _userManager = userManager;
@@ -131,7 +136,7 @@ namespace BaseProject.Application.System.Users
             return new ApiSuccessResult<UserVm>(userVm);
         }
 
-        // Xem thông tin user name -PUBLIC
+        // Xem thông tin user name -PUBLIC 
         public async Task<ApiResult<UserVm>> GetByUserName(string username)
         {
             var user = await _userManager.FindByNameAsync(username);
@@ -295,12 +300,23 @@ namespace BaseProject.Application.System.Users
             return new ApiErrorResult<bool>("Đăng ký không thành công : Mật khẩu không hợp lệ, yêu cầu gồm có ít 6 ký tự bao gồm ký tự: Hoa, thường, số, ký tự đặc biệt ");
         }
 
-        public async Task<ApiResult<bool>> AddFollow(Following request)
+        public async Task<ApiResult<bool>> AddFollow(FollowViewModel request)
         {
+            var getUserId1 = await GetIdByUserName(request.FollowerName);
+            var getUserId2 = await GetIdByUserName(request.FolloweeName);
             try
             {
-                _dataContext.Followings.Add(request);
+                var follow = new Following()
+                {
+                    FollowerId = getUserId1,
+                    FolloweeId = getUserId2,
+                    Date = DateTime.UtcNow
+                };
+                _dataContext.Followings.Add(follow);
                 await _dataContext.SaveChangesAsync();
+
+                var content = request.FolloweeName + " vừa theo dõi bạn";
+                await _notificationService.AddNotificationDetail(getUserId1, 2, content);
 
                 return new ApiSuccessResult<bool>();
             }
@@ -310,15 +326,82 @@ namespace BaseProject.Application.System.Users
             }
             return new ApiErrorResult<bool>("Lỗi khi theo dõi người dùng");
         }
-
-        public async Task<ApiResult<bool>> UnFollow(Following request)
+        
+        public async Task<ApiResult<bool>> CheckFollow(FollowViewModel request)
         {
-            var getUser = await _dataContext.Followings.Where(x => x.FolloweeId == request.FolloweeId && x.FollowerId == request.FollowerId).FirstOrDefaultAsync();
-            _dataContext.Followings.Remove(request);
-            await _dataContext.SaveChangesAsync();
+            var getUserId1 = await GetIdByUserName(request.FollowerName);
+            var getUserId2 = await GetIdByUserName(request.FolloweeName);
+
+            var getUser = await _dataContext.Followings.Where(x => x.FolloweeId == getUserId2 && x.FollowerId == getUserId1).FirstOrDefaultAsync();
+
+            if (getUser != null)
+            {
+                return new ApiSuccessResult<bool>();
+            }
+            return new ApiErrorResult<bool>("Lỗi khi theo dõi người dùng");
+        }
+
+        public async Task<ApiResult<bool>> UnFollow(FollowViewModel request)
+        {
+            if (request.FolloweeName.Equals(request.FollowerName))
+            {
+                var getUserId1 = await GetIdByUserName(request.FollowerName);
+                var follows = await _dataContext.Followings.Where(x => x.FolloweeId == getUserId1).ToListAsync();
+                _dataContext.Followings.RemoveRange(follows);
+                await _dataContext.SaveChangesAsync();
+                return new ApiSuccessResult<bool>();
+            } else {
+                var getUserId1 = await GetIdByUserName(request.FollowerName);
+                var getUserId2 = await GetIdByUserName(request.FolloweeName);
+
+                if (getUserId1 == null || getUserId2 == null)
+                {
+                    return new ApiErrorResult<bool>("Không tìm thấy Tài khoản");
+                }
+
+                var getUser = await _dataContext.Followings.Where(x => x.FolloweeId == getUserId2 && x.FollowerId == getUserId1).FirstOrDefaultAsync();
+                _dataContext.Followings.Remove(getUser);
+                await _dataContext.SaveChangesAsync();
+            }
 
             return new ApiSuccessResult<bool>();
         }
+
+        public async Task<ApiResult<PagedResult<FollowerVm>>> GetFollowersPaging(GetUserPagingRequest request)
+        {
+            var getUserId = await GetIdByUserName(request.UserName);
+            var getFollowers = await _dataContext.Followings.Where(x => x.FolloweeId == getUserId).ToListAsync();
+
+            var users = await _dataContext.Users.ToListAsync();
+
+            var query = users
+            .OrderByDescending(x => x.Id)
+            .Where(user => getFollowers.Any(userFollow => userFollow.FollowerId == user.Id))
+            .ToList();
+
+            //3. Paging
+            int totalRow =  query.Count();
+
+            var data =  query.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .Select(x => new FollowerVm()
+                {
+                    UserId = x.Id,
+                    Image = x.Image,
+                    UserName = x.UserName,
+                }).ToList();
+
+            //4. Select and projection
+            var pagedResult = new PagedResult<FollowerVm>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
+            return new ApiSuccessResult<PagedResult<FollowerVm>>(pagedResult);
+        }
+
 
         public async Task<ApiResult<bool>> RoleAssign(Guid id, RoleAssignRequest request)
         {

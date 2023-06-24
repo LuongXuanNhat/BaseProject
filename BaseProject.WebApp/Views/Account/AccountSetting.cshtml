@@ -59,14 +59,21 @@
 
                         </div>
                         <div class="ms-3" style="margin-top: 130px;">
-                            @if (!String.Equals(ViewBag.UserName, Model.UserName))
+                            @if (!String.Equals(ViewBag.UserName, Model.UserName) && @ViewBag.Follow == 0)
                             {
-                                <button class="btn text-white btn-primary btn-rounded" type="button">
+                                <button class="btn text-white btn-primary btn-rounded" type="button" id="btn-follow" id-follower="@Model.UserName" id-followee="@ViewBag.UserName">
                                     <i class="fa-solid fa-user-plus"></i>
-                                    Theo dõi
+                                    <span id="text-follow">Theo Dõi</span>
                                 </button>
+                                
                             } else {
-
+                                if (!String.Equals(ViewBag.UserName, Model.UserName) && @ViewBag.Follow == 1)
+                                {
+                                    <button class="btn text-white btn-secondary btn-rounded" type="button" id="btn-follow1" id-follower="@Model.UserName" id-followee="@ViewBag.UserName">
+                                        <i class="fa-solid fa-user"></i>
+                                        <span id="text-follow">Đang theo Dõi</span>
+                                    </button>
+                                }
                             }                              
                         </div>
                     </div>
@@ -176,3 +183,75 @@
     @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
     <a asp-action="Index">Back to List</a>
 </div>*@
+<script>
+    $(document).ready(function () {
+        $(document).on('click', '#btn-follow', function () {
+            var followerId = $("#btn-follow").attr("id-follower");
+            var followeeId = $("#btn-follow").attr("id-followee");
+
+            var data = {
+                FollowerName: followerId,
+                FolloweeName: followeeId,
+            };
+            console.log(data);
+            $.ajax({
+                url: '/Follow/AddFollow',
+                type: 'POST',
+                data: data,
+                success: function () {
+                  //  console.log('Data sent successfully!');
+                    Swal.fire({
+                        title: 'Đã theo dõi!',
+                        text: 'Bạn có thể cập nhập các tin tức mới nhất của người theo dõi tại mục Theo Dõi',
+                        icon: 'success'
+                    });
+                    $('#text-follow').text('Đã theo dõi');
+                    $('#btn-follow').removeClass('btn-primary').addClass('btn-secondary');
+                    $('#btn-follow').attr('id', 'btn-follow1');
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: 'Lỗi theo dõi!',
+                        text: 'Bạn có thể kiểm tra xem đã đăng nhập tài khoản chưa? Hoặc báo cáo vấn đề lỗi với chúng tôi! Xin cảm ơn',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+        
+        $(document).on('click', '#btn-follow1', function () {
+            var followerId = $("#btn-follow1").attr("id-follower");
+            var followeeId = $("#btn-follow1").attr("id-followee");
+
+            var data = {
+                FollowerName: followerId,
+                FolloweeName: followeeId,
+            };
+
+            $.ajax({
+                url: '/Follow/UnFollow',
+                type: 'POST',
+                data: data,
+                success: function () {
+                    Swal.fire({
+                        title: 'Đã bỏ theo dõi!',
+                        icon: 'success'
+                    });
+                    $('#text-follow').text('Theo dõi');
+                    $('#btn-follow1').removeClass('btn-secondary').addClass('btn-primary');
+                    $('#btn-follow1').attr('id', 'btn-follow');
+                },
+                error: function (xhr, status, error) {
+                    Swal.fire({
+                        title: 'Lỗi bỏ theo dõi!',
+                        text: 'Bạn có thể kiểm tra xem đã đăng nhập tài khoản chưa? Hoặc báo cáo vấn đề lỗi với chúng tôi! Xin cảm ơn',
+                        icon: 'error'
+                    });
+                }
+            });
+        });
+    });
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>

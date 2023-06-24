@@ -9,7 +9,16 @@
     --header-heigh: 120px;
     --header-with-search-height: calc(var(--header-heigh) - var(--navbar-heigh) );
 }
-
+.icon-notification {
+    position: relative;
+    top: -8px;
+    font-size: 12px;
+    font-family: Mulish;
+    color: white;
+    background-color: orangered;
+    border-radius: 50%;
+    padding: 0px 4px;
+}
 
 html {
   font-size: 14px;
@@ -210,6 +219,8 @@ h6::before {
     margin: 0 4px;
 }
 .header__notify {
+    max-height: 400px;
+    overflow: auto;
     z-index: 4;
     position: absolute;
     border-radius: 3px;

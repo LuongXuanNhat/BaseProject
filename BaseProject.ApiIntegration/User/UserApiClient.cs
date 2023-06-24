@@ -1,6 +1,7 @@
 ﻿using BaseProject.Data.Entities;
 using BaseProject.Data.Enums;
 using BaseProject.ViewModels.Catalog.Location;
+using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
@@ -12,6 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
+using System.Net.Http.Json;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -51,15 +53,14 @@ namespace BaseProject.ApiIntegration.User
             return JsonConvert.DeserializeObject<ApiErrorResult<string>>(await response.Content.ReadAsStringAsync());
         }
 
-        public async Task<ApiResult<bool>> AddFollow(Following request)
+        public async Task<ApiResult<bool>> AddFollow(FollowViewModel request)
         {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
             var client = _httpClientFactory.CreateClient();
             client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
 
-            var json = JsonConvert.SerializeObject(request);
-            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
-
-            var response = await client.PostAsync($"/api/users/follow", httpContent);
+            var response = await client.PostAsJsonAsync("/api/users/follow", request);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
@@ -67,7 +68,52 @@ namespace BaseProject.ApiIntegration.User
 
             return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
         }
+        public async Task<ApiResult<bool>> CheckFollow(FollowViewModel request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
 
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"/api/users/checkfollow", httpContent);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+        public async Task<ApiResult<bool>> UnFollow(FollowViewModel request)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.PostAsJsonAsync("/api/users/unfollow", request);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+        public async Task<ApiResult<PagedResult<FollowerVm>>> GetFollowersPagings(GetUserPagingRequest request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+
+            var response = await client.GetAsync($"/api/users/pagingFollowers?pageIndex=" +
+                $"{request.PageIndex}&pageSize={request.PageSize}&Keyword={request.Keyword}&UserName={request.UserName}");
+
+            var body = await response.Content.ReadAsStringAsync();
+            var users = JsonConvert.DeserializeObject<ApiSuccessResult<PagedResult<FollowerVm>>>(body);
+            return users;
+        }
         public async Task<ApiResult<bool>> Delete(Guid id)
         {
             var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
