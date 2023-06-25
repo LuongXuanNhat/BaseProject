@@ -1,8 +1,10 @@
-﻿using BaseProject.Application.Catalog.Categories;
+﻿using Azure.Core;
+using BaseProject.Application.Catalog.Categories;
 using BaseProject.Application.Catalog.Comments;
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Comments;
 using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -37,6 +39,12 @@ namespace BaseProject.BackendApi.Controllers
             var comments = await _commentService.GetById2(Id);
             return Ok(comments);
         }
+        [HttpPost("addchat/{Id}")]
+        public async Task<IActionResult> GetByIdChatQA(int Id, GetUserPagingRequest request)
+        {
+            var comments = await _commentService.GetByIdChatQA(Id,  request);
+            return Ok(comments);
+        }
 
         [HttpPost]
         public async Task<IActionResult> Create(CommentCreateRequest request)
@@ -47,6 +55,21 @@ namespace BaseProject.BackendApi.Controllers
                 return BadRequest(ModelState);
             }
             var categoryId = await _commentService.Create(request);
+            if (!categoryId.IsSuccessed)
+                return BadRequest(categoryId);
+
+            return Ok(categoryId);
+        }
+
+        [HttpPost("chat")]
+        public async Task<IActionResult> AddChatQA(ChatQA request)
+        {
+
+            if (!ModelState.IsValid)
+            {
+                return BadRequest(ModelState);
+            }
+            var categoryId = await _commentService.CreateChatQA(request);
             if (!categoryId.IsSuccessed)
                 return BadRequest(categoryId);
 

@@ -63,19 +63,19 @@
     </div>
 </div>
 
-<ul class="nav nav-tabs" style="background-color: #e3f2fd;    border-radius: 6px 6px 0; width: 95%;">
+@*<ul class="nav nav-tabs" style="background-color: #e3f2fd;    border-radius: 6px 6px 0; width: 95%;">
     
     <li class="nav-item " style="display: flex; align-items: center;">
         <a class="nav-link active text-decoration-none text-black" style="font-family: Mulish; padding-left: 12px;"><i class="fa-solid fa-feather-pointed" style="color: #3d5cd6;"></i> Bài viết đánh giá</a>
     </li>
     <li class="nav-item">
-        <a class="nav-link  text-black" aria-current="page" href="">
+        <a asp-action="Detaill" asp-route-ID="@ViewBag.PlaceId" asp-controller="Place" class="nav-link  text-black" aria-current="page" title="Xem hỏi - đáp">
             <i class="fa fa-comments" style="color: #3d5cd6;"></i> Hỏi - đáp
         </a>
     </li>
     
 </ul>
-
+*@
 @await Component.InvokeAsync("Pager", Model) 
 @foreach (var item in Model.Items)
 {

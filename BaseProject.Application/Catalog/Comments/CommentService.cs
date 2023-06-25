@@ -1,10 +1,13 @@
-﻿using BaseProject.Application.Catalog.Notifications;
+﻿using Azure.Core;
+using BaseProject.Application.Catalog.Notifications;
 using BaseProject.Application.Common;
 using BaseProject.Application.System.Users;
 using BaseProject.Data.EF;
 using BaseProject.Data.Entities;
 using BaseProject.ViewModels.Catalog.Comments;
+using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -45,6 +48,25 @@ namespace BaseProject.Application.Catalog.Comments
             var post = await _context.Posts.Where(x=>x.PostId == request.PostId).FirstOrDefaultAsync();
             var content = request.UserName + " vừa bình luận bài viết '" + post.Title + "' của bạn lúc " + DateTime.Now.ToString("HH:mm, dd/MM/yyyy");
             await _notificationService.AddNotificationDetail(post.UserId, 2, content);
+
+            return new ApiSuccessResult<bool>();
+        }
+        
+        public async Task<ApiResult<bool>> CreateChatQA(ChatQA request)
+        {
+            var comment = new QuestionAndAnswer();
+            comment.UserName = request.UserName;
+            comment.LocationId = request.LocationId;
+            comment.QuestionId = request.QuestionId != 0 ? request.QuestionId : 0;
+            comment.Date = DateTime.Now.ToString();
+            comment.MessageText = request.Content;
+
+            _context.QuestionAndAnswers.Add(comment);
+            await _context.SaveChangesAsync();
+
+            //var post = await _context.Posts.Where(x=>x.PostId == request.PostId).FirstOrDefaultAsync();
+            //var content = request.UserName + " vừa bình luận bài viết '" + post.Title + "' của bạn lúc " + DateTime.Now.ToString("HH:mm, dd/MM/yyyy");
+            //await _notificationService.AddNotificationDetail(post.UserId, 2, content);
 
             return new ApiSuccessResult<bool>();
         }
@@ -90,6 +112,41 @@ namespace BaseProject.Application.Catalog.Comments
                 comment.Add(obj);
             }
 
+            return comment;
+        }
+
+        public async Task<PagedResult<QuestionAndAnswer>> GetByIdChatQA(int id, GetUserPagingRequest request)
+        {
+            var comments = await _context.QuestionAndAnswers.OrderByDescending(x => x.Id).Where(x => x.LocationId == id).ToListAsync();
+            PagedResult<QuestionAndAnswer> comment = new PagedResult<QuestionAndAnswer>();
+
+            comment.Items = new List<QuestionAndAnswer>();
+            foreach (var item in comments)
+            {
+                var obj = new QuestionAndAnswer();
+                obj.LocationId = item.LocationId;
+                obj.Id = item.Id;
+                obj.UserName = item.UserName;
+                obj.Date = item.Date;
+                obj.MessageText = item.MessageText;
+                obj.QuestionId = item.QuestionId;
+
+                comment.Items.Add(obj);
+            }
+            // phân trang
+            int totalRow = comment.Items.Count();
+            var data = comment.Items.Skip((request.PageIndex - 1) * request.PageSize)
+            .Take(request.PageSize)
+                .ToList();
+
+            // Select and projection
+            var pagedResult = new PagedResult<QuestionAndAnswer>()
+            {
+                TotalRecords = totalRow,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data
+            };
             return comment;
         }
 

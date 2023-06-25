@@ -1,2 +1,216 @@
-﻿@page
-<div> Chưa có gì cả</div>
+﻿@using BaseProject.ViewModels.Catalog.Location;
+@using BaseProject.ViewModels.Catalog.Post;
+@using BaseProject.ViewModels.Common;
+@model PagedResult<BaseProject.Data.Entities.QuestionAndAnswer>
+
+<script>
+    setTimeout(function () {
+        $('#msgAlert2').fadeOut('slow');
+    }, 2000);
+</script>
+@*
+<div class="modal fade" id="ratingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="ratingModalLabel" style="text-align:center;">Báo cáo bài viết</h5>
+
+                <button type="button" class="close" style="background: none;color: red; border-radius: 50%; border: 1px solid red; width: 30px;" data-dismiss="modal" aria-label="Đóng">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div style="font-size: 12px; text-align: center; padding-top: 8px;">
+                <span style="font-size: 16px; font-style:italic;"> Cảm ơn sự đóng góp của bạn</span>
+                <span id="modalAddressContent"></span>
+            </div>
+            <div class="modal-body" style="font-size: 16px;">
+                <div class="form-check" style="margin: 4px 0px;">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios1" value="option1">
+                    <label class="form-check-label" for="exampleRadios1">
+                        Nội dung tục tĩu, khiêu dâm hoặc chứa ngôn từ kích động thù địch
+                    </label>
+                </div>
+                <div class="form-check" style="margin: 4px 0px;">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios2" value="option2">
+                    <label class="form-check-label" for="exampleRadios2">
+                        Nội dung mô tả hoặc khuyến khích tham gia vào các hoạt động bất hợp pháp
+                    </label>
+                </div>
+                <div class="form-check" style="margin: 4px 0px;">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios3" value="option3">
+                    <label class="form-check-label" for="exampleRadios3">
+                        Địa điểm này đã đóng cửa hoặc không tồn tại
+                    </label>
+                </div>
+                <div class="form-check" style="margin: 4px 0px;">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios4" value="option4">
+                    <label class="form-check-label" for="exampleRadios4">
+                        Bài viết là một bản sao của một thành viên khác trong nhóm
+                    </label>
+                </div>
+                <div class="form-check" style="margin: 4px 0px;">
+                    <input class="form-check-input" type="radio" name="exampleRadios" id="exampleRadios5" value="option5">
+                    <label class="form-check-label" for="exampleRadios5">
+                        Nội dung chứa thông tin sai lệch hoặc gây hiểu lầm
+                    </label>
+                </div>
+                <div class="form-check" style="margin: 4px 0px;">
+                    <span style="font-style: italic; font-weight:600;">Ý kiến của bạn về bài viết</span>
+                    <textarea class="form-control" style="width: 95%;" id="exampleRadios6" rows="2"></textarea>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="Submit" data-id="">Gửi</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+            </div>
+        </div>
+    </div>
+</div>
+*@
+@*<ul class="nav nav-tabs" style="background-color: #e3f2fd;    border-radius: 6px 6px 0; width: 95%;">
+
+    <li  class="nav-item " style="display: flex; align-items: center;">
+        <a a asp-action="Detail" asp-route-ID="@ViewBag.PlaceId" asp-controller="Place" class="nav-link  text-decoration-none text-black" style="font-family: Mulish; padding-left: 12px;"><i class="fa-solid fa-feather-pointed" style="color: #3d5cd6;"></i> Bài viết đánh giá</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link active text-black" aria-current="page" href="#">
+            <i class="fa fa-comments " style="color: #3d5cd6;"></i> Hỏi - đáp
+        </a>
+    </li>
+
+</ul>*@
+
+@await Component.InvokeAsync("Pager", Model)
+<div class="container mb-5">
+    <div class="d-flex justify-content-center row">
+        <div class="d-flex flex-column col-md-10">
+            <div class="coment-bottom bg-white p-2 px-4">
+                <div class="row">
+                    <div id="msgAlert2" class="hidden-class" role="alert">
+                </div>
+                <div class="d-flex flex-row add-comment-section mt-4 mb-4">
+                        <input type="text" class="form-control mr-3" id="questionInput" placeholder="Đặt câu hỏi?" style="margin-right: 12px;">
+                    <button class="btn btn-primary" id-place="@ViewBag.PlaceId" id="sendButton" type="button">Gửi</button>
+                </div>
+                        
+
+                </div>
+                    @foreach (var item in Model.Items)
+                    {
+                        <div class="commented-section mt-2">
+                            <div class="d-flex flex-row align-items-center commented-user">
+                                <h5 class="mr-2">@item.UserName<span class=" mb-1 ml-2" style="padding-left: 8px;">@item.Date</span></h5>
+                            </div>
+                            <div class="comment-text-sm">
+                                <span>@item.MessageText</span>
+                            </div>
+                            <div class="reply-section">
+                                <div class="d-flex flex-row align-items-center voting-icons" style="justify-content: end;">
+                                    <a class="ml-2 mt-1 text-decoration-none" style="cursor: pointer;" id="anwser-@item.Id">Trả lời</a>
+                                </div>
+                            <div class="d-flex flex-row add-comment-section mt-4 mb-4" id="anwser-reply-@item.Id" style="display: none !important;">
+                                <input type="text" class="form-control mr-3" id="questionInput-@item.Id" placeholder="Đặt câu hỏi?" style="margin-right: 12px;">
+                                <button class="btn btn-primary" id="sendButton-@item.Id" id-qa="@item.QuestionId" id-place="@ViewBag.PlaceId" type="button">Gửi</button>
+                                </div>
+                            </div>
+                                
+                        </div>
+                        <div>
+                        <script>
+                            var username = '@Html.Raw(ViewBag.UserName)';
+                            $("#sendButton-@item.Id").click(function () {
+                                var questionInput = $("#questionInput-@item.Id").val();
+                                var placeId = $("#sendButton-@item.Id").attr("id-place");
+                              //  var IdChat = $("#sendButton-@item.Id").attr("id-qa");
+
+                                var datasend = {
+                                    Content: questionInput,
+                                    LocationId: placeId,
+                                    UserName: username,
+                                    QuestionId: 0
+                                };
+
+                                // Gửi yêu cầu AJAX POST đến API controller
+                                $.ajax({
+                                    url: '/Comment/AddChatQA',
+                                    type: 'POST',
+                                    contentType: "application/json",
+                                    data: JSON.stringify(datasend),
+                                    success: function (response) {
+                                        loadComments();
+                                        var successMsg = "Đã bình luận";
+                                        $('#msgAlert2').removeClass('hidden-class').addClass('alert alert-success');
+                                        $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
+                                            $(this).addClass('hidden-class');
+                                        });
+                                    },
+                                    error: function (xhr, textStatus, errorThrown) {
+                                        alert("Hỏi thất bại");
+                                    }
+                                });
+                            });
+                            function setupReplySection(itemId) {
+                                var anwserLink = document.getElementById("anwser-" + itemId);
+                                var anwserReplyDiv = document.getElementById("anwser-reply-" + itemId);
+
+                                anwserLink.addEventListener("click", function () {
+                                    if (anwserReplyDiv.style.display === "none") {
+                                        anwserReplyDiv.style.display = "flex";
+                                        anwserLink.textContent = "Ẩn";
+                                    } else {
+                                        anwserReplyDiv.classList.remove("d-flex");
+                                        anwserReplyDiv.style.display = "none";
+                                        anwserLink.textContent = "Trả lời";
+                                    }
+                                });
+                            }
+
+                            setupReplySection("@item.Id");
+                        </script>
+                        </div>
+                    }
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+
+@await Component.InvokeAsync("Pager", Model)
+
+<script>
+    $(document).ready(function () {
+        $("#sendButton").click(function () {
+            var questionInput = $("#questionInput").val();
+            var placeId = $("#sendButton").attr("id-place");
+
+            var datasend = {
+                Content: questionInput,
+                LocationId: placeId,
+                UserName: username,
+                QuestionId: 0
+            };
+
+            // Gửi yêu cầu AJAX POST đến API controller
+            $.ajax({
+                url: '/Comment/AddChatQA',
+                type: 'POST',
+                contentType: "application/json",
+                data: JSON.stringify(datasend),
+                success: function (response) {
+                    loadComments();
+                    var successMsg = "Đã bình luận";
+                    $('#msgAlert2').removeClass('hidden-class').addClass('alert alert-success');
+                    $('#msgAlert2').text(successMsg).show().delay(2000).fadeOut('slow', function () {
+                        $(this).addClass('hidden-class');
+                    });
+                },
+                error: function (xhr, textStatus, errorThrown) {
+                    alert("Hỏi thất bại");
+                }
+            });
+        });
+    });
+
+</script>

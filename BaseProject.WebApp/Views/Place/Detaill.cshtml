@@ -9,14 +9,13 @@
     setTimeout(function () {
         $('#msgAlert2').fadeOut('slow');
     }, 2000);
-    
+
 </script>
 
 <div class="row">
 
     <div id="msgAlert2" class="hidden-class" role="alert">
-            
-</div>
+    </div>
 
 
 </div>
@@ -52,14 +51,15 @@
             <div title="@Model.RatingScore/5" style="margin-right: 12px;">
                 <button type="button" class="btn btn-success btn-sm">
                     <span class="icon rating-outer">
-                    <span class="icon rating-inner" style="width: @(Model.RatingScore * 20)%; "></span>
-                </span>  </button>
+                        <span class="icon rating-inner" style="width: @(Model.RatingScore * 20)%; "></span>
+                    </span>
+                </button>
             </div>
             <div title="Số lượt lưu địa điểm" style="margin-right: 12px;">
                 <button type="button" class="btn btn-success btn-sm"><i class="fa-solid fa-bookmark" style="color: white;"></i> @Model.SaveCount lượt lưu</button>
             </div>
         </div>
-        <hr/>
+        <hr />
         <div class="row" style="height: 550px; ">
             <div class="col-4">
                 <div class="card text-dark bg-light" style="max-width: 25rem;">
@@ -67,7 +67,7 @@
                     <div class="card-body">
                         <p class="" style="font-size: 16px;margin-top: 8px !important;">@Model.Description</p>
                         <span href="https://www.google.com/maps/place/@Model.Address">
-                           Địa chỉ: <strong>@Model.Address</strong>
+                            Địa chỉ: <strong>@Model.Address</strong>
                         </span>
                         <iframe width="328"
                                 height="256"
@@ -75,78 +75,43 @@
                                 src="https://www.google.com/maps/embed/v1/place?key=AIzaSyA4QIxm3saVM9bn5KY2Fo-Mv2c_aHZSc3U&q=@Model.Address" allowfullscreen>
                         </iframe>
                     </div>
-                </div>                   
+                </div>
             </div>
             <div class="col-8">
                 <div class="" style="overflow: hidden; height: 550px">
-                    <img src="@Model.ImageList.FirstOrDefault()" class="fix-img"/>
+                    <img src="@Model.ImageList.FirstOrDefault()" class="fix-img" />
                 </div>
-            </div>           
+            </div>
         </div>
         <hr />
         <div>
 
-            <ul class="nav nav-tabs" style="background-color: #e3f2fd; border-radius: 6px 6px 0; width: 98%;">
-                <li class="nav-item" style="display: flex; align-items: center;">
-                    <a id="BaiVietDanhGia" class="nav-link active text-decoration-none text-black" style="font-family: Mulish; padding-left: 12px;cursor: pointer;">
-                        <i class="fa-solid fa-feather-pointed" style="color: #3d5cd6;"></i> Bài viết đánh giá
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a id="ChatHoiDap" class="nav-link text-black" aria-current="page" style="cursor: pointer;">
-                        <i class="fa fa-comments" style="color: #3d5cd6;"></i> Hỏi - đáp
-                    </a>
-                </li>
+            <ul class="row">
+
+                @if (Model.PagedPostResult != null)
+                {
+                    @await Html.PartialAsync("_PagedDiscuss", Model.PagedQA_Result)
+
+                }
+
             </ul>
 
-            <div id="pagepost">
-                <ul class="row">
-                    @if (Model.PagedPostResult != null)
-                    {
-                        @await Html.PartialAsync("_PagedPostResult", Model.PagedPostResult)
-                    }
-                </ul>
-            </div>
-
-            <div id="pagechat" style="display: none;">
-                <ul class="row" id="comments-list">
-                    @if (Model.PagedQA_Result != null)
-                    {
-                        @await Html.PartialAsync("_PagedDiscuss", Model.PagedQA_Result)
-                    }
-                </ul>
-            </div>
         </div>
-
     }
 </div>
-<script>
-    $(document).ready(function () {
-        $("#BaiVietDanhGia").click(function () {
-            if (!$(this).hasClass("active")) {
-                $(this).addClass("active");
-                $("#ChatHoiDap").removeClass("active");
-                $("#pagepost").show();
-                $("#pagechat").hide();
-            }
-        });
 
-        $("#ChatHoiDap").click(function () {
-            if (!$(this).hasClass("active")) {
-                $(this).addClass("active");
-                $("#BaiVietDanhGia").removeClass("active");
-                $("#pagepost").hide();
-                $("#pagechat").show();
-            }
-        });
-    });
+<script>
+    // var token = '@Html.Raw(ViewBag.Token)';
     var username = '@Html.Raw(ViewBag.UserName)';
+
     $(document).ready(function () {
         $('.like-link').click(function (event) {
             event.preventDefault();
             var itemId = $(this).attr('like-link-id');
             var likeIcon = $(this).find('i');
 
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
             if (likeIcon.hasClass('liked')) {
                 likeIcon.removeClass('liked').addClass('gray-color');
             } else {
@@ -159,6 +124,8 @@
             var likeIconn = $(this).find('i');
             var likeYconn = $('a.saved-color');
 
+            // Thực hiện các thay đổi hoặc xử lý dựa trên itemId và likeIcon
+            // Ví dụ: Thay đổi màu sắc của biểu tượng
             if (likeIconn.hasClass('saved-color') || likeYconn.length > 0) {
                 $.ajax({
                     url: '/Save/AddAddressToArchive',
@@ -211,6 +178,11 @@
         });
     });
 
+
+</script>
+
+@*Tải lại trang và quay lại ở vị trí cũ*@
+<script>
     // Lưu vị trí cuộn hiện tại vào sessionStorage khi trang bị tải lại
     window.onload = function () {
         var scrollPosition = sessionStorage.getItem("scrollPosition");
@@ -225,37 +197,4 @@
         var scrollPosition = window.pageYOffset || document.documentElement.scrollTop;
         sessionStorage.setItem("scrollPosition", scrollPosition);
     };
-    var username = '@Html.Raw(ViewBag.UserName)';
-   
-    // Xóa comment
-    $(document).on('click', '.delete-comment', function (event) {
-        event.preventDefault();
-        var commentId = $(this).data('comment-id');
-        var commentElement = $(this).closest('.comment');
-        $.ajax({
-            url: '@Url.Action("Delete", "Comment")',
-            type: 'POST',
-            data: { commentId: commentId },
-            success: function (result) {
-                if (result.success) {
-                    commentElement.remove();
-                } else {
-                    alert('Failed to delete comment.');
-                }
-            }
-        });
-    });
-
-    function loadComments() {
-        var Id = '@Html.Raw(@ViewBag.PlaceId)';
-        console.log(Id);
-        $.ajax({
-            url: '@Url.Action("GetChatQAs", "Comment")',
-            type: 'POST',
-            data: { locationId: Id },
-            success: function (result) {
-                $('#comments-list').html(result);
-            }
-        });
-    }
 </script>

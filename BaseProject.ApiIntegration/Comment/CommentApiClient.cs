@@ -2,6 +2,7 @@
 using BaseProject.ViewModels.Catalog.Comments;
 using BaseProject.ViewModels.Catalog.Location;
 using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Configuration;
 using Newtonsoft.Json;
@@ -40,6 +41,21 @@ namespace BaseProject.ApiIntegration.Comment
             var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
 
             var response = await client.PostAsync($"/api/comments/", httpContent);
+
+            var body = await response.Content.ReadAsStringAsync();
+            if (response.IsSuccessStatusCode)
+                return JsonConvert.DeserializeObject<ApiSuccessResult<bool>>(body);
+            return JsonConvert.DeserializeObject<ApiErrorResult<bool>>(body);
+        }
+        public async Task<ApiResult<bool>> AddChatQA(ChatQA request)
+        {
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+
+            var json = JsonConvert.SerializeObject(request);
+            var httpContent = new StringContent(json, Encoding.UTF8, "application/json");
+
+            var response = await client.PostAsync($"/api/comments/chat", httpContent);
 
             var body = await response.Content.ReadAsStringAsync();
             if (response.IsSuccessStatusCode)
@@ -92,6 +108,23 @@ namespace BaseProject.ApiIntegration.Comment
                 return result;
             }
             return JsonConvert.DeserializeObject<List<CommentCreateRequest>>(body);
+        }
+        
+        public async Task<PagedResult<QuestionAndAnswer>> GetByIdPlace(int Id, GetUserPagingRequest request)
+        {
+            var sessions = _httpContextAccessor.HttpContext.Session.GetString("Token");
+            var client = _httpClientFactory.CreateClient();
+            client.BaseAddress = new Uri(_configuration["BaseAddress"]);
+            client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue("Bearer", sessions);
+            var response = await client.PostAsJsonAsync($"/api/comments/addchat/{Id}", request);
+            var body = await response.Content.ReadAsStringAsync();
+            
+            if (response.IsSuccessStatusCode)
+            {
+                var result = JsonConvert.DeserializeObject<PagedResult<QuestionAndAnswer>>(body);
+                return result;
+            }
+            return JsonConvert.DeserializeObject<PagedResult<QuestionAndAnswer>>(body);
         }
     }
 }

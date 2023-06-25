@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace BaseProject.Data.Migrations
 {
     /// <inheritdoc />
-    public partial class updatedataaddDateNotidetailTable : Migration
+    public partial class QATable : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -26,26 +26,48 @@ namespace BaseProject.Data.Migrations
                 oldClrType: typeof(DateTime),
                 oldType: "datetime2");
 
+            migrationBuilder.CreateTable(
+                name: "QuestionAndAnswers",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PostId = table.Column<int>(type: "int", nullable: false),
+                    UserName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MessageText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Date = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuestionAndAnswers", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuestionAndAnswers_Posts_PostId",
+                        column: x => x.PostId,
+                        principalTable: "Posts",
+                        principalColumn: "PostId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
                 column: "ConcurrencyStamp",
-                value: "5cd1c98e-c868-4a3b-8f33-b38cdb90bcbc");
+                value: "6f0da1e4-1cb9-46a9-b3bc-daf7b217c611");
 
             migrationBuilder.UpdateData(
                 table: "AspNetRoles",
                 keyColumn: "Id",
                 keyValue: new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
                 column: "ConcurrencyStamp",
-                value: "d16cdba6-e52b-43d2-ad1b-be62fa0fcba4");
+                value: "9e5ee7ad-f702-4f24-9ba3-9cbf7253b380");
 
             migrationBuilder.UpdateData(
                 table: "AspNetUsers",
                 keyColumn: "Id",
                 keyValue: new Guid("d1f771da-b318-42f8-a003-5a15614216f5"),
                 columns: new[] { "ConcurrencyStamp", "PasswordHash" },
-                values: new object[] { "2dcc1e92-e231-4b5e-8717-30c77f038c13", "AQAAAAEAACcQAAAAENXCIxNeaR3LeIlinDQK2qE6LMo6lyenUA1chJwA87y9zUef1Ag8eQJIlKdiBk5tRw==" });
+                values: new object[] { "3c3bf907-66d5-4c64-a3e9-292aaf8402a4", "AQAAAAEAACcQAAAAEILws33NeHF1U29RwFkAuXWJnZHz+TOv57w8nFiVA66mvqE3IvRS0nPv1l8UCE05Vw==" });
 
             migrationBuilder.UpdateData(
                 table: "Notifications",
@@ -53,11 +75,19 @@ namespace BaseProject.Data.Migrations
                 keyValue: 2,
                 column: "Title",
                 value: "Thông báo tương tác");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuestionAndAnswers_PostId",
+                table: "QuestionAndAnswers",
+                column: "PostId");
         }
 
         /// <inheritdoc />
         protected override void Down(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.DropTable(
+                name: "QuestionAndAnswers");
+
             migrationBuilder.DropColumn(
                 name: "Date",
                 table: "NoticeDetails");

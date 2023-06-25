@@ -118,6 +118,46 @@ namespace BaseProject.WebApp.Controllers
         {
             ViewBag.Token = _baseApiClient.GetToken();
             ViewBag.UserName = User.Identity.Name;
+            ViewBag.PlaceId = ID;
+
+            var addAddressSaveVm = new AddSaveVm();
+
+            addAddressSaveVm.Username = User.Identity.Name;
+            addAddressSaveVm.Id = ID;
+            addAddressSaveVm.number = 1;
+
+            var checkSave = await _saveApiClient.Check(addAddressSaveVm);
+
+            if (checkSave.IsSuccessed == true)
+            {
+              //  ViewBag.SuccessMsg = "Đã thêm địa điểm vào danh sách yêu thích";
+                ViewBag.CheckSave = true;
+            }
+            else
+            {
+               // ViewBag.SuccessMsg = "Đã xóa địa điểm khỏi danh sách yêu thích";
+                ViewBag.CheckSave = false;
+            }
+
+            ViewBag.ProvinceName = provinceName;
+
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _locationApiClient.GetByIdDetail(ID,request);
+            return View(result.ResultObj);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Detaill(int ID, string provinceName, int pageIndex = 1, int pageSize = 5)
+        {
+            ViewBag.Token = _baseApiClient.GetToken();
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.PlaceId = ID;
 
             var addAddressSaveVm = new AddSaveVm();
 

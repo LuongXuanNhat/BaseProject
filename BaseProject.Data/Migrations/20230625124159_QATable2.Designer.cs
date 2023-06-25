@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    [Migration("20230624101759_update-data-addDate-NotidetailTable")]
-    partial class updatedataaddDateNotidetailTable
+    [Migration("20230625124159_QATable2")]
+    partial class QATable2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -92,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "5cd1c98e-c868-4a3b-8f33-b38cdb90bcbc",
+                            ConcurrencyStamp = "39ca5034-beb5-4542-8dd3-af70ab3848d0",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -100,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "d16cdba6-e52b-43d2-ad1b-be62fa0fcba4",
+                            ConcurrencyStamp = "18c79897-23da-4dc3-80b8-d86c604f4d04",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -207,7 +207,7 @@ namespace BaseProject.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
                             Check = 0,
-                            ConcurrencyStamp = "2dcc1e92-e231-4b5e-8717-30c77f038c13",
+                            ConcurrencyStamp = "36456097-6302-4a38-a85b-19be497978e8",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -217,7 +217,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAENXCIxNeaR3LeIlinDQK2qE6LMo6lyenUA1chJwA87y9zUef1Ag8eQJIlKdiBk5tRw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEF8OrAYRaGoSeWw+6l/tMHqGgwJVblECQKqPXLCvz4J+68tHtGh5CHRShL1RWNTsFw==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2276,6 +2276,38 @@ namespace BaseProject.Data.Migrations
                     b.ToTable("Posts", (string)null);
                 });
 
+            modelBuilder.Entity("BaseProject.Data.Entities.QuestionAndAnswer", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Date")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("LocationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("MessageText")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int?>("QuestionId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasDefaultValue(0);
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("LocationId");
+
+                    b.ToTable("QuestionAndAnswers", (string)null);
+                });
+
             modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
                 {
                     b.Property<int>("Id")
@@ -2745,6 +2777,17 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("User");
                 });
 
+            modelBuilder.Entity("BaseProject.Data.Entities.QuestionAndAnswer", b =>
+                {
+                    b.HasOne("BaseProject.Data.Entities.Location", "location")
+                        .WithMany("QuestionAndAnswers")
+                        .HasForeignKey("LocationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("location");
+                });
+
             modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
                 {
                     b.HasOne("BaseProject.Data.Entities.Location", "Location")
@@ -2942,6 +2985,8 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("Image");
 
                     b.Navigation("LocationsDetail");
+
+                    b.Navigation("QuestionAndAnswers");
 
                     b.Navigation("RatingLocation");
                 });

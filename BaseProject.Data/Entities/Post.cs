@@ -1,5 +1,6 @@
 ﻿using BaseProject.Data.Enums;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BaseProject.Data.Entities
 {
@@ -26,6 +27,7 @@ namespace BaseProject.Data.Entities
         public List<Share> Share { get; set; }
         public List<Like> Likess { get; set; }
         public List<Video> Video { get; set; }
+
 
         // Constructor
 

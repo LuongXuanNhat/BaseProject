@@ -4,6 +4,7 @@ using BaseProject.Data.EF;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BaseProject.Data.Migrations
 {
     [DbContext(typeof(DataContext))]
-    partial class DataContextModelSnapshot : ModelSnapshot
+    [Migration("20230625123238_QATable1")]
+    partial class QATable1
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -89,7 +92,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("a18be9c0-aa65-4af8-bd17-00bd9344e575"),
-                            ConcurrencyStamp = "39ca5034-beb5-4542-8dd3-af70ab3848d0",
+                            ConcurrencyStamp = "0a1d473a-2348-4f8f-ac34-470a96b38ef3",
                             Description = "Administrator Role",
                             Name = "admin",
                             NormalizedName = "admin"
@@ -97,7 +100,7 @@ namespace BaseProject.Data.Migrations
                         new
                         {
                             Id = new Guid("cfafcfcd-d796-43f4-8ac0-ead43bd2f18a"),
-                            ConcurrencyStamp = "18c79897-23da-4dc3-80b8-d86c604f4d04",
+                            ConcurrencyStamp = "59b5b3f4-26d2-4f73-9e12-e94c8a6f7ea1",
                             Description = "User Role",
                             Name = "user",
                             NormalizedName = "user"
@@ -204,7 +207,7 @@ namespace BaseProject.Data.Migrations
                             AccessFailedCount = 0,
                             Address = "3a, Thạch Mỹ Lợi, Quận 2, Tp. Hồ Chí Minh",
                             Check = 0,
-                            ConcurrencyStamp = "36456097-6302-4a38-a85b-19be497978e8",
+                            ConcurrencyStamp = "32cf249d-48e0-4bfb-bba0-d842db62fb1b",
                             DateOfBir = new DateTime(2002, 3, 18, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             Email = "onionwebdev@gmail.com",
                             EmailConfirmed = true,
@@ -214,7 +217,7 @@ namespace BaseProject.Data.Migrations
                             Name = "Lương Xuân Nhất",
                             NormalizedEmail = "onionwebdev@gmail.com",
                             NormalizedUserName = "admin",
-                            PasswordHash = "AQAAAAEAACcQAAAAEF8OrAYRaGoSeWw+6l/tMHqGgwJVblECQKqPXLCvz4J+68tHtGh5CHRShL1RWNTsFw==",
+                            PasswordHash = "AQAAAAEAACcQAAAAEHPeSil23hvQq5OJSUqy2YtwX7ZDF26EJ/gVqtohhzSZVGW2jJx6GQTP0OCkh0ah4g==",
                             PhoneNumberConfirmed = false,
                             SecurityStamp = "",
                             TwoFactorEnabled = false,
@@ -2284,11 +2287,11 @@ namespace BaseProject.Data.Migrations
                     b.Property<string>("Date")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("LocationId")
-                        .HasColumnType("int");
-
                     b.Property<string>("MessageText")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("PostId")
+                        .HasColumnType("int");
 
                     b.Property<int?>("QuestionId")
                         .ValueGeneratedOnAdd()
@@ -2300,7 +2303,7 @@ namespace BaseProject.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("LocationId");
+                    b.HasIndex("PostId");
 
                     b.ToTable("QuestionAndAnswers", (string)null);
                 });
@@ -2776,13 +2779,13 @@ namespace BaseProject.Data.Migrations
 
             modelBuilder.Entity("BaseProject.Data.Entities.QuestionAndAnswer", b =>
                 {
-                    b.HasOne("BaseProject.Data.Entities.Location", "location")
+                    b.HasOne("BaseProject.Data.Entities.Post", "Posts")
                         .WithMany("QuestionAndAnswers")
-                        .HasForeignKey("LocationId")
+                        .HasForeignKey("PostId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("location");
+                    b.Navigation("Posts");
                 });
 
             modelBuilder.Entity("BaseProject.Data.Entities.RatingLocation", b =>
@@ -2983,8 +2986,6 @@ namespace BaseProject.Data.Migrations
 
                     b.Navigation("LocationsDetail");
 
-                    b.Navigation("QuestionAndAnswers");
-
                     b.Navigation("RatingLocation");
                 });
 
@@ -3007,6 +3008,8 @@ namespace BaseProject.Data.Migrations
                     b.Navigation("Likess");
 
                     b.Navigation("LocationsDetail");
+
+                    b.Navigation("QuestionAndAnswers");
 
                     b.Navigation("Report");
 

@@ -1,6 +1,8 @@
 ﻿using BaseProject.ApiIntegration.Comment;
 using BaseProject.ViewModels.Catalog.Comments;
+using BaseProject.ViewModels.System.Users;
 using Microsoft.AspNetCore.Mvc;
+using System.Drawing.Printing;
 
 namespace BaseProject.WebApp.Controllers
 {
@@ -43,11 +45,43 @@ namespace BaseProject.WebApp.Controllers
             return PartialView();
         }
 
+        [HttpPost]
+        public async Task<IActionResult> AddChatQA([FromBody] ChatQA chatQA)
+        {
+            if (User.Identity.Name == null)
+            {
+                return BadRequest();
+            }
+
+            var result = await _commentApiClient.AddChatQA(chatQA);
+            if (result.IsSuccessed)
+            {
+                return Ok();
+            }
+            return PartialView();
+        }
+
         [HttpGet]
         public async Task<IActionResult> GetComments(int postId)
         {
+
             var comments = await _commentApiClient.GetById(postId);
             return PartialView("/Views/Posts/_CommentList.cshtml", comments);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> GetChatQAs(int locationId, int pageIndex = 1, int pageSize = 5)
+        {
+            var request = new GetUserPagingRequest()
+            {
+                UserName = User.Identity.Name,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+            var comments = await _commentApiClient.GetByIdPlace(locationId, request);
+            ViewBag.UserName = User.Identity.Name;
+            ViewBag.PlaceId = locationId;
+            return PartialView("/Views/Place/_PagedDiscuss.cshtml", comments);
         }
 
         [HttpPost]

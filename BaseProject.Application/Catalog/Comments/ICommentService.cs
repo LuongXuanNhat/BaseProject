@@ -2,6 +2,7 @@
 using BaseProject.ViewModels.Catalog.Categories;
 using BaseProject.ViewModels.Catalog.Comments;
 using BaseProject.ViewModels.Common;
+using BaseProject.ViewModels.System.Users;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ namespace BaseProject.Application.Catalog.Comments
     public interface ICommentService
     {
         Task<ApiResult<bool>> Create(CommentCreateRequest request);
+        Task<ApiResult<bool>> CreateChatQA(ChatQA request);
 
         Task<ApiResult<bool>> Update(int id, CommentCreateRequest request);
 
@@ -21,5 +23,6 @@ namespace BaseProject.Application.Catalog.Comments
         Task<int> CountAsyncById(int id);
         int CountById(int id);
         Task<List<CommentCreateRequest>> GetById2(int id);
+        Task<PagedResult<QuestionAndAnswer>> GetByIdChatQA(int id, GetUserPagingRequest request);
     }
 }

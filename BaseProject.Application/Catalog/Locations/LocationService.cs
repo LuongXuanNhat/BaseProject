@@ -171,7 +171,7 @@ namespace BaseProject.Application.Catalog.Locations
                     
                     if (request.UserName != null)
                     {
-                        keys.Add(request.Keyword2);
+                        keys.Add("Tìm kiếm địa điểm trong tỉnh " + request.Keyword2);
                         Guid UserID = await _userService.GetIdByUserName(request.UserName);
                         await _searchService.Add(UserID, keys);
                     }
@@ -357,6 +357,22 @@ namespace BaseProject.Application.Catalog.Locations
                 .Select(x=>x.PostId).Distinct()
                 .ToListAsync();
 
+            // Lấy Q&A
+            var Q_As = await _context.QuestionAndAnswers.Where(x=>x.LocationId == locationId).ToListAsync();
+            // phân trang
+            int totalRow1 = Q_As.Count();
+            var data1 = Q_As.Skip((request.PageIndex - 1) * request.PageSize)
+                .Take(request.PageSize)
+                .ToList();
+
+            // Select and projection
+            var pagedResultQA = new PagedResult<QuestionAndAnswer>()
+            {
+                TotalRecords = totalRow1,
+                PageIndex = request.PageIndex,
+                PageSize = request.PageSize,
+                Items = data1
+            };
             // Lấy post
             List<Post> posts = new List<Post>();
             for(int i=0; i< result.Count; i++)
@@ -366,6 +382,7 @@ namespace BaseProject.Application.Catalog.Locations
                 
             }
             posts = posts.OrderByDescending(x => x.PostId).Where(x=> x.Check == 0).ToList();
+
             // Lấy postDetail
             PagedResult<PostDetailRequest> list = new PagedResult<PostDetailRequest>();
             list.Items = new List<PostDetailRequest>();
@@ -408,13 +425,15 @@ namespace BaseProject.Application.Catalog.Locations
                     }
                     
             }
+
+
             // phân trang
             int totalRow = list.Items.Count();
             var data = list.Items.Skip((request.PageIndex - 1) * request.PageSize)
                 .Take(request.PageSize)
                 .ToList();
 
-            //4. Select and projection
+            // Select and projection
             var pagedResult = new PagedResult<PostDetailRequest>()
             {
                 TotalRecords = totalRow,
@@ -422,6 +441,8 @@ namespace BaseProject.Application.Catalog.Locations
                 PageSize = request.PageSize,
                 Items = data
             };
+
+
 
             // Chuyển vào view model - hiển thị ra ngoài
 
@@ -436,8 +457,9 @@ namespace BaseProject.Application.Catalog.Locations
                 RatingScore = rating_score,
                 ReviewPostCount = review_count,
                 SaveCount = savecount,
-                ImageList = img_list.ToList() ?? null ,
+                ImageList = img_list.ToList() ?? null,
                 PagedPostResult = pagedResult,
+                PagedQA_Result = pagedResultQA
             };
 
 

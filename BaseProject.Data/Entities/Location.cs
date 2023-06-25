@@ -13,6 +13,10 @@ namespace BaseProject.Data.Entities
         public string Address { get; set; }
         public string? Description { get; set; }
         public int? View { get; set; }
+        
+        [Required]
+        [NotMapped]
+        public List<IFormFile>? GetImage { get; set; }
 
         public Location()
         {
@@ -32,9 +36,9 @@ namespace BaseProject.Data.Entities
         public List<Image>? Image { get; set; }
         public List<CategoriesLocation>? CategoriesLocation { get; set; }
 
-        [Required]
+        
         [NotMapped]
-        public List<IFormFile>? GetImage { get; set; }
+        public List<QuestionAndAnswer> QuestionAndAnswers { get; set; }
 
     }
 }

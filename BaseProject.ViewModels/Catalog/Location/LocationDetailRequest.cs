@@ -1,4 +1,5 @@
-﻿using BaseProject.ViewModels.Catalog.Post;
+﻿using BaseProject.Data.Entities;
+using BaseProject.ViewModels.Catalog.Post;
 using BaseProject.ViewModels.Common;
 using Microsoft.AspNetCore.Http;
 using System;
@@ -23,7 +24,7 @@ namespace BaseProject.ViewModels.Catalog.Location
         public List<string> ImageList { get; set; }
 
         public PagedResult<PostDetailRequest> PagedPostResult { get; set; }
-     //   public PagedResult<Comments.CommentPageViewModel> PagedCommentResult { get; set; }
+        public PagedResult<QuestionAndAnswer> PagedQA_Result { get; set; }
 
         
     }
