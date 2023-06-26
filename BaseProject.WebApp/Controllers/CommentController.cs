@@ -64,7 +64,7 @@ namespace BaseProject.WebApp.Controllers
         [HttpGet]
         public async Task<IActionResult> GetComments(int postId)
         {
-
+            ViewBag.UserName = User.Identity?.Name;
             var comments = await _commentApiClient.GetById(postId);
             return PartialView("/Views/Posts/_CommentList.cshtml", comments);
         }

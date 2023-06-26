@@ -100,10 +100,26 @@
                     {
                         <div class="commented-section mt-2">
                             <div class="d-flex flex-row align-items-center commented-user">
-                                <h5 class="mr-2">@item.UserName<span class=" mb-1 ml-2" style="padding-left: 8px;">@item.Date</span></h5>
+                                <h5 class="mr-2">@item.UserName<span class=" mb-1 ml-2" style="padding-left: 8px;">@item.Date</span>
+                                @if (string.Equals(ViewBag.UserName, "admin") || string.Equals(ViewBag.UserName, item.UserName))
+                                {
+                                    <div class="dropdown col-1" style="    display: inline; position: absolute;">
+                                        <a class="" style="border-radius: 50%; width:1.5rem; height:1.5rem;" href="#" role="button" id="dropdownMenuLink" data-bs-toggle="dropdown" aria-expanded="false">
+                                            <i class="fa-solid fa-ellipsis" style="color: black;left: 17px; position: absolute; top: 7px;"></i>
+                                        </a>
+                                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                                            <li><a href="#" style="font-size:14px;" class="edit-comment dropdown-item" data-comment-id="@item.Id">Sửa</a> </li>
+                                            <li><a href="#" style="font-size:14px;" class="delete-comment dropdown-item" data-comment-id="@item.Id">Xóa</a> </li>
+                                            <li><a class="dropdown-item" style="font-size:14px;" href="#">Chức năng khác</a></li>
+                                        </ul>
+                                    </div>
+                                }
+                                </h5>
+                                
                             </div>
                             <div class="comment-text-sm">
                                 <span>@item.MessageText</span>
+                            
                             </div>
                             <div class="reply-section">
                                 <div class="d-flex flex-row align-items-center voting-icons" style="justify-content: end;">
