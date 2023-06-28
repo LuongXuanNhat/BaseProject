@@ -30,25 +30,25 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <h3> Demo </h3>
 
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/89d9957c-eea6-4579-b2a2-d55f00d87096" />
-<div style="display:flex;justify-content: center;" class="row">Giao diện đăng nhập</div>
+<div style="display:flex;justify-content: center;" class="row">UI Login</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c8702aa0-4a83-4b79-8759-b35ba136767c"/>
-<div style="display:flex;  justify-content: center; " class="row">Giao diện trang chủ</div>
+<div style="display:flex;  justify-content: center; " class="row">UI Homepage</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/4ff1e19f-6846-4408-a85f-8a5028a131c5"/>
-<div style="display:flex;  justify-content: center;" class="row">Giao diện viết bài</div>
+<div style="display:flex;  justify-content: center;" class="row">UI Create post</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/c4d831f7-633d-4e7a-a630-734de37bc167"/>
-<div style="display:flex;  justify-content: center; " class="row">Giao diện địa điểm</div>
+<div style="display:flex;  justify-content: center; " class="row">UI Places</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/ed23bdac-c40d-4a82-9ed1-a8608258c4e2"/>
-<div style="display:flex;  justify-content: center; " class="row">Giao diện chi tiết địa điểm</div>
+<div style="display:flex;  justify-content: center; " class="row">UI Location Detail</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/5c02dc46-5226-4a2f-a79a-43f3fdb8fcb1"/>
-<div style="display:flex; justify-content: center; " class="row">Giao diện danh sách bài đánh giá</div>
+<div style="display:flex; justify-content: center; " class="row">UI List Review</div>
 <br/>
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/7d473e77-a365-4eae-a63e-504fc1bd2604"/>
-<div style="display:flex;  justify-content: center; " class="row">Giao diện Quản lý Admin</div>
+<div style="display:flex;  justify-content: center; " class="row">UI Manage Admin</div>
 <br/>
 <h3> Video demo: https://youtu.be/edt_SxAKSFY</h5>
 <h3>View report details: https://docs.google.com/document/d/1GnSec4266HshZOPOFIUO4bhxJTQx-boA/edit?usp=sharing&ouid=118267159340052640855&rtpof=true&sd=true</h3>
