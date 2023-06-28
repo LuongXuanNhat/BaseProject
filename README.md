@@ -28,7 +28,7 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/e5f73a3a-3727-455e-97b4-dc1cf8bd2e44" />
 
 <h3> Demo </h3>
-<h5> Video: https://youtu.be/edt_SxAKSFY</h5>
+
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/89d9957c-eea6-4579-b2a2-d55f00d87096" />
 <div style="display:flex;justify-content: center;" class="row">Giao diện đăng nhập</div>
 <br/>
@@ -50,6 +50,7 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <img src="https://github.com/LuongXuanNhat/BaseProject/assets/96036623/7d473e77-a365-4eae-a63e-504fc1bd2604"/>
 <div style="display:flex;  justify-content: center; " class="row">Giao diện Quản lý Admin</div>
 <br/>
+<h3> Video demo: https://youtu.be/edt_SxAKSFY</h5>
 <h3>View report details: https://docs.google.com/document/d/1GnSec4266HshZOPOFIUO4bhxJTQx-boA/edit?usp=sharing&ouid=118267159340052640855&rtpof=true&sd=true</h3>
 <h3>View slide details: https://drive.google.com/file/d/1OwAHlc4kOqQMGE0vnVWAjmOovP0V671H/view?usp=sharing </h3>
 <h6> Development Team </h6>|| Lương Xuân Nhất - Mai Chí Vỹ
