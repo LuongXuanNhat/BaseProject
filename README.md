@@ -53,6 +53,9 @@ Hãy đồng hành cùng DestinationReview để khám phá những ngọc bích
 <h3> Video demo: https://youtu.be/edt_SxAKSFY</h5>
 <h3>View report details: https://docs.google.com/document/d/1GnSec4266HshZOPOFIUO4bhxJTQx-boA/edit?usp=sharing&ouid=118267159340052640855&rtpof=true&sd=true</h3>
 <h3>View slide details: https://drive.google.com/file/d/1OwAHlc4kOqQMGE0vnVWAjmOovP0V671H/view?usp=sharing </h3>
+
+<hr/>
+<h6> Instructors || Vice President of Hutech School, Associate Professor, Dr. Vo Dinh Bay 
 <h6> Development Team </h6>|| Lương Xuân Nhất - Mai Chí Vỹ
 Thanks for watching :3
 
